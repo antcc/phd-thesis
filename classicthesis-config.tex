@@ -1,0 +1,388 @@
+% ****************************************************************************************************
+% classicthesis-config.tex
+% formerly known as loadpackages.sty, classicthesis-ldpkg.sty, and classicthesis-preamble.sty
+% Use it at the beginning of your ClassicThesis.tex, or as a LaTeX Preamble
+% in your ClassicThesis.{tex,lyx} with \input{classicthesis-config}
+% ****************************************************************************************************
+% If you like the classicthesis, then I would appreciate a postcard.
+% My address can be found in the file ClassicThesis.pdf. A collection
+% of the postcards I received so far is available online at
+% http://postcards.miede.de
+% ****************************************************************************************************
+
+% ****************************************************************************************************
+% 1. Configure classicthesis for your needs here, 
+% (see ClassicThesis.pdf for more information):
+% ****************************************************************************************************
+\PassOptionsToPackage{
+  tocaligned=false, % the left column of the toc will be aligned (no indentation)
+  dottedtoc=true,  % page numbers in ToC flushed right
+  eulerchapternumbers=true, % use AMS Euler for chapter font (otherwise Palatino)
+  floatperchapter=true,     % numbering per chapter for all floats (i.e., Figure 1.1)
+  eulermath=false,  % use awesome Euler fonts for mathematical formulae (only with pdfLaTeX)
+  beramono=true,    % toggle a nice monospaced font (w/ bold)
+  palatino=true,    % deactivate standard font for loading another one, see the last section at the end of this file for suggestions
+  style=arsclassica % classicthesis, arsclassica, linedheaders, plain
+}{classicthesis}
+% ****************************************************************************************************
+% 2. Personal data and user ad-hoc commands (insert your own data here)
+% ****************************************************************************************************
+% A Bayesian approach to functional statistics
+% A Bayesian approach to functional statistics via reproducing kernel methods
+% Bayesian inference for functional data via reproducing kernel methods
+\newcommand{\myTitle}{A Bayesian approach to functional statistics via reproducing kernel methods\xspace}
+\newcommand{\mySubtitle}{Theory and Computation\xspace}
+%\newcommand{\myDegree}{PhD Mathematics\xspace}
+\newcommand{\myName}{Antonio Coín Castro\xspace}
+\newcommand{\myProf}{José Ramón Berrendero Díaz\xspace}
+\newcommand{\myOtherProf}{Antonio Cuevas González\xspace}
+%\newcommand{\mySupervisor}{Put name here\xspace}
+\newcommand{\myFaculty}{Facultad de Ciencias\xspace}
+\newcommand{\myDepartment}{Departamento de Matemáticas\xspace}
+\newcommand{\myUni}{Universidad Autónoma de Madrid\xspace}
+\newcommand{\myLocation}{Madrid\xspace}
+\newcommand{\myTime}{June 2026\xspace}
+\newcommand{\myVersion}{\classicthesis}
+\newcommand{\myOrcid}{0009-0004-7554-9193}
+
+% ********************************************************************
+% Setup, finetuning, and useful commands
+% ********************************************************************
+\providecommand{\mLyX}{L\kern-.1667em\lower.25em\hbox{Y}\kern-.125emX\@}
+\newcommand{\ie}{i.\,e.}
+\newcommand{\Ie}{I.\,e.}
+\newcommand{\eg}{e.\,g.}
+\newcommand{\Eg}{E.\,g.}
+% ****************************************************************************************************
+
+
+% ****************************************************************************************************
+% 3. Loading some handy packages
+% ****************************************************************************************************
+% ********************************************************************
+% Packages with options that might require adjustments
+% ********************************************************************
+\PassOptionsToPackage{american}{babel} % change this to your language(s), main language last
+% Spanish languages need extra options in order to work with this template
+%\PassOptionsToPackage{spanish,es-lcroman}{babel}
+    \usepackage{babel}
+
+\usepackage{csquotes}
+\PassOptionsToPackage{%
+  backend=biber,
+  bibencoding=utf8,%
+  language=auto,%
+  style=authoryear-comp,%
+  %bibstyle=authoryear,dashed=false, % dashed: substitute rep. author with ---
+  sorting=ynt, % year, name, title
+  maxbibnames=10,
+  maxcitenames=2,
+  mincitenames=1,
+  backref=true,%
+  giveninits=true,
+  backrefstyle=none,%
+  uniquename=false,
+  natbib=true % natbib compatibility mode (\citep and \citet still work)
+}{biblatex}
+    \usepackage{biblatex}
+
+% Redefine the backreference format
+\DefineBibliographyStrings{english}{
+  %  backrefpage={see p.},
+  backrefpage={},
+  %  backrefpages={see pp.}
+  backrefpages={}
+}
+\usepackage{xpatch}
+\renewcommand*{\finentrypunct}{}
+\DeclareFieldFormat{backrefparens}{\addperiod \hspace{.1em} \raisebox{4pt}{\scriptsize{#1}}}
+\xpatchbibmacro{pageref}{parens}{backrefparens}{}{}
+
+% Suppress "In:" only for articles
+\renewbibmacro*{in:}{%
+  \ifentrytype{article}
+    {}
+    {\printtext{\bibstring{in}\intitlepunct}}}
+
+% Force the bibliography to use the "Family, Given" order globally
+\DeclareNameAlias{sortname}{family-given}
+\DeclareNameAlias{default}{family-given}
+
+% Remove quotation marks from article names
+\DeclareFieldFormat[article,inbook,incollection,inproceedings,patent,thesis,unpublished]{title}{#1}
+
+% Put author names in Small Caps
+\AtBeginBibliography{\renewcommand*{\mkbibnamefamily}[1]{\textsc{#1}}}
+\AtBeginBibliography{\renewcommand*{\mkbibnamegiven}[1]{\textsc{#1}}}
+
+% Format volume and issue number as Volume(Issue)
+\renewbibmacro*{volume+number+eid}{%
+  \printfield{volume}%
+  \setunit{}% Clear the default separator (like a dot or comma)
+  \printfield[parens]{number}% Enclose the issue number in parentheses
+  \setunit{\addcomma\space}% Add a comma before the electronic ID (if present)
+  \printfield{eid}}
+
+\PassOptionsToPackage{fleqn}{amsmath}       % math environments and more by the AMS
+  \usepackage{amsmath}
+
+% ********************************************************************
+% General useful packages
+% ********************************************************************
+\usepackage{graphicx} %
+\usepackage{enumitem} %
+\usepackage{scrhack} % fix warnings when using KOMA with listings package
+\usepackage{xspace} % to get the spacing after macros right
+\PassOptionsToPackage{printonlyused,smaller,nohyperlinks}{acronym}
+  \usepackage{acronym} % nice macros for handling all acronyms in the thesis
+  %\renewcommand{\bflabel}[1]{{#1}\hfill} % fix the list of acronyms --> no longer working
+  %\renewcommand*{\acsfont}[1]{\textsc{#1}}
+  %\renewcommand*{\aclabelfont}[1]{\acsfont{#1}}
+  %\def\bflabel#1{{#1\hfill}}
+  \def\bflabel#1{{\acsfont{#1}\hfill}}
+  \def\aclabelfont#1{\acsfont{#1}}
+% ****************************************************************************************************
+%\usepackage{pgfplots} % External TikZ/PGF support (thanks to Andreas Nautsch)
+%\usetikzlibrary{external}
+%\tikzexternalize[mode=list and make, prefix=ext-tikz/]
+% ****************************************************************************************************
+
+
+% ****************************************************************************************************
+% 4. Setup floats: tables, (sub)figures, and captions
+% ****************************************************************************************************
+\usepackage{tabularx} % better tables
+  \setlength{\extrarowheight}{3pt} % increase table row height
+\newcommand{\tableheadline}[1]{\multicolumn{1}{l}{\spacedlowsmallcaps{#1}}}
+\newcommand{\myfloatalign}{\centering} % to be used with each float for alignment
+\usepackage{subfig}
+% ****************************************************************************************************
+
+
+% ****************************************************************************************************
+% 5. Setup code listings
+% ****************************************************************************************************
+\usepackage{listings}
+%\lstset{emph={trueIndex,root},emphstyle=\color{BlueViolet}}%\underbar} % for special keywords
+\lstset{language=[LaTeX]Tex,%C++,
+  morekeywords={PassOptionsToPackage,selectlanguage},
+  keywordstyle=\color{RoyalBlue},%\bfseries,
+  basicstyle=\small\ttfamily,
+  %identifierstyle=\color{NavyBlue},
+  commentstyle=\color{Green}\ttfamily,
+  stringstyle=\rmfamily,
+  numbers=none,%left,%
+  numberstyle=\scriptsize,%\tiny
+  stepnumber=5,
+  numbersep=8pt,
+  showstringspaces=false,
+  breaklines=true,
+  %frameround=ftff,
+  %frame=single,
+  belowcaptionskip=.75\baselineskip
+  %frame=L
+}
+% ****************************************************************************************************
+
+
+% *************************************************
+% Load hyperref and classicthesis last
+\PassOptionsToPackage{hyperfootnotes=true}{hyperref}
+\usepackage{classicthesis}
+\definecolor{uam}{RGB}{0,119,200}
+\definecolor{uam-ciencias}{RGB}{28,93,145}
+
+\definecolor{CTcitation}{named}{uam}
+\definecolor{CTurl}{named}{uam-ciencias}
+\definecolor{CTtitle}{named}{uam-ciencias}
+\definecolor{CTlink}{named}{uam}
+
+% Cover page
+\usepackage{eso-pic}
+\newcommand\BackgroundPic{%
+	\put(0,297){%
+		\parbox[b][\paperheight]{0.725\paperwidth}{%
+			\vfill
+			\centering
+      % Indicar la imagen de fondo en el siguiente comando
+			\includegraphics[width=0.5\paperwidth,height=\paperheight,%
+			keepaspectratio]{figures/uam-full}%
+			\vfill
+    }
+  }
+}
+
+% Globally sets all itemize, enumerate, and description lists to hug the left margin and remove vertical spacing
+\setlist[itemize]{itemsep=1pt,leftmargin=*}
+\setlist[enumerate]{itemsep=1pt,leftmargin=*}
+\setlist[description]{itemsep=1pt,leftmargin=*}
+
+%% Check page alignment visually on the pdf
+% \usepackage{eso-pic}
+% \usepackage{xcolor}
+
+% % Draw a bright red centering guide on every page
+% \AddToShipoutPictureBG{%
+%   \AtPageCenter{\color{red}\circle*{5}}% Marks the dead center point
+%   \AtPageCenter{\color{red}\line(1,0){500}}% Horizontal center axis
+%   \AtPageCenter{\color{red}\line(-1,0){500}}
+%   \AtPageCenter{\color{red}\line(0,1){500}}% Vertical center axis
+%   \AtPageCenter{\color{red}\line(0,-1){500}}
+% }
+
+
+\makeatletter
+\@ifpackageloaded{classicthesis-arsclassica}{%
+  % --- Revert ArsClassica headers back to text color ---
+  \clearscrheadfoot
+  \lehead{\mbox{\llap{\small\thepage\kern1em\color{black}\vline}\color{black}\hspace{0.5em}\headmark\hfil}}
+  \rohead{\mbox{\hfil{\color{black}\headmark\hspace{0.5em}}\rlap{\small{\color{black}\vline}\kern1em\thepage}}}
+}{%
+  % Color bullets in itemized lists
+  \renewcommand{\labelitemi}{\color{CTsemi}\textbullet}
+}
+\makeatother
+
+
+% ********************************************************************
+% Fine-tune hyperreferences (hyperref should be called last)
+% ********************************************************************
+\hypersetup{%
+  %draft, % hyperref's draft mode, for printing see below
+  colorlinks=true, linktocpage=true, pdfstartpage=4, pdfstartview=FitV,%
+  % uncomment the following line if you want to have black links (e.g., for printing)
+  %colorlinks=false, linktocpage=false, pdfstartpage=3, pdfstartview=FitV, pdfborder={0 0 0},%
+  breaklinks=true, pageanchor=true,%
+  pdfpagemode=UseNone, %
+  % pdfpagemode=UseOutlines,%
+  plainpages=false, bookmarksnumbered, bookmarksopen=true, bookmarksopenlevel=1,%
+  hypertexnames=true, pdfhighlight=/O,%nesting=true,%frenchlinks,%
+  urlcolor=CTurl, linkcolor=CTlink, citecolor=CTcitation, %pagecolor=RoyalBlue,%
+  %urlcolor=Black, linkcolor=Black, citecolor=Black, %pagecolor=Black,%
+  pdftitle={\myTitle},%
+  pdfauthor={\textcopyright\ \myName, \myUni, \myFaculty},%
+  pdfsubject={},%
+  pdfkeywords={},%
+  pdfcreator={lualatex},%
+  pdfproducer={LaTeX with classicthesis}%
+}
+
+% Change size of footnote number in text
+% \makeatletter
+% \renewcommand*{\@makefnmark}{%
+%   \hbox{\@textsuperscript{\normalfont\footnotesize\color{CTlink}\@thefnmark}}%
+% }
+% \makeatother
+
+% ********************************************************************
+% Setup autoreferences (hyperref and babel)
+% ********************************************************************
+% There are some issues regarding autorefnames
+% http://www.tex.ac.uk/cgi-bin/texfaq2html?label=latexwords
+% you have to redefine the macros for the
+% language you use, e.g., american, ngerman
+% (as chosen when loading babel/AtBeginDocument)
+% ********************************************************************
+ \makeatletter
+ \@ifpackageloaded{babel}%
+   {%
+     \addto\extrasamerican{%
+       \renewcommand*{\figureautorefname}{Figure}%
+       \renewcommand*{\tableautorefname}{Table}%
+       \renewcommand*{\partautorefname}{Part}%
+       \renewcommand*{\chapterautorefname}{Chapter}%
+       \renewcommand*{\sectionautorefname}{Section}%
+       \renewcommand*{\subsectionautorefname}{Section}%
+       \renewcommand*{\subsubsectionautorefname}{Section}%
+     }%
+       % Fix to getting autorefs for subfigures right (thanks to Belinda Vogt for changing the definition)
+       \providecommand{\subfigureautorefname}{\figureautorefname}%
+     }{\relax}
+ \makeatother
+
+% (Better) alternative to \autoref is \cref via the cleveref package
+%\usepackage{cleveref}
+%\crefformat{part}{Part #2\MakeUppercase{#1}#3}
+
+
+% ********************************************************************
+% Development Stuff
+% ********************************************************************
+\listfiles
+%\PassOptionsToPackage{l2tabu,orthodox,abort}{nag}
+%  \usepackage{nag}
+%\PassOptionsToPackage{warning, all}{onlyamsmath}
+%  \usepackage{onlyamsmath}
+
+
+%********************************************************************
+% Drafting and notes
+%*******************************************************
+\newcommand{\note}[2][Maroon]{\textcolor{#1}{#2}}
+
+%********************************************************************
+% Custom commands
+%*******************************************************
+%\renewcommand{\epsilon}{\varepsilon}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Hcal}{\mathcal{H}}
+\newcommand{\tTheta}{\tilde{\Theta}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\pp}{\mathbb{P}}
+
+\DeclareMathOperator{\var} {Var}
+\DeclareMathOperator{\cov} {Cov}
+\DeclareMathOperator{\supp} {supp}
+\DeclareMathOperator{\kl} {KL}
+\DeclareMathOperator{\tr} {Tr}
+\DeclareMathOperator{\bff} {BF}
+\DeclareMathOperator{\gp} {GP}
+\DeclareMathOperator{\diag} {diag}
+
+% Dot product
+\newcommand\dotprod[2]{\left\langle#1,#2\right\rangle}
+
+
+% ****************************************************************************************************
+% 7. Further adjustments (experimental)
+% ****************************************************************************************************
+% ********************************************************************
+% Changing the text area
+% ********************************************************************
+%\areaset[current]{312pt}{761pt} % 686 (factor 2.2) + 33 head + 42 head \the\footskip
+%\setlength{\marginparwidth}{7em}%
+%\setlength{\marginparsep}{2em}%
+
+% ********************************************************************
+% Using different fonts
+% ********************************************************************
+\usepackage{fontspec}
+% This creates a macro \cambriafont that you can use anywhere for short snippets
+\newfontfamily\cambriafont{Caladea-Regular}[
+    Extension      = .ttf,
+    UprightIndex   = 0,
+    BoldIndex      = 1,
+    ItalicIndex    = 2,
+    BoldItalicIndex = 3
+]
+%\usepackage[oldstylenums]{kpfonts} % oldstyle notextcomp
+% \usepackage[osf]{libertine}
+%\usepackage[light,condensed,math]{iwona}
+%\renewcommand{\sfdefault}{iwona}
+%\usepackage{lmodern} % <-- no osf support :-(
+%\usepackage{cfr-lm} %
+%\usepackage[urw-garamond]{mathdesign} <-- no osf support :-(
+%\usepackage[default,osfigures]{opensans} % scale=0.95
+%\usepackage[sfdefault]{FiraSans}
+% \usepackage[opticals,mathlf]{MinionPro} % onlytext
+% ********************************************************************
+%\usepackage[largesc,osf]{newpxtext}
+%\linespread{1.05} % a bit more for Palatino
+% Used to fix these:
+% https://bitbucket.org/amiede/classicthesis/issues/139/italics-in-pallatino-capitals-chapter
+% https://bitbucket.org/amiede/classicthesis/issues/45/problema-testatine-su-classicthesis-style
+% ********************************************************************
+% ****************************************************************************************************

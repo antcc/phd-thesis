@@ -1,0 +1,87 @@
+% **********************************************************************
+% Copyright (c) 2026 Antonio Coín
+%
+% This work is licensed under a
+% Creative Commons Attribution-ShareAlike 4.0 International License.
+%
+% You should have received a copy of the license along with this
+% work. If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
+%
+% LaTeX template:
+% A Classic Thesis Style
+% An Homage to The Elements of Typographic Style
+% Copyright (C) 2025 André Miede and Ivo Pletikosić
+%***********************************************************************
+
+\RequirePackage{silence} % :-\
+    \WarningFilter{scrbook}{Usage of package `titlesec'}
+    %\WarningFilter{scrreprt}{Activating an ugly workaround}
+    \WarningFilter{titlesec}{Non standard sectioning command detected}
+\documentclass[
+    oneside,openright,titlepage,numbers=noenddot,%1headlines,
+    headinclude,footinclude,cleardoublepage=empty,%abstract=on,
+    BCOR=5mm,paper=a4,fontsize=11pt,%toc=bibliography,
+]{scrbook}
+
+%********************************************************************
+% Configuration and adjustments
+%*******************************************************
+\input{classicthesis-config}
+
+%********************************************************************
+% Bibliographies
+%*******************************************************
+\addbibresource{bibliography.bib}
+
+\begin{document}
+\frenchspacing
+\raggedbottom
+\selectlanguage{american}
+\pagenumbering{roman}
+\pagestyle{plain}
+%********************************************************************
+% Frontmatter
+%*******************************************************
+\include{frontbackmatter/titlepage}
+\include{frontbackmatter/titleback}
+\cleardoublepage\include{frontbackmatter/dedication}
+\cleardoublepage\include{frontbackmatter/acknowledgments}
+\cleardoublepage\include{frontbackmatter/abstract}
+\cleardoublepage\include{frontbackmatter/contents}
+%********************************************************************
+% Mainmatter
+%*******************************************************
+\cleardoublepage
+\pagestyle{scrheadings}
+\pagenumbering{arabic}
+% use \cleardoublepage here to avoid problems with pdfbookmark
+\cleardoublepage
+%\include{chapters/introduction}
+\cleardoublepage
+\include{chapters/functional-regression}
+%\include{chapters/chapter03}
+% ********************************************************************
+% Backmatter
+%*******************************************************
+\appendix
+\ctparttext{You can put some informational part preamble text here.
+Illo principalmente su nos. Non message \emph{occidental} angloromanic
+da. Debitas effortio simplificate sia se, auxiliar summarios da que,
+se avantiate publicationes via. Pan in terra summarios, capital
+interlingua se que. Al via multo esser specimen, campo responder que
+da. Le usate medical addresses pro, europa origine sanctificate nos se.}
+%\renewcommand{\thechapter}{\alph{chapter}}
+\cleardoublepage
+%\part*{Appendix}
+%\include{chapters/appendix0A}
+
+%********************************************************************
+% Other Stuff in the Back
+%*******************************************************
+%\pdfbookmark[-1]{Back Matter}{back} % Dummy part bookmark for back matter
+\cleardoublepage\include{frontbackmatter/bibliography}
+\cleardoublepage\include{frontbackmatter/colophon}
+
+
+\end{document}
+% ********************************************************************

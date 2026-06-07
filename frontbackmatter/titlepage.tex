@@ -1,0 +1,185 @@
+%*******************************************************
+% Titlepage
+%*******************************************************
+
+%% OPTION 1: CENTERED TITLEPAGE
+% \begin{titlepage}
+%     \makeatletter
+%     \if@twoside
+%         % --- Two-Sided Mode ---
+%         \begin{addmargin}[0cm]{-2.385cm}
+%     \else
+%         % --- One-Sided Mode ---
+
+%         \begin{addmargin}[0cm]{0.51cm}
+%     \fi
+%     \makeatother
+
+
+%     \begin{center}
+%         \large
+
+%         %\hfill\vfill
+%         \vspace*{1.5\baselineskip}
+
+%         % --- Subdued Document Type ---
+%         %{\small \textit{A thesis submitted for the degree of}} \\ \smallskip
+%         \spacedlowsmallcaps{Doctoral Thesis} \\ 
+%         \vspace{3\baselineskip}
+
+%         % --- The Title ---
+%         \begingroup
+%             %\rule{0.5\paperwidth}{0.5pt}\\ 
+%             %\vspace{0.8\baselineskip}
+%             %\color{CTtitle}
+%             \parbox{0.5\paperwidth}{\centering\huge\spacedallcaps{\myTitle}}\\ 
+%             %\vspace{0.8\baselineskip}
+%             %\rule{0.5\paperwidth}{0.5pt}\\ 
+%             \ifdefvoid{\mySubtitle}{}{%
+%                 \vspace{1.75\baselineskip}
+%                 {\Large\spacedlowsmallcaps{\mySubtitle}}\\
+%             }
+%         \endgroup
+
+%         \vspace{3.5\baselineskip}
+
+%         % --- The Author ---
+%         \begingroup
+%             {\LARGE\spacedlowsmallcaps{\myName}}
+%         \endgroup
+
+%         \vfill
+
+%         % --- The Supervisors ---
+%         {\small\textit{Under the supervision of}} \\ \vspace{0.6\baselineskip}
+%         \spacedlowsmallcaps{\myProf} \\ \vspace{0.2\baselineskip}
+%         \spacedlowsmallcaps{\myOtherProf}
+
+%         \vfill\vfill
+
+%         \includegraphics[width=0.25\textwidth]{figures/uam}
+%         \nopagebreak[4]
+%         \vspace{1.5\baselineskip}
+
+
+%         % --- The Institution Block ---
+%         \begingroup
+%             \small
+%             \myDepartment \\
+%             \myFaculty \\
+%             \myUni \\ \vspace{1.5\baselineskip}
+%             {\normalsize\myTime}
+%         \endgroup
+
+%         \vspace*{1\baselineskip}
+
+%     \end{center}
+
+%     % Close the correct conditional environment
+%     \makeatletter
+%     \if@twoside
+%         \end{addmargin}
+%     \else
+%         \end{addmargin}
+%     \fi
+%     \makeatother
+% \end{titlepage}
+
+%% OPTION 2: LEFT-ALIGNED TITLEPAGE
+%% OPTION 2: LEFT-ALIGNED ASYMMETRICAL TITLEPAGE
+\begin{titlepage}
+    \AddToShipoutPicture*{\BackgroundPic}
+    \makeatletter
+    \if@twoside
+        % --- Two-Sided Mode ---
+        \begin{addmargin}[2.88cm]{0cm}
+    \else
+        % --- One-Sided Mode ---
+        \begin{addmargin}[1.43cm]{0cm}
+    \fi
+    \makeatother
+
+    \begin{flushleft}
+    \large
+    % Suppress indentation for the entire title page container
+    %\setlength{\parindent}{0pt}
+    
+    % 1. Top anchoring space
+    \vspace*{5\baselineskip}
+
+    %% Vertical line to check alignment
+    % {\hspace{0.1em}
+    % \vtop to 0pt{%
+    %         \hspace*{-0.5pt}% Micro-adjust to align perfectly flush with the outer tip of the hrule
+    %         \color{uam}% Keep the color matching
+    %         \vrule width 0.5pt height 0pt depth 0.95\textheight% Pulls the line down across the layout height
+    %         \vss
+    %     }%
+    % }
+
+    \begingroup
+        \vspace{-0.4\baselineskip}
+        \hspace*{0cm}\vbox{\color{uam}\hrule width 6.45cm height 0.5pt}\\
+        
+        \vspace{.3\baselineskip}
+        \color{uam-ciencias}
+        \cambriafont
+        \myFaculty \\
+        \myDepartment \\
+    \endgroup
+
+    \vspace{4\baselineskip}
+
+    %% Vertical line as a decoration
+    % \vtop to 0pt{%
+    %         \hspace*{-0.5pt}% Micro-adjust to align perfectly flush with the outer tip of the hrule
+    %         \color{uam}% Keep the color matching
+    %         \vrule width 0.5pt height 0pt depth 0.95\textheight% Pulls the line down across the layout height
+    %         \vss
+    %     }%
+
+
+    % --- The Title Block ---
+    \begingroup
+        % \spacedlowsmallcaps
+        {\Large\spacedlowsmallcaps{\hspace{-0.05em}Doctoral Thesis}}\\
+        \vspace{3\baselineskip}
+        % \spacedallcaps
+        \parbox[b]{0.5\pagewidth}{\raggedright\huge{\hspace{0.02em}\myTitle}} \vspace{.1\baselineskip}
+        
+        % Check if a subtitle exists before creating structural gaps
+        \ifdefvoid{\mySubtitle}{}{%
+            %\vspace{1.5\baselineskip}
+            %spacedlowsmallcaps
+            {\Large{\mySubtitle}} \\
+        }
+    \endgroup
+
+    \vspace{4\baselineskip}
+
+    % --- The Author ---
+    \begingroup
+        {\LARGE\spacedlowsmallcaps{\myName}}
+    \endgroup
+
+    % 2. Push supervisors down proportionally
+    \vfill\vfill
+
+    % --- The Supervisors ---
+    {\normalsize\textit{Under the supervision of}} \\ \vspace{0.2\baselineskip}
+    % \spacedlowsmallcaps
+    {\large{\myProf}}\\
+    {\large{\myOtherProf}}
+
+    % 3. Create a unified visual baseline for the institution branding
+    \vspace{3\baselineskip}
+
+    % --- The Institution Block ---
+    {\hspace{0.05em}\large\myTime}
+
+    % 4. Protect bottom margin spacing
+    \vspace*{1\baselineskip}
+    \end{flushleft}
+
+    \end{addmargin}
+\end{titlepage}
