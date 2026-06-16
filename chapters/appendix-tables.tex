@@ -1,0 +1,38 @@
+%*****************************************
+\chapter{Tables}\label{ch:rjmcmc}
+%*****************************************
+
+See \autoref{tab:prueba}.
+
+\begin{table}[h]
+  \myfloatalign
+  \small
+  %\sffamily
+  %\palatinonumbers  % use uniform style for numbers inside the table
+  %\setlength{\belowrulesep}{1pt} % shrink the gap for the header rules
+  \caption{Type I error (T1) under \(H_0\), power (P) under the true mean function \(\mu_*^{\text{RKHS}}\), and corresponding AUC, averaged over 100 independent replications for the three synthetic datasets (BM, OU, SE). All metrics are reported as percentages (\(\times 10^2\)), and the best results within each column are highlighted.}\label{tab:prueba}
+  \begin{tabular}{@{}l rrr c rrr c rrr @{}}
+    \toprule
+    \noalign{\vspace{-4pt}}  % less space afer rule for small caps
+    \multirow{2.5}{*}[1.5pt]{\slsc{Method}} & \multicolumn{3}{c}{\slsc{BM}} && \multicolumn{3}{c}{\slsc{OU}} && \multicolumn{3}{c@{}}{\slsc{SE}} \\
+    \cmidrule(lr){2-4}
+    \cmidrule(lr){6-8}
+    \cmidrule(ll){10-12}
+    \noalign{\vspace{-4pt}} % less space afer rule for small caps
+    & \multicolumn{1}{c}{\slsc{T1}} & \multicolumn{1}{c}{\slsc{P}} & \multicolumn{1}{c}{\slsc{AUC}} && \multicolumn{1}{c}{\slsc{T1}} & \multicolumn{1}{c}{\slsc{P}} & \multicolumn{1}{c}{\slsc{AUC}} && \multicolumn{1}{c}{\slsc{T1}} & \multicolumn{1}{c}{\slsc{P}} & \multicolumn{1}{c@{}}{\slsc{AUC}} \\
+    \midrule
+    \emph{RKBT} & \(\textemph{0}\) & \(67\) & \(90.9\) && \(\textemph{0}\) & \(\textemph{88}\) & \(\textemph{98.5}\) && \(\textemph{0}\) & \(84\) & \(98.4\) \\
+    %\midrule
+    BON-T & \(\textemph{0}\) & \(35\) & \(81.4\) && \(\textemph{0}\) & \(71\) & \(97.2\) && \(\textemph{0}\) & \(67\) & \(92.9\) \\
+    L2 & \(1\) & \(\textemph{71}\) & \(\textemph{92.6}\) && \(1\) & \(77\) & \(98\) && \(1\) & \(82\) & \(98.5\) \\
+    L2-FPCA & \(1\) & \(61\) & \(90.8\) && \(10\) & \(87\) & \(96.1\) && \(5\) & \(89\) & \(98.3\) \\
+    F & \(1\) & \(\textemph{71}\) & \(\textemph{92.6}\) && \(1\) & \(77\) & \(98.2\) && \(1\) & \(81\) & \(\textemph{98.7}\) \\
+    BAYES-FPCA & \(1\) & \(65\) & \(90.8\) && \(6\) & \(86\) & \(95.9\) && \(9\) & \(\textemph{91}\) & \(98.3\) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+%*****************************************
+%*****************************************
+%*****************************************
+%*****************************************
+%*****************************************

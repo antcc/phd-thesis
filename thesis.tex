@@ -1,5 +1,5 @@
 % **********************************************************************
-% Copyright (c) 2026 Antonio Coín
+% Copyleft (c) 2026 Antonio Coín
 %
 % This work is licensed under a
 % Creative Commons Attribution-ShareAlike 4.0 International License.
@@ -10,7 +10,7 @@
 % LaTeX template:
 % A Classic Thesis Style
 % An Homage to The Elements of Typographic Style
-% Copyright (C) 2025 André Miede and Ivo Pletikosić
+% Copyright (c) 2025 André Miede and Ivo Pletikosić
 %***********************************************************************
 
 \RequirePackage{silence} % :-\
@@ -56,10 +56,12 @@
 \pagenumbering{arabic}
 % use \cleardoublepage here to avoid problems with pdfbookmark
 \cleardoublepage
-%\include{chapters/introduction}
+\include{chapters/introduction}
 \cleardoublepage
 \include{chapters/functional-regression}
-%\include{chapters/chapter03}
+\include{chapters/functional-testing}
+\include{chapters/rjmcmc}
+\include{chapters/conclusions}
 % ********************************************************************
 % Backmatter
 %*******************************************************
@@ -73,7 +75,7 @@ da. Le usate medical addresses pro, europa origine sanctificate nos se.}
 %\renewcommand{\thechapter}{\alph{chapter}}
 \cleardoublepage
 %\part*{Appendix}
-%\include{chapters/appendix0A}
+\include{chapters/appendix-tables}
 
 %********************************************************************
 % Other Stuff in the Back

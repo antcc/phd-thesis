@@ -22,16 +22,27 @@
   eulermath=false,  % use awesome Euler fonts for mathematical formulae (only with pdfLaTeX)
   beramono=true,    % toggle a nice monospaced font (w/ bold)
   palatino=true,    % deactivate standard font for loading another one, see the last section at the end of this file for suggestions
-  style=arsclassica % classicthesis, arsclassica, linedheaders, plain
+  style=classicthesis % classicthesis, arsclassica, linedheaders, plain
 }{classicthesis}
+
+% Alias for spaced low small caps font style
+\newcommand{\slsc}[1]{\spacedlowsmallcaps{#1}}
+
+% New font size between \large and \Large
+\newcommand{\midLarge}{\fontsize{13pt}{16pt}\selectfont}
+
+% Biger font for subindices in footnotesize (captions mostly)
+\DeclareMathSizes{9}{9}{6.8}{5}
+
 % ****************************************************************************************************
 % 2. Personal data and user ad-hoc commands (insert your own data here)
 % ****************************************************************************************************
 % A Bayesian approach to functional statistics
 % A Bayesian approach to functional statistics via reproducing kernel methods
 % Bayesian inference for functional data via reproducing kernel methods
+% A Bayesian approach to functional statistics via reproducing kernel methods
 \newcommand{\myTitle}{A Bayesian approach to functional statistics via reproducing kernel methods\xspace}
-\newcommand{\mySubtitle}{Theory and Computation\xspace}
+\newcommand{\mySubtitle}{Theory and computation\xspace}
 %\newcommand{\myDegree}{PhD Mathematics\xspace}
 \newcommand{\myName}{Antonio Coín Castro\xspace}
 \newcommand{\myProf}{José Ramón Berrendero Díaz\xspace}
@@ -41,6 +52,7 @@
 \newcommand{\myDepartment}{Departamento de Matemáticas\xspace}
 \newcommand{\myUni}{Universidad Autónoma de Madrid\xspace}
 \newcommand{\myLocation}{Madrid\xspace}
+\newcommand{\myStartTime}{September 2021\xspace}
 \newcommand{\myTime}{June 2026\xspace}
 \newcommand{\myVersion}{\classicthesis}
 \newcommand{\myOrcid}{0009-0004-7554-9193}
@@ -73,8 +85,8 @@
   bibencoding=utf8,%
   language=auto,%
   style=authoryear-comp,%
-  %bibstyle=authoryear,dashed=false, % dashed: substitute rep. author with ---
-  sorting=ynt, % year, name, title
+  dashed=false, % dashed: substitute rep. author with ---
+  sorting=nyt, % name, year, title
   maxbibnames=10,
   maxcitenames=2,
   mincitenames=1,
@@ -82,6 +94,7 @@
   giveninits=true,
   backrefstyle=none,%
   uniquename=false,
+  uniquelist=false,
   natbib=true % natbib compatibility mode (\citep and \citet still work)
 }{biblatex}
     \usepackage{biblatex}
@@ -125,11 +138,12 @@
 
 \PassOptionsToPackage{fleqn}{amsmath}       % math environments and more by the AMS
   \usepackage{amsmath}
-
+\usepackage{amssymb, amsthm, mathrsfs}
 % ********************************************************************
 % General useful packages
 % ********************************************************************
 \usepackage{graphicx} %
+\graphicspath{ {./figures/} }
 \usepackage{enumitem} %
 \usepackage{scrhack} % fix warnings when using KOMA with listings package
 \usepackage{xspace} % to get the spacing after macros right
@@ -147,15 +161,17 @@
 %\tikzexternalize[mode=list and make, prefix=ext-tikz/]
 % ****************************************************************************************************
 
-
 % ****************************************************************************************************
 % 4. Setup floats: tables, (sub)figures, and captions
 % ****************************************************************************************************
 \usepackage{tabularx} % better tables
   \setlength{\extrarowheight}{3pt} % increase table row height
-\newcommand{\tableheadline}[1]{\multicolumn{1}{l}{\spacedlowsmallcaps{#1}}}
+\newcommand{\tableheadline}[1]{\multicolumn{1}{l}{\slsc{#1}}}
 \newcommand{\myfloatalign}{\centering} % to be used with each float for alignment
 \usepackage{subfig}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{etoolbox}
 % ****************************************************************************************************
 
 
@@ -191,37 +207,43 @@
 \usepackage{classicthesis}
 \definecolor{uam}{RGB}{0,119,200}
 \definecolor{uam-ciencias}{RGB}{28,93,145}
+\definecolor{dark-gray}{gray}{0.1}
 
-\definecolor{CTcitation}{named}{uam}
+\definecolor{CTcitation}{named}{uam} %teal
 \definecolor{CTurl}{named}{uam-ciencias}
 \definecolor{CTtitle}{named}{uam-ciencias}
-\definecolor{CTlink}{named}{uam}
+\definecolor{CTlink}{named}{uam} % teal
 
 % Cover page
-\usepackage{eso-pic}
+\usepackage{eso-pic} % Load after classicthesis to avoid xcolor conflict
 \newcommand\BackgroundPic{%
-	\put(0,297){%
-		\parbox[b][\paperheight]{0.725\paperwidth}{%
+	\put(0,325){%
+		\parbox[b][\paperheight]{0.675\paperwidth}{%
 			\vfill
 			\centering
-      % Indicar la imagen de fondo en el siguiente comando
-			\includegraphics[width=0.5\paperwidth,height=\paperheight,%
-			keepaspectratio]{figures/uam-full}%
+			\includegraphics[width=0.45\paperwidth,height=\paperheight,%
+			keepaspectratio]{figures/uam-full-bw}%
 			\vfill
     }
   }
 }
 
-% Globally sets all itemize, enumerate, and description lists to hug the left margin and remove vertical spacing
+% Globally sets all itemize and enumerate lists to hug the left margin and adjust vertical spacing
 \setlist[itemize]{itemsep=1pt,leftmargin=*}
 \setlist[enumerate]{itemsep=1pt,leftmargin=*}
-\setlist[description]{itemsep=1pt,leftmargin=*}
+
+% Define a custom description list that automatically adds 
+% curly brackets to protect the label when inserting 
+% square brackets (e.g. for math symbols)
+\let\standarditem\item
+\NewDocumentCommand{\smartitem}{o}{%
+  \IfNoValueTF{#1}
+    {\standarditem}            % If no brackets used, behave normally
+    {\standarditem[{#1}]}      % If brackets used, protect them with curly braces
+}
+
 
 %% Check page alignment visually on the pdf
-% \usepackage{eso-pic}
-% \usepackage{xcolor}
-
-% % Draw a bright red centering guide on every page
 % \AddToShipoutPictureBG{%
 %   \AtPageCenter{\color{red}\circle*{5}}% Marks the dead center point
 %   \AtPageCenter{\color{red}\line(1,0){500}}% Horizontal center axis
@@ -231,18 +253,71 @@
 % }
 
 
+%% Header style: black color and vertical line separating page number
+%\clearscrheadfoot
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{black}\vline}\color{black}\hspace{0.5em}\normalsize\headmark\hfil}}
+\rohead{\mbox{\hfil{\color{black}\normalsize\headmark\hspace{0.5em}}\rlap{\small{\color{black}\vline}\kern1em\thepage}}}
+
+% Force tables to be \small
+% \AtBeginEnvironment{tabular}{\small}
+% \AtBeginEnvironment{tabularx}{\small}
+% \AtBeginEnvironment{longtable}{\small}
+
+%% Caption format
+\DeclareCaptionLabelFormat{slsc}{\slsc{#1}~#2}
+\captionsetup{font=footnotesize, labelformat=slsc} % label in low small caps
+% table with caption on top and spacing
+\floatstyle{plaintop}
+\restylefloat{table}
+\captionsetup[table]{position=top, skip=10pt} 
+
+
+% Bring some arsclassica options to classicthesis
 \makeatletter
 \@ifpackageloaded{classicthesis-arsclassica}{%
-  % --- Revert ArsClassica headers back to text color ---
-  \clearscrheadfoot
-  \lehead{\mbox{\llap{\small\thepage\kern1em\color{black}\vline}\color{black}\hspace{0.5em}\headmark\hfil}}
-  \rohead{\mbox{\hfil{\color{black}\headmark\hspace{0.5em}}\rlap{\small{\color{black}\vline}\kern1em\thepage}}}
-}{%
-  % Color bullets in itemized lists
+}{
+  % Larger font in section titles
+  \titleformat{\section}
+    {\relax}{\textsc{\MakeTextLowercase{\thesection}}}{1em}{\large\slsc}
+
+  %% Gray bullets in itemized lists
   \renewcommand{\labelitemi}{\color{CTsemi}\textbullet}
+
+  % Page number in pages that start a new chapter are indented
+  \rofoot[\mbox{\makebox[0pt][l]{\kern1em\thepage}}]{}
+
+  % Description labels with a colon
+  \renewcommand{\descriptionlabel}[1]{\hspace*{\labelsep}\slsc{#1}:}
+
+  %% Chapter number and title in arsclassica style
+  % Sans font for chapter titles
+  \ifthenelse{\boolean{xetex}\OR\boolean{luatex}}
+      {\setsansfont[Ligatures=TeX,Numbers=OldStyle,%
+        Extension=.otf,%
+        UprightFont=*-Regular,%
+        ItalicFont=*-Italic,%
+        BoldFont=*-Bold,%
+        BoldItalicFont=*-BoldItalic,%
+      ]{Iwona}}{\renewcommand{\sfdefault}{iwona}}
+
+  % Sans font for section titles
+  %\renewcommand*{\ct@altfont}{\sffamily}
+  \ifthenelse{\boolean{ct@eulerchapternumbers}}% font for the chapter numbers; scale in classicthesis is 7
+      {\DeclareFixedFont{\chapterNumber}{U}{eur}{b}{n}{50}}%
+      {\DeclareFixedFont{\chapterNumber}{T1}{pplj}{m}{n}{50}}%
+  \newcommand\formatchapter[1]{%
+    \vbox to \ht\strutbox{%
+    \setbox0=\hbox{\chapterNumber\thechapter\hspace{10pt}\vline\ }%
+    \advance\hsize-\wd0 \advance\hsize-10pt\raggedright%
+    \spacedallcaps{#1}\vss}}
+  \titleformat{\chapter}[block]%
+     {\normalfont\Large\sffamily}%
+     {\textcolor{CTsemi}{\chapterNumber\thechapter}%
+     \ \,\hspace{10pt}\vline\ }{10pt}%
+     {\formatchapter}
+  \titlespacing*{\chapter}{0pt}{1\baselineskip}{2\baselineskip}
 }
 \makeatother
-
 
 % ********************************************************************
 % Fine-tune hyperreferences (hyperref should be called last)
@@ -268,11 +343,11 @@
 }
 
 % Change size of footnote number in text
-% \makeatletter
-% \renewcommand*{\@makefnmark}{%
-%   \hbox{\@textsuperscript{\normalfont\footnotesize\color{CTlink}\@thefnmark}}%
-% }
-% \makeatother
+\makeatletter
+\renewcommand*{\@makefnmark}{%
+  \hbox{\@textsuperscript{\normalfont\footnotesize\color{CTlink}\@thefnmark}}%
+}
+\makeatother
 
 % ********************************************************************
 % Setup autoreferences (hyperref and babel)
@@ -323,7 +398,10 @@
 %********************************************************************
 % Custom commands
 %*******************************************************
-%\renewcommand{\epsilon}{\varepsilon}
+% Redefine \epsilon globally
+\AtBeginDocument{
+  \global\let\epsilon\varepsilon
+}
 
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
@@ -336,6 +414,7 @@
 \DeclareMathOperator{\var} {Var}
 \DeclareMathOperator{\cov} {Cov}
 \DeclareMathOperator{\supp} {supp}
+\DeclareMathOperator{\dkl} {D_{KL}}
 \DeclareMathOperator{\kl} {KL}
 \DeclareMathOperator{\tr} {Tr}
 \DeclareMathOperator{\bff} {BF}
@@ -344,7 +423,76 @@
 
 % Dot product
 \newcommand\dotprod[2]{\left\langle#1,#2\right\rangle}
+% Test over sim symbol
+\newcommand{\textoversim}[1]{\overset{\text{#1}}{\sim}}
 
+% Theorems, definitions, etc.
+
+\newtheoremstyle{theorem-classicthesis} 
+{\topsep}                                  % Espacio por encima
+{\topsep}                                  % Espacio por debajo
+{\itshape}                                 % Fuente del cuerpo
+{0pt}                                      % Identación
+{}                                         % Fuente para la cabecera
+{.}                                        % Puntuación tras la cabecera
+{5pt plus 1pt minus 1pt}                              % Espacio tras la cabecera
+{\slsc{\thmname{#1}\thmnumber{ #2}}\thmnote{ (#3)}}   % Especificación de la cabecera
+
+\newtheoremstyle{definition-classicthesis} 
+{\topsep}                                  % Espacio por encima
+{\topsep}                                  % Espacio por debajo
+{}                                  % Fuente del cuerpo
+{0pt}                                  % Identación
+{}                      % Fuente para la cabecera
+{.}                                 % Puntuación tras la cabecera
+{5pt plus 1pt minus 1pt}                              % Espacio tras la cabecera
+{\slsc{\thmname{#1}\thmnumber{ #2}}\thmnote{ (#3)}}  % Especificación de la cabecera
+
+\newtheoremstyle{assumption-classicthesis}
+  {\topsep}         % Space above
+  {\topsep}         % Space below
+  {}            % Body font
+  {0pt}             % Indent amount
+  {}              % Theorem head font
+  {}               % Punctuation after theorem head
+  {5pt plus 1pt minus 1pt}                   % Space after theorem head
+  {}      % Theorem head spec
+
+
+\theoremstyle{theorem-classicthesis}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+
+\theoremstyle{definition-classicthesis}
+\newtheorem{definition}{Definition}
+\newtheorem*{remark}{Remark}
+
+\theoremstyle{assumption-classicthesis}
+\newtheorem{assumption}{}[chapter]     % (A1.1)
+\newtheorem{assumptionalt}{}[chapter]  % (A1.1')
+\renewcommand{\theassumption}{(A\thechapter.\arabic{assumption})} % Modify numbering format
+\renewcommand{\theassumptionalt}{(A\thechapter.\arabic{assumption}')} % Modify numbering format
+
+% Description list for Symbols glossary
+\newenvironment{symbolsdesc}[1][]{\begin{description}[#1]
+    % Remove the colon just for this list:
+    \renewcommand{\descriptionlabel}[1]{\hspace*{\labelsep}\slsc{#1}}
+   \let\item\smartitem}
+  {\end{description}}
+
+\newcommand{\bigsection}[1]{%
+    % Temporarily make this section \Large
+    \titleformat{\section}
+        {\relax}{\textsc{\MakeTextLowercase{\thesection}}}{1em}{\Large\spacedlowsmallcaps}%
+    \section*{#1}%
+}
+
+% Emphasis color for tables (if using bold or italics, use their math-mode versions)
+\newcommand{\textemph}[1]{\color{uam-ciencias}{#1}}
+% Copyleft symbol
+\newcommand{\copyleft}{\reflectbox{\textcopyright}}
 
 % ****************************************************************************************************
 % 7. Further adjustments (experimental)
@@ -359,8 +507,23 @@
 % ********************************************************************
 % Using different fonts
 % ********************************************************************
-\usepackage{fontspec}
-% This creates a macro \cambriafont that you can use anywhere for short snippets
+%% Alternative \mathcal symbols
+% 1. eucal
+%\usepackage[mathcal]{eucal}  
+% 2. mathscr
+\let\mathcal\mathscr
+% 3. garamond
+% \setmathfont{Garamond-Math}[
+%     range        = {cal, bfcal}, % Applies to \mathcal and bold \mathcal
+%     StylisticSet = 3,            % Triggers Stylistic Set 3
+%     Scale        = MatchUppercase % Ensures it doesn't look too big/small next to Pagella
+% ]
+%\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+
+%% Default math font with optional scale
+%\setmathfont{TeX Gyre Pagella Math}[Scale=1.01] 
+
+%% Create a macro \cambriafont for titlepage
 \newfontfamily\cambriafont{Caladea-Regular}[
     Extension      = .ttf,
     UprightIndex   = 0,
@@ -368,6 +531,16 @@
     ItalicIndex    = 2,
     BoldItalicIndex = 3
 ]
+
+%% Flat style for numbers inside tables
+\newfontfamily\palatinonumbers[Ligatures=TeX,Numbers=Lining]{texgyrepagella}[
+    Extension      = .otf,%
+    UprightFont=*-regular,%
+    ItalicFont= *-italic,%
+    BoldFont= *-bold,%
+    BoldItalicFont = *-bolditalic,%
+]%
+
 %\usepackage[oldstylenums]{kpfonts} % oldstyle notextcomp
 % \usepackage[osf]{libertine}
 %\usepackage[light,condensed,math]{iwona}

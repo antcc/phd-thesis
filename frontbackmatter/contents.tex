@@ -7,11 +7,11 @@
 \setcounter{tocdepth}{2} % <-- 2 includes up to subsections in the ToC
 \setcounter{secnumdepth}{3} % <-- 3 numbers up to subsubsections
 \manualmark
-\markboth{\spacedlowsmallcaps{\contentsname}}{\spacedlowsmallcaps{\contentsname}}
+\markboth{\slsc{\contentsname}}{\slsc{\contentsname}}
 \tableofcontents
 \automark[section]{chapter}
-\renewcommand{\chaptermark}[1]{\markboth{\spacedlowsmallcaps{#1}}{\spacedlowsmallcaps{#1}}}
-\renewcommand{\sectionmark}[1]{\markright{\textsc{\thesection}\enspace\spacedlowsmallcaps{#1}}}
+\renewcommand{\chaptermark}[1]{\markboth{\slsc{#1}}{\slsc{#1}}}
+\renewcommand{\sectionmark}[1]{\markright{\textsc{\thesection}\enspace\slsc{#1}}}
 %*******************************************************
 % List of Figures and of the Tables
 %*******************************************************
@@ -47,9 +47,9 @@
     %\phantomsection
     %\addcontentsline{toc}{chapter}{\lstlistlistingname}
     %\pdfbookmark[1]{\lstlistlistingname}{lol}
-    \lstlistoflistings
+    %\lstlistoflistings
 
-    \vspace{8ex}
+    %\vspace{8ex}
     %\newpage
 
     %*******************************************************
@@ -57,13 +57,16 @@
     %*******************************************************
     %\phantomsection
     %\pdfbookmark[1]{Acronyms}{acronyms}
-    \markboth{\spacedlowsmallcaps{Acronyms}}{\spacedlowsmallcaps{Acronyms}}
+    \markboth{\slsc{Acronyms}}{\slsc{Acronyms}}
     \chapter*{Acronyms}
-    \begin{acronym}[UMLX]
-        \acro{DRY}{Don't Repeat Yourself}
-        \acro{API}{Application Programming Interface}
-        \acro{UML}{Unified Modeling Language}
-        \acro{D}[$\Delta$]{A measurable difference or change in a variable in a description that spans multiple lines surely by now}
+    \begin{acronym}[RJMCMC]
+        \acro{FDA}{Functional Data Analysis}
+        \acro{RKHS}{Reproducing Kernel Hilbert Space}
+        % \acrodef hides the acronym from the list of acronyms
+        \acrodef{RKHSs}[RKHS's]{Reproducing Kernel Hilbert Spaces}
+        \acro{RJMCMC}{Reversible Jump Markov Chain Monte Carlo}
+        \acro{GP}{Gaussian Process}
+        \acro{FPCA}{Functional Principal Component Analysis}
     \end{acronym}
 
     \vspace{6.5ex}
@@ -72,14 +75,16 @@
     % Symbols
     %*******************************************************
     %\phantomsection
-    %\pdfbookmark[1]{Acronyms}{acronyms}
-    \markboth{\spacedlowsmallcaps{Symbols}}{\spacedlowsmallcaps{Symbols}}
+    %\pdfbookmark[1]{Symbols}{symbols}
+    \markboth{\slsc{Symbols}}{\slsc{Symbols}}
     \chapter*{Symbols}
-    \begin{description}[labelwidth=5em, leftmargin=4em, style=nextline, itemsep=1pt]
-        % --- Greek Letters ---
-        \item[API]          Application Programming Interface
-        \item[UML]           Unified Modeling Language
-        \item[$\Delta$]           A measurable difference or change in a variable in a description that spans multiple lines surely by now
-    \end{description}
 
+    \begingroup
+    % Remove the colon just for this list
+    \renewcommand{\descriptionlabel}[1]{\hspace*{\labelsep}\slsc{#1}}
+    \begin{symbolsdesc}[labelwidth=6em, leftmargin=5em, style=nextline, itemsep=1pt]
+        \item[\(L^2[0,1]\)] Hilbert space of square integrable functions on \([0,1]\)
+        \item[\(\mathcal C[0,1]\)] Banach space of continuous functions on \([0,1]\), endowed with the supremum norm
+    \end{symbolsdesc}
+    \endgroup
 \endgroup
