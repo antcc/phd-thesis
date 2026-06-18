@@ -143,8 +143,8 @@ This section explores the theoretical foundations of the proposed Bayesian model
 
 Firstly, let us recall what we understand by posterior consistency and posterior contraction rates. Consider the general setting of an i.i.d.\ sample \(X_1,\dots, X_n\) from a random variable \(X\) taking values in a certain space \(\mathcal X\). Let us fix a prior distribution \(\Pi\) for random variables \(\theta\) on the parameter space \(\Theta\), that is, \(\theta \sim \Pi\), and let \(P_\theta\) represent a sampling model (a distribution on \(\mathcal X\) indexed by \(\theta \in \Theta\)) such that \(X | \theta \sim P_{\theta}\). Furthermore, assume that the model is well-specified, i.e., there is a true value \(\theta_{0}\in\Theta\) such that \(X \sim P_{\theta_0}\), and denote by \(P_0^\infty\) and \(P_0^{(n)}\) the joint probability measure of \((X_1, X_2, \dots)\) and \((X_1, X_2, \dots, X_n)\), respectively, when \(\theta_0\) is the true value of the parameter.
 
-\begin{definition}
-We say that the posterior distribution is (strongly) consistent at \(\theta_0\) if for every neighborhood \(B\) of \(\theta_0\) (which for a metric space can just be the open balls around \(\theta_0\)) we have
+\begin{definition}\marginparlow{For a metric space, the neighborhoods \(B\) can just be the open balls around \(\theta_0\).}
+We say that the posterior distribution is (strongly) consistent at \(\theta_0\) if for every neighborhood \(B\) of \(\theta_0\) we have
   \[
     \lim_{n\to\infty} \Pi_n(\theta \in B \mid X_1, \dots, X_n) = 1 \quad P_0^\infty-\text{a.s.}
   \]
@@ -205,6 +205,7 @@ Since each \(\Theta_p\) is itself a complete separable metric space with the inh
 Both assumptions can be interpreted as a way of pursuing parsimony in the model, aiming for as few components as possible. In practical and computational terms, we can think of \(\delta\) as the \textit{machine precision number}, so that virtually all continuous prior distributions satisfy the associated condition when implemented numerically in a computer. With this setup in mind, we are ready to state our own consistency result.
 
 \begin{theorem}\label{th:consistency-doob-linear}
+  \marginparlow{Proof in p.~\pageref{proof:consistency-doob-linear}}
   Suppose that Condition~\ref{cond:condition-ident} holds and the covariance function \(K\) of the underlying process \(X\) is strictly positive definite. Then, there exists \(\Theta_*\subseteq \Theta\) such that \(\Pi(\theta \in \Theta_*)=1\) and for all \(\theta_0\in\Theta_*\), if \((X,Y)_{1:\infty} \sim P_{\theta_0}(X,Y)\) i.i.d., then for all \(\epsilon > 0\)
   \[
     \lim_{n\to\infty} \Pi_n(\theta \in \tilde{B}(\theta_0,\epsilon) \mid (X,Y)_{1:n}) = 1 \quad P_{0}^\infty(X,Y)-\text{a.s.}
@@ -214,6 +215,7 @@ Both assumptions can be interpreted as a way of pursuing parsimony in the model,
     \lim_{n\to\infty} \Pi_n(\mathcal P=p(\theta_0) \mid (X,Y)_{1:n}) = 1 \quad P_{0}^\infty(X,Y)-\text{a.s.}
   \]
 \end{theorem}
+
 
 The hypothesis of positive definiteness of \(K\) is needed to ensure identifiability. On the other hand, the second conclusion is of certain relevance in itself, because the estimation of the number of components in mixture-like models is a hard problem in general \citep[see][and references therein]{miller2018mixture}. Moreover, it is worth pointing out that the proof of Theorem~\ref{th:consistency-doob-linear} can be easily adjusted to guarantee consistency when the number of components is fixed beforehand and the parameter space is finite-dimensional.
 
@@ -291,10 +293,12 @@ Assume Condition~\ref{cond:condition-schwartz-X} holds. Let \(0<\gamma<1/2\) and
 
 The requirements of this result are akin to those of Theorem~\ref{th:consistency-schwartz-linear}, but the conclusion is considerably stronger. To verify the condition on the density of \(\Pi\), provided that it exists, it suffices to show that it is continuous and positive at \(\theta_0\) (which our proposed prior distributions satisfy). The contraction rate \(\epsilon_n=n^{-\gamma}\) with \(0<\gamma<1/2\) is optimal in the sense that it is as close as desired to the parametric rate of \(n^{-1/2}\), and it is \textit{minimax optimal} for estimators of \(f_\theta\) given the model \(\mathcal F_n\) \citep[see][p.~198 and references therein]{ghosal2017fundamentals}.
 
-To conclude, it is worth pointing out that a contraction rate relative to \(d_H\) is also a contraction rate relative to any distance bounded above by a multiple of the Hellinger distance, so we immediately have consistency and a contraction rate in more descriptive distances. Let \([h]_M\) be the real-valued function \(h\) truncated to the interval \([-M, M]\).
+To conclude, it is worth pointing out that a contraction rate relative to \(d_H\) is also a contraction rate relative to any distance bounded above by a multiple of the Hellinger distance, so we immediately have consistency and a contraction rate in more descriptive distances. Let \([h]_M\) be the real-valued function \(h\) truncated to the interval \([-M, M]\), and denote the \((L^2(Q_X)\)-norm by \(\|\cdot\|_{2,Q_X}\).
+
+\note{Definir \(\mu_\theta(x)= \alpha + \sum_{j=1}^{p(\theta)} \beta_j x(t_j)\) antes?}
 
 \begin{corollary}
-  Under the same conditions as in Theorem~\ref{th:contraction-rate-schwartz-linear}, \(\epsilon_n = n^{-\gamma}\) is a posterior contraction rate relative to the total variation distance \(d_1(f_0, f_\theta)=\int |f_0 - f_\theta|\, d\rho\) and the mean-variance discrepancy metric \(d_{2,Q_X}(\theta_0, \theta) = \|[\mu_{\theta_0}]_M - [\mu_\theta]_M\|_{2,Q_X} + |\sigma_0^2 - \sigma^2|\), for any \(M>0\), where \(\|\cdot\|_{2,Q_X}\) is the \(L^2(Q_X)\)-norm and \(\mu_\theta(x)= \alpha + \sum_{j=1}^{p(\theta)} \beta_j x(t_j)\).
+  Under the same conditions as in Theorem~\ref{th:contraction-rate-schwartz-linear}, \(\epsilon_n = n^{-\gamma}\) is a posterior contraction rate relative to the total variation distance \(d_1(f_0, f_\theta)=\int |f_0 - f_\theta|\, d\rho\) and the mean-variance discrepancy metric \(d_{2,Q_X}(\theta_0, \theta) = \|[\mu_{\theta_0}]_M - [\mu_\theta]_M\|_{2,Q_X} + |\sigma_0^2 - \sigma^2|\), for any \(M>0\).
 \end{corollary}
 
 
@@ -408,6 +412,42 @@ We have introduced a natural and computationally feasible way of integrating Bay
 We have also proved posterior consistency results that ensure the coherence and correctness of the Bayesian methods we developed. These kinds of results have in other contexts more intricate and restrictive conditions to arrive at essentially the same conclusions as we did, but again the introduction of RKHS's is the key point to greatly simplifying them. On the one hand, we have successfully adapted the methodology recently introduced in \citet{miller2023consistency}---originally intended for mixture models---to the fundamentally different scenario of functional regression, obtaining ``Lebesgue''-almost sure consistency for both the model parameters and the unknown number of components. On the other hand, we have derived alternative consistency results and optimal contraction rates through a more sophisticated approach based on Schwartz's theorem, which is the standard tool in nonparametric consistency problems. In addition, it is worth mentioning that the theorems we have proved are applicable to a wide range of prior distributions, including many that are rather simple and hence easier to work with.
 
 Lastly, we have presented numerical evidence that supports the proposed Bayesian methodology and its predictive performance with simulated and real data sets. Thanks to our RKHS formulation, we can effectively leverage the capabilities of RJMCMC samplers and integrate the unknown number of components into the Bayesian procedure, which to our knowledge is a novel application in FDA. Moreover, a key finding in our empirical studies is that a relatively low number of components is sufficient to obtain good results. This practical side of our work showcases that the Bayesian prediction methods we constructed are competitive against several non-cherry-picked frequentist techniques, especially those based on the usual \(L^2\)-models, while still remaining viable implementation-wise. Of course, our proposed model is not without limitations, and we are not suggesting that the \(L^2\) perspective should be abandoned, but merely offering a simple, theoretically-backed alternative that can perform better in many situations.
+
+\section{Proofs}
+
+For example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proofFor example we show a proof and this is the last line
+
+\begin{proof}[Proof of Theorem~\ref{th:consistency-doob-linear}]\label{proof:consistency-doob-linear}
+  Let \(\epsilon>0\) and \(\delta>0\). Consider the set \(B\subseteq \mathcal T_p\),
+  \[
+    \pp_0(B \cap \mathcal C_p) > \frac{\epsilon}{2}.
+  \]
+  Then, on each iteration, the compact set
+  \[
+    \mathcal C_p^c \cap \mathcal C_p^c
+  \]
+  consists of \(\pp_0(B \cap \mathcal C_p^c) > \frac{\epsilon}{2}\) and \(\pp_0(B \cap \mathcal C_p^c) > \frac{\epsilon}{2}\), so \(\mathcal C_p^c\) cannot be identified with \(\mathcal C_p\) by the identifiability constraint. Hence, for sufficiently large \(n\)
+  \[
+    \pp_0(\mathcal C_p^c) > \epsilon/2,
+  \]
+  so \(\mathcal C_p^c\) is not dense in \(\mathcal C_p\). This shows that the set \(\mathcal C_p\) is a contraction set for the metric \(d_\Theta\), and thus \(\supp(\Pi_{\mathcal F}(\mathcal C_p|p))\) is a contraction set for the metric \(d_\Theta\).
+
+  Now, observe that
+  \[
+    \Pi_{\mathcal F}(\mathcal C_p|p) \stackrel{\pp}{\longrightarrow} 0\quad \text{in } \mathcal C_p.
+  \]
+  Since \(\mathcal C_p\) is a contraction set for the metric \(d_\Theta\), it follows that
+  \[
+    \Pi_{\mathcal F}(\mathcal C_p|p) \stackrel{\pp}{\longrightarrow} 0\quad \text{in } \mathcal C_p^c.
+  \]
+  so this finishes the proof.
+\end{proof}
+
+More text Here
+
+\begin{proof}
+  This is a dummy proof.
+\end{proof}
 
 
 %*****************************************

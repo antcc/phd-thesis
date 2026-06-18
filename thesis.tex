@@ -33,6 +33,31 @@
 %*******************************************************
 \addbibresource{bibliography.bib}
 
+%********************************************************************
+% Cover page
+%*******************************************************
+\usepackage{eso-pic} % Load after classicthesis to avoid xcolor conflict
+\newcommand\BackgroundPic{%
+	\put(0,325){%
+		\parbox[b][\paperheight]{0.675\paperwidth}{%
+			\vfill
+			\centering
+			\includegraphics[width=0.45\paperwidth,height=\paperheight,%
+			keepaspectratio]{figures/uam-full-bw}%
+			\vfill
+    }
+  }
+}
+%% Check page alignment visually on the pdf
+% \AddToShipoutPictureBG{%
+%   \AtPageCenter{\color{red}\circle*{5}}% Marks the dead center point
+%   \AtPageCenter{\color{red}\line(1,0){500}}% Horizontal center axis
+%   \AtPageCenter{\color{red}\line(-1,0){500}}
+%   \AtPageCenter{\color{red}\line(0,1){500}}% Vertical center axis
+%   \AtPageCenter{\color{red}\line(0,-1){500}}
+% }
+
+
 \begin{document}
 \frenchspacing
 \raggedbottom

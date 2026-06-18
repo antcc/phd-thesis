@@ -31,9 +31,6 @@
 % New font size between \large and \Large
 \newcommand{\midLarge}{\fontsize{13pt}{16pt}\selectfont}
 
-% Biger font for subindices in footnotesize (captions mostly)
-\DeclareMathSizes{9}{9}{6.8}{5}
-
 % ****************************************************************************************************
 % 2. Personal data and user ad-hoc commands (insert your own data here)
 % ****************************************************************************************************
@@ -214,43 +211,9 @@
 \definecolor{CTtitle}{named}{uam-ciencias}
 \definecolor{CTlink}{named}{uam} % teal
 
-% Cover page
-\usepackage{eso-pic} % Load after classicthesis to avoid xcolor conflict
-\newcommand\BackgroundPic{%
-	\put(0,325){%
-		\parbox[b][\paperheight]{0.675\paperwidth}{%
-			\vfill
-			\centering
-			\includegraphics[width=0.45\paperwidth,height=\paperheight,%
-			keepaspectratio]{figures/uam-full-bw}%
-			\vfill
-    }
-  }
-}
-
 % Globally sets all itemize and enumerate lists to hug the left margin and adjust vertical spacing
 \setlist[itemize]{itemsep=1pt,leftmargin=*}
 \setlist[enumerate]{itemsep=1pt,leftmargin=*}
-
-% Define a custom description list that automatically adds 
-% curly brackets to protect the label when inserting 
-% square brackets (e.g. for math symbols)
-\let\standarditem\item
-\NewDocumentCommand{\smartitem}{o}{%
-  \IfNoValueTF{#1}
-    {\standarditem}            % If no brackets used, behave normally
-    {\standarditem[{#1}]}      % If brackets used, protect them with curly braces
-}
-
-
-%% Check page alignment visually on the pdf
-% \AddToShipoutPictureBG{%
-%   \AtPageCenter{\color{red}\circle*{5}}% Marks the dead center point
-%   \AtPageCenter{\color{red}\line(1,0){500}}% Horizontal center axis
-%   \AtPageCenter{\color{red}\line(-1,0){500}}
-%   \AtPageCenter{\color{red}\line(0,1){500}}% Vertical center axis
-%   \AtPageCenter{\color{red}\line(0,-1){500}}
-% }
 
 
 %% Header style: black color and vertical line separating page number
@@ -265,16 +228,60 @@
 
 %% Caption format
 \DeclareCaptionLabelFormat{slsc}{\slsc{#1}~#2}
-\captionsetup{font=footnotesize, labelformat=slsc} % label in low small caps
+\captionsetup{font=footnotesize, labelformat=slsc}
 % table with caption on top and spacing
 \floatstyle{plaintop}
 \restylefloat{table}
-\captionsetup[table]{position=top, skip=10pt} 
+\captionsetup[table]{position=top, skip=10pt}
 
+%% Bigger font for subindices in footnotesize (captions mostly)
+\DeclareMathSizes{9}{9}{6.6}{5}
+
+%% Add more TOC Spacing
+\makeatletter
+% Adjust spacing before a Chapter entry 
+\setlength{\cftbeforechapskip}{0.15pc} 
+% Adjust spacing before a Section entry 
+\setlength{\cftbeforesecskip}{0.15pc}  
+% Adjust spacing before a Subsection entry
+\setlength{\cftbeforesubsecskip}{0.15pc} 
+\makeatother
+
+%% Bigger font for chapter entries in table of contents
+\makeatletter
+\let\oldl@chapter\l@chapter
+\renewcommand{\l@chapter}[2]{%
+  \bgroup 
+  \let\old@numberline\numberline
+  \renewcommand{\numberline}[1]{{\normalsize\old@numberline{##1}}}%
+  \ifcsname chapternumberline\endcsname
+    \let\old@chapternumberline\chapternumberline
+    \renewcommand{\chapternumberline}[1]{{\normalsize\old@chapternumberline{##1}}}%
+  \fi
+  \oldl@chapter{{\large\sffamily #1}}{{#2}}%
+  \egroup % Close the group
+}
+\makeatother
+
+%% Change size of footnote number in text
+\makeatletter
+\renewcommand*{\@makefnmark}{%
+  \hbox{\@textsuperscript{\normalfont\footnotesize\color{CTlink}\@thefnmark}}%
+}
+\makeatother
 
 % Bring some arsclassica options to classicthesis
 \makeatletter
 \@ifpackageloaded{classicthesis-arsclassica}{%
+% Overriding the chapter format to correctly render long titles
+\renewcommand\formatchapter[1]{%
+  \vbox{% <--- Removed 'to \ht\strutbox' so it can expand vertically
+    \setbox0=\hbox{\chapterNumber\thechapter\hspace{10pt}\vline\ }%
+    \advance\hsize-\wd0 \advance\hsize-10pt\raggedright%
+    \spacedallcaps{#1}% <--- Removed '\vss'
+  }%
+}
+\makeatother
 }{
   % Larger font in section titles
   \titleformat{\section}
@@ -300,16 +307,16 @@
         BoldItalicFont=*-BoldItalic,%
       ]{Iwona}}{\renewcommand{\sfdefault}{iwona}}
 
-  % Sans font for section titles
-  %\renewcommand*{\ct@altfont}{\sffamily}
+  %\renewcommand*{\ct@altfont}{\sffamily} % Sans font for section titles
   \ifthenelse{\boolean{ct@eulerchapternumbers}}% font for the chapter numbers; scale in classicthesis is 7
       {\DeclareFixedFont{\chapterNumber}{U}{eur}{b}{n}{50}}%
       {\DeclareFixedFont{\chapterNumber}{T1}{pplj}{m}{n}{50}}%
   \newcommand\formatchapter[1]{%
-    \vbox to \ht\strutbox{%
-    \setbox0=\hbox{\chapterNumber\thechapter\hspace{10pt}\vline\ }%
-    \advance\hsize-\wd0 \advance\hsize-10pt\raggedright%
-    \spacedallcaps{#1}\vss}}
+  \vbox{% <--- Removed 'to \ht\strutbox' so it can expand vertically
+      \setbox0=\hbox{\chapterNumber\thechapter\hspace{10pt}\vline\ }%
+      \advance\hsize-\wd0 \advance\hsize-10pt\raggedright%
+      \spacedallcaps{#1}% <--- Removed '\vss'
+    }}%
   \titleformat{\chapter}[block]%
      {\normalfont\Large\sffamily}%
      {\textcolor{CTsemi}{\chapterNumber\thechapter}%
@@ -341,13 +348,6 @@
   pdfcreator={lualatex},%
   pdfproducer={LaTeX with classicthesis}%
 }
-
-% Change size of footnote number in text
-\makeatletter
-\renewcommand*{\@makefnmark}{%
-  \hbox{\@textsuperscript{\normalfont\footnotesize\color{CTlink}\@thefnmark}}%
-}
-\makeatother
 
 % ********************************************************************
 % Setup autoreferences (hyperref and babel)
@@ -475,6 +475,19 @@
 \renewcommand{\theassumption}{(A\thechapter.\arabic{assumption})} % Modify numbering format
 \renewcommand{\theassumptionalt}{(A\thechapter.\arabic{assumption}')} % Modify numbering format
 
+% Proofs with spaced low small caps title
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par
+  \pushQED{\qed}%
+  \normalfont \topsep5\p@\@plus5\p@\relax
+  \trivlist
+  \item[\hskip\labelsep
+        \slsc{#1\@addpunct{.}}]\ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+\makeatother
+
 % Description list for Symbols glossary
 \newenvironment{symbolsdesc}[1][]{\begin{description}[#1]
     % Remove the colon just for this list:
@@ -482,8 +495,18 @@
    \let\item\smartitem}
   {\end{description}}
 
+% Define a custom description list that automatically adds 
+% curly brackets to protect the label when inserting 
+% square brackets (e.g. for math symbols)
+\let\standarditem\item
+\NewDocumentCommand{\smartitem}{o}{%
+  \IfNoValueTF{#1}
+    {\standarditem}            % If no brackets used, behave normally
+    {\standarditem[{#1}]}      % If brackets used, protect them with curly braces
+}
+
+% Section with bigger title
 \newcommand{\bigsection}[1]{%
-    % Temporarily make this section \Large
     \titleformat{\section}
         {\relax}{\textsc{\MakeTextLowercase{\thesection}}}{1em}{\Large\spacedlowsmallcaps}%
     \section*{#1}%
@@ -493,6 +516,10 @@
 \newcommand{\textemph}[1]{\color{uam-ciencias}{#1}}
 % Copyleft symbol
 \newcommand{\copyleft}{\reflectbox{\textcopyright}}
+% Margin note one line below
+\newcommand{\marginparlow}[1]{%
+  \leavevmode\marginpar{#1}\ignorespaces
+}
 
 % ****************************************************************************************************
 % 7. Further adjustments (experimental)
@@ -505,7 +532,7 @@
 %\setlength{\marginparsep}{2em}%
 
 % ********************************************************************
-% Using different fonts
+% Alternative fonts
 % ********************************************************************
 %% Alternative \mathcal symbols
 % 1. eucal
