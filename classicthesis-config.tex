@@ -135,7 +135,7 @@
 
 \PassOptionsToPackage{fleqn}{amsmath}       % math environments and more by the AMS
   \usepackage{amsmath}
-\usepackage{amssymb, amsthm, mathrsfs}
+\usepackage{amssymb, amsthm, mathrsfs, dsfont}
 % ********************************************************************
 % General useful packages
 % ********************************************************************
@@ -202,14 +202,56 @@
 % Load hyperref and classicthesis last
 \PassOptionsToPackage{hyperfootnotes=true}{hyperref}
 \usepackage{classicthesis}
+\usepackage{eso-pic} % Load after classicthesis to avoid xcolor conflict
+
 \definecolor{uam}{RGB}{0,119,200}
+\definecolor{uam-mute}{RGB}{70, 115, 145}
 \definecolor{uam-ciencias}{RGB}{28,93,145}
 \definecolor{dark-gray}{gray}{0.1}
+\definecolor{mid-gray}{gray}{0.35}
 
-\definecolor{CTcitation}{named}{uam} %teal
+\definecolor{CTcitation}{named}{uam-ciencias} %teal
 \definecolor{CTurl}{named}{uam-ciencias}
 \definecolor{CTtitle}{named}{uam-ciencias}
-\definecolor{CTlink}{named}{uam} % teal
+\definecolor{CTlink}{named}{uam-ciencias} % teal
+\definecolor{CTsemi}{named}{uam-ciencias}
+
+
+%********************************************************************
+% Cover page
+%*******************************************************
+% Uncomment the line below get colored cover page
+%\newcommand{\colorcover}{}  
+
+% --- Conditional Filename Logic ---
+\ifdefined\colorcover
+  \newcommand{\coverfilename}{uam-full}
+\else
+  \newcommand{\coverfilename}{uam-full-bw}
+\fi
+\newcommand\BackgroundPic{%
+	\put(0,325){%
+		\parbox[b][\paperheight]{0.675\paperwidth}{%
+			\vfill
+			\centering
+			\includegraphics[width=0.45\paperwidth,height=\paperheight,%
+			keepaspectratio]{\coverfilename}%
+			\vfill
+    }
+  }
+}
+%% Check page alignment visually on the pdf
+% \AddToShipoutPictureBG{%
+%   \AtPageCenter{\color{red}\circle*{5}}% Marks the dead center point
+%   \AtPageCenter{\color{red}\line(1,0){500}}% Horizontal center axis
+%   \AtPageCenter{\color{red}\line(-1,0){500}}
+%   \AtPageCenter{\color{red}\line(0,1){500}}% Vertical center axis
+%   \AtPageCenter{\color{red}\line(0,-1){500}}
+% }
+
+%********************************************************************
+% Classicthesis custom settings
+%*******************************************************
 
 % Globally sets all itemize and enumerate lists to hug the left margin and adjust vertical spacing
 \setlist[itemize]{itemsep=1pt,leftmargin=*}
@@ -240,7 +282,7 @@
 %% Add more TOC Spacing
 \makeatletter
 % Adjust spacing before a Chapter entry 
-\setlength{\cftbeforechapskip}{0.15pc} 
+\setlength{\cftbeforechapskip}{0.2pc} 
 % Adjust spacing before a Section entry 
 \setlength{\cftbeforesecskip}{0.15pc}  
 % Adjust spacing before a Subsection entry
@@ -495,6 +537,34 @@
    \let\item\smartitem}
   {\end{description}}
 
+
+% Annotation after chapter title
+\newenvironment{flushannotation}[2][mid-gray]{%
+\begin{flushright}%
+    \begin{minipage}{0.65\textwidth}%
+    \raggedleft\itshape\small\color{#1}%
+    #2%
+}{%
+    \end{minipage}%
+  \end{flushright}%
+  \vspace{1.5em}%
+}
+
+% Quotation after chapter title
+\newenvironment{flushquote}[3][mid-gray]{%
+\begin{flushright}%
+    \begin{minipage}{0.65\textwidth}%
+    \raggedleft\slshape\small\color{#1}%
+    #2\\ \medskip%
+    {\normalfont ---\, #3}%
+}{%
+    \end{minipage}%
+  \end{flushright}%
+  \vspace{1.5em}%
+}
+
+
+
 % Define a custom description list that automatically adds 
 % curly brackets to protect the label when inserting 
 % square brackets (e.g. for math symbols)
@@ -513,13 +583,14 @@
 }
 
 % Emphasis color for tables (if using bold or italics, use their math-mode versions)
-\newcommand{\textemph}[1]{\color{uam-ciencias}{#1}}
+\newcommand{\textemph}[1]{\color{CTsemi}{#1}}
 % Copyleft symbol
 \newcommand{\copyleft}{\reflectbox{\textcopyright}}
 % Margin note one line below
 \newcommand{\marginparlow}[1]{%
   \leavevmode\marginpar{#1}\ignorespaces
 }
+
 
 % ****************************************************************************************************
 % 7. Further adjustments (experimental)
@@ -538,13 +609,13 @@
 % 1. eucal
 %\usepackage[mathcal]{eucal}  
 % 2. mathscr
-\let\mathcal\mathscr
+%\let\mathcal\mathscr
 % 3. garamond
-% \setmathfont{Garamond-Math}[
-%     range        = {cal, bfcal}, % Applies to \mathcal and bold \mathcal
-%     StylisticSet = 3,            % Triggers Stylistic Set 3
-%     Scale        = MatchUppercase % Ensures it doesn't look too big/small next to Pagella
-% ]
+ \setmathfont{Garamond-Math}[
+     range        = {cal, bfcal}, % Applies to \mathcal and bold \mathcal
+     StylisticSet = 3,            % Triggers Stylistic Set 3
+     Scale        = MatchUppercase % Ensures it doesn't look too big/small next to Pagella
+ ]
 %\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
 
 %% Default math font with optional scale

@@ -17,8 +17,16 @@
     \WarningFilter{scrbook}{Usage of package `titlesec'}
     %\WarningFilter{scrreprt}{Activating an ugly workaround}
     \WarningFilter{titlesec}{Non standard sectioning command detected}
+
+%\newcommand{\printing}{} % Uncomment for twoside (printing), leave commented for oneside
+\ifdefined\printing
+  \PassOptionsToClass{twoside}{scrbook}
+\else
+  \PassOptionsToClass{oneside}{scrbook}
+\fi
+
 \documentclass[
-    oneside,openright,titlepage,numbers=noenddot,%1headlines,
+    openright,titlepage,numbers=noenddot,%1headlines,
     headinclude,footinclude,cleardoublepage=empty,%abstract=on,
     BCOR=5mm,paper=a4,fontsize=11pt,%toc=bibliography,
 ]{scrbook}
@@ -33,31 +41,10 @@
 %*******************************************************
 \addbibresource{bibliography.bib}
 
+
 %********************************************************************
-% Cover page
+% Document
 %*******************************************************
-\usepackage{eso-pic} % Load after classicthesis to avoid xcolor conflict
-\newcommand\BackgroundPic{%
-	\put(0,325){%
-		\parbox[b][\paperheight]{0.675\paperwidth}{%
-			\vfill
-			\centering
-			\includegraphics[width=0.45\paperwidth,height=\paperheight,%
-			keepaspectratio]{figures/uam-full-bw}%
-			\vfill
-    }
-  }
-}
-%% Check page alignment visually on the pdf
-% \AddToShipoutPictureBG{%
-%   \AtPageCenter{\color{red}\circle*{5}}% Marks the dead center point
-%   \AtPageCenter{\color{red}\line(1,0){500}}% Horizontal center axis
-%   \AtPageCenter{\color{red}\line(-1,0){500}}
-%   \AtPageCenter{\color{red}\line(0,1){500}}% Vertical center axis
-%   \AtPageCenter{\color{red}\line(0,-1){500}}
-% }
-
-
 \begin{document}
 \frenchspacing
 \raggedbottom
@@ -91,12 +78,7 @@
 % Backmatter
 %*******************************************************
 \appendix
-\ctparttext{You can put some informational part preamble text here.
-Illo principalmente su nos. Non message \emph{occidental} angloromanic
-da. Debitas effortio simplificate sia se, auxiliar summarios da que,
-se avantiate publicationes via. Pan in terra summarios, capital
-interlingua se que. Al via multo esser specimen, campo responder que
-da. Le usate medical addresses pro, europa origine sanctificate nos se.}
+%\ctparttext{You can put some informational part preamble text here.}
 %\renewcommand{\thechapter}{\alph{chapter}}
 \cleardoublepage
 %\part*{Appendix}
@@ -108,7 +90,6 @@ da. Le usate medical addresses pro, europa origine sanctificate nos se.}
 %\pdfbookmark[-1]{Back Matter}{back} % Dummy part bookmark for back matter
 \cleardoublepage\include{frontbackmatter/bibliography}
 \cleardoublepage\include{frontbackmatter/colophon}
-
 
 \end{document}
 % ********************************************************************

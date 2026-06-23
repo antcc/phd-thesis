@@ -2,7 +2,7 @@
 \chapter{Introduction}\label{ch:introduction}
 %************************************************
 
-\note{Definir proceso estocástico X con trayectorias en L2 y quizás después decir que suponemos que son continuas. Observado en un grid denso.}
+\note{Definir proceso estocástico X en [0,T] con trayectorias en L2 y quizás después decir que suponemos que son continuas. Observado en un grid denso. Asumimos T=1.}
 
 \note{Contributions? chapter-by-chapter? mencionar los artículos explícitamente. decir hay una partial reproduction?}
 
@@ -32,6 +32,21 @@ Now, a particularly useful approach in statistics is to regard \(\Hcal(K)\) as a
 \end{equation*}
 and can be formally defined, in terms of its inverse, as \(\Psi^{-1}_X(U)(t) = \E[U X(t)]\) for \(U \in \mathcal L(X)\).
 Despite the close connection between the process \(X\) and the space \(\Hcal(K)\), special care must be taken when dealing with concrete realizations, since in general the trajectories of \(X\) do not belong to the corresponding \acs{RKHS} with probability one \citep[][Corollary~7.1]{lukic2001stochastic}. As a consequence, the expression \(\dotprod{x}{f}_K\) is ill-defined and lacks meaning when \(x\) is a realization of \(X\). However, following Parzen's approach in his seminal work \citep[][Theorem~4E]{parzen1961approach}, we can leverage Loève's isometry and identify \(\dotprod{X}{f}_K\) with the random variable in \(\mathcal L(X)\) associated with \(f\in \Hcal(K)\), so that \(\dotprod{x}{f}_K \) with \(x=X(\omega)\) is defined as the image \(\Psi_x(f) := \Psi_X(f)(\omega)\). This notation, viewed as a formal extension of the inner product, often proves to be useful and convenient.
+
+\section{Bayesian inference}
+
+We follow the path started by \citet{ferguson1974prior} of setting a prior distribution on a functional space and using the corresponding posterior distribution for inference. In our case, we use a particular RKHS as the ambient space, resulting in functional regression models that allow for a simple yet efficient Bayesian treatment of functional data.
+
+\section{Posterior consistency}
+
+
+Moreover, we also study the basic theoretical question of posterior consistency in these RKHS models within the proposed Bayesian framework. Consistency and posterior concentration are a type of frequentist validation criteria that have arguably been an active point of research in the last few decades, particularly in infinite-dimensional settings \citep[see][]{ghosal2017fundamentals}, and also in the functional regression case \citep[e.g.][]{lian2016posterior,abraham2020posterior}. To put it simply, posterior consistency ensures that with enough data points, the Bayesian updating mechanism works as intended and the posterior distribution eventually concentrates around the true value of the parameters, supposing the model is well specified. 
+
+\section{RJMCMC}
+
+
+Following recent trends in Bayesian computation techniques, the posterior distribution is approximated via Markov chain Monte Carlo (MCMC) methods, specifically the \textit{reversible jump} variant (RJMCMC) proposed by \citet{green1995reversible}. 
+
 
 %*****************************************
 %*****************************************

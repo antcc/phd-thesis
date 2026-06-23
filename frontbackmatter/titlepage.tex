@@ -118,13 +118,12 @@
 
     \begingroup
         \vspace{-0.4\baselineskip}
-        %\color{uam}
-        \hspace*{0cm}\vbox{\hrule width 6.45cm height 0.5pt}\\
+        \ifdefined\colorcover\color{uam}\fi
+        \hspace*{0cm}\vbox{\hrule width 5.85cm height 0.5pt}\\
         
         \vspace{.3\baselineskip}
-        %\color{uam-ciencias}
+        \ifdefined\colorcover\color{uam-ciencias}\else\color{dark-gray}\fi
         \cambriafont
-        \color{dark-gray}
         \myFaculty \\
         \myDepartment \\
     \endgroup
