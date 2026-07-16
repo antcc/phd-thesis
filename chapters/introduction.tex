@@ -19,7 +19,10 @@ As the name suggests, \acs{FDA} techniques are heavily inspired by functional an
 
 
 
+
 \section{Essentials on reproducing kernel Hilbert spaces}
+
+\note{RKHS as ambient space}
 
 The methodology proposed in this work relies heavily on the use of \acs{RKHSs}, so we will briefly outline the main characteristics of these spaces from a probabilistic point of view \citep[for a more detailed account, see][]{berlinet2004reproducing}. Let us denote by \(K(t, s)= \mathbb E[X(t)X(s)]\) the covariance function (the ``kernel'') of the centered process \(X\), and in what follows suppose that it is continuous. To construct the corresponding \acs{RKHS} \(\Hcal(K)\), we start by defining the functional space \(\Hcal_0(K)\) of all finite linear combinations of evaluations of \(K\), that is,
 \begin{equation}\label{eq:h0}
@@ -35,6 +38,8 @@ and can be formally defined, in terms of its inverse, as \(\Psi^{-1}_X(U)(t) = \
 Despite the close connection between the process \(X\) and the space \(\Hcal(K)\), special care must be taken when dealing with concrete realizations, since in general the trajectories of \(X\) do not belong to the corresponding \acs{RKHS} with probability one \citep[][Corollary~7.1]{lukic2001stochastic}. As a consequence, the expression \(\dotprod{x}{f}_K\) is ill-defined and lacks meaning when \(x\) is a realization of \(X\). However, following Parzen's approach in his seminal work \citep[][Theorem~4E]{parzen1961approach}, we can leverage Loève's isometry and identify \(\dotprod{X}{f}_K\) with the random variable in \(\mathcal L(X)\) associated with \(f\in \Hcal(K)\), so that \(\dotprod{x}{f}_K \) with \(x=X(\omega)\) is defined as the image \(\Psi_x(f) := \Psi_X(f)(\omega)\). This notation, viewed as a formal extension of the inner product, often proves to be useful and convenient.
 
 \section{Bayesian inference}
+
+\note{Bayesian+FDA no está demasiado desarrollado --> hay que manejar probabilidades en espacios de dimensión infinita}
 
 We follow the path started by \citet{ferguson1974prior} of setting a prior distribution on a functional space and using the corresponding posterior distribution for inference. In our case, we use a particular RKHS as the ambient space, resulting in functional regression models that allow for a simple yet efficient Bayesian treatment of functional data.
 
