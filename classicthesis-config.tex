@@ -136,6 +136,7 @@
 \PassOptionsToPackage{fleqn}{amsmath}       % math environments and more by the AMS
   \usepackage{amsmath}
 \usepackage{amssymb, amsthm, mathrsfs, dsfont}
+\usepackage{bigints}
 % ********************************************************************
 % General useful packages
 % ********************************************************************
@@ -452,6 +453,7 @@
 \newcommand{\tTheta}{\tilde{\Theta}}
 \newcommand{\I}{\mathbb{I}}
 \newcommand{\pp}{\mathbb{P}}
+\newcommand{\qq}{\mathbb{Q}}
 
 \DeclareMathOperator{\var} {Var}
 \DeclareMathOperator{\cov} {Cov}
@@ -590,7 +592,10 @@
 \newcommand{\marginparlow}[1]{%
   \leavevmode\marginpar{#1}\ignorespaces
 }
-
+% Proof margin note
+\newcommand{\marginproof}[1]{%
+  \marginparlow{\(\hookrightarrow\) Proof [p.~\pageref{#1}].}
+}
 
 % ****************************************************************************************************
 % 7. Further adjustments (experimental)

@@ -2,7 +2,7 @@
 \chapter{Introduction}\label{ch:introduction}
 %************************************************
 
-\note{Definir proceso estocástico X en [0,T] con trayectorias en L2 y quizás después decir que suponemos que son continuas ( In addition, we will assume that \(X\) has a version with continuous sample paths, so that point evaluation is well-defined.). Observado en un grid denso. Asumimos T=1.}
+\note{Definir proceso estocástico X en [0,T] con trayectorias en L2 y quizás después decir que suponemos que son continuas ( In addition, we will assume that \(X\) has a version with continuous sample paths, so that point evaluation is well-defined.). Observado en un grid denso. Asumimos T=1. ASUMIMOS COVARIANZA ESTRICTAMENTE DEF. POS. to ensure identifiability}
 
 \note{Contributions? chapter-by-chapter? mencionar los artículos explícitamente. decir hay una partial reproduction?}
 
@@ -45,8 +45,65 @@ We follow the path started by \citet{ferguson1974prior} of setting a prior distr
 
 \section{Posterior consistency}
 
+Moreover, we also study the basic theoretical question of posterior consistency in these RKHS models within the proposed Bayesian framework. Consistency and posterior concentration are a type of frequentist validation criteria that have arguably been an active point of research in the last few decades, particularly in infinite-dimensional settings. To put it simply, posterior consistency ensures that with enough data points, the Bayesian updating mechanism works as intended and the posterior distribution eventually concentrates around the true value of the parameters, supposing the model is well specified. For an in-depth treatment of posterior consistency and related concepts, we refer the reader to \citet{ghosal2017fundamentals}.
 
-Moreover, we also study the basic theoretical question of posterior consistency in these RKHS models within the proposed Bayesian framework. Consistency and posterior concentration are a type of frequentist validation criteria that have arguably been an active point of research in the last few decades, particularly in infinite-dimensional settings \citep[see][]{ghosal2017fundamentals}, and also in the functional regression case \citep[e.g.][]{lian2016posterior,abraham2020posterior}. To put it simply, posterior consistency ensures that with enough data points, the Bayesian updating mechanism works as intended and the posterior distribution eventually concentrates around the true value of the parameters, supposing the model is well specified. 
+Consider the general setting of an i.i.d.\ sample \(X_1,\dots, X_n\) from a random variable \(X\) taking values in a certain space \(\mathcal X\). Let us fix a prior distribution \(\Pi\) for random variables \(\theta\) on the parameter space \(\Theta\), that is, \(\theta \sim \Pi\), and let \(P_\theta\) represent a sampling model (a distribution on \(\mathcal X\) indexed by \(\theta \in \Theta\)) such that \(X | \theta \sim P_{\theta}\). Furthermore, assume that the model is well-specified, i.e., there is a true value \(\theta_{0}\in\Theta\) such that \(X \sim P_{\theta_0}\), and denote by \(P_0^\infty\) and \(P_0^{(n)}\) the joint probability measure of \((X_1, X_2, \dots)\) and \((X_1, X_2, \dots, X_n)\), respectively, when \(\theta_0\) is the true value of the parameter.
+
+\begin{definition}\marginparlow{For a metric space, the neighborhoods \(B\) can just be the open balls around \(\theta_0\).}
+We say that the posterior distribution is (strongly) consistent at \(\theta_0\) if for every neighborhood \(B\) of \(\theta_0\) we have
+  \[
+    \lim_{n\to\infty} \Pi_n(\theta \in B \mid X_1, \dots, X_n) = 1 \quad P_0^\infty-\text{a.s.}
+  \]
+\end{definition}
+
+Note that the conditional probabilities are computed under the assumed joint distribution of \((\theta, (X_1, X_2,\dots))\). Essentially, we are saying that the posterior concentrates around \(\theta_0\) for almost all sequences of data, and thus the effect of the prior gets diluted as more and more data is available for the inference. Furthermore, when the parameter space carries a metric, say \(d\), we are also interested in the speed at which the posterior approaches the true parameter \(\theta_0\). This is what we call a \textit{posterior contraction rate}, which is a significant refinement of the comparatively weaker concept of consistency.
+
+\begin{definition}
+  A sequence \(\epsilon_n\to 0\) is a posterior contraction rate at \(\theta_0\) with respect to \(d\) if \(\Pi_n(\theta: d(\theta_0, \theta) \geq M_n \epsilon_n | X_1,\dots, X_n) \to 0\) in \(P_0^{(n)}\)-probability, for every \(M_n\to\infty\).
+\end{definition}
+
+Naturally, once we have established a contraction rate, every slower sequence is also a valid contraction rate. Even though we are interested in the fastest possible rate, this is often difficult to compute or does not exist at all. Hence, we are usually content with finding a good enough rate, which we call ``the'' rate of contraction for the model.
+
+It turns out that, under very general conditions, the posterior distribution is always consistent at almost every value of \(\theta_0\) with respect to the measure induced by the prior \citep{doob1949application}. We state this classical result in the general setting introduced earlier.
+
+\begin{theorem}[Doob's consistency theorem]\label{th:doob}
+  Let the state space \(\mathcal X\) and the parameter space \(\Theta\) be complete separable metric spaces, endowed with their respective Borel sigma-algebras. If \(\theta \mapsto P_\theta\) is one-to-one and \(\theta \mapsto P_\theta(A)\) is measurable for all measurable sets \(A\subseteq \mathcal X\), then the posterior distribution is consistent at \(\Pi\)-almost all values of \(\Theta\). That is, there exists \(\Theta_*\subseteq \Theta\) such that \(\Pi(\Theta_*)=1\) and for all \(\theta_0\in\Theta_*\), if \(X_1,X_2,\ldots \sim P_{\theta_0}\) i.i.d., then for any neighborhood \(B\) of \(\theta_0\) we have
+  \[
+    \lim_{n\to\infty} \Pi_n(\theta \in B \mid X_1,\dots, X_n) = 1 \quad P_{0}^\infty-\text{a.s.}
+  \]
+\end{theorem}
+
+\note{EXPLICAR NOTACION O PEQUEÑA, O GRANDE Y O EN PROBABILIDAD}
+
+Now we introduce a few concepts that lie at the core of most extensions of Schwartz's consistency theorem. Recall that the Kullback-Leibler divergence from \(f_0\) to \(f_\theta\) is defined as \(\dkl(f_0 \,\|\, f_\theta) = \int f_0 \log (f_0/f_\theta)\, d\rho\). We say that \(f_0\) belongs to the \textit{Kullback-Leibler support of \(\Pi_{\mathcal F}\)}, and write it as \(f_0 \in \kl(\Pi_{\mathcal F})\), if \(\Pi_{\mathcal F}\left(f_\theta: \dkl(f_0 \,\|\, f_\theta) < \epsilon\right) > 0\) for all \(\epsilon > 0\). This can be interpreted as saying that the prior places sufficient mass ``near'' \(f_0\). On the other hand, let \(N(\epsilon, \mathcal F, d)\) denote the \(\epsilon\)-covering number of the set \(\mathcal F\) with respect to the distance \(d\), i.e., the minimal number of \(d\)-balls of radius \(\epsilon\) needed to cover \(\mathcal F\). Finally, define the Hellinger distance \(d_H\) between two densities (with respect to \(\rho\)) as \(d^2_H(f_\theta, f_{\theta'}) = 1 - \int \sqrt{f_\theta f_{\theta'}}\, d\rho\). The following result will give us consistency in the sense of Schwartz, by means of a sieve that controls the complexity of the model as the sample size \(n\) increases, measured in terms of the \textit{metric entropy} (the logarithm of the \(\epsilon\)-covering number) of the model.
+
+\begin{theorem}[Theorem 6.23 in \citet{ghosal2017fundamentals}]\label{th:consistency-hellinger}
+  Suppose that for every \(\epsilon > 0\) there exist measurable sets \(\mathcal F_n \subseteq \mathcal F\) and a constant \(C>0\) such that, for sufficiently large \(n\), (i) \(\log N(\epsilon, \mathcal F_n, d_H) \leq n\epsilon^2\) and (ii) \(\Pi_{\mathcal F}(\mathcal F \setminus \mathcal F_n) \leq \exp\{-Cn\}\). Then the posterior distribution is consistent relative to \(d_H\) at every \(f_0\in \kl(\Pi_{\mathcal F})\).
+\end{theorem}
+
+To find posterior contraction rates for our model we consider an extension of Theorem~\ref{th:consistency-hellinger} that employs the so-called \textit{second Kullback-Leibler variation}, defined by \(V_2(f_0, f_\theta)=\E_{f_0}[(\log(f_0/f_\theta) - \dkl(f_0 \,\|\, f_\theta))^2]\), to quantify the Kullback-Leibler property of \(f_0\) in terms of convergence speed. In particular, for \(\epsilon>0\) we consider the neighborhood
+\[
+B_2(f_0, \epsilon) = \{f\in \mathcal F: \dkl(f_0 \,\|\, f_\theta) < \epsilon^2,\  V_2(f_0, f_\theta) < \epsilon^2\}.
+\]
+
+\begin{theorem}[Theorem~8.9 in \citet{ghosal2017fundamentals}]\label{th:contraction-rate}
+  Suppose that there exist measurable sets \(\mathcal{F}_n \subseteq \mathcal F\) and a constant \( C > 0 \) such that, for a sequence \(\epsilon_n \to 0\) with \( n\epsilon_n^2 \to \infty\), the following hold for sufficiently large \(n\):
+  \begin{enumerate}[label=(\roman*)]
+    \item \( \log N(\epsilon_n/2, \mathcal{F}_n, d_H) \leq n \epsilon_n^2\).
+    \item \( \Pi_{\mathcal F}(\mathcal{F} \setminus \mathcal{F}_n) \leq \exp\{-(C+4)n \epsilon_n^2\}\).
+    \item \( \Pi_{\mathcal F}(B_2(f_0, \epsilon_n)) \geq \exp\{-C n\epsilon_n^2\}\).
+  \end{enumerate}
+  Then the posterior rate of contraction at \(f_0 \) with respect to \(d_H\) is \(\epsilon_n \).
+\end{theorem}
+
+Note that the condition \(n\epsilon_n^2\to\infty\) excludes the parametric rate \(n^{-1/2}\), since in nonparametric situations the rates are usually slower. Condition (i) bounds the complexity of the model, condition (ii) merely expresses that subsets of negligible prior mass do not play a role in the rate of contraction, and condition (iii) ensures that sufficient prior mass is put ``near'' the true density \(f_0\).
+
+For the consistency results, we introduce the notation \(a\lesssim b\) to mean inequality up to a multiplicative positive constant. We write \(g(n)=O(h(n))\) for positive functions \(g\) and \(h\) if there exist \(C,n_0>0\) such that \(g(n)\leq Ch(n)\) for all \(n\geq n_0\). Intuitively, this means that \(g(n)\) is of order smaller than or equal to \(h(n)\), i.e., \(\lim\sup_{n\to\infty} g(n)/h(n) < \infty\). Moreover, we say that \(g(n)=o(h(n))\) if for every \(c>0\) there exists \(n_0\in\mathbb{N}\) such that \(g(n)\leq ch(n)\) for all \(n\geq n_0\). Equivalently, this means that \(g(n)\) grows much slower than \(h(n)\), i.e., \(\lim_{n\to\infty} g(n)/h(n) = 0\).
+
+Additionally, when the process \(X\) is understood as a mapping \(X:\Omega \to \mathcal C[0,1]\), we will make frequent use of the correspondence \(\mathbb E[g(X)]=\mathbb E_{\qq_X}[g]\) for a measurable function \(g\) on \(\mathcal C[0,1]\), where the latter quantity is an integral in the Bochner sense. In a similar vein, if \(e_t:\mathcal C[0,1]\to \mathbb R\) is the evaluation functional \(x\mapsto x(t)\), given \(h:\mathbb R \to \mathbb R\) we will denote \(\mathbb E_{\qq_X}[h\circ e_t]\) by \(\mathbb E_{\qq_X}[h(x(t))]\). In particular, for \(h=id\) we have
+\[
+  \mathbb E_{\qq_X}[x(t)]:=\mathbb E_{\qq_X}[e_t]=\mathbb E[e_t(X)]=\mathbb E[X(t)].
+\]
 
 \section{RJMCMC}
 
