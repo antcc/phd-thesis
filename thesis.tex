@@ -13,12 +13,15 @@
 % Copyright (c) 2025 André Miede and Ivo Pletikosić
 %***********************************************************************
 
-\RequirePackage{silence} % :-\
-    \WarningFilter{scrbook}{Usage of package `titlesec'}
-    %\WarningFilter{scrreprt}{Activating an ugly workaround}
-    \WarningFilter{titlesec}{Non standard sectioning command detected}
+%******************************
+% Document layout options
+%******************************
+% Uncomment for twoside (printing), leave commented for oneside
+%\newcommand{\printing}{}
 
-%\newcommand{\printing}{} % Uncomment for twoside (printing), leave commented for oneside
+% Uncomment for adding Spanish abstract and conclusions
+%\newcommand{\spanishAbstractConclusions}{}
+
 \ifdefined\printing
   \PassOptionsToClass{twoside}{scrbook}
 \else
@@ -59,6 +62,9 @@
 %\cleardoublepage\include{frontbackmatter/dedication}
 %\cleardoublepage\include{frontbackmatter/acknowledgments}
 \cleardoublepage\include{frontbackmatter/abstract}
+\ifdefined\spanishAbstractConclusions
+  \cleardoublepage\include{frontbackmatter/abstract-spanish}
+\fi
 \cleardoublepage\include{frontbackmatter/contents}
 %********************************************************************
 % Mainmatter
@@ -74,6 +80,9 @@
 \include{chapters/functional-testing}
 \include{chapters/rjmcmc}
 \include{chapters/conclusions}
+\ifdefined\spanishAbstractConclusions
+  \include{chapters/conclusions-spanish}
+\fi
 % ********************************************************************
 % Backmatter
 %*******************************************************
@@ -82,7 +91,9 @@
 %\renewcommand{\thechapter}{\alph{chapter}}
 \cleardoublepage
 %\part*{Appendix}
+\include{chapters/appendix-comparison-test}
 \include{chapters/appendix-tables}
+\include{chapters/appendix-source}
 
 %********************************************************************
 % Other Stuff in the Back

@@ -142,6 +142,7 @@
 % ********************************************************************
 \usepackage{graphicx} %
 \graphicspath{ {./figures/} }
+\usepackage[section]{placeins}  % So that figures do not float past sections
 \usepackage{enumitem} %
 \usepackage{scrhack} % fix warnings when using KOMA with listings package
 \usepackage{xspace} % to get the spacing after macros right
@@ -454,6 +455,7 @@
 \newcommand{\I}{\mathbb{I}}
 \newcommand{\pp}{\mathbb{P}}
 \newcommand{\qq}{\mathbb{Q}}
+\newcommand{\mslab}{m_{\text{slab}}}
 
 \DeclareMathOperator{\var} {Var}
 \DeclareMathOperator{\cov} {Cov}
@@ -464,7 +466,7 @@
 \DeclareMathOperator{\bff} {BF}
 \DeclareMathOperator{\gp} {GP}
 \DeclareMathOperator{\diag} {diag}
-
+\DeclareMathOperator{\BM}{BM}
 % Dot product
 \newcommand\dotprod[2]{\left\langle#1,#2\right\rangle}
 % Test over sim symbol
@@ -596,6 +598,10 @@
 \newcommand{\marginproof}[1]{%
   \marginparlow{\(\hookrightarrow\) Proof [p.~\pageref{#1}].}
 }
+
+%% Emphasis colors for tables
+\newcommand\firstcolor[1]{\textbf{#1}}
+\newcommand\secondcolor[1]{{\color{uam-ciencias}\textit{#1}}}
 
 % ****************************************************************************************************
 % 7. Further adjustments (experimental)

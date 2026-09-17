@@ -62,16 +62,20 @@
     \chapter*{Acronyms}
 
     % \acrodef hides the acronym from the list of acronyms
-    \begin{acronym}[RJMCMC]
+    \begin{acronym}[RJMCMCXX]
         \acro{FDA}{Functional Data Analysis}
         \acro{FPCA}{Functional Principal Component Analysis}
         \acro{GP}{Gaussian Process}
-        \acro{MAP}{Maximum A Posteriori}
+        \acrodef{GPs}[GP's]{Gaussian Processes}
+        \acro{GBM}{Geometric Brownian Motion}
         \acro{MCMC}{Markov Chain Monte Carlo}
+        \acro{MAP}{Maximum A Posteriori}
         \acro{MLE}{Maximum Likelihood Estimator}
-        \acro{RJMCMC}{Reversible Jump Markov Chain Monte Carlo}
+        \acro{ROPE}{Region of Practical Equivalence}
         \acro{RKHS}{Reproducing Kernel Hilbert Space}
         \acrodef{RKHSs}[RKHS's]{Reproducing Kernel Hilbert Spaces}
+        \acro{RJMCMC}{Reversible Jump Markov Chain Monte Carlo}
+        \acro{RMSE}{Root Mean Square Error}
     \end{acronym}
 
     \vspace{6.5ex}
@@ -91,7 +95,10 @@
         \item[\(L^2[0,1]\)] Hilbert space of square integrable functions on \([0,1]\)
         \item[\(\mathcal C[0,1]\)] Banach space of continuous functions on \([0,1]\)
         \item [\(\dotprod{\cdot}{\cdot}_2\)] Inner product on \(L^2[0,1]\)
+        \item [\(\|\cdot\|\)] Euclidean norm or generic matrix norm
+        \item [\(\|\cdot\|_2\)] \(L^2[0,1]\)-norm or spectral norm on matrices
         \item [\(\|\cdot\|_\infty\)] Supremum norm on \(\mathcal C[0,1]\)
+        \item [\(a\lesssim b\)] There exists \(C>0\) such that \(a\leq Cb\)
     \end{symbolsdesc}
     \endgroup
 \endgroup
