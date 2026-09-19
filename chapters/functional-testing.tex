@@ -8,9 +8,7 @@
   \citep{berrendero2026bayesian}.}
 \end{flushannotation}
 
-\noindent Apart from regression and classification techniques, another core problem in statistics involves hypothesis testing for quantities of interest. As such, considerable efforts have been devoted to generalizing classical testing frameworks to functional data, providing \(p\)-values and decision rules based on asymptotic approximations or bootstrap resampling. These methods include frequentist two-sample tests \citep{fan1998test,hall2007two,zhang2010two}, analysis of variance methods \citep{cuevas2004anova, cuesta2010simple, zhang2013analysis}, change point detection procedures \citep{berkes2009detecting,hormann2010weakly}, repeated measures analysis \citep{martinez2011repeated,smaga2020note} or dependence tests in linear regression \citep{cardot2003testing,kokoszka2008testing}, among others. However, the conceptually simpler one-sample tests, often used to detect the presence or absence of a certain effect within a given population, have received less attention in the \acs{FDA} literature. Notable exceptions include proposals by \citet{mas2007testing}, \citet{munk2008one} and \citet{zhang2013analysis}, where the authors explore different tests for the mean of a functional sample.
-
-On the other hand, Bayesian hypothesis testing methods---introduced in modern form by \citet{jeffreys1961theory}---are extensively studied and applied in multivariate settings, offering a principled alternative to the often criticized \(p\)-value approach \citep[see][and references therein]{robert2007bayesian, robert202250}. However, despite their broad adoption, they remain comparatively underdeveloped within the \acs{FDA} framework. We aim to bridge this gap by proposing a Bayesian test for the mean function \(\mu\) of a Gaussian process observed through i.i.d.\ samples, which serves as a building block for more complex statistical analyses. In particular, we provide a method for testing the point-null hypothesis \(H_0: \mu \equiv \mu_0\) versus the composite alternative \(H_1: \mu \not\equiv \mu_0\), where \(\mu_0(\cdot)\) is a predetermined function. We focus on the simple hypothesis of exact equality, in contrast to \textit{precise} or \textit{relevant} hypotheses such as \(H_0^\epsilon: \|\mu-\mu_0\| < \epsilon\) for a given \(\epsilon>0\). Although these precise hypothesis may be useful when an exact zero is not meaningful or reasonable, in a Bayesian framework they can be conceptually encoded in the corresponding point-null hypothesis via prior beliefs, as argued by \citet{berger1987testing}. The proposed test is primarily based on the Bayes factor
+\noindent  \note{Our second goal...... However, despite their broad adoption, they remain comparatively underdeveloped within the \acs{FDA} framework. We aim to bridge this gap by proposing a Bayesian test for the mean function \(\mu\) of a Gaussian process observed through i.i.d.\ samples, which serves as a building block for more complex statistical analyses. In particular, we provide a method for testing the point-null hypothesis \(H_0: \mu \equiv \mu_0\) versus the composite alternative \(H_1: \mu \not\equiv \mu_0\), where \(\mu_0(\cdot)\) is a predetermined function. We focus on the simple hypothesis of exact equality, in contrast to \textit{precise} or \textit{relevant} hypotheses such as \(H_0^\epsilon: \|\mu-\mu_0\| < \epsilon\) for a given \(\epsilon>0\). Although these precise hypothesis may be useful when an exact zero is not meaningful or reasonable, in a Bayesian framework they can be conceptually encoded in the corresponding point-null hypothesis via prior beliefs, as argued by \citet{berger1987testing}. The proposed test is primarily based on the Bayes factor}
 \[
 \bff_{10} = \frac{\pp(\text{data}\mid H_1)}{\pp(\text{data}\mid H_0)},
 \]
@@ -61,7 +59,9 @@ In particular, for our i.i.d.\ sample the joint likelihood becomes
 \begin{equation}\label{eq:likelihood}
   L(X_{1:n}\mid p, \tau, b) = \exp\left\{S_n(\tau)'b - \frac{n}{2}b' K_{\tau} b\right\},
 \end{equation}
-where \(S_n(\tau)=\sum_{i=1}^n (X_i(t_1), \dots, X_i(t_p))'\) and \(K_{\tau}=[K(t_j, t_k)]_{j,k=1}^p\). Then, for \(\theta=(p,\tau,b)\) we consider the parametric hierarchical model\footnote{The implied independence between \(\tau\) and \(b\) (given \(p\)) is just a convenience, and not essential to the model.}
+where \(S_n(\tau)=\sum_{i=1}^n (X_i(t_1), \dots, X_i(t_p))'\) and \(K_{\tau}=[K(t_j, t_k)]_{j,k=1}^p\). 
+
+Then, for \(\theta=(p,\tau,b)\) we consider the parametric hierarchical model
 \begin{equation}\label{eq:model-testing}
   \begin{split}
   p &\sim \pi,\\
@@ -70,14 +70,18 @@ where \(S_n(\tau)=\sum_{i=1}^n (X_i(t_1), \dots, X_i(t_p))'\) and \(K_{\tau}=[K(
   X_{1:n} \mid \theta &\sim \gp(\mu_\theta, K) \quad \text{i.i.d.},
   \end{split}
 \end{equation}
-where \(\pi\), \(\mathfrak{T}_p\) and \(\mathfrak{B}_p\) are probability measures on \(\N\), \(\mathcal T_p\) and \(\R^p\), respectively. We denote by \(\Pi\) the prior distribution on \(\theta\) implied by the model in~\eqref{eq:model-testing}. The prior on the time instants can be chosen freely (e.g.\ uniform on \(\mathcal T_p\)), but the prior on the coefficient vector \(b\) has to be selected carefully, since any continuous distribution will give zero mass to the null event \(\{b=0\}\). To remedy this, we follow a \textit{spike-and-slab} approach reminiscent of Bayesian variable selection in linear regression \citep[e.g.][]{mitchell1988bayesian,ishwaran2005spike}, whereby a fixed mass is assigned to the null hypothesis and the remaining mass is distributed continuously on the alternative. Let \(0<\pi_0<1\) be the prior belief that the null hypothesis is true, and consider
+where \(\pi\), \(\mathfrak{T}_p\) and \(\mathfrak{B}_p\) are probability measures on \(\N\), \(\mathcal T_p\) and \(\R^p\), respectively.\footnote{The implied independence between \(\tau\) and \(b\) (given \(p\)) is just a convenience, and not essential to the model.} We denote by \(\Pi\) the prior distribution on \(\theta\) implied by the model in~\eqref{eq:model-testing}. The prior on the time instants can be chosen freely (e.g.\ uniform on \(\mathcal T_p\)), but the prior on the coefficient vector \(b\) has to be selected carefully, since any continuous distribution will give zero mass to the null event \(\{b=0\}\). To remedy this, we follow a \textit{spike-and-slab} approach reminiscent of Bayesian variable selection in linear regression \citep[e.g.][]{mitchell1988bayesian,ishwaran2005spike}, whereby a fixed mass is assigned to the null hypothesis and the remaining mass is distributed continuously on the alternative. Let \(0<\pi_0<1\) be the prior belief that the null hypothesis is true, and consider
 \begin{equation}\label{eq:prior-b}
   \begin{split}
 \Pi(b\mid p) &= \pi_0 \delta_0(b) + (1-\pi_0)\mathcal N_p(b\mid 0, \eta^2 I_p)\\
   &= \pi_0\Pi_{\text{spike}}(b) + (1-\pi_0)\Pi_{\text{slab}}(b),
   \end{split}
 \end{equation}
-where \(\delta_0\) is a Dirac measure at \(0\) (the ``spike''), \(\eta^2>0\) is a scalar hyperparameter, and \(I_p\) is the identity matrix of order \(p\). The choice of a normal distribution for the ``slab'' prior of \(b\) is not arbitrary; it will be used as a conjugacy device to simplify the posterior distribution later on. Note that this construction induces the priors \(\Pi(H_0)=\pi_0\) and \(\Pi(H_1)=1-\pi_0\), since the null hypothesis is reinterpreted as \(H_0: b=0\).
+where \(\delta_0\) is a Dirac measure at \(0\in \R^p\) (the ``spike''), \(\eta^2>0\) is a scalar hyperparameter, and \(I_p\) is the identity matrix of order \(p\). The mixture notation is a shorthand for a hierarchical representation with a latent indicator \(Z\sim \text{Bernoulli}(\pi_0)\) and conditional distributions 
+\[
+  b\mid Z=1, p \sim \delta_0\quad \text{and}\quad b\mid Z=0, p \sim \mathcal N_p(0, \eta^2 I_p).
+\]
+The choice of a normal distribution for the ``slab'' prior of \(b\) is not arbitrary; it will be used as a conjugacy device to simplify the posterior distribution later on. Note that this construction induces the priors \(\Pi(H_0)=\pi_0\) and \(\Pi(H_1)=1-\pi_0\), since the null hypothesis is reinterpreted as \(H_0: b=0\).
 
 \subsection{Posterior approximation} 
 
@@ -127,9 +131,9 @@ Thus, after a full \acs{RJMCMC} run with \(R\) posterior samples \((p^{(r)}, \ta
   \item If \(Z^{(r)}=1\), set \(b^{(r)}=0\). If \(Z^{(r)}=0\), sample \(b^{(r)}\) from the distribution \(\mathcal N_{p^{(r)}}(\Lambda_{\tau^{(r)}}^{-1}S_n(\tau^{(r)}), \Lambda_{\tau^{(r)}}^{-1})\).
 \end{enumerate}
 
-\subsection{Decision criteria} 
+\section{Decision criteria} 
 
-One of the main advantages of our Bayesian framework is that it naturally provides several posterior metrics to evaluate the evidence against the null hypothesis given the data. 
+One of the main advantages of our Bayesian framework is that it naturally provides several posterior metrics to evaluate the evidence against the null hypothesis given the data. Below we analyze several of these metrics.
 
 
 \paragraph{Posterior null probability} As we said before, the posterior probability of the null \(\Pi_n(b=0|X_{1:n})\) corresponds to \(\E[\mathds{1}\{b=0\}|X_{1:n}]\). We could naively compute the estimator \(R^{-1}\sum_{r} \mathds{1}\{b^{(r)}=0\}\) with our posterior samples, which by the ergodic properties of the \acs{RJMCMC} sampler would indeed converge almost surely to the target probability (under standard assumptions). However, this estimator introduces the Monte Carlo noise of actually sampling \(b^{(r)}\), which is not desirable. Instead, we can use the equivalence
@@ -186,21 +190,31 @@ This ``practical null'' probability is sometimes used to evaluate \(H_0\) when a
 \hat\pi_{\text{ROPE}}(\epsilon) = \frac{1}{R}\sum_{r=1}^R \mathds{1}\left\{\max_{s\in\mathcal S} |\mu^{(r)}(s)| < \epsilon\right\}.
 \]
 
-\subsection{Posterior Summaries and Uncertainty Quantification}\label{sec:posterior-summaries}
+\subsection{Posterior summaries and uncertainty quantification}\label{sec:posterior-summaries}
 
-An additional benefit of the Bayesian framework is that it facilitates posterior inference on the mean function as a by-product of the testing procedure. For example, we can estimate the posterior mean function \(\mu^{\text{PM}}(\cdot)=\E[\mu(\cdot)|X]\) using the conditional expectation strategy again, which is typically much less noisy than averaging posterior draws \(\mu^{(r)}\) directly. Indeed, for a fixed \(s\in[0,1]\) the law of total expectation gives \(\E[\mu(s)|X] = \E[\E[\mu(s)|p, \tau, X]|X]\), and the same variance reduction argument as before applies. In the i.i.d.\ case, the inner posterior expectation admits the closed-form expression 
+An additional benefit of the Bayesian framework is that it facilitates posterior inference on the mean function as a by-product of the testing procedure. For example, we can estimate the posterior mean function \(\mu^{\text{PM}}(\cdot)=\E[\mu(\cdot)|X]\) using the conditional expectation strategy again, which is typically much less noisy than averaging posterior draws \(\mu^{(r)}\) directly. Indeed, for a fixed \(s\in[0,1]\) the law of total expectation gives 
 \[
-\E[\mu(s)|p, \tau, X_{1:n}] = (1-\psi_n(p, \tau))K(\tau, s)'\Lambda_\tau^{-1}S_n(\tau),
+  \E[\mu(s)\mid X] = \E[\E[\mu(s)\mid p, \tau, X]\mid X],
 \]
+and the same variance reduction argument as before applies. In the i.i.d.\ case, the inner posterior expectation admits the closed-form expression 
+\begin{align*}
+\E[\mu(s)\mid p, \tau, X_{1:n}] &= \sum_{j=1}^p \E[\beta_j\mid p, \tau, X_{1:n}]K(t_j, s) \\
+&=(1-\psi_n(p,\tau))K(\tau, s)'\E[b\mid p, \tau, X_{1:n}, \text{slab}]\\
+&= (1-\psi_n(p, \tau))K(\tau, s)'\Lambda_\tau^{-1}S_n(\tau),
+\end{align*}
 where \(K(\tau, s)\) denotes the \(p\times 1\) vector with entries \(K(t_j, s)\), and \(\Lambda_\tau^{-1}S_n(\tau)\) is the posterior expectation of the coefficients under the slab, computed in~\eqref{eq:mean-b-slab}. Consequently, a Monte Carlo estimator of the posterior mean function \(\hat\mu_n^{\text{PM}}(\cdot) = \hat{\E}[\mu(\cdot)|X_{1:n}]\) is given by
 \[
 \hat\mu_n^{\text{PM}}(\cdot) =\frac{1}{R} \sum_{r=1}^R (1-\psi_n(p^{(r)}, \tau^{(r)}))K(\tau^{(r)}, \cdot)'\Lambda_{\tau^{(r)}}^{-1}S_n(\tau^{(r)}),
 \]
 which is then evaluated on the grid \(\mathcal S\). Note that this can be seen as a regularized estimator for \(\mu\) in which a certain weight \(\pi_0\) was placed on it being the zero function.
 
-Along with the posterior expectation of \(\mu\), it is common to report credible bands around it to quantify the uncertainty in the posterior estimation. In particular, for any \(\alpha\in(0,1)\) we compute simultaneous \(1-\alpha\) credible bands, that is, bands that contain the entire function \(\mu\) with posterior probability \(1-\alpha\). The usual approach for constructing such bands is the maximum deviation method described by \citet{crainiceanu2007spatially}. The main idea is to standardize the deviations from the posterior mean by the pointwise posterior standard deviation \(\sigma(s)=\sqrt{\var(\mu(s)|X_{1:n})}\), to obtain bands that adapt to the local uncertainty. In particular, we aim to find a single critical value \(q_{1-\alpha}\) satisfying
+Along with the posterior expectation of \(\mu\), it is common to report credible bands around it to quantify the uncertainty in the posterior estimation. In particular, for any \(\alpha\in(0,1)\) we compute simultaneous \(1-\alpha\) credible bands, that is, bands that contain the entire function \(\mu\) with posterior probability \(1-\alpha\). The usual approach for constructing such bands is the maximum deviation method described by \citet{crainiceanu2007spatially}. The main idea is to standardize the deviations from the posterior mean by the pointwise posterior standard deviation 
 \[
-\Pi_n\left(\sup_{s\in [0,1]}\, \frac{|\mu(s) - \mu^{\text{PM}}(s)|}{\sigma(s)} \leq q_{1-\alpha}| X_{1:n}\right)= 1-\alpha,
+  \sigma(s)=\sqrt{\var(\mu(s)\mid X_{1:n})},
+\]
+to obtain bands that adapt to the local uncertainty. In particular, we aim to find a single critical value \(q_{1-\alpha}\) satisfying
+\[
+\Pi_n\left(\sup_{s\in [0,1]}\, \frac{|\mu(s) - \mu^{\text{PM}}(s)|}{\sigma(s)} \leq q_{1-\alpha} \mathrel{\big\vert} X_{1:n}\right)= 1-\alpha,
 \]
 and then form symmetrical bands \(\{\mu^{\text{PM}}(s) \pm q_{1-\alpha}\sigma(s): s\in [0,1]\}\). In practice, this procedure is carried out on the discretized grid. First, compute the pointwise posterior standard deviation at each grid point \(s\in\mathcal S\) as 
 \[
@@ -210,17 +224,25 @@ Then, for each draw compute the standardized supremum deviation
 \[
 D^{(r)} = \max_{s\in\mathcal S} \frac{|\mu^{(r)}(s) - \hat\mu_n^{\text{PM}}(s)|}{\hat\sigma(s)}.
 \]
-Lastly, find the empirical \(1-\alpha\) quantile \(\hat q_{1-\alpha}\) of \(\{D^{(r)}\}_{r=1}^R\), and construct the credible bands \(\{\hat\mu_n^{\text{PM}}(s) \pm \hat q_{1-\alpha}\,\hat\sigma(s): s \in \mathcal S\}\). Depending on whether the zero function lies entirely within the band, we have another metric to reject \(H_0\) (at probability level \(1-\alpha\)).
+Lastly, find the empirical \(1-\alpha\) quantile \(\hat q_{1-\alpha}\) of \(\{D^{(r)}\}_{r=1}^R\), and construct the credible bands 
+\[
+  \left\{\hat\mu_n^{\text{PM}}(s) \pm \hat q_{1-\alpha}\,\hat\sigma(s): s \in \mathcal S\right\}.
+\]
+Depending on whether the zero function lies entirely within the band, we have another metric to reject \(H_0\) (at probability level \(1-\alpha\)).
 
-\subsection{Estimation of the Covariance Function}\label{sec:covariance-estimation} 
+\section{Estimation of the covariance function}\label{sec:covariance-estimation} 
 
-So far we have treated \(K\) as known, but in practice we rarely have access to the complete covariance function. The \acs{FDA} literature offers a variety of estimation techniques depending on the application and available data, such as maximum likelihood, functional principal component analysis (FPCA), and smooth interpolation methods \citep[e.g.][]{li2010uniform, xiao2018fast, wong2019nonparametric,mbaka2025estimating}. Parametric approaches---both frequentist and Bayesian---are also widely used, but they often require extra assumptions that lead to more complex models. We advocate for a simpler plug-in strategy in which an estimated covariance is computed from the data, and then used in our model as if it were the true covariance. The performance of the plug-in test for finite sample sizes will depend on how well the estimated covariance approximates \(K\), but as we will see in Section~\ref{sec:consistency-plug-in} the asymptotic properties of the test are unaffected if the estimator itself is uniformly consistent.
+So far we have treated \(K\) as known, but in practice we rarely have access to the complete covariance function. The \acs{FDA} literature offers a variety of estimation techniques depending on the application and available data, such as maximum likelihood, functional principal component analysis, and smooth interpolation methods \citep[e.g.][]{li2010uniform, xiao2018fast, wong2019nonparametric,mbaka2025estimating}. Parametric approaches---both frequentist and Bayesian---are also widely used, but they often require extra assumptions that lead to more complex models. We advocate for a simpler plug-in strategy in which an estimated covariance is computed from the data, and then used in our model as if it were the true covariance. The performance of the plug-in test for finite sample sizes will depend on how well the estimated covariance approximates \(K\), but as we will see in Section~\ref{sec:consistency-plug-in}, the asymptotic properties of the test are unaffected if the estimator itself is uniformly consistent.
 
 Denote the sample mean by \(\bar X_n(\cdot) = n^{-1}\sum_i X_i(\cdot)\) and consider the standard empirical covariance estimator
 \[
 \hat C_n(t,s) = \frac{1}{n-1}\sum_{i=1}^n (X_i(t)-\bar X_n(t))(X_i(s) - \bar X_n(s)).
 \]
-From a computational perspective we only need to consider its discretized counterpart \(\hat{\mathbf C}_n=[\hat{C}_n(s_g, s_h)]_{g,h=1}^G\), which approximates the discretized covariance \(\mathbf K=[K(s_g, s_h)]_{g,h=1}^G\). However, in functional settings the sample size is typically small relative to the number of grid points, so the empirical covariance can be highly rank-deficient. A common regularization technique consists on shrinking towards a well-conditioned target to lift the near-zero eigenvalues, improving the quality and stability of the estimator. The Oracle Approximating Shrinkage (OAS) estimator \citep{chen2010shrinkage}, based on an earlier proposal by \citet{ledoit2004well} and improved for the Gaussian case, is a popular choice for this purpose. Its closed-form expression on the grid is
+From a computational perspective we only need to consider its discretized counterpart on the grid \(\mathcal S\), namely 
+\[
+  \hat{\mathbf C}_n=\left[\hat{C}_n(s_g, s_h)\right]_{g,h=1}^G,
+\]
+which approximates the discretized covariance \(\mathbf K=[K(s_g, s_h)]_{g,h=1}^G\). However, in functional settings the sample size is typically small relative to the number of grid points, so the empirical covariance can be highly rank-deficient. A common regularization technique consists on shrinking towards a well-conditioned target to lift the near-zero eigenvalues, improving the quality and stability of the estimator. The \acf{OAS} estimator \citep{chen2010shrinkage} is a popular choice for this purpose; its closed-form expression on the grid is
 \[
 \hat{\mathbf K}_n^{\text{OAS}} = (1-\hat\rho_n)\hat{\mathbf C}_n + \hat\rho_n \frac{\tr(\hat{\mathbf C}_n)}{G}I_G,
 \]
@@ -229,14 +251,52 @@ where
 \hat\rho_n = \min\left(1,\ \frac{(1-2/G)\tr(\hat{\mathbf C}_n^2) + \tr^2(\hat{\mathbf C}_n)}{(n+1-2/G)\left[\tr(\hat{\mathbf C}_n^2) - \tr^2(\hat{\mathbf C}_n)/G \right]}\right).
 \end{equation}
 
-A convenient consequence of this formulation is that the resulting covariance matrix is strictly positive definite (except in pathological cases). Moreover, it can be shown that as the sample size grows the OAS estimator increasingly resembles the empirical covariance estimator \(\hat{\mathbf C}_n\), which is the expected behavior since there is less and less need for regularization.
+A convenient consequence of this formulation is that the resulting covariance matrix is strictly positive definite (except in pathological cases). Moreover, it can be shown that as the sample size grows the \acs{OAS} estimator increasingly resembles the empirical covariance estimator \(\hat{\mathbf C}_n\), which is the expected behavior since there is less and less need for regularization.
+
+\subsection{Additional methods for estimating the covariance function}
+
+Although covariance estimation techniques fall outside the scope of this thesis, we briefly review some of the most commonly used methods in the literature.
+
+\subsubsection*{Estimation with one trajectory}
+
+There are some particular cases in which \(K\) can be consistently estimated from just one trajectory of the process, as long as it is observed on an arbitrarily fine grid of time instants. In this case, consistency is understood as the grid becomes denser (i.e.\ \(G\to\infty\)), in the so-called high frequency regime (sometimes referred to as ``infill asymptotics''), and results are tailored to specific covariance functions. For example, the Brownian motion scale parameter can be estimated consistently via the quadratic variation of the process \citep{miao2006estimation}. The Hurst and scale parameters in a fractional Brownian motion can also be estimated consistently, both in a noiseless setting \citep{coeurjolly2001estimating, brouste2018local} and with additive or continuous noise, with some vanishing assumptions on the noise level \citep{szymanski2024optimal, chigansky2023estimation, dozzi2015asymptotic}. For the squared exponential kernel, the lengthscale parameter can be consistently estimated under mild conditions, even when the variance is unknown \citep{loh2000estimating}.
+
+Additionally, there are some general results for the Matérn class of kernels, which have the form
+\[
+K_{\nu,\alpha, \sigma^2}(t,s) = \frac{\sigma^2(\alpha|t-s|)^\nu}{\Gamma(\nu)2^{\nu-1}}K_\nu(\alpha|t-s|), 
+\]
+where \(\sigma^2>0\) is the variance, \(\alpha>0\) is the scale, \(\nu>0\) is the smoothness, \(\Gamma(\cdot)\) is the Gamma function, and \(K_\nu(\cdot)\) is the modified Bessel function of the second kind of order \(\nu\). Note that the Ornstein--Uhlenbeck kernel is a particular case of a Matérn kernel with \(\nu=1/2\). By definition, two equivalent Gaussian measures cannot be distinguished by a single trajectory, regardless of how dense the observation grid is. Motivated by this result, \textit{microergodic parameters} are defined as those functions of the parameters that, when different, produce orthogonal underlying measures \citep[see][Section~4]{bachoc2021asymptotic}. In the case of Matérn kernels, neither \(\sigma^2\) nor \(\alpha\) is microergodic, and thus these parameters are not consistently estimable from one trajectory. However, \(\sigma^2\alpha^{2\nu}\) is microergodic, and it turns out that it can be estimated consistently via maximum likelihood \citep{zhang2004inconsistent}.
+
+\subsubsection*{Regularized covariance estimation}
+
+A well-known method to regularize the empirical covariance estimator \(\hat C_n\) is the Ledoit--Wolf procedure \citep{ledoit2004well}, which contemplates an estimator of the form
+\[
+\hat K_n^{\text{LW}}(t,s) = (1-\rho_n)\hat C_n(t,s) + \rho_n \Gamma(t,s),
+\]
+where \(\rho_n \in [0,1]\) is a coefficient that controls the amount of shrinkage and \(\Gamma\) is a well-conditioned target. From a discretized point of view, the authors derive an optimal shrinkage intensity for a target \(\Gamma =\sigma^2 I\) with \(\sigma^2>0\), obtained as the solution to an optimization problem to asymptotically minimize the mean squared error between the true and estimated covariances (measured in terms of the Frobenius norm). Moreover, they also gave their estimator a Bayesian interpretation: the prior belief that the covariance is a scalar multiple of the identity is weighted by the sample information in the form of the empirical covariance. Building on this work, \citet{chen2010shrinkage} proposed an improved version that achieves a lower mean squared error when the data are Gaussian, which is the \acs{OAS} estimator described earlier.
+
+\subsection*{Bayesian estimation}
+
+Apart from the frequentist approaches outlined above, we could of course follow a Bayesian methodology to estimate the covariance function, for example by considering an inverse Wishart prior on it \citep[e.g.][]{yang2016smoothing}. Alternatively, we could parametrize the covariance, say \(K=K_\phi\) with \(\phi\in\Phi \subseteq \R^D\). Then, we have two choices:
+\begin{enumerate}
+  \item Consider \(\phi\) as a new Bayesian variable in our model with a prior \(\Pi(\phi)\), adapt the likelihood (conditional on \(\phi\)) and equations accordingly, and integrate \(\phi\) into the \acs{RJMCMC} algorithm to produce posterior samples.
+  \item Compute a Bayesian estimator \(\hat\phi\) from the data, fix \(K=K_{\hat\phi}\) and proceed as if the covariance function were known.
+\end{enumerate}
+
+The first option is the natural one in a Bayesian framework, but it presents important practical problems in our setting. First, since the mean function is a member of the RKHS \(\mathcal H(K_\phi)\), it would now be parametrized as
+\[
+\mu_{p, \tau, b, \phi}(\cdot) = \sum_{j=1}^p \beta_j K_\phi(t_j, \cdot),
+\]
+so that \(\phi\) dictates both the data variance \(K_\phi\) and the shape of the basis functions \(K_\phi(t_j, \cdot)\) in the finite-dimensional expansion of the mean. This could cause a confounding issue in which the \acs{RJMCMC} sampler could not decide a suitable value for \(\phi\) that describes both effects accurately. For example, a small change \(\phi\to\tilde\phi\) could cause the current basis functions \(K_{\tilde\phi}(t_j, \cdot)\) to be a bad fit for the mean, so the move would most likely be rejected, and the sampler could have a high rejection rate and poor mixing. Moreover, we would need to update the values of \(\phi\) (and hence \(K_\phi\)) on each iteration, re-computing all matrices and inverses that depend on it, which would come at a high computational cost.
+
+The second option, while not ideal, can still be interpreted in a pseudo-Bayesian way if we follow an Empirical Bayes approach. The idea is to compute the estimator by maximizing the marginal likelihood with respect to \(\phi\), i.e., \(\hat\phi = \arg\max_\phi m(X_{1:n}|\phi)\), using numerical integration or standard Monte Carlo techniques. Even though we would only have a single point estimate for \(\phi\), we could try to propagate the uncertainty somewhat with a Laplace approximation of the form \(\phi \sim \mathcal N(\hat\phi, \widehat{Var}(\hat\phi))\) (or similar), and average across samples of this distribution when computing the posterior metrics.
 
 
-\section{Asymptotic Theory}\label{sec:consistency-bft}
+\section{Asymptotic theory}\label{sec:consistency-bft}
 
-To assess the frequentist behavior of the proposed Bayesian test, we study posterior consistency and posterior contraction rates. Posterior consistency means that, as the sample size grows, the posterior probability assigned to the true hypothesis converges in probability to one (under the true data generating distribution), so the Bayesian procedure is asymptotically correct. More generally, a posterior contraction rate quantifies how fast the posterior mass concentrates around the true hypothesis as \(n\to\infty\). 
+To assess the frequentist behavior of the proposed Bayesian test, we study posterior consistency and posterior contraction rates of the Bayes factor, which depend only on the large-sample behavior of the posterior probability of \(H_0\) (or equivalently, of \(H_1\)). In this case, a posterior contraction rate quantifies how fast the posterior mass concentrates around the true hypothesis as \(n\to\infty\); we will use the concept of stochastic boundedness (\note{see Definition~\ref{def:stochastic-boundedness}}) to evaluate contraction rates. 
 
-To evaluate contraction rates we will use the standard concept of \textit{stochastic boundedness} \citep[e.g.][Chapter 2]{vaart1998asymptotic}: given a sequence of nonnegative random variables \(Y_n\), whose distribution is determined by \(\pp\), and a sequence of positive numbers \(a_n\), we write \(Y_n=O_{\pp}(a_n)\) if for any \(\epsilon>0\) there exist \(N,M>0\) such that \(\pp(Y_n/a_n > M) < \epsilon\) for all \(n> N\). In this case, if \(a_n\to 0\) we say that \(a_n\) is a contraction rate for \(Y_n\), or equivalently, that \(Y_n\) decays at rate \(a_n\) (in probability).
+As an abuse of notation, we still write \(\pp_0\) and \(\pp_\mu\) for the product measures \(\pp_0^{(n)}\) and \(\pp_{\mu}^{(n)}\) of \((X_1,X_2,\dots, X_n)\), respectively, when the dependence on the sample size \(n\) is clear from context. Moreover, we let \(\pp_0^\infty\) denote the distribution of \((X_1,X_2,\dots)\) under \(H_0\). The proofs of the theoretical results are deferred to Section~\ref{sec:proofs-bft}.
 
 We already established that the sample paths of the process \(X\) are supposed to be continuous, but we state this fact as an explicit assumption to emphasize its importance in the theoretical guarantees.
 
@@ -244,15 +304,13 @@ We already established that the sample paths of the process \(X\) are supposed t
   The sample paths \(t \mapsto X(t)\) are continuous almost surely.
 \end{assumption}
 
-As an abuse of notation, we write \(\pp_0\) and \(\pp_\mu\) for the product measures \(\pp_0^{(n)}\) and \(\pp_{\mu}^{(n)}\), respectively, when the dependence on the sample size \(n\) is clear from context. Moreover, convergence in probability will be denoted in the usual way by the symbol ``\(\stackrel{\pp}{\longrightarrow}\)''. The proofs of the results in this section are deferred to Section~\ref{sec:proofs-bft}.
+\subsection{Consistency and contraction rates for known covariance}\label{sec:consistency-known}
 
-
-\subsection{Consistency and Contraction Rates for Known Covariance}\label{sec:consistency-known}
-
-We first focus on the case where \(H_0\) is true, that is, \(X_1,\dots,X_n \sim \gp(0, K)\) i.i.d.\ with distribution \(\pp_0\). As it is often the case in Bayesian tests with point-null hypotheses \citep[c.f.][Theorem 10.24]{dass2004note,ghosal2017fundamentals}, posterior consistency holds directly (but not trivially). We provide an explicit proof for completeness.
+We first focus on the case where \(H_0\) is true, that is, \(X_1,\dots,X_n \sim \gp(0, K)\) i.i.d.\ with distribution \(\pp_0\). As it is often the case in Bayesian tests with point-null hypotheses, posterior consistency holds directly as long as \(\Pi(H_0)>0\) \citep[][Theorem 10.24]{dass2004note,ghosal2017fundamentals}. We provide an explicit proof for completeness.
 
 \begin{theorem}\label{th:consistency-h0}
-  Suppose~\ref{ass:continuous-paths} holds. Then, \(\Pi_n(H_1|X_{1:n}) \stackrel{\pp_0}{\longrightarrow} 0\) under \(H_0\).
+  \marginproof{proof:consistency-h0}
+  Under \(H_0\), \(\lim_{n\to\infty} \Pi_n(H_1|X_{1:n}) = 0\) \raisebox{.25pt}{\(\pp_0^\infty\)-a.s.}
 \end{theorem}
 
 To study posterior contraction rates, we impose additional assumptions on the prior distributions.
@@ -387,13 +445,13 @@ We draw \(n=50\) functional samples from each distribution, observed on a discre
 \[
 \mu_*^{\text{RKHS}}(t) = 0.2K(0.15, t) - 0.3K(0.4, t) + 0.5K(0.75, t)\quad \text{and}\quad \mu_*^{\text{P}}(t) = 0.3\sin(2\pi t),
 \]
-where \(K\) is the corresponding covariance kernel in each case. Then, we compare our method (which we call RKBT) to other one-sample testing procedures in the literature:
+where \(K\) is the corresponding covariance kernel in each case. Then, we compare our method (which we call \slsc{RKBT}) to other one-sample testing procedures in the literature:
 \begin{itemize}
-  \item {BON-T}. Pointwise \(t\)-test over all grid points with Bonferroni correction for multiple comparisons. This is the most naive approach, used only as a baseline.
+  \item {\slsc{BON-T}}. Pointwise \(t\)-test over all grid points with Bonferroni correction for multiple comparisons. This is the most naive approach, used only as a baseline.
   \item {\(L^2\)}. Global test based on the squared \(L^2\)-norm \(\|\Delta_n\|_2^2 = n\int_0^1 \bar{X}_n^2(t)\, dt\), whose null distribution is a \(\chi^2\)-type mixture.
-  \item {\(L^2\)-FPCA}. A version of the \(L^2\) test with projections through FPCA.
+  \item {\(L^2\)-FPCA}. A version of the \(L^2\) test with projections through \acf{FPCA}.
   \item {\(F\)}. Global test based on the regularized statistic \(F_n=\|\Delta_n\|_2^2/\tr(\hat{K}_n)\), which follows an \(F\)-type mixture distribution under \(H_0\).
-  \item {BAYES-FPCA}. Standard Bayesian spike-and-slab test with dimension reduction via FPCA and a conjugate \(g\)-prior under \(H_1\). 
+  \item {BAYES-FPCA}. Standard Bayesian spike-and-slab test with dimension reduction via \acs{FPCA} and a conjugate \(g\)-prior under \(H_1\). 
 \end{itemize}
 The frequentist competitors are primarily those outlined by \citet{zhang2013analysis}, whereas the Bayesian competitor arguably represents a novel---albeit simple---approach. A detailed breakdown of the comparison methods is provided in Appendix~\ref{app:comparison-test}.
 
@@ -491,7 +549,7 @@ Lastly, Figure~\ref{fig:climate_posterior} provides a useful functional interpre
 
 \subsection{Runtime Comparison}
 
-As we mentioned before, our test is slower than the competitors due to the \acs{RJMCMC} sampling, but it still runs in acceptable time (see Figure~\ref{fig:runtime}). The \(L^2\)-FPCA method is also slow because it requires recomputing the FPCA decomposition for each bootstrap sample. The execution time of our test, although not as fast as the competitors due to the computationally intensive \acs{RJMCMC} sampling, is still adequate for practical use.
+As we mentioned before, our test is slower than the competitors due to the \acs{RJMCMC} sampling, but it still runs in acceptable time in our experimental conditions (see Figure~\ref{fig:runtime}). The \slsc{L2-FPCA} method is also slow because it requires recomputing the \acs{FPCA} decomposition for each bootstrap sample.
 
 \begin{figure}[tbp]
   \myfloatalign
@@ -513,20 +571,16 @@ We believe that this Bayesian framework opens several compelling paths for futur
 
 \section{Proofs}\label{sec:proofs-bft}
 
-Here we present the proofs of the theoretical results in Section~\ref{sec:consistency-bft}. Keep in mind that the covariance function \(K\) is strictly positive definite. Moreover, because the data are Gaussian, under~\ref{ass:continuous-paths} both \(\mu\) and \(K\) are continuous functions.\footnote{Gaussianity is not essential for the continuity of \(\mu\) and \(K\). Under~\ref{ass:continuous-paths}, finiteness of \(\E[\sup_t X(t)^2]\) suffices, which indeed holds automatically for Gaussian data \citep{landau1970supremum}.} To see this, let \(t_n\to t\) and \(u_n \to u\) in \([0,1]\). Since the sample paths are continuous a.s., \((X(t_n), X(u_n))\to (X(t), X(u))\) in distribution. By the Portmanteau Lemma, the corresponding characteristic functions converge pointwise, and hence \(\mu(t_n)\to \mu(t)\) and \(K(t_n, u_n) \to K(t,u)\), because a Gaussian process is completely determined by its mean and covariance functions.
+Here we present the proofs of the theoretical results in Section~\ref{sec:consistency}. Keep in mind that the covariance function \(K\) is strictly positive definite. Moreover, because the data are Gaussian, under~\ref{ass:continuous-paths} both \(\mu\) and \(K\) are continuous functions.\footnote{Gaussianity is not essential for the continuity of \(\mu\) and \(K\). Under~\ref{ass:continuous-paths}, finiteness of \(\E[\sup_t X(t)^2]\) suffices, which indeed holds automatically for Gaussian data \citep{landau1970supremum}.} To see this, let \(t_n\to t\) and \(u_n \to u\) in \([0,1]\). Since the sample paths are continuous a.s., \((X(t_n), X(u_n))\to (X(t), X(u))\) in distribution. By the Portmanteau Lemma, the corresponding characteristic functions converge pointwise, and hence \(\mu(t_n)\to \mu(t)\) and \(K(t_n, u_n) \to K(t,u)\), because a Gaussian process is completely determined by its mean and covariance functions.
 
 Using Bayes' rule~\eqref{eq:posterior-p-tau} for the posterior of \((p,\tau)\) and writing the normalization constant explicitly, the posterior probability of the alternative is given by
-\begin{equation}\label{eq:posterior-slab-m1}
+\begin{equation}\label{eq:posterior-slab}
 \Pi_n(H_1|X_{1:n})= \frac{(1-\pi_0)m_1(X_{1:n})}{\pi_0 + (1-\pi_0)m_1(X_{1:n})},
 \end{equation}
 where
-\[
+\begin{equation}\label{eq:posterior-slab-m1}
 m_1(X_{1:n}) = \sum_{p\geq 1} \Pi(p)\int_{\mathcal T_p} \mslab(X_{1:n}|p,\tau)\Pi(\tau|p) \, d\tau.
-\]
-
-We will need the following lemma, which is just the standard fact that marginal likelihoods are densities with respect to the fixed reference measure. It follows directly from Fubini/Tonelli \citep[\S23]{bauer2001measure} and the properties of Radon--Nikodym derivatives.
-\begin{lemma}\label{lem:expectation-identity} For any \((p, \tau)\in \N \times \mathcal T_p\) and every \(n\geq 1\), we have \(\E_{\pp_0}[m_{\emph{slab}}(X_{1:n}|p,\tau)] = 1\).
-\end{lemma}
+\end{equation}
 
 \subsection{Consistency and Contraction Rates for Known Covariance}
 
@@ -535,28 +589,15 @@ For notational convenience, define
 I_{n,p}(U) = \int_U \mslab(X_{1:n}|p, \tau)\Pi(\tau|p)\, d\tau, \quad \text{for every } U\subseteq \mathcal T_p.
 \]
 
-\subsubsection{Proof of Theorem~\ref{th:consistency-h0}}
+\subsubsection{Proof of Theorem~\ref{th:consistency-rates-h0}}
+
 \begin{proof}
-Choose \(P\in\N\) large (to be specified later) and split the marginal likelihood as
-\(m_1(X_{1:n}) = m_1^{\leq P}(X_{1:n}) + m_1^{> P}(X_{1:n})\), where
-\[
-m_1^{\leq P}(X_{1:n}) = \sum_{p\leq P} \Pi(p) I_{n,p}(\mathcal T_p),\qquad m_1^{> P}(X_{1:n})=\sum_{p>P} \Pi(p) I_{n,p}(\mathcal T_p).
-\]
+  Under~\ref{ass:compact-support-tau} and~\ref{ass:prior-p-finite}, the sum \(m_1(X_{1:n})\) simplifies to
+  \[
+  m_1(X_{1:n}) = \sum_{p=p_{\min}}^{P_{\max}} \Pi(p) I_{n,p}(\mathcal C_p).
+  \]
 
-Let \(\epsilon,\delta>0\). To control the tail \(m_1^{>P}(X_{1:n})\), observe that by Fubini/Tonelli and Lemma~\ref{lem:expectation-identity} we have
-\[
-\E_{\pp_0}[m_1^{>P}(X_{1:n})] = \sum_{p>P}\Pi(p)\int_{\mathcal T_p}\E_{\pp_0}[\mslab(X_{1:n}|p,\tau)]\Pi(\tau|p)\, d\tau = \sum_{p>P}\Pi(p).
-\]
-Since \(\Pi(p)\) is a probability mass function, we can always pick \(P=P(\epsilon,\delta)\) large enough so that \(\sum_{p>P}\Pi(p)<\epsilon\delta/4\). Now, a routine application of Markov's inequality yields
-\begin{equation}\label{eq:tail-control-P}
-\pp_0\left(m_1^{>P}(X_{1:n})>\frac{\epsilon}{2}\right) \leq \frac{2\E_{\pp_0}[m_1^{>P}(X_{1:n})]}{\epsilon} < \frac{\delta}{2}\quad \text{for all } n.
-\end{equation}
-
-The finite sum \(m_1^{\leq P}(X_{1:n})\) needs more careful handling. Fix \(p\leq P(\epsilon,\delta)\), and note that \(\mathcal T_p\) equipped with the Euclidean topology is a Polish space (a separable completely metrizable topological space) by virtue of being an open subset of the Polish space \([0,1]^p\) \citep[\S26]{bauer2001measure}. Since the prior measure on the time instants \(\Pi_\tau\) is a Borel probability measure on the Polish space \(\mathcal T_p\), it is inner regular, so any measurable set can be approximated from below by compact measurable sets \citep[Lemma~26.2]{bauer2001measure}. Therefore, there exists a compact set \(\mathcal C_p\subset \mathcal T_p\) such that
-  \begin{equation}\label{eq:compact-subset-Tp}
-  \Pi_\tau(\mathcal C_p^c|p) < \frac{\epsilon\delta}{4}.
-  \end{equation}
-  Next, note that the minimum eigenvalue function \(\tau\mapsto\lambda_{\min}(K_\tau)\) is continuous by Weyl's inequality \citep[Theorem~VI.2.1]{bhatia1996matrix} and the continuity of \(K\). Because \(\mathcal C_p\) is compact and \(K_\tau\) is strictly positive definite, there exists \(\lambda_p>0\) with
+  Fix \(p_{\min} \leq p\leq P_{\max}\) and let \(\epsilon>0\). Note that the minimum eigenvalue function \(\tau\mapsto\lambda_{\min}(K_\tau)\) is continuous by Weyl's inequality \citep[Theorem~VI.2.1]{bhatia1996matrix} and the continuity of \(K\). Because \(\mathcal C_p\) is compact and \(K_\tau\) is strictly positive definite, there exists \(\lambda_p>0\) with
   \[
   \lambda_{\min}(K_\tau)\ge \lambda_p>0\quad\text{for all }\tau\in \mathcal C_p.
   \]
@@ -578,46 +619,17 @@ The finite sum \(m_1^{\leq P}(X_{1:n})\) needs more careful handling. Fix \(p\le
   \begin{equation}\label{eq:event-E-n-M}
   E_{M} = \left\{\sup_{\tau\in \mathcal C_p} \|Z_\tau\|^2\leq M\right\}.
   \end{equation}
-  The map \(\tau \mapsto Z_\tau(\omega)\) is continuous for almost every \(\omega\) by~\ref{ass:continuous-paths}, so on the compact set \(\mathcal C_p\) and the points of continuity in \(\omega\), the continuous function \(\tau \mapsto \|Z_\tau(\omega)\|^2\) attains its supremum. Hence, \(\sup_{\tau \in \mathcal C_p} \|Z_\tau\|^2 < \infty\) almost surely, which trivially implies that we can choose \(M\) large enough so that the complement \(E_{M}^c\) is negligible in probability, say \(\pp_0(E_{M}^c) < \delta/2\).
+  The map \(\tau \mapsto Z_\tau(\omega)\) is continuous for almost every \(\omega\) by~\ref{ass:continuous-paths}, so on the compact set \(\mathcal C_p\) and the points of continuity in \(\omega\), the continuous function \(\tau \mapsto \|Z_\tau(\omega)\|^2\) attains its supremum. Hence, \(\sup_{\tau \in \mathcal C_p} \|Z_\tau\|^2 < \infty\) almost surely, which trivially implies that we can choose \(M\) large enough so that the complement \(E_{M}^c\) is negligible in probability, say \(\pp_0(E_{M}^c) < \epsilon\).
 
   On the other hand, on \(E_{M}\) the upper bound in~\eqref{eq:upper-bound-m-slab} reduces to the deterministic bound
   \begin{equation}\label{eq:deterministic-bound-sup-mslab}
   \sup_{\tau \in \mathcal C_p} \mslab(X_{1:n}|p,\tau) \leq \eta^{-p}(n\lambda_p)^{-p/2}\exp\left\{\frac{M}{2\lambda_p}\right\}.
   \end{equation}
-  Since \(\Pi_\tau(\mathcal C_p|p)\leq 1\), still on the event \(E_{M}\) we have
+  Since \(\Pi_\tau(\mathcal C_p|p)= 1\), by~\eqref{eq:deterministic-bound-sup-mslab} we have (still on the event \(E_{M}\))
   \[
-  I_{n,p}(\mathcal C_p) \leq \eta^{-p}(n\lambda_p)^{-p/2}\exp\left\{\frac{M}{2\lambda_p}\right\} \to 0 \quad \text{as } n \to \infty,
+  I_{n,p}(\mathcal C_p)\leq \sup_{\tau\in\mathcal C_p} \mslab(X_{1:n}|p,\tau) \int_{\mathcal C_p} \Pi(\tau|p)\, d\tau \leq Dn^{-p/2},
   \]
-  so we can take \(n\) large enough that \(I_{n,p}(\mathcal C_p) \leq \epsilon/2\) deterministically on \(E_{M}\). Therefore, for sufficiently large \(n\),
-  \begin{align*}
-  \pp_0\left(I_{n,p}(\mathcal C_p) > \frac{\epsilon}{2}\right) &= \pp_0\left(\left\{I_{n,p}(\mathcal C_p) > \frac{\epsilon}{2}\right\} \cap E_{M}\right) + \pp_0\left(\left\{I_{n,p}(\mathcal C_p) > \frac{\epsilon}{2}\right\} \cap E_{M}^c\right)\\
-  &\leq 0 + \pp_0(E_{M}^c) < \frac{\delta}{2}.
-  \end{align*}
- 
-  Now, recall that in~\eqref{eq:compact-subset-Tp} we defined the complement \(\mathcal C_p^c\) to have negligible mass under \(\Pi_\tau\). Then, Markov's inequality, Fubini/Tonelli, and Lemma~\ref{lem:expectation-identity} yield
-  \[
-  \pp_0\left(I_{n,p}(\mathcal C_p^c) > \frac{\epsilon}{2}\right) \leq \frac{2\E_{\pp_0}[I_{n,p}(\mathcal C_p^c)]}{\epsilon} = \frac{2\Pi_\tau(\mathcal C_p^c|p)}{\epsilon} < \frac{\delta}{2}.
-  \]
-  
-  Bringing it all together, we have proved that for sufficiently large \(n\)
-  \[
-  \pp_0(I_{n,p}(\mathcal T_p) > \epsilon) \leq \pp_0\left(I_{n,p}(\mathcal C_p) > \frac{\epsilon}{2}\right) + \pp_0\left(I_{n,p}(\mathcal C_p^c) > \frac{\epsilon}{2}\right) < \frac{\delta}{2} + \frac{\delta}{2} = \delta,
-  \]
-  so \(I_{n,p}(\mathcal T_p) \stackrel{\pp_0}{\to} 0\) as \(n\to\infty\). Hence, \(m_1^{\leq P}(X_{1:n})\) is a finite sum or terms converging to zero in \(\pp_0\)-probability, and thus \(m_1^{\leq P}(X_{1:n})\stackrel{\pp_0}{\to} 0\). Along with~\eqref{eq:tail-control-P}, this implies that for large \(n\)
-  \[
-  \pp_0(m_1(X_{1:n}) > \epsilon) \leq \pp_0\left(m_1^{\leq P}(X_{1:n})>\frac{\epsilon}{2}\right) + \pp_0\left(m_1^{> P}(X_{1:n}) > \frac{\epsilon}{2}\right) < \delta.
-  \]
-  Since \(\epsilon,\delta\) were arbitrary, we have \(m_1(X_{1:n})\stackrel{\pp_0}{\to} 0\), and by the continuous mapping theorem applied to~\eqref{eq:posterior-slab-m1}, we get \(\Pi_n(H_1|X_{1:n}) \stackrel{\pp_0}{\to} 0\), as claimed.
-\end{proof}
-
-\subsubsection{Proof of Theorem~\ref{th:consistency-rates-h0}}
-
-\begin{proof}
-  This is a refinement of the proof of Theorem~\ref{th:consistency-h0}. Under~\ref{ass:compact-support-tau} and~\ref{ass:prior-p-finite}, the sum \(m_1(X_{1:n})\) simplifies to
-  \[
-  m_1(X_{1:n}) = \sum_{p=p_{\min}}^{P_{\max}} \Pi(p) I_{n,p}(\mathcal C_p).
-  \]
-  Note that the deterministic bound~\eqref{eq:deterministic-bound-sup-mslab} is still valid on \(\mathcal C_p\), and in particular on the high \(\pp_0\)-probability event \(E_{M}\) we get \(I_{n,p}(\mathcal C_p) \leq D n^{-p/2}\), where \(D>0\) is a constant independent of \(n\). Hence, for any \(\epsilon > 0\) and sufficiently large \(n\) we have
+  where \(D>0\) is a constant independent of \(n\). Hence, for sufficiently large \(n\) we have
   \[
   \pp_0(I_{n,p}(\mathcal C_p) > Dn^{-p/2}) \leq \pp_0(E_{M}^c ) < \epsilon,
   \]
@@ -629,13 +641,13 @@ The finite sum \(m_1^{\leq P}(X_{1:n})\) needs more careful handling. Fix \(p\le
   \[
   \Pi_n(H_1|X_{1:n}) \leq \frac{1-\pi_0}{\pi_0}m_1(X_{1:n}),
   \]
-  so the stochastic bound translates immediately and \(\Pi_n(H_1|X_{1:n})=O_{\pp_0}(n^{-p_{\min}/2})\).
+  so by the continuous mapping theorem the stochastic bound translates immediately and \(\Pi_n(H_1|X_{1:n})=O_{\pp_0}(n^{-p_{\min}/2})\), as claimed.
 \end{proof}
 
 \subsubsection{Proof of Theorem~\ref{th:consistency-rates-h1}}
 
 \begin{proof}
-  The \acs{RKHS} framework will allow us to work, via a suitable approximation, in a finite-dimensional setting. First, since \(\Hcal_0(K)\) is dense in \(\Hcal(K)\), for any \(\epsilon>0\) there exists a parameter \(\theta_\epsilon = (p_\epsilon, \tau_\epsilon, b_\epsilon)\) such that
+  The RKHS framework will allow us to work, via a suitable approximation, in a finite-dimensional setting. First, since \(\Hcal_0(K)\) is dense in \(\Hcal(K)\), for any \(\epsilon>0\) there exists a parameter \(\theta_\epsilon = (p_\epsilon, \tau_\epsilon, b_\epsilon)\) such that
   \begin{equation}\label{eq:approximation-property-mu}
   \|\mu_* - \mu_{\tau_\epsilon, b_\epsilon}\|_K < \epsilon,
   \end{equation}
@@ -661,7 +673,7 @@ The finite sum \(m_1^{\leq P}(X_{1:n})\) needs more careful handling. Fix \(p\le
   \[
   \|\mu_* - \mu_{\tau, b}\|_K \leq \|\mu_* - \mu_{\tau_\epsilon, b_\epsilon}\|_K + \|\mu_{\tau_\epsilon, b_\epsilon} - \mu_{\tau,b}\|_K.
   \]
-  Then, by~\eqref{eq:approximation-property-mu} and the continuity of the map \((\tau, b) \mapsto \mu_{\tau, b}\) in the \acs{RKHS} norm (which follows from the continuity of \(K\)), after shrinking \(U\) if necessary we have \(\|\mu_* - \mu_{\tau,b}\|_K < 2\epsilon\) for all \((\tau,b)\in U\). Consequently,
+  Then, by~\eqref{eq:approximation-property-mu} and the continuity of the map \((\tau, b) \mapsto \mu_{\tau, b}\) in the RKHS norm (which follows from the continuity of \(K\)), after shrinking \(U\) if necessary we have \(\|\mu_* - \mu_{\tau,b}\|_K < 2\epsilon\) for all \((\tau,b)\in U\). Consequently,
   \[
   f(\tau, b) \geq \frac{1}{2}\|\mu_*\|^2_K - 2\epsilon^2 =: c_\epsilon > 0,
   \]
@@ -682,7 +694,7 @@ The finite sum \(m_1^{\leq P}(X_{1:n})\) needs more careful handling. Fix \(p\le
     &\geq D \exp\left\{nc_\epsilon - \sqrt{n}B\cdot \sup_{\tau\in U_1}\|Z_\tau\|\right\},
     \end{split}
   \end{equation}
-  where \(D=\Pi(p_\epsilon)\Pi_\tau(U_1|p_{\epsilon})\Pi_b^{\text{slab}}(U_2|p_{\epsilon})>0\) by assumption. Next, note that \(\sup_{\tau\in U_1}\|Z_\tau\|\) is \(O_{\pp_{\mu_*}}(1)\) (by the same argument as in the proof of Theorem~\ref{th:consistency-h0}), so for all \(\delta>0\) there exists \(M>0\) such that \(\pp_{\mu_*}(B\cdot \sup_{\tau\in U_1} \|Z_\tau\| \geq M) < \delta\). Thus, by~\eqref{eq:lower-bound-m1} we get
+  where \(D=\Pi(p_\epsilon)\Pi_\tau(U_1|p_{\epsilon})\Pi_b^{\text{slab}}(U_2|p_{\epsilon})>0\) by assumption. Next, note that \(\sup_{\tau\in U_1}\|Z_\tau\|\) is \(O_{\pp_{\mu_*}}(1)\) (by the same argument as in the proof of Theorem~\ref{th:consistency-rates-h0}), so for all \(\delta>0\) there exists \(M>0\) such that \(\pp_{\mu_*}(B\cdot \sup_{\tau\in U_1} \|Z_\tau\| \geq M) < \delta\). Thus, by~\eqref{eq:lower-bound-m1} we get
   \[
   \pp_{\mu_*}(m_1(X_{1:n}) \leq D \exp\{nc_\epsilon - \sqrt{n}M\}) \leq  \pp_{\mu_*}\left(B\cdot \sup_{\tau\in U_1} \|Z_\tau\| \geq M\right) < \delta.
   \]
@@ -690,7 +702,7 @@ The finite sum \(m_1^{\leq P}(X_{1:n})\) needs more careful handling. Fix \(p\le
   \[
   \pp_{\mu_*}(m_1(X_{1:n}) \leq D \exp\{nc_\epsilon/(1+\epsilon)\}) \leq \pp_{\mu_*}(m_1(X_{1:n}) \leq D \exp\{nc_\epsilon - \sqrt{n}M\}) < \delta.
   \]
-  To conclude, observe that by~\eqref{eq:posterior-slab-m1}
+  To conclude, observe that by~\eqref{eq:posterior-slab}
   \[
   \Pi_n(H_0|X_{1:n}) = \frac{\pi_0}{\pi_0 + (1-\pi_0)m_1(X_{1:n})} \leq \frac{\pi_0}{(1-\pi_0)m_1(X_{1:n})},
   \]
@@ -740,7 +752,7 @@ where \(\|\cdot\|_\infty\) is the supremum norm. This follows directly from Mour
   \[
   \tr(\hat{\mathbf C}_n) \stackrel{\text{a.s.}}{\longrightarrow} \tr(\mathbf K)\quad \text{and}\quad \tr(\hat{\mathbf C}_n^2) \stackrel{\text{a.s.}}{\longrightarrow} \tr(\mathbf K^2).
   \]
-  Then, the numerator in \(\hat\rho_n\), defined in \eqref{eq:rho-oas}, converges almost surely to a finite positive constant (as long as \(G\geq 2\)). For the denominator, observe that
+  Then, the numerator in \(\hat\rho_n\), defined in~\eqref{eq:rho-oas}, converges almost surely to a finite positive constant (as long as \(G\geq 2\)). For the denominator, observe that
   \begin{equation}\label{eq:rho-oas-denominator-convergence}
     \tr(\hat{\mathbf C}_n^2) - \frac{1}{G}\tr^2(\hat{\mathbf C}_n) \stackrel{\text{a.s.}}{\longrightarrow} \tr(\mathbf K^2) - \frac{1}{G}\tr^2(\mathbf K).
   \end{equation}
@@ -801,7 +813,7 @@ where
 \[
 \hat m_1(X_{1:n}) = \sum_{p=p_{\min}}^{P_{\max}} \Pi(p)\,\hat I_{n,p}(\mathcal C_p),
 \]
-where \(\hat I_{n,p}(\mathcal C_p)=\int_{\mathcal C_p}\hat \mslab(X_{1:n}|p,\tau)\Pi(\tau|p)\,d\tau\). Fix \(p\in\{p_{\min},\dots,P_{\max}\}\), and recall that there exists \(\lambda_p>0\) with \(\lambda_{\min}(K_\tau)\geq \lambda_p\) for all \(\tau\in \mathcal C_p\). By Weyl's inequality, choosing the spectral norm \(\|\cdot\|_2\) on matrices, we have
+where \(\hat I_{n,p}(\mathcal C_p)=\int_{\mathcal C_p}\hat \mslab(X_{1:n}|p,\tau)\Pi(\tau|p)\,d\tau\). Fix \(p_{\min} \leq p\leq P_{\max}\), and recall that there exists \(\lambda_p>0\) with \(\lambda_{\min}(K_\tau)\geq \lambda_p\) for all \(\tau\in \mathcal C_p\). By Weyl's inequality, choosing the spectral norm \(\|\cdot\|_2\) on matrices, we have
 \[
 \lambda_{\min}(\hat K_{n,\tau}) \geq \lambda_{\min}(K_\tau) - \|\hat K_{n,\tau} - K_\tau\|_2 \geq \lambda_p - \sup_{\tau\in \mathcal C_p}\|\hat K_{n,\tau} - K_\tau\|_2.
 \]
@@ -836,7 +848,7 @@ and bound the plug-in error by
 \[
 \sup_{(\tau,b)\in U}|\hat f_n(\tau,b) - f(\tau,b)| = \sup_{(\tau,b)\in U}\frac{1}{2}|b'(\hat K_{n,\tau}-K_\tau)b| \leq \frac{B^2}{2}\sup_{\tau\in U_1}\|\hat K_{n,\tau}-K_\tau\|_2,
 \]
-where \(0<B=\sup_{b\in U_2} \|b\|<\infty\). Now, define the event 
+where \(0<B=\sup_{b\in U_2} \|b\|<\infty\) and \(\|\cdot\|_2\) is the spectral norm on matrices. Now, define the event 
 \[
 G_n = \left\{\sup_{\tau\in U_1}\|\hat K_{n,\tau} - K_\tau\|_2 \leq \frac{2\epsilon^2}{B^2}\right\}.
 \]
@@ -878,16 +890,19 @@ so \(\hat\Pi_n(H_0|X_{1:n})=O_{\pp_{\mu_*}}(e^{-nd_\epsilon/(1+\epsilon)})\) and
 
 \subsection{On Optimality of the Contraction Rates}
 
-We conclude with a short proof of the information-theoretic optimality of the contraction rate in Theorem~\ref{th:consistency-rates-h1}.
+We conclude with a proof of the information-theoretic optimality of the contraction rate in Theorem~\ref{th:consistency-rates-h1}. We will need the following lemma, which is just the standard fact that marginal likelihoods are densities with respect to the fixed reference measure. It follows directly from Fubini/Tonelli and the properties of Radon--Nikodym derivatives.
+
+\begin{lemma}\label{lem:expectation-identity} For any \((p, \tau)\in \N \times \mathcal T_p\) and every \(n\geq 1\), we have \(\E_{\pp_0}[m_{\emph{slab}}(X_{1:n}|p,\tau)] = 1\).
+\end{lemma}
 
 \subsubsection{Proof of Proposition~\ref{prop:optimality-rates-h1}}
 
 \begin{proof}
-  Suppose by contradiction that a faster rate holds, say \(\Pi_n(H_0|X_{1:n})=O_{\pp_{\mu_*}}(e^{-n\zeta})\) with \(\zeta > \frac{1}{2}\|\mu_*\|_K^2\). By definition, for any \(0<\epsilon<1/2\) there exists \(M>0\) such that the region
+  Suppose by contradiction that a faster rate holds, say \(\Pi_n(H_0|X_{1:n})=O_{\pp_{\mu_*}}(e^{-n\zeta})\) for \(\zeta > \frac{1}{2}\|\mu_*\|_K^2\). By definition, for any \(0<\epsilon<1/2\) there exists \(M>0\) such that the region
   \[
   R_n = \{X_{1:n}: \Pi_n(H_0|X_{1:n}) \leq M e^{-n\zeta}\}
   \]
-  satisfies \(\pp_{\mu_*}(R_n)> 1-\epsilon\) for sufficiently large \(n\). Then, on \(R_n\) we have 
+  satisfies \(\pp_{\mu_*}(R_n)> 1-\epsilon\) for sufficiently large \(n\). Then, reusing the notation \(m_1(X_{1:n})\) from~\eqref{eq:posterior-slab-m1}, on \(R_n\) we have 
   \[
   \Pi_n(H_0|X_{1:n}) = \frac{\pi_0}{\pi_0 + (1-\pi_0)m_1(X_{1:n})} \leq M e^{-n\zeta},
   \]
@@ -905,9 +920,9 @@ We conclude with a short proof of the information-theoretic optimality of the co
   \end{equation}
   where \(C>0\) is a constant. Now we construct a frequentist test \(\phi_n\) for the reverse hypotheses \(\tilde{H}_0: \mu\equiv \mu_*\) against \(\tilde{H}_1: \mu\equiv 0\), given by \(\phi_n(X_{1:n}) = \mathds{1}\{X_{1:n} \in R_n^c\}\). In this case, according to~\eqref{eq:rn-derivative} the Kullback--Leibler divergence from \(\pp_{\mu_*}\) to \(\pp_0\) is
   \[
-  \dkl(\pp_{\mu_*} \,\|\, \pp_0) = \E_{\pp_{\mu_*}}\left[\log \frac{d\pp_{\mu_*}}{d\pp_0}(X)\right] = \E_{\pp_{\mu_*}}[\dotprod{X}{\mu_*}_K] - \frac{1}{2}\|\mu_*\|^2_K = \frac{1}{2}\|\mu_*\|_K^2,
+  \kl(\pp_{\mu_*} \,\|\, \pp_0) = \E_{\pp_{\mu_*}}\left[\log \frac{d\pp_{\mu_*}}{d\pp_0}(X)\right] = \E_{\pp_{\mu_*}}[\dotprod{X}{\mu_*}_K] - \frac{1}{2}\|\mu_*\|^2_K = \frac{1}{2}\|\mu_*\|_K^2,
   \]
-  where we used the equivalence \(\E_{\pp_{\mu_*}}[\dotprod{X}{\mu_*}_K]=\dotprod{\mu_*}{\mu_*}_K=\|\mu_*\|_K^2\) that stems from Loève's isometry \citep[p.~974]{parzen1961approach}. For sufficiently large \(n\), the type I error probability is bounded, since \(\pp_{\mu_*}(\phi_n = 1)=\pp_{\mu_*}(R_n^c) < \epsilon\). On the other hand, by~\eqref{eq:type-ii-error-bound} the type II error probability for large \(n\) is \(\pp_0(\phi_n=0)=\pp_0(R_n)\leq C e^{-n\zeta}\), which decays exponentially with exponential constant greater than \(\dkl(\pp_{\mu_*} \,\|\, \pp_0)\), contradicting Chernoff--Stein.
+  where we used the equivalence \(\E_{\pp_{\mu_*}}[\dotprod{X}{\mu_*}_K]=\dotprod{\mu_*}{\mu_*}_K=\|\mu_*\|_K^2\) that stems from Loève's isometry \citep[p.~974]{parzen1961approach}. For sufficiently large \(n\), the type I error probability is bounded, since \(\pp_{\mu_*}(\phi_n = 1)=\pp_{\mu_*}(R_n^c) < \epsilon\). On the other hand, by~\eqref{eq:type-ii-error-bound} the type II error probability for large \(n\) is \(\pp_0(\phi_n=0)=\pp_0(R_n)\leq C e^{-n\zeta}\), which decays exponentially with exponential constant greater than \(\kl(\pp_{\mu_*} \,\|\, \pp_0)\), contradicting Chernoff--Stein.
 \end{proof}
 
 

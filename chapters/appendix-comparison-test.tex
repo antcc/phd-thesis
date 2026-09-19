@@ -2,7 +2,7 @@
 \chapter{On the comparison methods for the functional test}\label{app:comparison-test}
 %*****************************************
 
-The frequentist comparison methods were mostly described by~\citet{zhang2013analysis}. We consider the pivotal test function \(\Delta_n(s) = \sqrt{n}\bar X_n(s)\), which will be small when the null hypothesis is true. We also fix a significance level \(\alpha\in (0,1)\) and the discretized grid \(\mathcal S=\{s_1,\dots,s_g\}\).
+The frequentist comparison methods were mostly described in Chapter~4 of \citet{zhang2013analysis}. We consider the pivotal test function \(\Delta_n(s) = \sqrt{n}\bar X_n(s)\), which will be small when the null hypothesis is true. We also fix a significance level \(\alpha\in (0,1)\) and the discretized grid \(\mathcal S=\{s_1,\dots,s_g\}\).
 
 \subsubsection{Pointwise \(t\)-Test}
 
@@ -23,7 +23,7 @@ Under \(H_0\) and Gaussian data, \(T_n\) follows a \(\chi^2\)-type mixture distr
 \[
 T_n \sim \gamma \chi^2_d\,  \text{ approximately}, \quad \text{where } \gamma = \frac{\tr(K^{\otimes 2})}{\tr(K)}\, \text{ and }\, d=\frac{\tr^2(K)}{\tr(K^{\otimes 2})},
 \]
-with \(\tr(K^{\otimes 2}) = \int_0^1 \int_0^1 K(t,s)^2 \, dt\, ds\). Since \(K\) is generally unknown, a common approach is to use the empirical covariance estimator \(\hat C_n\) to approximate \(\gamma\) and \(d\), which leads to consistent estimators \(\hat\gamma\) and \(\hat d\) \citep[Theorem~4.17]{zhang2013analysis}. The corresponding \(p\)-value for the test is given by \(\mathbb P(\chi^2_{\hat d} \geq T_n/\hat \gamma)\). In practice, we need to discretize the functional elements to compute the test statistic and \(p\)-value:
+with \(\tr(K^{\otimes 2}) = \int_0^1 \int_0^1 K(t,s)^2 \, dt\, ds\). Since \(K\) is generally unknown, a common approach is to use the empirical covariance estimator \(\hat C_n\) to approximate \(\gamma\) and \(d\), which leads to consistent estimators \(\hat\gamma\) and \(\hat d\) \citep[Theorem~4.17]{zhang2013analysis}. The corresponding \(p\)-value for the test is given by \(\pp(\chi^2_{\hat d} \geq T_n/\hat \gamma)\). In practice, we need to discretize the functional elements to compute the test statistic and \(p\)-value:
 \[
 T_n = n\sum_{g=1}^G \bar{X}_n^2(s_g), \qquad \hat \gamma \approx \frac{\tr(\hat{\mathbf C}_n^2)}{\tr(\hat{\mathbf C}_n)}, \qquad \hat d \approx \frac{\tr^2(\hat{\mathbf C}_n)}{\tr(\hat{\mathbf C}_n^2)}.
 \]

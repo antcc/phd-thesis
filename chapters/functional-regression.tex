@@ -13,7 +13,7 @@
 \mathcal D_n =\left\{(X_i, Y_i): i=1,\dots, n\right\}
 \] of independent observations from \((X, Y)\), and our aim will be to accurately predict the response corresponding to unlabeled functional samples from \(X\).
 
-The most common scalar-on-function linear regression model is the classical \(L^2\)-model, widely popularized since the first edition (1997) of the pioneering monograph by~\citet{ramsay2005functional}. It can be seen as a generalization of the usual finite-dimensional model, replacing the scalar product in \(\R^d\) for that of the functional space \(L^2[0,1]\):
+The most common scalar-on-function linear regression model is the classical \(L^2\)-model, widely popularized since the first edition (1997) of the pioneering monograph by~\citet{ramsay2005functional}. It can be seen as a generalization of the usual finite-dimensional model, replacing the scalar product in \(\R^D\) for that of the functional space \(L^2[0,1]\):
 \begin{equation}\label{eq:l2-linear-model}
   Y = \alpha + \dotprod{X}{\beta}_2 + \epsilon = \alpha + \int_0^1 X(t)\beta(t)\, dt + \epsilon,
 \end{equation}
@@ -21,7 +21,7 @@ where \(\alpha\in \R\), \(\epsilon\) is a random error term independent from \(X
 
 A similar \(L^2\)-based functional logistic equation can be derived for the binary classification problem via the logistic function:
 \begin{equation}\label{eq:l2-logistic-model}
-  \mathbb P(Y=1 \mid X) = \frac{1}{1 + \exp\{-\alpha - \dotprod{X}{\beta}_2\}},
+  \pp(Y=1 \mid X) = \frac{1}{1 + \exp\{-\alpha - \dotprod{X}{\beta}_2\}},
 \end{equation}
 where \(\alpha \in \R\) and \(\beta \in L^2[0, 1]\). In the equivalent finite-dimensional problem, the natural way of estimating the slope parameter is via its \acf{MLE}. However, apart from the issues outlined above for the linear model, functional settings pose an additional challenge in the logistic case: under fairly general conditions, the \acs{MLE} does not exist with probability one \citep[see][]{berrendero2023functional}.
 
@@ -38,7 +38,7 @@ Our main contribution is the proposal of a Bayesian approach for inference in th
 
 Although fairly natural in this context, the crucial assumption that \(\beta \in \Hcal_0(K)\) may seem too restrictive at first glance, since we are essentially truncating the dimensionality of the model. Nevertheless, in this way we get a simpler, finite-dimensional approximation of the functional \acs{RKHS} model, which we argue reduces the overall complexity while still capturing most of the relevant information. Plus, the simplified model remains ``truly functional'' in the sense that the number of components \(p\) and the time instants \(t_j\) are not fixed beforehand. In short, we are exploiting the \acs{RKHS} perspective to give a functional nature to the collection of finite-dimensional models based on random linear combinations of the marginals, offering a unified treatment of all the so-called \textit{impact points} models (\citealp[see][]{ kneip2016functional,poss2020superconsistent}).
 
-\note{As we said before, with a slight abuse of notation we will understand the expression \(\dotprod{x}{\beta}_K\) as \(\Psi_x(\beta)\), where \(x=X(\omega)\) is a realization of \(X\) and \(\Psi_x\) is Loève's isometry (\note{see}~\eqref{eq:loeves-isometry}). Hence, taking into account that \(\Psi_X(K(t, \cdot)) = X(t)\) by definition, we can identify \(\dotprod{x}{\beta}_K\) with the finite linear combination \(\sum_j \beta_j x(t_j)\).}
+\note{As we said before, with a slight abuse of notation we will understand the expression \(\dotprod{x}{\beta}_K\) as \(\Psi_x(\beta)\), where \(x=X(\omega)\) is a realization of \(X\) and \(\Psi_x\) is Loève's isometry, defined in~\eqref{eq:loeves-isometry}. Hence, taking into account that \(\Psi_X(K(t, \cdot)) = X(t)\) by definition, we can identify \(\dotprod{x}{\beta}_K\) with the finite linear combination \(\sum_j \beta_j x(t_j)\).}
 
 In view of~\eqref{eq:beta}, to place a prior distribution on the unknown function \(\beta\) (that is, a prior distribution on the functional space \(\Hcal_{0}(K)\)) it suffices to consider a discrete prior distribution on the number of components \(p\), and then select \(p\)-dimensional continuous priors for the coefficients \(\beta_j\) and the times \(t_j\) given \(p\). Thanks to this parametric approach, the challenging task of setting a prior distribution on a space of functions is considerably simplified, while simultaneously not constraining the model to any specific distribution (in contrast to, say, Gaussian process regression methods). Moreover, note that our simplifying assumption on \(\beta\) is not particularly limiting from a Bayesian point of view, since any distribution \(\pp\) on \(\Hcal_0(K)\) can be directly extended to a distribution \(\bar{\pp}\) on \(\Hcal(K)\) by defining \(\bar{\pp}(B) = \pp_0(B\cap \Hcal_0(K))\) for all Borel sets \(B\) on \(\Hcal(K)\).
 
@@ -94,16 +94,16 @@ Since we will be approximating the posterior distribution through \acs{MCMC} met
 
 In the case of functional logistic regression, we regard the binary response variable \(Y\in\{0, 1\}\) as a Bernoulli random variable given the functional regressor \(X\). Then, following the approach suggested by \citet{berrendero2023functional}, a simplified logistic \acs{RKHS} model is given by the equation
 \begin{equation}\label{eq:rkhs-model-logistic}
-  \mathbb P(Y=1 \mid X) = \frac{1}{1 + \exp\{-\alpha - \dotprod{X}{\beta}_K\}}, \quad \alpha \in \R, \ \beta \in \Hcal_{0}(K).
+  \pp(Y=1 \mid X) = \frac{1}{1 + \exp\{-\alpha - \dotprod{X}{\beta}_K\}}, \quad \alpha \in \R, \ \beta \in \Hcal_{0}(K).
 \end{equation}
 
 Indeed, note that this can be seen as a finite-dimensional approximation (with a functional interpretation) to the general \acs{RKHS} functional logistic model proposed by these authors, which can be obtained by replacing \(\Hcal_{0}(K)\) with \(\Hcal(K)\). After incorporating the sample information, we can rewrite~\eqref{eq:rkhs-model-logistic} in parametric form for \(\theta\in\Theta\) as
 \begin{equation}\label{eq:rkhs-model-logistic-2}
-  Y_i \mid X_i,\theta \ \stackrel{\text{ind.}}{\sim} \operatorname{Bernoulli}(\mathbb P(Y_i=1 \mid X_i,\theta)), \quad i=1,\dots, n,
+  Y_i \mid X_i,\theta \ \stackrel{\text{ind.}}{\sim} \operatorname{Bernoulli}(\pp(Y_i=1 \mid X_i,\theta)), \quad i=1,\dots, n,
 \end{equation}
 where
 \[
-  \mathbb P(Y_i=1 \mid X_i,\theta) = \frac{1}{\displaystyle 1 + \exp\left\{-\alpha - \sum_{j=1}^p \beta_j X_i(t_j)\right\}}, \quad i=1,\dots, n.
+  \pp(Y_i=1 \mid X_i,\theta) = \frac{1}{\displaystyle 1 + \exp\left\{-\alpha - \sum_{j=1}^p \beta_j X_i(t_j)\right\}}, \quad i=1,\dots, n.
 \]
 
 In much the same way as the linear regression model described above, this \acs{RKHS}-based logistic regression model offers some advantages over the classical \(L^2\)-model. First, it has a more straightforward interpretation and allows for a workable Bayesian approach. Secondly, it can be shown that under mild conditions the general \acs{RKHS} logistic functional model holds whenever the conditional distributions \(X | Y=i\) (\(i=0,1\)) are homoscedastic Gaussian processes, and in some cases it also entails the \(L^2\)-model~\citep[see][]{berrendero2023functional}; this arguably provides a solid theoretical motivation for the reduced model. Incidentally, these models also shed light on the near-perfect classification phenomenon for functional data, described by \citet{delaigle2012achieving} and further examined for example in the works of \citet{berrendero2018use} or \citet{torrecilla2020optimal}.
@@ -156,7 +156,7 @@ From a higher level perspective, the \acs{RJMCMC} algorithm is an iterative proc
 \[
 \theta^{(r)}=(p^{(r)}, \tau^{(r)}, b^{(r)}, \alpha^{(r)}, (\sigma^{2})^{(r)}), \quad r=1,\dots,R
 \] 
-of the posterior distribution \(\Pi_n(\theta| \mathcal D_n)\), each possibly of a different dimension (\note{see Chapter~\ref{ch:rjmcmc} for a more detailed description}). Given a previously unseen regressor \(X_{\text{test}}\), with each of these samples we can generate an individual approximate response following our \acs{RKHS} models, denoted by \(F(X_{\text{test}}, \theta^{(r)})\). In the linear case we sample from the distribution \(Y | X_{\text{test}}, \theta^{(r)}\) given in~\eqref{eq:rkhs-model-linear-2}, and in the logistic case we directly consider the probabilities \(\mathbb{P}(Y=1|X_{\text{test}},\theta^{(r)})\) in~\eqref{eq:rkhs-model-logistic-2}. We propose to combine these predictions in four different ways.
+of the posterior distribution \(\Pi_n(\theta| \mathcal D_n)\), each possibly of a different dimension (\note{see Chapter~\ref{ch:rjmcmc} for a more detailed description}). Given a previously unseen regressor \(X_{\text{test}}\), with each of these samples we can generate an individual approximate response following our \acs{RKHS} models, denoted by \(F(X_{\text{test}}, \theta^{(r)})\). In the linear case we sample from the distribution \(Y | X_{\text{test}}, \theta^{(r)}\) given in~\eqref{eq:rkhs-model-linear-2}, and in the logistic case we directly consider the probabilities \(\pp(Y=1|X_{\text{test}},\theta^{(r)})\) in~\eqref{eq:rkhs-model-logistic-2}. We propose to combine these predictions in four different ways.
 
 \subsubsection*{One-stage methods}
 
@@ -290,12 +290,12 @@ The idea now is to apply Theorem~\ref{th:consistency-hellinger} to obtain poster
 \[
 \Theta_n = \bigcup_{p=1}^{p_n} \Theta_p\quad \text{and}\quad  \mathcal F_n=\{f_\theta\in\mathcal F: \theta \in \Theta_n\},
 \]
-where \(p_n=O(g(n))\) and \(g(n)\to \infty\) is a function to be determined later. Moreover, to keep the conditions as simple as possible, it is more convenient to work with compact parameter spaces \(\Theta_p\) and adapt the prior distributions in~\eqref{eq:model-linear} accordingly; we assume this is so for the remainder of the section. 
+where \(p_n=O(h(n))\) and \(h(n)\to \infty\) is a function to be determined later. Moreover, to keep the conditions as simple as possible, it is more convenient to work with compact parameter spaces \(\Theta_p\) and adapt the prior distributions in~\eqref{eq:model-linear} accordingly; we assume this is so for the remainder of the section. 
 
 We are ready to state a new Hellinger consistency result for our model, which transforms the requirement that \(f_0\in \kl(\Pi_{\mathcal F})\) into a condition on the prior \(\Pi\) on \(\Theta_0\), and places an additional mild constraint on the tails of the marginal prior distribution of \(p\). These conditions guarantee that we can choose a suitable growth order for \(p_n\) in the sieve to apply Theorem~\ref{th:consistency-hellinger}. In order to satisfy all the conditions, we also need to impose some smoothness restrictions on the underlying process \(X\).
 
 \begin{assumption}\label{cond:condition-schwartz-X}
-  Suppose that each trajectory \(x\) of \(X\) is \(\qq_X\)-almost surely Lipschitz, with Lipschitz constant \(L(x)>0\), and assume that \(\mathbb E_{\qq_X}[L^2]<\infty\).
+  Suppose that each trajectory \(x\) of \(X\) is \(\qq_X\)-almost surely Lipschitz, with Lipschitz constant \(L(x)>0\), and assume that \(\E_{\qq_X}[L^2]<\infty\).
 \end{assumption}
 
 \begin{theorem}\label{th:consistency-schwartz-linear}
@@ -335,20 +335,20 @@ where \(H_\theta(x)=\pp(Y=1|x,\theta)\) is the parameter of the Bernoulli distri
 
 \subsubsection*{On the smoothness requirements}
 
-Note that~\ref{cond:condition-schwartz-X} implies that the process \(X\) is \emph{mean-square Lipschitz continuous}, i.e., there exists \(L>0\) such that \(\mathbb E[(X(t) - X(s))^2] \leq L (t-s)^2\) for all \(t, s \in [0,1]\). Looking carefully at the proofs of the results above, we could substitute the almost sure Lipschitzness of the trajectories by this new condition and arrive at the same conclusions. Moreover, note that this guarantees, via Kolmogorov's continuity theorem, that the sample paths of \(X\) (after an eventual modification) are continuous functions. Apart from somewhat trivial examples, such as a deterministic process or a linear random process, we can show that processes with a sufficiently smooth kernel satisfy our requirements.
+Note that~\ref{cond:condition-schwartz-X} implies that the process \(X\) is \emph{mean-square Lipschitz continuous}, i.e., there exists \(L>0\) such that \(\E[(X(t) - X(s))^2] \leq L (t-s)^2\) for all \(t, s \in [0,1]\). Looking carefully at the proofs of the results above, we could substitute the almost sure Lipschitzness of the trajectories by this new condition and arrive at the same conclusions. Moreover, note that this guarantees, via Kolmogorov's continuity theorem, that the sample paths of \(X\) (after an eventual modification) are continuous functions. Apart from somewhat trivial examples, such as a deterministic process or a linear random process, we can show that processes with a sufficiently smooth kernel satisfy our requirements.
 
 \begin{lemma}\label{lemma:mean-square-lipschitz}
   \marginproof{proof:mean-square-lipschitz}
-  If the covariance function \(K\) of the process \(X\) is twice-continuously differentiable and \(\mathbb E[X(t)]=0\) for all \(t\in[0,1]\), then \(X\) is mean-square Lipschitz continuous.
+  If the covariance function \(K\) of the process \(X\) is twice-continuously differentiable and \(\E[X(t)]=0\) for all \(t\in[0,1]\), then \(X\) is mean-square Lipschitz continuous.
 \end{lemma}
 
 Note that the above requirement is by no means a necessary one. For example, given a second-order stochastic process \(\{Z(t): t \in [0,1]\}\) with zero mean, we can consider the integrated process
 \[
   X(t)=\int_0^t Z(u)\, du, \quad t\in [0,1].
 \]
-If \(K_Z(t,s)=\mathbb E[Z(t)Z(s)]\) is uniformly bounded above by a constant \(L>0\) on \([0,1]\), we have
+If \(K_Z(t,s)=\E[Z(t)Z(s)]\) is uniformly bounded above by a constant \(L>0\) on \([0,1]\), we have
 \[
-  \mathbb E\left[(X(t) - X(s))^2\right] = \int_s^t \int_s^t \mathbb E[Z(u)Z(v)]\, du\,dv \leq L(t-s)^2.
+  \E\left[(X(t) - X(s))^2\right] = \int_s^t \int_s^t \E[Z(u)Z(v)]\, du\,dv \leq L(t-s)^2.
 \]
 For example, we might take \(Z(t)\) to be a standard Brownian motion, an Ornstein--Uhlenbeck process or, in general, any second-order process with a continuous covariance function. In any case, by virtue of Lemma~\ref{lemma:mean-square-lipschitz} we can always pre-process the trajectories so that they are regular enough for the conditions to hold, considering for instance the convolution with a smooth kernel.
 
@@ -389,7 +389,7 @@ As for the real data experiments, we use the Tecator data set \citep{borggaard19
 \begin{itemize}
   \item Four logistic finite-dimensional \acs{RKHS} responses with the same functional parameter as in the linear regression case (one for each \acs{GP}). Specifically,
   \[
-    \mathbb P(Y=1\mid X) = \frac{1}{1 + \exp\left\{0.5 +5X(0.1) - 5X(0.6) - 10X(0.8)\right\}}.
+    \pp(Y=1\mid X) = \frac{1}{1 + \exp\left\{0.5 +5X(0.1) - 5X(0.6) - 10X(0.8)\right\}}.
   \]
   \item Four logistic responses following an \(L^2\)-model with the same coefficient function as in the linear regression case, i.e., \(\beta(t)=\log(1+4t)\), and an intercept \(\alpha=-0.5\).
   \item A non-Gaussian mixture situation in which we combine regressors from two different \acs{GPs} with equal probability, and label them according to their origin. In particular, we consider a homoscedastic case to distinguish between a standard Brownian motion and a Brownian motion with mean function
@@ -484,7 +484,7 @@ On another note, we see that some of our Bayesian models have a higher standard 
 \FloatBarrier{}
 \subsubsection*{Functional logistic regression}
 
-In this case we set the same prior distribution for \(p\) as in the linear case, but now in the fitting phase the regressors are scaled to have standard deviation \(0.5\) to accommodate the priors in~\eqref{eq:prior-logistic}. We also use the standard threshold of \(1/2\) to convert probabilities to class labels, and the performance metric is the the rate of correctly predicted samples (accuracy). 
+In this case we set the same prior distribution for \(p\) as in the linear case, but now in the fitting phase the regressors are scaled to have standard deviation \(0.5\) to accommodate the priors in~\eqref{eq:prior-logistic}. We also use the standard threshold of \(1/2\) to convert probabilities to class labels, and the performance metric is the rate of correctly predicted samples (accuracy). 
 
 First, in Figure~\ref{fig:clf_rkhs} we see the results for the \acs{GP} regressors with a logistic \acs{RKHS} response. Our models perform fairly well in this advantageous situation, and even more so in the one-stage case. We again improve the results of other models that can select far more components than our self-imposed limit of \(10\). Moreover, whenever our two-stage methods score lower, the differences account for only a couple of misclassified samples at worst.
 
@@ -619,9 +619,9 @@ For this part, the general strategy will be to apply Doob's theorem (Theorem~\re
   
 We break the proof into several steps.
 
-\paragraph{Measurability issues} We first show the measurability of the mapping \(\theta \mapsto \pp_\theta(X,Y)(A)\) for every measurable set \(A \subseteq \mathcal X \times \mathcal Y\). Define the function \(g(\theta, x, y)=f_\theta(y|x)\mathds{1}_A(x,y)\), where \(f_\theta(\cdot|x)\) is the density of the normal distribution \( \mathcal N(\alpha + \sum_j \beta_j x(t_j),\, \sigma^2)\), and \(\mathds{1}_{A}\) is the indicator function of the set \(A\). Let \(E(x,t)=x(t)\) be the evaluation map on \(\mathcal C[0,1]\times [0,1]\), and note that \(x\mapsto x(t)\) is continuous on \(\mathcal C[0,1]\) while \(t\mapsto x(t)\) is continuous on \([0,1]\). It follows that \(E\) is a Carathéodory function and hence jointly measurable \citep[][Lemma~4.51]{aliprantis2006infinite}. Thus, \(h\) is seen to be measurable as a composition of Borel measurable functions, and by Tonelli's theorem, the function
+\paragraph{Measurability issues} We first show the measurability of the mapping \(\theta \mapsto \pp_\theta(X,Y)(A)\) for every measurable set \(A \subseteq \mathcal X \times \mathcal Y\). Define the function \(h(\theta, x, y)=f_\theta(y|x)\mathds{1}_A(x,y)\), where \(f_\theta(\cdot|x)\) is the density of the normal distribution \( \mathcal N(\alpha + \sum_j \beta_j x(t_j),\, \sigma^2)\), and \(\mathds{1}_{A}\) is the indicator function of the set \(A\). Let \(E(x,t)=x(t)\) be the evaluation map on \(\mathcal C[0,1]\times [0,1]\), and note that \(x\mapsto x(t)\) is continuous on \(\mathcal C[0,1]\) while \(t\mapsto x(t)\) is continuous on \([0,1]\). It follows that \(E\) is a Carathéodory function and hence jointly measurable \citep[][Lemma~4.51]{aliprantis2006infinite}. Thus, \(h\) is seen to be measurable as a composition of Borel measurable functions, and by Fubini/Tonelli \citep[\S23]{bauer2001measure}, the function
 \[
-  \theta \mapsto \int_{\mathcal X \times \mathcal Y} g(\theta, x, y)\, d\qq_X(x)\,d\mathfrak{m}(y) = \pp_\theta(X, Y)(A)
+  \theta \mapsto \int_{\mathcal X \times \mathcal Y} h(\theta, x, y)\, d\qq_X(x)\,d\mathfrak{m}(y) = \pp_\theta(X, Y)(A)
 \]
 is measurable. Another measurability concern is the existence of regular conditional distributions such as \(\theta|(X, Y)_{1:n}\). For this, one should see Theorem 10.2.1 and Theorem 10.2.2 in \citet{dudley2002real}, which guarantee that such conditional distributions are well-defined provided that the underlying spaces are sufficiently regular.
 
@@ -705,12 +705,12 @@ Then, by assumption, \(\mathfrak{m}_{2p+2}(B_p)=0\). But this is valid for all \
 We begin by addressing the claim that \(f_\theta(y|x)\) is a joint density of \((X,Y)\) with respect to \(\rho=\qq_X\times \mathfrak{m}\).
 
 \begin{proof}[Proof of Lemma~\ref{lemma:joint-density-rho}]\label{proof:joint-density-rho}
-First, consider a measurable rectangle \(B_X\times B_Y\) in the product (Borel) \(\sigma\)-algebra of \(\mathcal X\) and \(\mathcal Y\). Then, since both \(\mathcal X\) and \(\mathcal Y\) are Polish spaces, by the disintegration theorem \citep[e.g.][\S10.6]{bogachev2007measure} and Tonelli's theorem we have
+First, consider a measurable rectangle \(A_X\times A_Y\) in the product (Borel) \(\sigma\)-algebra of \(\mathcal X\) and \(\mathcal Y\). Then, since both \(\mathcal X\) and \(\mathcal Y\) are Polish spaces, by the disintegration theorem \citep[e.g.][\S10.6]{bogachev2007measure} and Fubini/Tonelli, we have
 \begin{align*}
-  \mathbb P(X\in B_X, Y\in B_Y) &= \int_{B_X} \left(\int_{B_Y} f_\theta(y|x)\, d\mathfrak{m}(y)\right) d\qq_X(x)\\
-  &= \int_{B_X\times B_Y} f_\theta(y|x)\, d\rho(x, y).
+  \pp(X\in A_X, Y\in A_Y) &= \int_{A_X} \left(\int_{A_Y} f_\theta(y|x)\, d\mathfrak{m}(y)\right) d\qq_X(x)\\
+  &= \int_{A_X\times A_Y} f_\theta(y|x)\, d\rho(x, y).
 \end{align*}
-Now extend the argument to a general measurable set \(B\subseteq \mathcal X \times \mathcal Y\) by a standard application of Dynkin's \(\pi\)-\(\lambda\) theorem \citep[Lemma~4.11]{aliprantis2006infinite}, where the \(\pi\)-system is the class of measurable rectangles and the \(\lambda\)-system is the class of measurable sets that verify the intended condition.
+Now extend the argument to a general measurable set \(A\subseteq \mathcal X \times \mathcal Y\) by a standard application of Dynkin's \(\pi\)-\(\lambda\) theorem \citep[Lemma~4.11]{aliprantis2006infinite}, where the \(\pi\)-system is the class of measurable rectangles and the \(\lambda\)-system is the class of measurable sets that verify the intended condition.
 \end{proof}
 
 Recall that our full parameter space is the disjoint union \(\Theta=\bigcup_p\Theta_p\). As we said before, for convenience we take the finite-dimensional sets \(\Theta_p\) to be compact spaces. More specifically, we work with
@@ -726,12 +726,12 @@ Next, we present a collection of standard results on covering numbers that will 
   \begin{enumerate}[label=(\roman*)]
     \item If \(\epsilon\leq \epsilon'\) then \(N(\epsilon', \mathcal F, d) \leq N(\epsilon, \mathcal F, d)\).
     \item If \(d'\) is another distance on \(\mathcal F\) such that \(d\leq \tilde C d'\) for some \(\tilde C > 0\), then \(N(\epsilon, \mathcal F, d) \leq N(\epsilon/\tilde C, \mathcal F, d')\) for all \(\epsilon > 0\).
-    \item If there is a constant \(\tilde C>0\) such that \(d(f_{\theta}, f_{\theta'})\leq \tilde C \|\theta - \theta'\|\) for every \(\theta, \theta' \in  \Theta\), then \(N(\epsilon, \mathcal F, d)\leq N(\epsilon/\tilde C, \Theta, \|\cdot\|)\) for all \(\epsilon > 0\). % Theorem 2.7.17 in van der Vaart and Wellner (1996)
-    \item If \(\Theta_p \subset \R^p\) has finite diameter \(R_p\), then \(N(\epsilon, \Theta_p, \|\cdot\|) \leq (3R_p/\epsilon)^p\) for all \(0<\epsilon<R_p\). % Proposition C.2 in Ghosal and van der Vaart (2017)
+    \item If there is a constant \(\tilde C>0\) such that \(d(f_{\theta}, f_{\theta'})\leq \tilde C \|\theta - \theta'\|\) for all \(\theta, \theta' \in  \Theta\), then \(N(\epsilon, \mathcal F, d)\leq N(\epsilon/\tilde C, \Theta, \|\cdot\|)\) for all \(\epsilon > 0\). % Theorem 2.7.17 in van der Vaart and Wellner (1996)
+    \item If \(A\subset \R^D\) has finite diameter \(R_D\), then \(N(\epsilon, A, \|\cdot\|) \leq (3R_D/\epsilon)^D\) for all \(0<\epsilon<R_D\). % Proposition C.2 in Ghosal and van der Vaart (2017)
   \end{enumerate}
 \end{lemma}
 
-Additionally, for a given parameter \(\theta\in\Theta\) we consider the mean function \(\mu_\theta:\mathcal C[0,1]\to\mathbb R\) given by 
+Additionally, for a given parameter \(\theta\in\Theta\) we consider the mean function \(\mu_\theta:\mathcal C[0,1]\to \R\) given by 
 \[
   \mu_\theta(x)=\alpha + \sum_{j=1}^p \beta_j x(t_j),
 \] 
@@ -755,12 +755,12 @@ Now from the triangle inequality, the Cauchy--Schwarz inequality and the fact th
 \end{align*}
 Note that \(\|\theta-\theta'\|^2\) is always bigger than the sum of just some of the squared components of \(\theta - \theta'\). Using the Lipschitz property in~\ref{cond:condition-schwartz-X} and integrating on both sides with respect to \(\qq_X\), we get
 \begin{align*}
-  \frac{1}{2}\mathbb E_{\qq_X}\left[(\mu_\theta - \mu_{\theta'})^2\right] &\leq \|\theta - \theta'\|^2 + 2p\biggl(M_B^2 \|\theta - \theta'\|^2 \mathbb{E}_{\qq_X}[L^2]\\ 
-  &\quad + \|\theta - \theta'\|^2 \sup_{t\in[0,1]} \mathbb{E}_{\qq_X}[x(t)^2] \biggr).
+  \frac{1}{2}\E_{\qq_X}\left[(\mu_\theta - \mu_{\theta'})^2\right] &\leq \|\theta - \theta'\|^2 + 2p\biggl(M_B^2 \|\theta - \theta'\|^2 \E_{\qq_X}[L^2]\\ 
+  &\quad + \|\theta - \theta'\|^2 \sup_{t\in[0,1]} \E_{\qq_X}[x(t)^2] \biggr).
 \end{align*}
-Recall that the covariance function \(K\) of \(X\) is assumed to be continuous, so the quantity \(\sup_{t\in[0,1]} \mathbb{E}_{\qq_X}[x(t)^2]=\sup_{t\in[0,1]}K(t,t)\) is finite, and so is the integral \(\mathbb{E}_{\qq_X}[L^2]\) owing to~\ref{cond:condition-schwartz-X}. Then, we can bring all constants together (which are positive and depend on \(M_B\), \(p\) and \(X\)) into \(C_1>0\) to write
+Recall that the covariance function \(K\) of \(X\) is assumed to be continuous, so the quantity \(\sup_{t\in[0,1]} \E_{\qq_X}[x(t)^2]=\sup_{t\in[0,1]}K(t,t)\) is finite, and so is the integral \(\E_{\qq_X}[L^2]\) owing to~\ref{cond:condition-schwartz-X}. Then, we can bring all constants together (which are positive and depend on \(M_B\), \(p\) and \(X\)) into \(C_1>0\) to write
 \begin{equation}\label{eq:th9-bound1}
-  \mathbb{E}_{\qq_X}\left[(\mu_\theta - \mu_{\theta'})^2\right] \leq C_1 \|\theta - \theta'\|^2.
+  \E_{\qq_X}\left[(\mu_\theta - \mu_{\theta'})^2\right] \leq C_1 \|\theta - \theta'\|^2.
 \end{equation}
 Now we compute \(d^2_H(f_\theta, f_{\theta'})\). Denote by \(\sigma^2_1\) and \(\sigma^2_2\) the variance parameters corresponding to \(\theta\) and \(\theta'\), respectively, and define 
 \[
@@ -772,7 +772,7 @@ Using the inequality \(e^{-a}\geq 1-a\) for \(a\geq 0\) and the well-known expre
   d^2_H(f_\theta, f_{\theta'}) & = 1 - \bigintssss \left(\bigintssss\sqrt{f_\theta(y|x) f_{\theta'}(y|x)}\, d\mathfrak{m}(y)\right) d\qq_X(x)\\
   & = 1 - S(\sigma_1, \sigma_2)\bigintsss \exp\left\{ -\frac{(\mu_\theta(x) - \mu_{\theta'}(x))^2}{4(\sigma_1^2 + \sigma_2^2)} \right\} d\qq_X(x)                                         \\
   & \leq 1 - S(\sigma_1, \sigma_2) + S(\sigma_1, \sigma_2) \bigintsss \frac{(\mu_\theta(x) - \mu_{\theta'}(x))^2}{4(\sigma_1^2+\sigma_2^2)}\, d\qq_X(x) \\
-  & \leq C_2\|\theta - \theta'\|^2 + C_3 \mathbb E_{\qq_X}\left[(\mu_\theta - \mu_{\theta'})^2\right],
+  & \leq C_2\|\theta - \theta'\|^2 + C_3 \E_{\qq_X}\left[(\mu_\theta - \mu_{\theta'})^2\right],
 \end{split}
 \end{equation}
 where \(C_2\) and \(C_3\) are positive constants that depend on \(\sigma^2_{\text{min}}\) and \(\sigma^2_{\text{max}}\). Obtaining \(C_3\) is straightforward; to get \(C_2\), let \(u=\sigma_1^2\), \(v=\sigma_2^2\) and \(S=\sqrt{\frac{2\sqrt{uv}}{u+v}}\), and note that
@@ -1011,7 +1011,7 @@ To conclude, note that \(\sqrt{a^2+b^2}\geq (a+b)/\sqrt{2}\) for \(a,b\geq 0\), 
 \begin{proof}[Proof of Lemma~\ref{lemma:mean-square-lipschitz}]\label{proof:mean-square-lipschitz}
 We know that 
 \[
-  \mathbb E[(X(t) - X(s))^2] = K(t,t)-2K(t,s) + K(s,s),
+  \E[(X(t) - X(s))^2] = K(t,t)-2K(t,s) + K(s,s),
 \]
 and a Taylor expansion around the point \((s,s)\) shows that, since \(K\) is symmetric,
 \[
