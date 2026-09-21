@@ -8,7 +8,7 @@
   \citep{berrendero2026bayesian}.}
 \end{flushannotation}
 
-\noindent  \note{Our second goal...... However, despite their broad adoption, they remain comparatively underdeveloped within the \acs{FDA} framework. We aim to bridge this gap by proposing a Bayesian test for the mean function \(\mu\) of a Gaussian process observed through i.i.d.\ samples, which serves as a building block for more complex statistical analyses. In particular, we provide a method for testing the point-null hypothesis \(H_0: \mu \equiv \mu_0\) versus the composite alternative \(H_1: \mu \not\equiv \mu_0\), where \(\mu_0(\cdot)\) is a predetermined function. We focus on the simple hypothesis of exact equality, in contrast to \textit{precise} or \textit{relevant} hypotheses such as \(H_0^\epsilon: \|\mu-\mu_0\| < \epsilon\) for a given \(\epsilon>0\). Although these precise hypothesis may be useful when an exact zero is not meaningful or reasonable, in a Bayesian framework they can be conceptually encoded in the corresponding point-null hypothesis via prior beliefs, as argued by \citet{berger1987testing}. The proposed test is primarily based on the Bayes factor}
+\noindent Another goal of this thesis is to study Bayesian approaches to functional hypothesis testing. Despite their broad adoption elsewhere in modern statistics, Bayesian methods remain comparatively underdeveloped within the \acs{FDA} framework, particularly for testing problems. We aim to bridge this gap by proposing a Bayesian test for the mean function \(\mu\) of a Gaussian process observed through i.i.d.\ samples, which serves as a building block for more complex statistical analyses. In particular, we provide a method for testing the point-null hypothesis \(H_0: \mu \equiv \mu_0\) versus the composite alternative \(H_1: \mu \not\equiv \mu_0\), where \(\mu_0(\cdot)\) is a predetermined function. We focus on the simple hypothesis of exact equality, in contrast to \textit{precise} or \textit{relevant} hypotheses such as \(H_0^\epsilon: \|\mu-\mu_0\| < \epsilon\) for a given \(\epsilon>0\). Although these precise hypothesis may be useful when an exact zero is not meaningful or reasonable, in a Bayesian framework they can be conceptually encoded in the corresponding point-null hypothesis via prior beliefs, as argued by \citet{berger1987testing}. The proposed test is primarily based on the Bayes factor
 \[
 \bff_{10} = \frac{\pp(\text{data}\mid H_1)}{\pp(\text{data}\mid H_0)},
 \]
@@ -16,7 +16,7 @@ which measures the evidence for \(H_1\) over \(H_0\), and is linked to the prior
 \[
 \frac{\pp(H_1\mid \text{data})}{\pp(H_0\mid \text{data})} = \bff_{10} \, \times\, \frac{\pp(H_1)}{\pp(H_0)}.
 \]
-Using Bayes factors to quantify the evidence against the null hypothesis in a continuous manner is the standard approach in Bayesian testing, popularized since the seminal work by \citet{kass1995bayes}. Because they are intimately related to the posterior probability of the null, Bayes factors provide a direct probabilistic way of interpreting the test decision, while also allowing the incorporation of prior information. Moreover, despite being a loose analog of a likelihood ratio test, the Bayes factor \(\bff_{10}\) can be inverted to provide evidence in favor of \(H_0\), which is not possible in frequentist tests due to the built-in asymmetry. 
+Using Bayes factors to quantify the evidence against the null hypothesis in a continuous manner is the standard approach in multivariate Bayesian testing, popularized since the seminal work by \citet{kass1995bayes}. Because they are intimately related to the posterior probability of the null, Bayes factors provide a direct probabilistic way of interpreting the test decision, while also allowing the incorporation of prior information. Moreover, despite being a loose analog of a likelihood ratio test, the Bayes factor \(\bff_{10}\) can be inverted to provide evidence in favor of \(H_0\), which is not possible in frequentist tests due to the built-in asymmetry. 
 
 
 
@@ -83,7 +83,7 @@ where \(\delta_0\) is a Dirac measure at \(0\in \R^p\) (the ``spike''), \(\eta^2
 \]
 The choice of a normal distribution for the ``slab'' prior of \(b\) is not arbitrary; it will be used as a conjugacy device to simplify the posterior distribution later on. Note that this construction induces the priors \(\Pi(H_0)=\pi_0\) and \(\Pi(H_1)=1-\pi_0\), since the null hypothesis is reinterpreted as \(H_0: b=0\).
 
-\subsection{Posterior approximation} 
+\subsection{Posterior approximation}\label{sec:posterior-approximation}
 
 Bayes' formula readily gives a posterior distribution 
 \[
@@ -107,7 +107,7 @@ where \(\Lambda_\tau = nK_\tau + \eta^{-2}I_p\). All in all, the marginal poster
 \Pi_n(p, \tau\mid X_{1:n}) \propto \Pi(p)\Pi(\tau\mid p)[\pi_0 + (1-\pi_0)\mslab(X_{1:n}\mid p, \tau)].
 \end{equation}
 
-At this point we can again use the \acs{RJMCMC} algorithm to approximate the marginal posterior \(\Pi_n(p, \tau| X_{1:n})\). This method yields a sequence of approximate posterior draws \(\{(p^{(r)}, \tau^{(r)}): r=1,\dots,R\}\), possibly of different dimensions. We can subsequently reapply Bayes' formula conditional on \((p^{(r)},\tau^{(r)})\) to recover the posterior samples \(b^{(r)}\), which in turn can be used to construct posterior samples \(\mu^{(r)}\) of the mean function via~\eqref{eq:mu-h0}. To that effect, consider the conditional posterior probability of the spike 
+At this point we again use the \acs{RJMCMC} algorithm (see Chapter~\ref{ch:rjmcmc}) to approximate the marginal posterior \(\Pi_n(p, \tau| X_{1:n})\). This method yields a sequence of approximate posterior draws \(\{(p^{(r)}, \tau^{(r)}): r=1,\dots,R\}\), possibly of different dimensions. We can subsequently reapply Bayes' formula conditional on \((p^{(r)},\tau^{(r)})\) to recover the posterior samples \(b^{(r)}\), which in turn can be used to construct posterior samples \(\mu^{(r)}\) of the mean function via~\eqref{eq:mu-h0}. To that effect, consider the conditional posterior probability of the spike 
 \begin{equation}\label{eq:psi-posterior-spike}
 \psi_n(p,\tau) = \Pi_n(b=0\mid p,\tau, X_{1:n}) = \frac{\pi_0}{m(X_{1:n}\mid p,\tau)},
 \end{equation}
@@ -158,7 +158,7 @@ Note that this strategy is similar to the Rao--Blackwellization process to reduc
 \]
 and represents the evidence in favor of \(H_1\) over \(H_0\) as supported by the data. For example, if \(\pi_0=1-\pi_0=1/2\), then \(\Pi_n(H_0|X_{1:n})=1/2\) corresponds to \(\bff_{10}(X_{1:n}) = 1\). Note that in our model \(L(X_{1:n}|H_0)\) is actually equal to 1 by construction, since we take \(\pp_0\) as the reference measure. In practice, we report an estimated Bayes factor 
 \[
-\hat{\bff}_{10} = \frac{1 - \hat \pi_{\text{null}}}{\hat \pi_{\text{null}}}\cdot \frac{\pi_0}{1-\pi_0}
+\hat{{\bff}}_{10} = \frac{1 - \hat \pi_{\text{null}}}{\hat \pi_{\text{null}}}\cdot \frac{\pi_0}{1-\pi_0}
 \]
 and use Jeffreys' scale (see Table~\ref{tab:jeffreys-scale}) to weigh the evidence against \(H_0\). Observe that the Bayes factor (a likelihood ratio) is actually independent of the prior belief \(\pi_0\), so it acts as a somewhat more objective measure to compare evidence against \(H_0\) across different models.
 
@@ -169,15 +169,15 @@ and use Jeffreys' scale (see Table~\ref{tab:jeffreys-scale}) to weigh the eviden
   %\renewcommand{\arraystretch}{1.05}
   \caption{Jeffreys' scale for the Bayes factor, adapted by \citet{kass1995bayes}.}\label{tab:jeffreys-scale}
   \begin{tabular}{@{}rrl@{}}
-  \midrule
-   \multicolumn{1}{c}{\(\bff_{10}\)} & \multicolumn{1}{c}{\(\log \bff_{10}\)} & \multicolumn{1}{c@{}}{Strength of evidence against \(H_0\)} \\
+  \toprule
+   \multicolumn{1}{c}{\(\bff_{10}\)} & \multicolumn{1}{c}{\(\log \bff_{10}\)} & \multicolumn{1}{c@{}}{\slsc{Strength of evidence against the null}} \\
   \midrule
   \(<1\) & \(<0\) & Negative\\
   \(1\) to \(3\) & \(0\) to \(1.1\) &  Barely worth mentioning \\
   \(3\) to \(20\) & \(1.1\) to \(3\) & Positive \\
   \(20\) to \(150\) & \(3\) to \(5\) & Strong \\
   \(> 150\) &  \(>5\) & Very strong \\
-  \midrule
+  \bottomrule
   \end{tabular}
 \end{table}
 
@@ -196,13 +196,13 @@ An additional benefit of the Bayesian framework is that it facilitates posterior
 \[
   \E[\mu(s)\mid X] = \E[\E[\mu(s)\mid p, \tau, X]\mid X],
 \]
-and the same variance reduction argument as before applies. In the i.i.d.\ case, the inner posterior expectation admits the closed-form expression 
+and the same variance reduction argument as before applies. In the i.i.d.\ case, from the computations in Section~\ref{sec:posterior-approximation}, the inner posterior expectation admits the closed-form expression 
 \begin{align*}
 \E[\mu(s)\mid p, \tau, X_{1:n}] &= \sum_{j=1}^p \E[\beta_j\mid p, \tau, X_{1:n}]K(t_j, s) \\
 &=(1-\psi_n(p,\tau))K(\tau, s)'\E[b\mid p, \tau, X_{1:n}, \text{slab}]\\
 &= (1-\psi_n(p, \tau))K(\tau, s)'\Lambda_\tau^{-1}S_n(\tau),
 \end{align*}
-where \(K(\tau, s)\) denotes the \(p\times 1\) vector with entries \(K(t_j, s)\), and \(\Lambda_\tau^{-1}S_n(\tau)\) is the posterior expectation of the coefficients under the slab, computed in~\eqref{eq:mean-b-slab}. Consequently, a Monte Carlo estimator of the posterior mean function \(\hat\mu_n^{\text{PM}}(\cdot) = \hat{\E}[\mu(\cdot)|X_{1:n}]\) is given by
+where \(K(\tau, s)\) denotes the \(p\times 1\) vector with entries \(K(t_j, s)\). Consequently, a Monte Carlo estimator \(\hat\mu_n^{\text{PM}}(\cdot) = \hat{\E}[\mu(\cdot)|X_{1:n}]\) of the posterior mean function is given by
 \[
 \hat\mu_n^{\text{PM}}(\cdot) =\frac{1}{R} \sum_{r=1}^R (1-\psi_n(p^{(r)}, \tau^{(r)}))K(\tau^{(r)}, \cdot)'\Lambda_{\tau^{(r)}}^{-1}S_n(\tau^{(r)}),
 \]
@@ -232,7 +232,7 @@ Depending on whether the zero function lies entirely within the band, we have an
 
 \section{Estimation of the covariance function}\label{sec:covariance-estimation} 
 
-So far we have treated \(K\) as known, but in practice we rarely have access to the complete covariance function. The \acs{FDA} literature offers a variety of estimation techniques depending on the application and available data, such as maximum likelihood, functional principal component analysis, and smooth interpolation methods \citep[e.g.][]{li2010uniform, xiao2018fast, wong2019nonparametric,mbaka2025estimating}. Parametric approaches---both frequentist and Bayesian---are also widely used, but they often require extra assumptions that lead to more complex models. We advocate for a simpler plug-in strategy in which an estimated covariance is computed from the data, and then used in our model as if it were the true covariance. The performance of the plug-in test for finite sample sizes will depend on how well the estimated covariance approximates \(K\), but as we will see in Section~\ref{sec:consistency-plug-in}, the asymptotic properties of the test are unaffected if the estimator itself is uniformly consistent.
+So far we have treated \(K\) as known, but in practice we rarely have access to the complete covariance function. The \acs{FDA} literature offers a variety of estimation techniques depending on the application and available data, such as maximum likelihood, \acf{FPCA}, and smooth interpolation methods \citep[e.g.][]{li2010uniform, xiao2018fast, wong2019nonparametric,mbaka2025estimating}. Parametric approaches---both frequentist and Bayesian---are also widely used, but they often require extra assumptions that lead to more complex models. We advocate for a simpler plug-in strategy in which an estimated covariance is computed from the data, and then used in our model as if it were the true covariance. The performance of the plug-in test for finite sample sizes will depend on how well the estimated covariance approximates \(K\), but as we will see in Section~\ref{sec:consistency-plug-in}, the asymptotic properties of the test are unaffected if the estimator itself is uniformly consistent.
 
 Denote the sample mean by \(\bar X_n(\cdot) = n^{-1}\sum_i X_i(\cdot)\) and consider the standard empirical covariance estimator
 \[
@@ -267,7 +267,7 @@ K_{\nu,\alpha, \sigma^2}(t,s) = \frac{\sigma^2(\alpha|t-s|)^\nu}{\Gamma(\nu)2^{\
 \]
 where \(\sigma^2>0\) is the variance, \(\alpha>0\) is the scale, \(\nu>0\) is the smoothness, \(\Gamma(\cdot)\) is the Gamma function, and \(K_\nu(\cdot)\) is the modified Bessel function of the second kind of order \(\nu\). Note that the Ornstein--Uhlenbeck kernel is a particular case of a Matérn kernel with \(\nu=1/2\). By definition, two equivalent Gaussian measures cannot be distinguished by a single trajectory, regardless of how dense the observation grid is. Motivated by this result, \textit{microergodic parameters} are defined as those functions of the parameters that, when different, produce orthogonal underlying measures \citep[see][Section~4]{bachoc2021asymptotic}. In the case of Matérn kernels, neither \(\sigma^2\) nor \(\alpha\) is microergodic, and thus these parameters are not consistently estimable from one trajectory. However, \(\sigma^2\alpha^{2\nu}\) is microergodic, and it turns out that it can be estimated consistently via maximum likelihood \citep{zhang2004inconsistent}.
 
-\subsubsection*{Regularized covariance estimation}
+\subsubsection*{Regularized estimation}
 
 A well-known method to regularize the empirical covariance estimator \(\hat C_n\) is the Ledoit--Wolf procedure \citep{ledoit2004well}, which contemplates an estimator of the form
 \[
@@ -283,7 +283,7 @@ Apart from the frequentist approaches outlined above, we could of course follow 
   \item Compute a Bayesian estimator \(\hat\phi\) from the data, fix \(K=K_{\hat\phi}\) and proceed as if the covariance function were known.
 \end{enumerate}
 
-The first option is the natural one in a Bayesian framework, but it presents important practical problems in our setting. First, since the mean function is a member of the RKHS \(\mathcal H(K_\phi)\), it would now be parametrized as
+The first option is the natural one in a Bayesian framework, but it presents important practical problems in our setting. First, since the mean function is a member of the \acs{RKHS} \(\mathcal H(K_\phi)\), it would now be parametrized as
 \[
 \mu_{p, \tau, b, \phi}(\cdot) = \sum_{j=1}^p \beta_j K_\phi(t_j, \cdot),
 \]
@@ -294,7 +294,7 @@ The second option, while not ideal, can still be interpreted in a pseudo-Bayesia
 
 \section{Asymptotic theory}\label{sec:consistency-bft}
 
-To assess the frequentist behavior of the proposed Bayesian test, we study posterior consistency and posterior contraction rates of the Bayes factor, which depend only on the large-sample behavior of the posterior probability of \(H_0\) (or equivalently, of \(H_1\)). In this case, a posterior contraction rate quantifies how fast the posterior mass concentrates around the true hypothesis as \(n\to\infty\); we will use the concept of stochastic boundedness (\note{see Definition~\ref{def:stochastic-boundedness}}) to evaluate contraction rates. 
+To assess the frequentist behavior of the proposed Bayesian test, we study posterior consistency and posterior contraction rates of the Bayes factor, which depend only on the large-sample behavior of the posterior probability of \(H_0\) (or equivalently, of \(H_1\)). In this case, a posterior contraction rate quantifies how fast the posterior mass concentrates around the true hypothesis as \(n\to\infty\); we will use the concept of stochastic boundedness (see Definition~\ref{def:stochastic-boundedness}) to evaluate contraction rates. 
 
 As an abuse of notation, we still write \(\pp_0\) and \(\pp_\mu\) for the product measures \(\pp_0^{(n)}\) and \(\pp_{\mu}^{(n)}\) of \((X_1,X_2,\dots, X_n)\), respectively, when the dependence on the sample size \(n\) is clear from context. Moreover, we let \(\pp_0^\infty\) denote the distribution of \((X_1,X_2,\dots)\) under \(H_0\). The proofs of the theoretical results are deferred to Section~\ref{sec:proofs-bft}.
 
@@ -306,11 +306,14 @@ We already established that the sample paths of the process \(X\) are supposed t
 
 \subsection{Consistency and contraction rates for known covariance}\label{sec:consistency-known}
 
-We first focus on the case where \(H_0\) is true, that is, \(X_1,\dots,X_n \sim \gp(0, K)\) i.i.d.\ with distribution \(\pp_0\). As it is often the case in Bayesian tests with point-null hypotheses, posterior consistency holds directly as long as \(\Pi(H_0)>0\) \citep[][Theorem 10.24]{dass2004note,ghosal2017fundamentals}. We provide an explicit proof for completeness.
+We first focus on the case where \(H_0\) is true, that is, \(X_1,\dots,X_n \sim \gp(0, K)\) i.i.d.\ with distribution \(\pp_0\). As it is often the case in Bayesian tests with a point-null hypothesis, posterior consistency holds if \(\Pi(H_0)>0\), through a direct application of Doob's theorem \citep[][Theorem 10.24]{dass2004note,ghosal2017fundamentals}. We provide an explicit proof for completeness.
 
 \begin{theorem}\label{th:consistency-h0}
   \marginproof{proof:consistency-h0}
-  Under \(H_0\), \(\lim_{n\to\infty} \Pi_n(H_1|X_{1:n}) = 0\) \raisebox{.25pt}{\(\pp_0^\infty\)-a.s.}
+  Under \(H_0\), we have 
+  \[
+    \lim_{n\to\infty} \Pi_n(H_1\mid X_{1:n}) = 0\quad \pp_0^\infty-\text{a.s.}
+  \]
 \end{theorem}
 
 To study posterior contraction rates, we impose additional assumptions on the prior distributions.
@@ -324,12 +327,16 @@ To study posterior contraction rates, we impose additional assumptions on the pr
 
 Note that~\ref{ass:compact-support-tau} is verified, for example, by enforcing a uniform minimum separation on the time points in \(\tau\) (which already happens in practice on the finite grid \(\mathcal S\)). Indeed, for a fixed \(\delta>0\) one can consider the compact set
 \[
-\mathcal C_p(\delta) = \{(t_1,\dots, t_p)\in [0,1]^p: t_1 \geq \delta,\ t_p \leq 1 - \delta,\ t_{j+1} - t_j \geq \delta\ \text{for}\ j=1,\dots,p-1\}.
+\mathcal C_p(\delta) = \{\tau\in [0,1]^p: t_1 \geq \delta,\ t_p \leq 1 - \delta,\ t_{j+1} - t_j \geq \delta\ \text{for}\ j=1,\dots,p-1\}.
 \]
-On the other hand,~\ref{ass:prior-p-finite} is effectively a truncation on the model dimension, but it is not as restrictive as it may seem. Firstly, it is a standard assumption in the literature, and secondly, our model is designed for simplicity and parsimony, so we in fact encourage fewer components. In any event, the unknown value of \(p\) can still vary over a set as large as needed (e.g.\ we can take \(P_{\max}=|\mathcal S|\)). With these assumptions in mind, we can show that under \(H_0\) the posterior probability of the alternative hypothesis decays polynomially in the sample size.
+On the other hand,~\ref{ass:prior-p-finite} is effectively a truncation on the model dimension, but it is not as restrictive as it may seem. Firstly, it is a standard assumption in the literature, and secondly, our model is designed for simplicity and parsimony, so we in fact encourage fewer components. In any event, the unknown value of \(p\) can still vary over a set as large as needed (e.g.\ we can take \(P_{\max}=|\mathcal S|\)). With these assumptions in mind, we can show that under \(H_0\) the posterior probability of the alternative hypothesis decays polynomially in the sample size. Let \(p_{\min}=\min\{p\in \N: \Pi(p)>0\}\).
 
 \begin{theorem}\label{th:consistency-rates-h0}
-  Suppose~\ref{ass:continuous-paths}--\ref{ass:prior-p-finite} hold. Then, \(\Pi_n(H_1|X_{1:n}) = O_{\pp_0}(n^{-p_{\min}/2})\) under \(H_0\), where \(p_{\min}=\min\{p\in \N: \Pi(p)>0\}\).
+  \marginproof{proof:consistency-rates-h0}
+  Suppose~\ref{ass:continuous-paths}--\ref{ass:prior-p-finite} hold. Then, under \(H_0\) we have 
+  \[
+    \Pi_n(H_1\mid X_{1:n}) = O_{\pp_0}(n^{-p_{\min}/2}).
+  \]
 \end{theorem}
 
 \begin{remark}
@@ -343,17 +350,22 @@ We now turn to the case where \(H_1\) is true. Suppose that the model is well-sp
   
 \end{assumption}
 
-This mild condition is already sufficient to derive posterior consistency and exponential contraction rates. The proof relies on the fact that \(\Hcal_0(K)\) is dense in \(\Hcal(K)\), so we can always find an approximation \(\mu_{\theta}\in\Hcal_0(K)\) as close as desired to \(\mu_*\) in the \acs{RKHS} norm.
+This mild condition is already sufficient to derive exponential contraction rates (which immediately guarantees posterior consistency). The proof relies on the fact that \(\Hcal_0(K)\) is dense in \(\Hcal(K)\), so we can always find an approximation \(\mu_{\theta}\in\Hcal_0(K)\) as close as desired to \(\mu_*\) in the \acs{RKHS} norm.
 
 \begin{theorem}\label{th:consistency-rates-h1}
-  Suppose~\ref{ass:continuous-paths} and~\ref{ass:positive-prior-mass} hold. Then, \(\Pi_n(H_0|X_{1:n}) = O_{\pp_{\mu_*}}(e^{-n\gamma})\) under \(H_1\), for any \(0 < \gamma < \frac{1}{2}\|\mu_*\|^2_K\).
+  \marginproof{proof:consistency-rates-h1}
+  Suppose~\ref{ass:continuous-paths} and~\ref{ass:positive-prior-mass} hold. Then, under \(H_1\) we have
+  \[
+    \Pi_n(H_0\mid X_{1:n}) = O_{\pp_{\mu_*}}(e^{-n\gamma}),
+  \]
+  for any \(0 < \gamma < \frac{1}{2}\|\mu_*\|^2_K\).
 \end{theorem}
 
 \begin{remark}
-  The upper bound on \(\gamma\) is not arbitrary; we show in Section~\ref{sec:optimality} that it is in fact an information-theoretic limit. We also note that, as expected, the rate will be faster when it is easier to distinguish \(\mu_*\) from the zero function, that is, the larger \(\|\mu_*\|_K\) is.
+  The upper bound on \(\gamma\) is not arbitrary; we will show in Section~\ref{sec:optimality} that it is in fact an information-theoretic limit. We also note that, as expected, the rate will be faster when it is easier to distinguish \(\mu_*\) from the zero function, that is, the larger \(\|\mu_*\|_K\) is.
 \end{remark}
 
-It is worth mentioning that~\ref{ass:positive-prior-mass} is a bit more restrictive than needed, and it cannot hold simultaneously with the assumptions of Theorem~\ref{th:consistency-rates-h0}. Looking carefully at the proof of Theorem~\ref{th:consistency-rates-h1} in Section~\ref{sec:proofs-bft}, one notices that the approximated mean function \(\mu_\theta\) is only required to satisfy the condition \(\|\mu_* - \mu_{\theta}\|^2_K < \|\mu_*\|^2_K\). To make the result compatible with the practical assumptions~\ref{ass:compact-support-tau} and~\ref{ass:prior-p-finite}, we could replace~\ref{ass:positive-prior-mass} by the following condition.
+It is worth mentioning that~\ref{ass:positive-prior-mass} is a bit more restrictive than needed, and it cannot hold simultaneously with the assumptions of Theorem~\ref{th:consistency-rates-h0}. Looking carefully at the proof of Theorem~\ref{th:consistency-rates-h1}, one notices that the approximated mean function \(\mu_\theta\) is only required to satisfy the condition \(\|\mu_* - \mu_{\theta}\|^2_K < \|\mu_*\|^2_K\). To make the result compatible with the practical assumptions~\ref{ass:compact-support-tau} and~\ref{ass:prior-p-finite}, we could replace~\ref{ass:positive-prior-mass} by the following condition.
 
 \begin{assumptionalt}\label{ass:positive-prior-mass-alt}
   There exists \(\theta_0=(p_0,\tau_0,b_0)\) such that \(p_0\leq P_{\max}\), \(\tau_0\in \mathcal C_{p_0}\), \(b_0\in\R^{p_0} \setminus \{0\}\) and \(\|\mu_* - \mu_{\theta_0}\|^2_K < \|\mu_*\|^2_K\). Moreover, for each \(p\leq P_{\max}\) we have \(\Pi(p)>0\) and \(\Pi_{\tau,b}^{\text{slab}}(\cdot|p)\) has full support on \(\mathcal C_p \times \R^p\).
@@ -368,14 +380,19 @@ which is smaller than \(\|\mu_*\|^2_K\) as long as \(\mu_*(s)\neq 0\). Thus,~\re
 We can state a variant of Theorem~\ref{th:consistency-rates-h1} under this alternative assumption, in which the exponential rate now includes an approximation slack.
 
 \begin{theorem}\label{th:consistency-rates-h1-alt}
-  Suppose~\ref{ass:continuous-paths}--\ref{ass:prior-p-finite} and~\ref{ass:positive-prior-mass-alt} hold. Then, \(\Pi_n(H_0|X_{1:n}) = O_{\pp_{\mu_*}}(e^{-n\gamma})\) under \(H_1\), for any \(0 < \gamma < \frac{1}{2}(\|\mu_*\|^2_K - \|\mu_* - \mu_{\theta_0}\|^2_K)\).
+  \marginproof{proof:consistency-rates-h1-alt}
+  Suppose~\ref{ass:continuous-paths}--\ref{ass:prior-p-finite} and~\ref{ass:positive-prior-mass-alt} hold. Then, under \(H_1\) we have
+  \[
+    \Pi_n(H_0\mid X_{1:n}) = O_{\pp_{\mu_*}}(e^{-n\gamma}),
+  \]
+  for any \(0 < \gamma < \frac{1}{2}(\|\mu_*\|^2_K - \|\mu_* - \mu_{\theta_0}\|^2_K)\).
 \end{theorem}
 
 \begin{remark}
   By considering~\ref{ass:positive-prior-mass-alt} instead of~\ref{ass:positive-prior-mass} we gain a simpler condition that does not conflict with the assumptions of Theorem~\ref{th:consistency-rates-h0}, but the price we pay is a slower contraction rate under \(H_1\) (unless \(\mu_* \in \Hcal_0(K)\)). Moreover, even though~\ref{ass:positive-prior-mass-alt} can be satisfied with just \(p_0=1\), the rate improves with the quality of the approximation (i.e.\ when \(\|\mu_* - \mu_{\theta_0}\|^2_K\) is small), so we can expect much faster rates if the condition holds for bigger values of \(p_0\).
 \end{remark}
 
-\subsection{Consistency and Contraction Rates for Plug-in Covariance}\label{sec:consistency-plug-in}
+\subsection{Consistency and contraction rates for plug-in covariance}\label{sec:consistency-plug-in}
 
 We extend the results of Section~\ref{sec:consistency-known} to the case in which the true covariance function \(K(t,s)\) is unknown and replaced by a symmetric plug-in estimator \(\hat K_n(t,s)\), which need not be strictly positive definite. For any \(\tau\in\mathcal T_p\), let \(\hat K_{n,\tau} = [\hat K_n(t_j, t_k)]_{j,k=1}^p\) be the plug-in analog of the matrix \(K_\tau\) defined in~\eqref{eq:likelihood}. We will see that as long as we have uniform consistency of \(\hat K_{n,\tau}\) to \(K_\tau\), the approximation effect is negligible and the posterior contraction rates stay the same. Therefore, we impose the following condition.
 
@@ -386,105 +403,123 @@ We extend the results of Section~\ref{sec:consistency-known} to the case in whic
   \]
 \end{assumption}
 
-It can be shown that both the empirical covariance estimator \(\hat C_n\) and the OAS estimator described in Section~\ref{sec:covariance-estimation} satisfy the stronger condition of almost sure uniform convergence. Consider for each \(\tau\in\mathcal T_p\) the discretized matrices
+It can be shown that both the empirical covariance estimator \(\hat C_n\) and the \acs{OAS} estimator described in Section~\ref{sec:covariance-estimation} satisfy the stronger condition of almost sure uniform convergence. Consider for each \(\tau\in\mathcal T_p\) the discretized matrices
 \[
 \hat{C}_{n,\tau} = [\hat C_n(t_j, t_k)]_{j,k=1}^p \quad \text{and}\quad \hat{K}_{n,\tau}^{\text{OAS}} = (1-\hat\rho_{n,\tau})\hat C_{n,\tau} + \hat\rho_{n,\tau}\frac{\tr(\hat C_{n,\tau})}{p}I_p,
 \]
-where \(\hat\rho_{n,\tau}\in[0,1]\) is the OAS shrinkage coefficient computed via the analogue of~\eqref{eq:rho-oas} with \(\hat{\mathbf C}_n\) replaced by \(\hat{C}_{n,\tau}\) and \(G\) replaced by \(p\).
+where \(\hat\rho_{n,\tau}\in[0,1]\) is the \acs{OAS} shrinkage coefficient computed via the analogue of~\eqref{eq:rho-oas} with \(\hat{\mathbf C}_n\) replaced by \(\hat{C}_{n,\tau}\) and \(G\) replaced by \(p\).
 
 \begin{proposition}\label{prop:sample-cov-matrix-convergence}
+  \marginproof{proof:sample-cov-matrix-convergence}
   For any matrix norm \(\|\cdot\|\) and any compact set \(\mathcal C_p\subset \mathcal T_p\), we have:
-  \begin{enumerate}
-    \item[(i)] \(\|\hat {\mathbf C}_n - \mathbf K\| \to 0\) a.s.\ and \(\sup_{\tau\in \mathcal C_p} \|\hat C_{n,\tau} - K_\tau\| \to 0\) a.s.
-    \item[(ii)] \(\|\hat{\mathbf K}^{\emph{OAS}}_n - \mathbf K\| \to 0\) a.s.\ and \(\sup_{\tau\in \mathcal C_p} \|\hat K^{\emph{OAS}}_{n,\tau} - K_\tau\| \to 0\) a.s.
+  \begin{enumerate}[label=(\roman*)]
+    \item \(\|\hat {\mathbf C}_n - \mathbf K\| \to 0\) a.s.\ and \(\sup_{\tau\in \mathcal C_p} \|\hat C_{n,\tau} - K_\tau\| \to 0\) a.s.
+    \item \(\|\hat{\mathbf K}^{\emph{OAS}}_n - \mathbf K\| \to 0\) a.s.\ and \(\sup_{\tau\in \mathcal C_p} \|\hat K^{\emph{OAS}}_{n,\tau} - K_\tau\| \to 0\) a.s.
   \end{enumerate}
 \end{proposition}
 
 This convergence holds under any \(\gp(\mu, K)\) distribution with continuous sample paths, so both estimators satisfy~\ref{ass:uniform-consistency-plug-in} simultaneously under \(\pp_0\) and \(\pp_{\mu_*}\). The following results simply state that the contraction rates for the plug-in posterior \(\hat \Pi_n(\cdot|X_{1:n})\) computed using a suitable \(\hat K_n\) do not degrade. The proofs are a refinement of the corresponding ones for the known covariance case, in which the plug-in error is identified and controlled. 
 
 \begin{theorem}\label{th:consistency-rates-h0-plugin}
-  Suppose~\ref{ass:continuous-paths}--\ref{ass:prior-p-finite} and~\ref{ass:uniform-consistency-plug-in} hold. Then, \(\hat \Pi_n(H_1|X_{1:n}) = O_{\pp_0}(n^{-p_{\min}/2})\) under \(H_0\).
+  \marginproof{proof:consistency-rates-h0-plugin}
+  Suppose~\ref{ass:continuous-paths}--\ref{ass:prior-p-finite} and~\ref{ass:uniform-consistency-plug-in} hold. Then, under \(H_0\) we have
+  \[
+    \hat \Pi_n(H_1\mid X_{1:n}) = O_{\pp_0}(n^{-p_{\min}/2}).
+  \]
 \end{theorem}
 
 \begin{theorem}\label{th:consistency-rates-h1-plugin}
-  Suppose~\ref{ass:continuous-paths},~\ref{ass:positive-prior-mass} and~\ref{ass:uniform-consistency-plug-in} hold. Then, \(\hat \Pi_n(H_0|X_{1:n}) = O_{\pp_{\mu_*}}(e^{-n\gamma})\) under \(H_1\), for any \(0<\gamma<\frac{1}{2}\|\mu_*\|_K^2\). Alternatively, if~\ref{ass:continuous-paths}--\ref{ass:prior-p-finite},~\ref{ass:positive-prior-mass-alt} and~\ref{ass:uniform-consistency-plug-in} hold, then \(\hat \Pi_n(H_0|X_{1:n}) = O_{\pp_{\mu_*}}(e^{-n\gamma})\) under \(H_1\), for any \(0<\gamma<\frac{1}{2}(\|\mu_*\|_K^2 - \|\mu_* - \mu_{\theta_0}\|_K^2)\).
+  \marginproof{proof:consistency-rates-h1-plugin}
+  Suppose~\ref{ass:continuous-paths},~\ref{ass:positive-prior-mass} and~\ref{ass:uniform-consistency-plug-in} hold. Then, under \(H_1\) we have
+  \[
+    \hat \Pi_n(H_0\mid X_{1:n}) = O_{\pp_{\mu_*}}(e^{-n\gamma}),
+  \]
+  for any \(0<\gamma<\frac{1}{2}\|\mu_*\|_K^2\). Alternatively, if~\ref{ass:continuous-paths}--\ref{ass:prior-p-finite},~\ref{ass:positive-prior-mass-alt} and~\ref{ass:uniform-consistency-plug-in} hold, then 
+  \[
+    \hat \Pi_n(H_0\mid X_{1:n}) = O_{\pp_{\mu_*}}(e^{-n\gamma})
+  \]
+  under \(H_1\), for any \(0<\gamma<\frac{1}{2}(\|\mu_*\|_K^2 - \|\mu_* - \mu_{\theta_0}\|_K^2)\).
 \end{theorem}
 
-\subsection{On Optimality of the Contraction Rates}\label{sec:optimality}
+\subsection{On optimality of the contraction rates}\label{sec:optimality}
 
 An aspect of the theoretical exposition that might stand out is the asymmetry of the contraction rates: polynomial under \(H_0\) and exponential under \(H_1\). Intuitively, this disparity can be traced to the spike-and-slab prior~\eqref{eq:prior-b} placed on the coefficient vector \(b\). Because the slab prior assigns nonnegligible mass arbitrarily close to the null region \(\{b=0\}\), under \(H_0\) the model struggles to rule out small nonzero mean functions, thereby slowing posterior concentration to the null. In contrast, under \(H_1\) the spike prior---a point mass at zero---is well separated from the truth, so the evidence accumulates much faster in favor of the alternative. This heuristic argument is made precise for example by \citet{johnson2010use}, who refer to such priors as ``local alternative priors''. Under some regularity conditions, they show that in this case the best achievable rate under a point-null is polynomial, whereas under the alternative the rate is typically exponential.
 
 A natural follow-up question is whether the exponential rate under \(H_1\) can be improved, and the answer is negative. For a sequence of frequentist tests in the Neyman--Pearson sense (with bounded type I error probability) comparing a point-null against a simple alternative, the Chernoff--Stein lemma \citep[Theorem 11.8.3]{cover2006elements} states that the optimal decay rate of the type II error probability is exponential, with exponent constant equal to the Kullback--Leibler divergence between the underlying probability distributions. We show in the result below that this information-theoretic bound also applies to our Bayesian test, by thresholding the posterior to produce a frequentist test under the lemma's purview. Moreover, the Kullback--Leibler divergence in question is precisely \(\dkl(\pp_{\mu_*} \,\|\,\pp_0)=\frac{1}{2}\|\mu_*\|_K^2\), so the rate established in Theorem~\ref{th:consistency-rates-h1} is arbitrarily close to the theoretical optimum.
 
 \begin{proposition}\label{prop:optimality-rates-h1}
-  There is no \(\zeta > \frac{1}{2}\|\mu_*\|_K^2\) such that \(\Pi_n(H_0|X_{1:n}) = O_{\pp_{\mu_*}}(e^{-n\zeta})\) under \(H_1\).
+  \marginproof{proof:optimality-rates-h1}
+  Under \(H_1\), there is no \(\zeta > \frac{1}{2}\|\mu_*\|_K^2\) such that 
+  \[
+    \Pi_n(H_0\mid X_{1:n}) = O_{\pp_{\mu_*}}(e^{-n\zeta}).
+  \] 
 \end{proposition}
 
 
-\section{Numerical Experiments}\label{sec:experiments-bft}
+\section{Experimental results}\label{sec:experiments-bft}
 
-The code for reproducing the experiments is publicly available online at \url{https://github.com/antcc/rk-bt-jump}. FOOTNOTE
+We illustrate the finite-sample performance of the proposed Bayesian test through a series of experiments with simulated and real data.\footnote{The Python code is available at \url{https://github.com/antcc/rk-bt-jump}.} In both situations the covariance function is assumed unknown and estimated using the plug-in \acs{OAS} estimator. The \acs{RJMCMC} sampling procedure is again implemented in Python with the help of the \slsc{Eryn} library \citep{karnesis2023eryn}. We deployed 64 walkers and ran each one for 2500 steps, discarding the first 1500 samples as burn-in (though convergence was typically achieved in fewer steps). Additional hyperparameters for the sampler were selected based on recommendations from the authors and a small set of trial runs (see Chapter~\ref{ch:rjmcmc} for implementation details).
 
-\note{The \acs{RJMCMC} sampling procedure is again implemented in Python with the help of the \slsc{Eryn} library \citep{karnesis2023eryn}. We deployed 64 walkers and ran each one for 2500 steps, discarding the first 1500 samples as burn-in (though convergence was typically achieved in fewer steps). Additional hyperparameters for the sampler were selected based on recommendations from the authors and a small set of trial runs.}
-
-We illustrate the finite-sample performance of the proposed Bayesian test using simulated and real data. The covariance function is assumed unknown and estimated using the plug-in OAS estimator. We consider a reduced model with \(P_{\text{max}}=5\) components, a uniform prior distribution \(p\sim\mathcal U\{1,2,3,4,5\}\), and a uniform prior for the time instants as well (restricted to the grid points in \(\mathcal S\)). Moreover, we assume for simplicity that the null and alternative hypotheses are a priori equally likely, so that \(\pi_0=1-\pi_0=1/2\). 
-
-When choosing the crucial hyperparameter \(\eta\) one has to be wary of Lindley's paradox \citep{lindley1957statistical}. We propose to compute it from the discretized data through the formula
-\[
-\hat \eta_n=\eta_0 \sqrt{\frac{\tr(\hat{\mathbf K}_n^{\text{OAS}})}{G}}, \quad \eta_0>0,
-\]
-which measures the marginal standard deviation of the process (i.e.\ the empirical average marginal deviation of the discretized curves), multiplied by a constant scale term. In this way we allow the prior on \(b\) to adapt to the scale of the data. We fix a value of \(\eta_0=1/4\) because we want to be able to detect small signals (preliminary experiments suggest that bigger signals are easily recognized regardless of the value of \(\eta_0\)). Since \(\hat\eta_n\) converges in probability to a finite positive constant, this data-dependent choice does not affect the asymptotic properties of the test. Indeed, since \(\tr(\hat{\mathbf K}_n^{\text{OAS}})=\tr({\hat{\mathbf C}_n})\) and \(\tr(\hat{\mathbf C}_n) \to \tr({\mathbf K})\) by Proposition~\ref{prop:sample-cov-matrix-convergence}, we have \(\hat \eta_n \to \eta_\infty > 0\). We can refine the proofs in Section~\ref{sec:proofs-bft} by restricting the arguments to the high-probability event \(\left\{\frac{\eta_\infty}{2} \leq \hat\eta_n \leq 2 \eta_\infty\right\}\), on which \(\hat\eta_n\) is bounded away from zero and infinity. Since all quantities appearing in the proofs that depend on \(\eta\) do so in a continuous manner, the constants involved in the corresponding bounds can be chosen uniformly over the compact interval \([\eta_\infty/2, 2\eta_\infty]\), and the consistency arguments carry over without further modification.
-
-\subsection{Simulation Study} We simulate data from three different Gaussian processes (GP's):
+\subsection{Simulation study} We simulate data from three different \acs{GPs}:
 \begin{enumerate}
-  \item[1.] A Brownian motion (BM) with variance \(\sigma^2=1.5\).
-  \item[2.] An Ornstein--Uhlenbeck process (OU) with variance \(\sigma^2=1.5\) and scale \(\ell=0.2\).
-  \item[3.] A GP with a squared exponential kernel (SE), variance \(\sigma^2=1.5\) and scale \(\ell=0.2\).
+  \item A Brownian motion (\slsc{BM}) with variance \(\sigma^2=1.5\).
+  \item An Ornstein--Uhlenbeck process (\slsc{OU}) with variance \(\sigma^2=1.5\) and scale \(\ell=0.2\).
+  \item A \acs{GP} with a squared exponential kernel (\slsc{SE}), variance \(\sigma^2=1.5\) and scale \(\ell=0.2\).
 \end{enumerate}
 We draw \(n=50\) functional samples from each distribution, observed on a discretized grid of \(G=100\) equispaced points on \([0,1]\). The mean function under \(H_0\) is \(\mu_0\equiv 0\), and under \(H_1\) we consider two alternatives:
 \[
-\mu_*^{\text{RKHS}}(t) = 0.2K(0.15, t) - 0.3K(0.4, t) + 0.5K(0.75, t)\quad \text{and}\quad \mu_*^{\text{P}}(t) = 0.3\sin(2\pi t),
+  \mu_*^{\text{RKHS}}(t) = 0.2K(0.15, t) - 0.3K(0.4, t) + 0.5K(0.75, t)
 \]
-where \(K\) is the corresponding covariance kernel in each case. Then, we compare our method (which we call \slsc{RKBT}) to other one-sample testing procedures in the literature:
+and
+\[
+  \mu_*^{\text{P}}(t) = 0.3\sin(2\pi t),
+\]
+where \(K\) is the corresponding covariance kernel in each case. We consider a reduced model with \(P_{\text{max}}=5\) components, a uniform prior distribution \(p\sim\mathcal U\{1,2,3,4,5\}\), and a uniform prior for the time instants as well (restricted to the grid points in \(\mathcal S\)). Moreover, we assume for simplicity that the null and alternative hypotheses are a priori equally likely, so that \(\pi_0=1-\pi_0=1/2\). When choosing the crucial hyperparameter \(\eta\) one has to be wary of Lindley's paradox \citep{lindley1957statistical}. We propose to compute it from the discretized data through the formula
+\[
+\hat \eta_n=\eta_0 \sqrt{\frac{\tr(\hat{\mathbf K}_n^{\text{OAS}})}{G}}, \quad \eta_0>0,
+\]
+which measures the marginal standard deviation of the process, multiplied by a constant scale term. In this way we allow the prior on \(b\) to adapt to the scale of the data; we fix a value of \(\eta_0=1/4\) to allow detection of small signals (preliminary experiments suggest that bigger signals are easily recognized regardless of the value of \(\eta_0\)). Since \(\hat\eta_n\) converges in probability to a finite positive constant, this data-dependent choice does not affect the asymptotic properties of the test. Indeed, since \(\tr(\hat{\mathbf K}_n^{\text{OAS}})=\tr({\hat{\mathbf C}_n})\) and \(\tr(\hat{\mathbf C}_n) \to \tr({\mathbf K})\) by Proposition~\ref{prop:sample-cov-matrix-convergence}, we have \(\hat \eta_n \to \eta_\infty > 0\). We can refine the proofs in Section~\ref{sec:proofs-bft} by restricting the arguments to the high-probability event \(\{\eta_\infty/2 \leq \hat\eta_n \leq 2\eta_\infty\}\), on which \(\hat\eta_n\) is bounded away from zero and infinity. Since all quantities appearing in the proofs that depend on \(\eta\) do so in a continuous manner, the constants involved in the corresponding bounds can be chosen uniformly over the compact interval \([\eta_\infty/2, 2\eta_\infty]\), and the consistency arguments carry over without further modification.
+
+Then, we compare our method (which we call \slsc{RKBT}) to other one-sample testing procedures in the literature:
 \begin{itemize}
-  \item {\slsc{BON-T}}. Pointwise \(t\)-test over all grid points with Bonferroni correction for multiple comparisons. This is the most naive approach, used only as a baseline.
-  \item {\(L^2\)}. Global test based on the squared \(L^2\)-norm \(\|\Delta_n\|_2^2 = n\int_0^1 \bar{X}_n^2(t)\, dt\), whose null distribution is a \(\chi^2\)-type mixture.
-  \item {\(L^2\)-FPCA}. A version of the \(L^2\) test with projections through \acf{FPCA}.
-  \item {\(F\)}. Global test based on the regularized statistic \(F_n=\|\Delta_n\|_2^2/\tr(\hat{K}_n)\), which follows an \(F\)-type mixture distribution under \(H_0\).
-  \item {BAYES-FPCA}. Standard Bayesian spike-and-slab test with dimension reduction via \acs{FPCA} and a conjugate \(g\)-prior under \(H_1\). 
+  \item Pointwise \(t\)-test over all grid points with Bonferroni correction for multiple comparisons (\slsc{Bon-t}). This is the most naive approach, used only as a baseline.
+  \item Global test based on the squared \(L^2\)-norm \(\|\Delta_n\|_2^2 = n\int_0^1 \bar{X}_n^2(t)\, dt\), whose null distribution is a \(\chi^2\)-type mixture (\slsc{L2}).
+  \item A version of the \(L^2\) test with projections through \acs{FPCA} (\slsc{L2-FPCA}).
+  \item Global test based on the regularized statistic \(F_n=\|\Delta_n\|_2^2/\tr(\hat{K}_n)\), which follows an \(F\)-type mixture distribution under \(H_0\) (\slsc{F}).
+  \item Standard Bayesian spike-and-slab test with dimension reduction via \acs{FPCA} and a conjugate \(g\)-prior under \(H_1\) (\slsc{Bayes-FPCA}) 
 \end{itemize}
 The frequentist competitors are primarily those outlined by \citet{zhang2013analysis}, whereas the Bayesian competitor arguably represents a novel---albeit simple---approach. A detailed breakdown of the comparison methods is provided in Appendix~\ref{app:comparison-test}.
 
-Performance is measured through several frequentist metrics, repeating the whole procedure 100 times with different random seeds. We compare the rejection rate under \(H_0\) (type I error) and under \(H_1\) (power), as well as the AUC metric \citep{krzanowski2009roc}, which is a number in \([0,1]\) that measures the overall ability to correctly distinguish between positive and negative cases across all possible decision thresholds. The frequentist methods are calibrated to the nominal size of \(\alpha=0.05\), and the Bayesian methods are thresholded through the estimated Bayes factor to produce a binary accept/reject decision. Specifically, we use the standard rejection region provided by Jeffreys' scale (see Table~\ref{tab:jeffreys-scale}), which is given by \(\{\hat{\bff}_{10}>3\}\) and corresponds to \(\{\hat\pi_{\text{null}}<1/4\}\) with our prior assumptions. 
+Performance is measured through several frequentist metrics, repeating the whole procedure 100 times with different random seeds. We compare the rejection rate under \(H_0\) (type I error) and under \(H_1\) (power), as well as the \acs{AUC} metric. The frequentist methods are calibrated to the nominal size of \(\alpha=0.05\), and the Bayesian methods are thresholded through the estimated Bayes factor to produce a binary accept/reject decision. Specifically, we use the standard rejection region provided by Jeffreys' scale (see Table~\ref{tab:jeffreys-scale}), which is given by \(\{\hat{{\bff}}_{10}>3\}\) and corresponds to \(\{\hat\pi_{\text{null}}<1/4\}\) with our prior assumptions. 
 
-The results of the simulation study are presented in Table~\ref{tab:metrics-rkhs} and Table~\ref{tab:metrics-p}. We can see that our RKBT method has great control of the type I error, while also achieving decent power and AUC in most cases, despite having only a relatively low number of components to work with. Note that we could increase the power by lowering the rejection threshold, which is fairly conservative, to a point where we still maintain an acceptable type I error (i.e.\ below 5\%). 
+The results of the simulation study are presented in Table~\ref{tab:metrics-rkhs} and Table~\ref{tab:metrics-p}. We can see that our \slsc{RKBT} method has great control of the type I error, while also achieving decent power and \acs{AUC} in most cases, despite having only a relatively low number of components to work with. Moreover, the comparison methods that obtain a higher power generally do so at the expense of a greater type I error, which may be undesirable. Note that we could increase the power of our test by lowering the rejection threshold, which is fairly conservative, to a point where we still maintain an acceptable type I error (i.e.\ below 5\%). 
 
-\note{use tabularx and tableheadline (see Chapter02.tex in classicthesis)}
 \begin{table}[t]
   \myfloatalign
   \small
   %\sffamily
   %\palatinonumbers  % use uniform style for numbers inside the table
-  \caption{Type I error (T1) under \(H_0\), power (P) under the true mean function \(\mu_*^{\text{RKHS}}\), and corresponding AUC, averaged over 100 independent replications for the three synthetic datasets (BM, OU, SE). All metrics are reported as percentages (\(\times 10^2\)), and the best results within each column are highlighted.}\label{tab:metrics-rkhs}
+  \caption{Type I error (T1) under \(H_0\), power (P) under the true mean function \(\mu_*^{\text{RKHS}}\), and corresponding \acs{AUC}, averaged over 100 independent replications for the three synthetic data sets (\slsc{BM, OU, SE}). All metrics are reported as percentages (\(\times 10^2\)), and the best results within each column are highlighted.}\label{tab:metrics-rkhs}
   \begin{tabular}{@{}l rrr c rrr c rrr @{}}
     \toprule
-    \noalign{\vspace{-4pt}}  % less space afer rule for small caps
+    \noalign{\vspace{-1pt}}  % less space afer rule for small caps
     \multirow{2.5}{*}[1.9pt]{\normalsize\slsc{Method}} & \multicolumn{3}{c}{\normalsize\slsc{BM}} && \multicolumn{3}{c}{\normalsize\slsc{OU}} && \multicolumn{3}{c@{}}{\normalsize\slsc{SE}} \\
     \cmidrule(lr){2-4}
     \cmidrule(lr){6-8}
     \cmidrule(ll){10-12}
-    \noalign{\vspace{-4pt}} % less space afer rule for small caps
+    \noalign{\vspace{-2pt}} % less space afer rule for small caps
     & \multicolumn{1}{c}{\normalsize\slsc{T1}} & \multicolumn{1}{c}{\normalsize\slsc{P}} & \multicolumn{1}{c}{\normalsize\slsc{AUC}} && \multicolumn{1}{c}{\normalsize\slsc{T1}} & \multicolumn{1}{c}{\normalsize\slsc{P}} & \multicolumn{1}{c}{\normalsize\slsc{AUC}} && \multicolumn{1}{c}{\normalsize\slsc{T1}} & \multicolumn{1}{c}{\normalsize\slsc{P}} & \multicolumn{1}{c@{}}{\normalsize\slsc{AUC}} \\
     \midrule
-    RKBT & \(\textemph{0}\) & \(67\) & \(90.9\) && \(\textemph{0}\) & \(\textemph{88}\) & \(\textemph{98.5}\) && \(\textemph{0}\) & \(84\) & \(98.4\) \\
+    {\normalsize\slsc{RKBT}} & \(\textemph{0}\) & \(67\) & \(90.9\) && \(\textemph{0}\) & \(\textemph{88}\) & \(\textemph{98.5}\) && \(\textemph{0}\) & \(84\) & \(98.4\) \\
     \midrule
-    BON-T & \(\textemph{0}\) & \(35\) & \(81.4\) && \(\textemph{0}\) & \(71\) & \(97.2\) && \(\textemph{0}\) & \(67\) & \(92.9\) \\
-    \(L^2\) & \(1\) & \(\textemph{71}\) & \(\textemph{92.6}\) && \(1\) & \(77\) & \(98.0\) && \(1\) & \(82\) & \(98.5\) \\
-    \(L^2\)-FPCA & \(1\) & \(61\) & \(90.8\) && \(10\) & \(87\) & \(96.1\) && \(5\) & \(89\) & \(98.3\) \\
-    \(F\) & \(1\) & \(\textemph{71}\) & \(\textemph{92.6}\) && \(1\) & \(77\) & \(98.2\) && \(1\) & \(81\) & \(\textemph{98.7}\) \\
-    BAYES-FPCA & \(1\) & \(65\) & \(90.8\) && \(6\) & \(86\) & \(95.9\) && \(9\) & \(\textemph{91}\) & \(98.3\) \\
+    {\normalsize\slsc{BON-T}} & \(\textemph{0}\) & \(35\) & \(81.4\) && \(\textemph{0}\) & \(71\) & \(97.2\) && \(\textemph{0}\) & \(67\) & \(92.9\) \\
+    {\normalsize\slsc{L2}} & \(1\) & \(\textemph{71}\) & \(\textemph{92.6}\) && \(1\) & \(77\) & \(98.0\) && \(1\) & \(82\) & \(98.5\) \\
+    {\normalsize\slsc{L2-FPCA}} & \(1\) & \(61\) & \(90.8\) && \(10\) & \(87\) & \(96.1\) && \(5\) & \(89\) & \(98.3\) \\
+    {\normalsize\slsc{F}} & \(1\) & \(\textemph{71}\) & \(\textemph{92.6}\) && \(1\) & \(77\) & \(98.2\) && \(1\) & \(81\) & \(\textemph{98.7}\) \\
+    {\normalsize\slsc{BAYES-FPCA}} & \(1\) & \(65\) & \(90.8\) && \(6\) & \(86\) & \(95.9\) && \(9\) & \(\textemph{91}\) & \(98.3\) \\
     \bottomrule
   \end{tabular}
+  \vspace{10pt}  % Separate this table from the table below
 \end{table}
 
 \begin{table}[t]
@@ -492,45 +527,43 @@ The results of the simulation study are presented in Table~\ref{tab:metrics-rkhs
   \small
   %\sffamily
   %\palatinonumbers  % use uniform style for numbers inside the table
-  \caption{Type I error (T1) under \(H_0\), power (P) under the true mean function \(\mu_*^{\text{P}}\), and corresponding AUC, averaged over 100 independent replications for the three synthetic datasets (BM, OU, SE). All metrics are reported as percentages (\(\times 10^2\)), and the best results within each column are highlighted.}\label{tab:metrics-p}
+  \caption{Type I error (T1) under \(H_0\), power (P) under the true mean function \(\mu_*^{\text{P}}\), and corresponding \acs{AUC}, averaged over 100 independent replications for the three synthetic data sets (\slsc{BM, OU, SE}). All metrics are reported as percentages (\(\times 10^2\)), and the best results within each column are highlighted.}\label{tab:metrics-p}
   \begin{tabular}{@{}l rrr c rrr c rrr @{}}
     \toprule
-    \noalign{\vspace{-4pt}}  % less space afer rule for small caps
+    \noalign{\vspace{-1pt}}  % less space afer rule for small caps
     \multirow{2.5}{*}[1.9pt]{\normalsize\slsc{Method}} & \multicolumn{3}{c}{\normalsize\slsc{BM}} && \multicolumn{3}{c}{\normalsize\slsc{OU}} && \multicolumn{3}{c@{}}{\normalsize\slsc{SE}} \\
     \cmidrule(lr){2-4}
     \cmidrule(lr){6-8}
     \cmidrule(ll){10-12}
-    \noalign{\vspace{-4pt}} % less space afer rule for small caps
+    \noalign{\vspace{-2pt}} % less space afer rule for small caps
     & \multicolumn{1}{c}{\normalsize\slsc{T1}} & \multicolumn{1}{c}{\normalsize\slsc{P}} & \multicolumn{1}{c}{\normalsize\slsc{AUC}} && \multicolumn{1}{c}{\normalsize\slsc{T1}} & \multicolumn{1}{c}{\normalsize\slsc{P}} & \multicolumn{1}{c}{\normalsize\slsc{AUC}} && \multicolumn{1}{c}{\normalsize\slsc{T1}} & \multicolumn{1}{c}{\normalsize\slsc{P}} & \multicolumn{1}{c@{}}{\normalsize\slsc{AUC}} \\
     \midrule
-    RKBT & \(\textemph{0}\) & \(99\) & \(\textemph{100}\) && \(\textemph{0}\) & \(52\) & \(89.0\) && \(\textemph{0}\) & \(39\) & \(\textemph{85.3}\) \\
+    \normalsize{\slsc{RKBT}} & \(\textemph{0}\) & \(99\) & \(\textemph{100}\) && \(\textemph{0}\) & \(52\) & \(89.0\) && \(\textemph{0}\) & \(39\) & \(\textemph{85.3}\) \\
     \midrule
-    BON-T & \(\textemph{0}\) & \(71\) & \(98.9\) && \(\textemph{0}\) & \(31\) & \(82.2\) && \(\textemph{0}\) & \(10\) & \(70.9\) \\
-    \(L^2\) & \(1\) & \(58\) & \(97.4\) && \(1\) & \(52\) & \(\textemph{90.2}\) && \(1\) & \(43\) & \(84.6\) \\
-    \(L^2\)-FPCA & \(1\) & \(\textemph{100}\) & \(\textemph{100}\) && \(10\) & \(\textemph{57}\) & \(83.3\) && \(5\) & \(47\) & \(83.1\) \\
-    \(F\) & \(1\) & \(57\) & \(97.4\) && \(1\) & \(53\) & \(\textemph{90.2}\) && \(1\) & \(41\) & \(84.7\) \\
-    BAYES-FPCA & \(1\) & \(\textemph{100}\) & \(\textemph{100}\) && \(6\) & \(53\) & \(83.2\) && \(9\) & \(\textemph{63}\) & \(83.6\) \\
+    \normalsize{\slsc{BON-T}} & \(\textemph{0}\) & \(71\) & \(98.9\) && \(\textemph{0}\) & \(31\) & \(82.2\) && \(\textemph{0}\) & \(10\) & \(70.9\) \\
+    \normalsize{\slsc{L2}} & \(1\) & \(58\) & \(97.4\) && \(1\) & \(52\) & \(\textemph{90.2}\) && \(1\) & \(43\) & \(84.6\) \\
+    \normalsize{\slsc{L2-FPCA}} & \(1\) & \(\textemph{100}\) & \(\textemph{100}\) && \(10\) & \(\textemph{57}\) & \(83.3\) && \(5\) & \(47\) & \(83.1\) \\
+    \normalsize{\slsc{F}} & \(1\) & \(57\) & \(97.4\) && \(1\) & \(53\) & \(\textemph{90.2}\) && \(1\) & \(41\) & \(84.7\) \\
+    \normalsize{\slsc{BAYES-FPCA}} & \(1\) & \(\textemph{100}\) & \(\textemph{100}\) && \(6\) & \(53\) & \(83.2\) && \(9\) & \(\textemph{63}\) & \(83.6\) \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\note{mencionar que otros modelos tienen error de tipo 1 más alto, aunque tengan más potencia. También, F y L2 son muy parecidos, la normalización en este caso no afecta demasiado}
+\subsection{Real data application}
 
-\subsection{Real Data Application}
+The metrics in the simulation study are frequentist in nature, but the strength of our Bayesian test lies in the interpretability and the ability to quantify uncertainty. To analyze this aspect, we present a brief case study with real climate data. We consider the average monthly temperature recorded by 24 weather stations in Australia from 1990 to 2019, grouping the curves into three decades: the 1990s (1990--1999), the 2000s (2000--2009), and the 2010s (2010--2019).\footnote{The data is available through the \slsc{Meteostat} Python library~\citep{lamprecht2026meteostat}.} For each station and each decade, we compute a 12-point temperature curve by averaging temperatures within each month across all years in that decade. We then form pairwise differences between the decade-specific curves and apply our test to assess the null hypothesis of no difference in the mean temperature. We use the same prior distributions as in the simulations, but we allow \(P_{\max}=12\) and set \(\pi_0=1/3\), to convey the widespread belief that the temperature is actually increasing globally.
 
-The metrics in the simulation study are frequentist in nature, but the strength of our Bayesian test lies in the interpretability and the ability to quantify uncertainty. To analyze this aspect, we present a brief case study with real climate data. We consider the average monthly temperature recorded by 24 weather stations in Australia from 1990 to 2019, grouping the curves into three decades: the 1990s (1990--1999), the 2000s (2000--2009), and the 2010s (2010--2019).\footnote{The data is available through the \slsc{Meteostat} Python library~\citep{lamprecht2026meteostat}.} For each station and each decade, we compute a 12-point temperature curve by averaging temperatures within each month across all years in that decade. We then form pairwise differences between the decade-specific curves and apply our test to assess the null hypothesis of no difference in the mean temperature. We allow \(P_{\max}=12\) and set \(\pi_0=1/3\), to convey the widespread belief that the temperature is actually increasing globally.
-
-The Bayesian metrics obtained are summarized in Table~\ref{tab:metrics-climate}. Using the same rejection region as in the simulation study, namely \(\{\hat{\bff}_{10}>3\}\), our test decisively rejects \(H_0\) for the second and third period comparisons. This is consistent with the general observation that the climate is getting warmer in recent times. We can also see, for example, that the model gives very low posterior probability to differences of less than \(0.1^\circ\mathrm{C}\) from the 2010s to the 1990s, signalling that the discrepancy is bigger in that case. Note that around five components (months) seem to be sufficient to model the temperature differences, supporting our parsimony assumptions.
+The Bayesian metrics obtained are summarized in Table~\ref{tab:metrics-climate}. Using the same rejection region as in the simulation study, namely \(\{\hat{{\bff}}_{10}>3\}\), our test decisively rejects \(H_0\) for the second and third period comparisons. This is consistent with the general observation that the climate is getting warmer in recent times. We can also see, for example, that the model gives very low posterior probability to differences of less than \(0.1^\circ\mathrm{C}\) from the 2010s to the 1990s, signalling that the discrepancy is bigger in that case. Note that around five components (months) seem to be sufficient to model the temperature differences, supporting our parsimony assumptions.
 
 \begin{table}[t]
   \myfloatalign
   \small
   %\setlength{\tabcolsep}{7pt}
   %\renewcommand{\arraystretch}{1.05}
-  \caption{Estimated posterior metrics given by our RKBT test for the three pairwise-difference temperature data sets: the posterior probability of the null, the Bayes factor, the posterior mean of the number of components in the model, and the \acs{ROPE} probability \(\Pi_n(\sup_s |\mu(s)| < 0.1|X_{1:n})\).}\label{tab:metrics-climate}
+  \caption{Estimated posterior metrics given by our \slsc{RKBT} test for the three pairwise-difference temperature data sets: the posterior probability of the null, the Bayes factor, the posterior mean of the number of components in the model, and the \acs{ROPE} probability \(\Pi_n(\sup_s |\mu(s)| < 0.1|X_{1:n})\).}\label{tab:metrics-climate}
   \begin{tabular}{@{}lrrrr@{}}
   \midrule
-  \slsc{Period comparison} & \multicolumn{1}{c}{\(\hat\pi_{\text{null}}\)} & \multicolumn{1}{c}{\(\hat{\bff}_{10}\)} & \multicolumn{1}{c}{\(\hat{\E}[p|X_{1:n}]\)} & \multicolumn{1}{c@{}}{\(\hat{\pi}_{\text{ROPE}}(\epsilon=0.1^\circ\mathrm{C})\)} \\
+  \slsc{Period comparison} & \multicolumn{1}{c}{\(\hat\pi_{\text{null}}\)} & \multicolumn{1}{c}{\(\hat{{\bff}}_{10}\)} & \multicolumn{1}{c}{\(\hat{\E}[p|X_{1:n}]\)} & \multicolumn{1}{c@{}}{\(\hat{\pi}_{\text{ROPE}}(\epsilon=0.1^\circ\mathrm{C})\)} \\
   \midrule
   \(2000\)s--\(1990\)s & \(0.3302\) & \(1.0142\) & \(4.6807\) & \(0.4210\) \\
   \(2010\)s--\(2000\)s & \(0.0635\) & \(7.3709\) & \(5.2309\) & \(0.2120\) \\
@@ -547,9 +580,10 @@ Lastly, Figure~\ref{fig:climate_posterior} provides a useful functional interpre
   \caption{Estimated posterior mean and 95\% simultaneous credible bands given by our RKBT test for the three pairwise-difference temperature data sets. The empirical mean is also shown for reference.}\label{fig:climate_posterior}
 \end{figure}
 
-\subsection{Runtime Comparison}
+\subsection{Runtime comparison}
 
 As we mentioned before, our test is slower than the competitors due to the \acs{RJMCMC} sampling, but it still runs in acceptable time in our experimental conditions (see Figure~\ref{fig:runtime}). The \slsc{L2-FPCA} method is also slow because it requires recomputing the \acs{FPCA} decomposition for each bootstrap sample.
+
 
 \begin{figure}[tbp]
   \myfloatalign
@@ -558,7 +592,7 @@ As we mentioned before, our test is slower than the competitors due to the \acs{
 \end{figure}
 
 
-\note{It is worth mentioning that in typical mixture-model settings, \textit{label switching} is a well-known identifiability issue: permuting the component labels \((t_j, \beta_j)\) yields the same likelihood, causing a multimodality in the posterior that can degrade mixing and complicate post-processing. In our case, however, label switching is not a practical concern for two reasons. First, as noted in Section~\ref{sec:rkhs-test}, we impose an ordering on the time instants, removing the symmetry and identifying a unique labeling. Second, and more importantly, most posterior quantities of interest are identifiable in the sense that they depend on the mean function parametrization \(\mu_\theta(\cdot) = \sum_{j} \beta_j K(t_j, \cdot)\), which is invariant under relabeling, so the functionals we report would be unchanged even if we did not impose an ordering.}
+\note{It is worth mentioning that in typical mixture-model settings, label switching is a well-known identifiability issue: permuting the component labels \((t_j, \beta_j)\) yields the same likelihood, causing a multimodality in the posterior that can degrade mixing and complicate post-processing. In our case, however, label switching is not a practical concern for two reasons. First, as noted in Section~\ref{sec:rkhs-test}, we impose an ordering on the time instants, removing the symmetry and identifying a unique labeling. Second, and more importantly, most posterior quantities of interest are identifiable in the sense that they depend on the mean function parametrization \(\mu_\theta(\cdot) = \sum_{j} \beta_j K(t_j, \cdot)\), which is invariant under relabeling, so the functionals we report would be unchanged even if we did not impose an ordering.}
 
 
 \section{Discussion}\label{sec:conclusions}
@@ -571,7 +605,9 @@ We believe that this Bayesian framework opens several compelling paths for futur
 
 \section{Proofs}\label{sec:proofs-bft}
 
-Here we present the proofs of the theoretical results in Section~\ref{sec:consistency}. Keep in mind that the covariance function \(K\) is strictly positive definite. Moreover, because the data are Gaussian, under~\ref{ass:continuous-paths} both \(\mu\) and \(K\) are continuous functions.\footnote{Gaussianity is not essential for the continuity of \(\mu\) and \(K\). Under~\ref{ass:continuous-paths}, finiteness of \(\E[\sup_t X(t)^2]\) suffices, which indeed holds automatically for Gaussian data \citep{landau1970supremum}.} To see this, let \(t_n\to t\) and \(u_n \to u\) in \([0,1]\). Since the sample paths are continuous a.s., \((X(t_n), X(u_n))\to (X(t), X(u))\) in distribution. By the Portmanteau Lemma, the corresponding characteristic functions converge pointwise, and hence \(\mu(t_n)\to \mu(t)\) and \(K(t_n, u_n) \to K(t,u)\), because a Gaussian process is completely determined by its mean and covariance functions.
+Here we present the proofs of the theoretical results in Section~\ref{sec:consistency-bft}. Keep in mind that the covariance function \(K\) is strictly positive definite. Moreover, because the data are Gaussian, under~\ref{ass:continuous-paths} both \(\mu\) and \(K\) are continuous functions.\footnote{Gaussianity is not essential for the continuity of \(\mu\) and \(K\). Under~\ref{ass:continuous-paths}, finiteness of \(\E[\sup_t X(t)^2]\) suffices, which indeed holds automatically for Gaussian data \citep{landau1970supremum}.} To see this, let \(t_n\to t\) and \(u_n \to u\) in \([0,1]\). Since the sample paths are continuous a.s., \((X(t_n), X(u_n))\to (X(t), X(u))\) in distribution. By the Portmanteau Lemma, the corresponding characteristic functions converge pointwise, and hence \(\mu(t_n)\to \mu(t)\) and \(K(t_n, u_n) \to K(t,u)\), because a Gaussian process is completely determined by its mean and covariance functions.
+
+\note{Como estamos suponiendo K continua, mu es automáticamente continua al estar en el RKHS}
 
 Using Bayes' rule~\eqref{eq:posterior-p-tau} for the posterior of \((p,\tau)\) and writing the normalization constant explicitly, the posterior probability of the alternative is given by
 \begin{equation}\label{eq:posterior-slab}
@@ -583,6 +619,27 @@ m_1(X_{1:n}) = \sum_{p\geq 1} \Pi(p)\int_{\mathcal T_p} \mslab(X_{1:n}|p,\tau)\P
 \end{equation}
 
 \subsection{Consistency and Contraction Rates for Known Covariance}
+
+\note{We start...}
+
+\begin{proof}[Proof of Theorem~\ref{th:consistency-h0}]\label{proof:consistency-h0}
+
+In this case we do not need continuous trajectories of \(X\), so we can work with \(\mathcal X = L^2[0,1]\). Since the parameter \(\theta\) is not identifiable, we will push the model forward (via the mapping \(\theta \mapsto \mu_\theta\)) and consider the parameter \(\mu\in\Hcal(K)\) and the induced prior \(\Pi^\mu\). Note that the new parameter space \(\Hcal(K)\) is separable because \(K\) is continuous \citep[Corollary~4]{berlinet2004reproducing}, and hence \(\Hcal(K)\) is a Polish space. Moreover, since the data are Gaussian, the mapping \(\mu\mapsto \pp_\mu\) is one-to-one. Now consider a measurable set \(A\subseteq\mathcal X\), and observe that \(\pp_\mu\) is the distribution of \(W + \mu\) with \(W\sim \pp_0\). Furthermore, the embedding \(\Hcal(K) \hookrightarrow L^2[0,1]\) is continuous (again by continuity of \(K\)), so \((x,\mu) \mapsto \mathds{1}_A(x+\mu)\) is jointly measurable. Hence, by Fubini/Tonelli, the function
+\[
+\mu \mapsto \pp_\mu(A) = \pp_0(W+\mu \in A) = \int_{\mathcal X} \mathds{1}_A(x+\mu) d\pp_0(x)
+\]
+is measurable.
+
+Then we apply the second part of Doob's theorem (Theorem~\ref{th:doob}) with \(g(\mu)=\mathds{1}\{\mu\equiv 0\}\), obtaining a set \(\Hcal_*(K)\subseteq \Hcal(K)\) such that \(\Pi^\mu(\Hcal_*(K))=1\) and for all \(\mu_0\in \Hcal_*(K)\), if \(X_1,X_2,\ldots \sim \pp_{\mu_0}\) i.i.d., we have
+\begin{equation}\label{eq:doob-consistency-theorem-h0}
+  \E^\mu[\mathds{1}\{\mu\equiv 0\}\mid X_{1:n}] \to \mathds{1}\{\mu_0\equiv 0\}\quad \pp_{\mu_0}^\infty-\text{a.s.}
+\end{equation}
+Observe that \(0\in \Hcal_*(K)\), since \(\Pi^\mu(\mu\equiv 0)=\pi_0>0\). Then, by~\eqref{eq:doob-consistency-theorem-h0} applied with \(\mu_0\equiv 0\) we conclude that, if \(X_1, X_2,\ldots \sim \pp_0\) i.i.d., then
+\begin{align*}
+  \Pi_n(H_0\mid X_{1:n}) &= \Pi_n^\mu(\mu\equiv 0\mid X_{1:n})\\
+  &= \E^\mu[\mathds{1}\{\mu\equiv 0\}\mid X_{1:n}] \to 1\quad \pp_0^\infty-\text{a.s.}
+\end{align*}
+\end{proof}
 
 For notational convenience, define
 \[
@@ -601,10 +658,14 @@ I_{n,p}(U) = \int_U \mslab(X_{1:n}|p, \tau)\Pi(\tau|p)\, d\tau, \quad \text{for 
   \[
   \lambda_{\min}(K_\tau)\ge \lambda_p>0\quad\text{for all }\tau\in \mathcal C_p.
   \]
-  Since \(\Lambda_\tau = nK_\tau + \eta^{-2}I_p\), this implies that \(\lambda_{\min}(\Lambda_\tau) = n\lambda_{\min}(K_\tau) + \eta^{-2} \geq n\lambda_p>0\) for all \(\tau \in \mathcal C_p\). Therefore, the following holds for all \(\tau\in \mathcal C_p\):
-  \begin{enumerate}
-    \item[(i)] \(|\Lambda_\tau| \geq (n\lambda_p)^p\).
-    \item[(ii)] \(v'\Lambda_{\tau}^{-1}v \leq \frac{1}{n\lambda_p}\|v\|^2\) for any \(v\neq 0\).
+  Since \(\Lambda_\tau = nK_\tau + \eta^{-2}I_p\), this implies that 
+  \[
+    \lambda_{\min}(\Lambda_\tau) = n\lambda_{\min}(K_\tau) + \eta^{-2} \geq n\lambda_p>0\quad \text{for all } \tau \in \mathcal C_p.
+  \]
+  Therefore, the following holds for all \(\tau\in \mathcal C_p\):
+  \begin{enumerate}[label=(\roman*)]
+    \item \(|\Lambda_\tau| \geq (n\lambda_p)^p\).
+    \item \(v'\Lambda_{\tau}^{-1}v \leq \frac{1}{n\lambda_p}\|v\|^2\) for any \(v\neq 0\).
   \end{enumerate}
   Only the second assertion deserves a comment: the Rayleigh quotient of a symmetric matrix is bounded above by its maximum eigenvalue \citep[Theorem 4.2.2]{horn1985matrix}, and we have \(\lambda_{\max}(\Lambda_\tau^{-1})=(\lambda_{\min}(\Lambda_\tau))^{-1}\). Combining (i), (ii) and~\eqref{eq:m-slab} yields the upper bound
   \begin{equation}\label{eq:upper-bound-m-slab}
@@ -647,7 +708,7 @@ I_{n,p}(U) = \int_U \mslab(X_{1:n}|p, \tau)\Pi(\tau|p)\, d\tau, \quad \text{for 
 \subsubsection{Proof of Theorem~\ref{th:consistency-rates-h1}}
 
 \begin{proof}
-  The RKHS framework will allow us to work, via a suitable approximation, in a finite-dimensional setting. First, since \(\Hcal_0(K)\) is dense in \(\Hcal(K)\), for any \(\epsilon>0\) there exists a parameter \(\theta_\epsilon = (p_\epsilon, \tau_\epsilon, b_\epsilon)\) such that
+  The \acs{RKHS} framework will allow us to work, via a suitable approximation, in a finite-dimensional setting. First, since \(\Hcal_0(K)\) is dense in \(\Hcal(K)\), for any \(\epsilon>0\) there exists a parameter \(\theta_\epsilon = (p_\epsilon, \tau_\epsilon, b_\epsilon)\) such that
   \begin{equation}\label{eq:approximation-property-mu}
   \|\mu_* - \mu_{\tau_\epsilon, b_\epsilon}\|_K < \epsilon,
   \end{equation}
@@ -673,7 +734,7 @@ I_{n,p}(U) = \int_U \mslab(X_{1:n}|p, \tau)\Pi(\tau|p)\, d\tau, \quad \text{for 
   \[
   \|\mu_* - \mu_{\tau, b}\|_K \leq \|\mu_* - \mu_{\tau_\epsilon, b_\epsilon}\|_K + \|\mu_{\tau_\epsilon, b_\epsilon} - \mu_{\tau,b}\|_K.
   \]
-  Then, by~\eqref{eq:approximation-property-mu} and the continuity of the map \((\tau, b) \mapsto \mu_{\tau, b}\) in the RKHS norm (which follows from the continuity of \(K\)), after shrinking \(U\) if necessary we have \(\|\mu_* - \mu_{\tau,b}\|_K < 2\epsilon\) for all \((\tau,b)\in U\). Consequently,
+  Then, by~\eqref{eq:approximation-property-mu} and the continuity of the map \((\tau, b) \mapsto \mu_{\tau, b}\) in the \acs{RKHS} norm (which follows from the continuity of \(K\)), after shrinking \(U\) if necessary we have \(\|\mu_* - \mu_{\tau,b}\|_K < 2\epsilon\) for all \((\tau,b)\in U\). Consequently,
   \[
   f(\tau, b) \geq \frac{1}{2}\|\mu_*\|^2_K - 2\epsilon^2 =: c_\epsilon > 0,
   \]
@@ -779,7 +840,7 @@ where \(\|\cdot\|_\infty\) is the supremum norm. This follows directly from Mour
   \end{equation}
   where \(\hat{N}_{n,\tau} = (1-2/p) \tr(\hat C_{n,\tau}^2) + \tr^2(\hat C_{n,\tau}) \geq 0\). 
 
-  Now, for any \(A\geq 0\), \(c>0\) and \(x\geq 0\) the algebraic inequality \(\min(1,\frac{A}{cx^2})x \leq \sqrt{\frac{A}{c}}\) holds (if \(x \leq \sqrt{A/c}\) the bound is trivial since the minimum is at most \(1\), and if \(x > \sqrt{A/c}\) it evaluates to \(\frac{A}{cx^2}\), and in turn \(\frac{A}{cx^2}x < \sqrt{A/c}\)). Applying this bound to~\eqref{eq:rho-frobenius-difference} yields
+  Now, for any \(A\geq 0\), \(c>0\) and \(x\geq 0\) the algebraic inequality \(\min(1,\frac{A}{cx^2})x \leq \sqrt{\frac{A}{c}}\) holds (if \(x \leq \sqrt{A/c}\) the bound is trivial since the minimum is at most one, and if \(x > \sqrt{A/c}\) it evaluates to \(\frac{A}{cx^2}\), and in turn \(\frac{A}{cx^2}x < \sqrt{A/c}\)). Applying this bound to~\eqref{eq:rho-frobenius-difference} yields
   \[
   \hat\rho_{n,\tau}\|\hat D_{n,\tau}\|_F \leq \sqrt{\frac{\hat{N}_{n,\tau}}{n + 1 - 2/p}}.
   \]

@@ -33,7 +33,7 @@ Note that the constant discretization step \(1/G\) that would appear from approx
   If we use the improved estimator \(\hat{\mathbf K}_n^{\text{OAS}}\) to approximate \(\hat \gamma\) and \(\hat d\), the argument goes through unaffected: by Proposition~\ref{prop:sample-cov-matrix-convergence} we have \(\|\hat{\mathbf K}^{\text{OAS}}_n - \mathbf{K}\| \to 0\) a.s., and hence the traces converge almost surely to the true value.
 \end{remark}
 
-We can also consider a projection-based version of the \(L^2\) test using functional principal component analysis (FPCA), which was explored for example by \citet{horvath2012inference} in a similar testing problem. Let \(\lambda_1\geq \lambda_2\geq \cdots \geq \lambda_p>0\) be the \(p\) leading eigenvalues of the true covariance operator, with \(\phi_1,\dots,\phi_p\) the corresponding eigenfunctions (up to a sign flip). Then, we can define a test statistic analogous to~\eqref{eq:test-statistic-l2} but with the mean function projected on the space spanned by \(\phi_1,\dots,\phi_p\). Write the FPCA scores of the sample mean as
+We can also consider a projection-based version of the \(L^2\) test using \acs{FPCA}, which was explored for example by \citet{horvath2012inference} in a similar testing problem. Let \(\lambda_1\geq \lambda_2\geq \cdots \geq \lambda_p>0\) be the \(p\) leading eigenvalues of the true covariance operator, with \(\phi_1,\dots,\phi_p\) the corresponding eigenfunctions (up to a sign flip). Then, we can define a test statistic analogous to~\eqref{eq:test-statistic-l2} but with the mean function projected on the space spanned by \(\phi_1,\dots,\phi_p\). Write the \acs{FPCA} scores of the sample mean as
 \begin{equation}\label{eq:l2-fpca-scores}
 \bar{\xi}_j = \int_0^1 \bar X_n(s)\phi_j(s)\, ds,\quad j=1,\dots,p,
 \end{equation}
@@ -41,11 +41,11 @@ and consider the statistic
 \begin{equation}\label{eq:statistic-l2-fpca}
 T_{n,p} = n \sum_{j=1}^p \frac{\bar{\xi}_j^2}{\lambda_j},
 \end{equation}
-where normalization by the eigenvalues is introduced to simplify the expression of the null distribution. Indeed, by standard FPCA theory, under \(H_0\) and the Gaussian assumption we have \(T_{n,p}\sim \chi^2_p\). Of course, we rarely have access to the true \(K\), so we construct estimates \(\{\hat\lambda_j\}\) and \(\{\hat\phi_j\}\) for the eigenvalues and eigenfunctions via the (truncated) spectral decomposition of the empirical covariance \(\hat C_n\), and then compute an approximate \(\hat T_{n,p}\) plugging in the estimated values into~\eqref{eq:l2-fpca-scores} and~\eqref{eq:statistic-l2-fpca}. Under mild assumptions (finite fourth moments, distinctness of the true eigenvalues), it can be shown that \(\hat T_{n,p}\stackrel{d}{\to}\chi^2_p\) as \(n\to\infty\) \citep[Theorem~5.3]{horvath2012inference}, so asymptotically the \(p\)-value for the test is \(\pp(\chi^2_p \geq \hat T_{n,p})\). As we said before, in practice we compute all quantities involved in the discretized grid \(\mathcal S\):
+where normalization by the eigenvalues is introduced to simplify the expression of the null distribution. Indeed, by standard \acs{FPCA} theory, under \(H_0\) and the Gaussian assumption we have \(T_{n,p}\sim \chi^2_p\). Of course, we rarely have access to the true \(K\), so we construct estimates \(\{\hat\lambda_j\}\) and \(\{\hat\phi_j\}\) for the eigenvalues and eigenfunctions via the (truncated) spectral decomposition of the empirical covariance \(\hat C_n\), and then compute an approximate \(\hat T_{n,p}\) plugging in the estimated values into~\eqref{eq:l2-fpca-scores} and~\eqref{eq:statistic-l2-fpca}. Under mild assumptions (finite fourth moments, distinctness of the true eigenvalues), it can be shown that \(\hat T_{n,p}\stackrel{d}{\to}\chi^2_p\) as \(n\to\infty\) \citep[Theorem~5.3]{horvath2012inference}, so asymptotically the \(p\)-value for the test is \(\pp(\chi^2_p \geq \hat T_{n,p})\). As we said before, in practice we compute all quantities involved in the discretized grid \(\mathcal S\):
 \[
 \hat \lambda_j \approx \hat l_j,\qquad \hat\phi_j \approx \hat{\mathbf v}_j=(\hat v_{j1},\dots, \hat v_{jG})', \qquad \hat T_{n,p} \approx n\sum_{j=1}^p \frac{(\sum_{g=1}^G \bar{X}_n(s_g)\hat v_{jg})^2}{\hat l_j}, 
 \]
-where \(\{\hat l_j, \hat{\mathbf v}_j\}\) are the eigenvalues and (normalized) eigenvectors of the \(G\times G\) empirical covariance matrix \(\hat{\mathbf C}_n\). We could also use the regularized version \(\hat{\mathbf K}_n^{\text{OAS}}\) to compute the eigendecomposition, and even though we did not explore the theoretical guarantees in this case, it is likely that the eigenvalues and eigenvectors of the OAS estimator constitute sufficiently good approximations for our purposes.
+where \(\{\hat l_j, \hat{\mathbf v}_j\}\) are the eigenvalues and (normalized) eigenvectors of the \(G\times G\) empirical covariance matrix \(\hat{\mathbf C}_n\). We could also use the regularized version \(\hat{\mathbf K}_n^{\text{OAS}}\) to compute the eigendecomposition, and even though we did not explore the theoretical guarantees in this case, it is likely that the eigenvalues and eigenvectors of the \acs{OAS} estimator constitute sufficiently good approximations for our purposes.
 
 The only missing aspect is the question of how many components to retain. We follow the simple approach proposed by \citet{ramsay2005functional}, who suggest selecting \(p\) so that the resulting functional principal components cumulatively explain a fixed large percentage of the variance (e.g.\ 90\%).
 
@@ -59,25 +59,25 @@ whose null distribution is shown to be an \(F\)-type mixture. It can again be ap
 \[
 F_n \sim F_{\hat d, (n-1)\hat d}\  \ \text{approximately}.
 \]
-The approximate \(p\)-value for the test is then \(\pp(F_{\hat d, (n-1)\hat d} \geq F_n)\). This method works for the OAS estimator as well, since \(\tr(\hat{\mathbf K}_n^{\text{OAS}})=\tr(\hat{\mathbf K}_n)\).
+The approximate \(p\)-value for the test is then \(\pp(F_{\hat d, (n-1)\hat d} \geq F_n)\). This method works for the \acs{OAS} estimator as well, since \(\tr(\hat{\mathbf K}_n^{\text{OAS}})=\tr(\hat{\mathbf K}_n)\).
 
 \subsubsection{Bootstrap Procedures}
 
 Both the \(L^2\)-based tests and the \(F\)-type test rely on asymptotic approximations, so their performance can deteriorate when the sample size \(n\) is small. For such cases we can resort to a nonparametric bootstrap scheme to approximate the null distribution of the statistics. In particular, we consider the following simple algorithm:
 \begin{enumerate}
-  \item[1.] Draw a bootstrap sample \(X_1^*,\dots, X_n^*\) from \(X_1,\dots, X_n\) (with replacement).
-  \item[2.] Compute the quantities \(\bar{X}_n^*\) and \(\hat{\mathbf C}_n^*\) from the bootstrap sample.
-  \item[3.] Construct the bootstrap statistics \(T_n^* = \|\sqrt{n}(\bar{X}_n^*(s) - \bar{X}(s))\|^2_2\) and \(F_n^* = T_n^*/\tr(\hat{\mathbf C}_n^*)\).
-  \item[4.] Repeat the process many times to obtain \(R\) bootstrap statistics, and compute the bootstrap \(p\)-value as the proportion of bootstrap statistics that exceed the original statistic.
+  \item Draw a bootstrap sample \(X_1^*,\dots, X_n^*\) from \(X_1,\dots, X_n\) (with replacement).
+  \item Compute the quantities \(\bar{X}_n^*\) and \(\hat{\mathbf C}_n^*\) from the bootstrap sample.
+  \item Construct the bootstrap statistics \(T_n^* = \|\sqrt{n}(\bar{X}_n^*(s) - \bar{X}(s))\|^2_2\) and \(F_n^* = T_n^*/\tr(\hat{\mathbf C}_n^*)\).
+  \item Repeat the process many times to obtain \(R\) bootstrap statistics, and compute the bootstrap \(p\)-value as the proportion of bootstrap statistics that exceed the original statistic.
 \end{enumerate}
 In particular, the bootstrap \(p\)-values are
 \[
 p^*(T_n) = \frac{1 + \#\{T_n^* \geq T_n\}}{R+1},\qquad p^*(F_n) = \frac{1 + \#\{F_n^* \geq F_n\}}{R+1},
 \]
-where the original statistic is added as a positive instance to avoid the case of \(p^*=0\) \citep[see][p.~141]{davison1997bootstrap}. Note that the same procedure can be applied to the \(L^2\)-FPCA test, recomputing the eigendecomposition of the bootstrap empirical covariance matrix \(\hat{\mathbf C}_n^*\) each time. In our implementation, we activate this bootstrap procedure with \(R=5000\) whenever \(n\leq 50\).
+where the original statistic is added as a positive instance to avoid the case of \(p^*=0\) \citep[see][p.~141]{davison1997bootstrap}. Note that the same procedure can be applied to the \(L^2\) test with \acs{FPCA}, recomputing the eigendecomposition of the bootstrap empirical covariance matrix \(\hat{\mathbf C}_n^*\) each time. In our implementation, we activate this bootstrap procedure with \(R=5000\) whenever \(n\leq 50\).
 
 
-\subsubsection{Bayesian Functional Test with FPCA}
+\subsubsection{Bayesian Functional Test with \acs{FPCA}}
 
 Consider for all \(i=1,\dots, n\) the discretized vector \(\mathbf X_i=(X_i(s_1), \dots, X_i(s_G))'\), and place a multivariate normal model on these finite-dimensional observations, that is,
 \[
@@ -95,15 +95,15 @@ where \(Q_n = \bar{\mathbf X}_n' \mathbf K^{-1}\bar{\mathbf X}_n\), \(\bar{\math
 
 In practice, we compute the Bayes factor using the plug-in estimators \(\hat{\mathbf C}_n\) or \(\hat {\mathbf K}_n^{\text{OAS}}\) of the covariance matrix. However, applying~\eqref{eq:log-bf10} directly on the full \(G\)-dimensional discretized data presents two noticeable difficulties:
 \begin{enumerate}
-  \item[1.] When \(n<G\) (the typical FDA setting), the empirical covariance matrix \(\hat{\mathbf C}_n\) is rank-deficient, so \(\hat{\mathbf C}_n^{-1}\) and the corresponding plug-in quadratic form \(\hat Q_n\) do not exist. Even with regularization (e.g.\ by OAS or adding a small noise to the diagonal), the resulting \(\hat Q_n\) can be numerically unstable and a poor estimate.
-  \item[2.] The Bayes factor contains a penalty term that grows linearly with \(G\). This penalty can become large and drown out the signal in \(Q_n\), driving \(\bff_{10}\) towards \(H_0\) regardless of the data. This phenomenon is known as Lindley's paradox \citep{lindley1957statistical}.
+  \item When \(n<G\) (the typical \acs{FDA} setting), the empirical covariance matrix \(\hat{\mathbf C}_n\) is rank-deficient, so \(\hat{\mathbf C}_n^{-1}\) and the corresponding plug-in quadratic form \(\hat Q_n\) do not exist. Even with regularization (e.g.\ by \acs{OAS} or adding a small noise to the diagonal), the resulting \(\hat Q_n\) can be numerically unstable and a poor estimate.
+  \item The Bayes factor contains a penalty term that grows linearly with \(G\). This penalty can become large and drown out the signal in \(Q_n\), driving \(\bff_{10}\) towards \(H_0\) regardless of the data. This phenomenon is known as Lindley's paradox \citep{lindley1957statistical}.
 \end{enumerate}
 
 From a functional perspective, both problems are organically resolved by projecting onto the top \(p\ll G\) functional principal components, retaining the signal-carrying directions and discarding the noisy ones. As before, consider the eigendecomposition
 \[
 \mathbf K = \mathbf V \Sigma \mathbf V', \qquad \mathbf V = [\mathbf v_1 | \cdots | \mathbf v_p], \qquad \Sigma = \diag(l_1,\dots, l_p),
 \]
-where \(l_1 \geq \cdots \geq l_p > 0\) are the leading eigenvalues of \(\mathbf K\) and \(\mathbf v_1,\dots, \mathbf v_p\) are the corresponding eigenvectors. We can transform the data onto the \(p\)-dimensional score space, defining the FPCA scores as
+where \(l_1 \geq \cdots \geq l_p > 0\) are the leading eigenvalues of \(\mathbf K\) and \(\mathbf v_1,\dots, \mathbf v_p\) are the corresponding eigenvectors. We can transform the data onto the \(p\)-dimensional score space, defining the \acs{FPCA} scores as
 \[
 \xi_i = \mathbf V' \mathbf X_i, \quad i=1,\dots,n.
 \]
@@ -123,7 +123,7 @@ where
 \[
 Q_{n,p} = \sum_{j=1}^p \frac{(\bar {\mathbf X}_n' \mathbf v_j)^2}{l_j}.
 \]
-Note that \(Q_{n,p}\) is essentially a discretized and rescaled version of the statistic \(T_{n,p}\) in the \(L^2\)-based FPCA test, defined in~\eqref{eq:statistic-l2-fpca}. Naturally, in the actual implementation we approximate the eigenvalues and eigenvectors via the eigendecomposition of the empirical covariance matrix \(\hat {\mathbf C}_n\) or its regularized version, obtaining empirical estimates \(\{\hat l_j, \hat{\mathbf v}_j\}\) that we can substitute into the formulas above.
+Observe that \(Q_{n,p}\) is essentially a discretized and rescaled version of the statistic \(T_{n,p}\) in the \(L^2\)-based \acs{FPCA} test, defined in~\eqref{eq:statistic-l2-fpca}. Naturally, in the actual implementation we approximate the eigenvalues and eigenvectors via the eigendecomposition of the empirical covariance matrix \(\hat {\mathbf C}_n\) or its regularized version, obtaining empirical estimates \(\{\hat l_j, \hat{\mathbf v}_j\}\) that we can substitute into the formulas above.
 
 We still need to choose a suitable value for the hyperparameter \(g\). It controls the prior spread under \(H_1\): a small \(g\) concentrates the prior near the null, while a large \(g\) makes it diffuse. A fixed choice (e.g.\ \(g=1\)) is common, but data-driven selection typically performs better. As mentioned by~\citet{liang2008mixtures}, we can compute an empirical Bayes estimate of \(g\) by maximizing the marginal likelihood under \(H_1\). In particular, consider
 \[
@@ -131,9 +131,7 @@ g^*_n = \operatorname*{argmax}_g\, \bff_{10}^{\text{FPCA}}(g) = \frac{Q_{n,p}}{p
 \]
 which is obtained by differentiating~\eqref{eq:log-bf10-fpca} with respect to \(g\) and setting the derivative to zero. Then, the estimated value for \(g\) is \(\hat g_n = \max(\delta, g^*_n)\), where \(\delta>0\) is a small constant to avoid degeneracy at the boundary \(\{g=0\}\) (in the experiments we used \(\delta=10^{-3}\)).
 
-\begin{remark}
-  This FPCA-based Bayesian method is simpler than the full RJMCMC procedure described in Section~\ref{sec:rkhs-test}, and provides an exact Bayes factor without the need to approximate the posterior. However, it is not as flexible as the RKHS-based approach, and it seems to perform a bit worse in practice.
-\end{remark}
+Note that this \acs{FPCA}-based Bayesian method is simpler than the full \acs{RJMCMC} procedure described in Section~\ref{sec:rkhs-test}, and provides an exact Bayes factor without the need to approximate the posterior. However, it is not as flexible as the \acs{RKHS}-based approach, and it seems to perform a bit worse in practice.
 
 %*****************************************
 %*****************************************

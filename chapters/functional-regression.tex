@@ -68,9 +68,9 @@ It is worth mentioning that the model remains linear in the sense that it fundam
 A simple and intuitive prior distribution \(\Pi\) for the parameter vector \(\theta \in \Theta\), suggested by the structure of the parameter space and usually employed in the literature, is given by
 \begin{equation}\label{eq:prior-linear}
   \begin{array}{r@{\ }c@{\ }l@{\quad}l}
-    p                    & \sim               & \pi,                   &                \\[0.3em]
-    t_j                  & \textoversim{ind.} & \mathcal{U}[0,1],      & j = 1,\dots,p, \\[0.3em]
-    \beta_j              & \textoversim{ind.} & \mathcal{N}(0,\eta^2), & j = 1,\dots,p, \\[0.3em]
+    p                    & \sim               & \pi,                   &                \\[0.2em]
+    t_j                  & \textoversim{ind.} & \mathcal{U}[0,1],      & j = 1,\dots,p, \\[0.2em]
+    \beta_j              & \textoversim{ind.} & \mathcal{N}(0,\eta^2), & j = 1,\dots,p, \\[0.2em]
     \Pi(\alpha,\sigma^2) & \propto            & \dfrac{1}{\sigma^2},   &
   \end{array}
 \end{equation}
@@ -115,13 +115,13 @@ Furthermore, a maximum likelihood approach for parameter estimation (although no
 As far as prior distributions go, we proceed as we did in the linear model. However, following the advice in \citet{gelman2008weakly} and \citet{ghosh2018use}, we do change the prior of the coefficients \(\beta_j\) and the constant term \(\alpha\), since their interpretation is different now:
 \begin{equation}\label{eq:prior-logistic}
   \begin{array}{r@{\ }c@{\ }l@{\quad}l}
-    p       & \sim               & \pi,                   &                \\[0.3em]
-    t_j     & \textoversim{ind.} & \mathcal{U}[0,1],      & j = 1,\dots,p, \\[0.3em]
-    \beta_j & \textoversim{ind.} & t_5(0,2.5),            & j = 1,\dots,p, \\[0.3em]
+    p       & \sim               & \pi,                   &                \\[0.2em]
+    t_j     & \textoversim{ind.} & \mathcal{U}[0,1],      & j = 1,\dots,p, \\[0.2em]
+    \beta_j & \textoversim{ind.} & t_5(0,2.5),            & j = 1,\dots,p, \\[0.2em]
     \alpha  & \sim               & \text{Cauchy}(0,10). &
   \end{array}
   \end{equation}
-The scaled Student's \(t\) and Cauchy distributions represent robust and weakly informative priors that provide shrinkage and can handle the case of separation in logistic regression. The specific values of the parameters have been chosen via experimentation following the initial recommendations in \citet{ghosh2018use}, which also establishes the need to scale the regressors to have mean \(0\) and standard deviation \(0.5\). Note that in this case the nuisance parameter \(\sigma^2\) does not appear in the model.
+The scaled Student's \(t\) and Cauchy distributions represent robust and weakly informative priors that provide shrinkage and can handle the case of separation in logistic regression. The specific values of the parameters have been chosen via experimentation following the initial recommendations in \citet{ghosh2018use}, which also establishes the need to scale the regressors to have mean zero and standard deviation \(0.5\). Note that in this case the nuisance parameter \(\sigma^2\) does not appear in the model.
 
 \subsubsection*{Posterior distribution}
 
@@ -190,7 +190,6 @@ where \(\hat \tau_{p}=(\hat t_1, \dots ,\hat t_p)=g(\{\tau^{(r)}\}_{r:p^{(r)}=p}
 \section{Posterior consistency}\label{sec:consistency-bfr}
 
 \note{Similar analyses for other functional regression models are carried out for example by \citet{lian2016posterior, abraham2020posterior}, albeit not within a \acs{RKHS} framework.}
-
 
 This section explores the theoretical foundations of the proposed Bayesian models in the context of predictive inference. In particular, we establish results grounded in the theory of posterior consistency introduced in Chapter~\ref{ch:introduction}, which provide rigorous justification for the reliability of these functional models in asymptotic settings (from a frequentist perspective). We focus on the linear case, but the results we obtain generally hold \textit{mutatis mutandis} in the logistic case. All technical details and proofs are deferred to Section~\ref{sec:proofs-bfr}.
 
@@ -335,40 +334,40 @@ where \(H_\theta(x)=\pp(Y=1|x,\theta)\) is the parameter of the Bernoulli distri
 
 \subsubsection*{On the smoothness requirements}
 
-Note that~\ref{cond:condition-schwartz-X} implies that the process \(X\) is \emph{mean-square Lipschitz continuous}, i.e., there exists \(L>0\) such that \(\E[(X(t) - X(s))^2] \leq L (t-s)^2\) for all \(t, s \in [0,1]\). Looking carefully at the proofs of the results above, we could substitute the almost sure Lipschitzness of the trajectories by this new condition and arrive at the same conclusions. Moreover, note that this guarantees, via Kolmogorov's continuity theorem, that the sample paths of \(X\) (after an eventual modification) are continuous functions. Apart from somewhat trivial examples, such as a deterministic process or a linear random process, we can show that processes with a sufficiently smooth kernel satisfy our requirements.
+Note that~\ref{cond:condition-schwartz-X} implies that the process \(X\) is \textit{mean-square Lipschitz continuous}, i.e., there exists \(L>0\) such that \(\E[(X(t) - X(s))^2] \leq L (t-s)^2\) for all \(t, s \in [0,1]\). Looking carefully at the proofs of the results above, we could substitute the almost sure Lipschitzness of the trajectories by this new condition and arrive at the same conclusions. Moreover, note that this guarantees, via Kolmogorov's continuity theorem, that the sample paths of \(X\) (after an eventual modification) are continuous functions. Apart from somewhat trivial examples, such as a deterministic process or a linear random process, we can show that processes with a sufficiently smooth kernel satisfy our requirements.
 
 \begin{lemma}\label{lemma:mean-square-lipschitz}
   \marginproof{proof:mean-square-lipschitz}
   If the covariance function \(K\) of the process \(X\) is twice-continuously differentiable and \(\E[X(t)]=0\) for all \(t\in[0,1]\), then \(X\) is mean-square Lipschitz continuous.
 \end{lemma}
 
-Note that the above requirement is by no means a necessary one. For example, given a second-order stochastic process \(\{Z(t): t \in [0,1]\}\) with zero mean, we can consider the integrated process
+Note that the above requirement is by no means a necessary one. For example, given a second-order stochastic process \(\{W(t): t \in [0,1]\}\) with zero mean, we can consider the integrated process
 \[
-  X(t)=\int_0^t Z(u)\, du, \quad t\in [0,1].
+  X(t)=\int_0^t W(u)\, du, \quad t\in [0,1].
 \]
-If \(K_Z(t,s)=\E[Z(t)Z(s)]\) is uniformly bounded above by a constant \(L>0\) on \([0,1]\), we have
+If \(K_W(t,s)=\E[W(t)W(s)]\) is uniformly bounded above by a constant \(L>0\) on \([0,1]\), we have
 \[
-  \E\left[(X(t) - X(s))^2\right] = \int_s^t \int_s^t \E[Z(u)Z(v)]\, du\,dv \leq L(t-s)^2.
+  \E[(X(t) - X(s))^2] = \int_s^t \int_s^t \E[W(u)W(v)]\, du\,dv \leq L(t-s)^2.
 \]
-For example, we might take \(Z(t)\) to be a standard Brownian motion, an Ornstein--Uhlenbeck process or, in general, any second-order process with a continuous covariance function. In any case, by virtue of Lemma~\ref{lemma:mean-square-lipschitz} we can always pre-process the trajectories so that they are regular enough for the conditions to hold, considering for instance the convolution with a smooth kernel.
+For example, we might take \(W(t)\) to be a standard Brownian motion, an Ornstein--Uhlenbeck process or, in general, any second-order process with a continuous covariance function. In any case, by virtue of Lemma~\ref{lemma:mean-square-lipschitz} we can always pre-process the trajectories so that they are regular enough for the conditions to hold, considering for instance the convolution with a smooth kernel.
 
 
 \section{Experimental results and analysis}\label{sec:results-bfr}
 
-In this section we present the results of the experiments carried out to test the performance of our functional regression methods in different scenarios.\footnote{The corresponding Python code is publicly available online at \url{https://github.com/antcc/rk-bfr-jump}.} We consider both simulated and real data, divided into training and testing sets with a \(66\%/33\%\) split. The models are fitted on the training data, using \acs{RJMCMC} to sample from the approximate posterior, and then out-of-sample predictions are computed on the testing set. The initial experiments carried out indicate that low values of \(p\) provide sufficient flexibility in most scenarios, so we allow the number of components to vary in the set \(\{1,2,\dots,10\}\). We independently repeat the whole process \(10\) times (each with a different train/test configuration) to account for the stochasticity in the sampling step, and average the results across these executions. For the purposes of prediction we consider the point statistics \textit{trimmed mean} (\(10\%\)), \textit{median} and \textit{mode} to aggregate together predictions and summarize parameters (see Section~\ref{sec:rjmcmc-bfr}). Moreover, the values of \(\{t_j\}\) that fall outside the specified grid are truncated to the nearest neighbor in the grid, with the additional restriction that time instants in different components of our models cannot be equal.
+In this section we present the results of the experiments carried out to test the performance of our functional regression methods in different scenarios.\footnote{The Python code is available at \url{https://github.com/antcc/rk-bfr-jump}.} We consider both simulated and real data, divided into training and testing sets with a 66\%/33\% split. The models are fitted on the training data, using \acs{RJMCMC} to sample from the approximate posterior, and then out-of-sample predictions are computed on the testing set. The initial experiments carried out indicate that low values of \(p\) provide sufficient flexibility in most scenarios, so we allow the number of components to vary in the set \(\{1,2,\dots,10\}\). We independently repeat the whole process 10 times (each with a different train/test configuration) to account for the stochasticity in the sampling step, and average the results across these executions. For the purposes of prediction we consider the point statistics \textit{trimmed mean} (\(10\%\)), \textit{median} and \textit{mode} to aggregate together predictions and summarize parameters (see Section~\ref{sec:rjmcmc-bfr}). Moreover, the values of \(\{t_j\}\) that fall outside the specified grid are truncated to the nearest neighbor in the grid, with the additional restriction that time instants in different components of our models cannot be equal.
 
-The Python library used to perform the \acs{RJMCMC} approximation is \slsc{Eryn} \citep{karnesis2023eryn}. It is a toolbox for Bayesian inference that allows trans-dimensional posterior approximation, running multiple chains in an ensemble configuration. Because of execution time constraints, the hyperparameters of the \slsc{Eryn} sampler are selected manually based on preliminary experiments and the authors' recommendations; this reduction in computational cost renders the sampling step practically viable. Moreover, some amount of post-processing is needed to mitigate the well-known \textit{label switching} phenomenon that occurs in \acs{MCMC} approximations of finite mixture models (see Chapter~\ref{ch:rjmcmc}).
+The Python library used to perform the \acs{RJMCMC} approximation is \slsc{Eryn} \citep{karnesis2023eryn}. It is a toolbox for Bayesian inference that allows trans-dimensional posterior approximation, running multiple chains in an ensemble configuration. Because of execution time constraints, the hyperparameters of the \slsc{Eryn} sampler are selected manually based on preliminary experiments and the authors' recommendations; this reduction in computational cost renders the sampling step practically viable. Moreover, some amount of post-processing is needed to mitigate the well-known label switching phenomenon that occurs in \acs{MCMC} approximations of finite mixture models (see Chapter~\ref{ch:rjmcmc}).
 
 \note{PARAMETERS OF THE EXECUTION, NUMBER OF ITERATIONS, CHAINS, ETC}
 
 \subsection{Data sets}
 
-For the simulations we consider \(n=200\) training samples and \(n'=100\) testing samples, with functional regressors measured on an equispaced grid of \(100\) points on \([0, 1]\). Furthermore, we choose a set of functional regressors common to linear and logistic regression problems. They are four zero-mean \acf{GPs}, each with a different covariance function:
+For the simulations we consider \(n=200\) training samples and \(n'=100\) testing samples, with functional regressors measured on an equispaced grid of 100 points on \([0, 1]\). Furthermore, we choose a set of functional regressors common to linear and logistic regression problems. They are four zero-mean \acf{GPs}, each with a different covariance function:
 \begin{itemize}
-  \item A Brownian motion (BM), with kernel \(K_1(t,s)=\min\{t,s\}\).
-  \item A fractional Brownian motion (fBM), with Hurst parameter \(H=0.8\) and kernel \(K_2(t,s)=1/2(s^{2H} + t^{2H} - |t-s|^{2H})\).
-  \item An Ornstein--Uhlenbeck process (OU), with kernel \(K_3(t,s)=e^{-|t-s|}\).
-  \item A \acs{GP} with a squared exponential kernel (SE), with \(\xi=0.2\) and kernel \(K_4(t,s)=e^{-(t-s)^2/2\xi^2}\).
+  \item A Brownian motion (\slsc{BM}), with kernel \(K_1(t,s)=\min\{t,s\}\).
+  \item A fractional Brownian motion (\slsc{fBM}), with Hurst parameter \(H=0.8\) and kernel \(K_2(t,s)=1/2(s^{2H} + t^{2H} - |t-s|^{2H})\).
+  \item An Ornstein--Uhlenbeck process (\slsc{OU}), with kernel \(K_3(t,s)=e^{-|t-s|}\).
+  \item A \acs{GP} with a squared exponential kernel (\slsc{SE}), also known as Gaussian kernel, given by \(K_4(t,s)=e^{-(t-s)^2/2\xi^2}\) with \(\xi=0.2\). 
 \end{itemize}
 
 \paragraph{Linear regression data sets} We employ three different types of simulated data sets, all with a common value of \(\alpha=5\) for the intercept and \(\sigma^2=0.5\) for the error variance.
@@ -381,9 +380,9 @@ For the simulations we consider \(n=200\) training samples and \(n'=100\) testin
   \[
     Y = 5 + \int_0^1 X(t)\log(1+4t)\, dt + \epsilon.
   \]
-  \item A non-Gaussian regressor variable, specifically a \acf{GBM}, given by \(X(t)=\exp\{\BM(t)\}\), where \(\BM(t)\) is a standard Brownian motion. We consider the same \acs{RKHS} and \(L^2\) response variables as above.
+  \item A non-Gaussian regressor variable, specifically a geometric Brownian motion (\slsc{GBM}), given by \(X(t)=\exp\{\BM(t)\}\), where \(\BM(t)\) is a standard Brownian motion. We consider the same \acs{RKHS} and \(L^2\) response variables as above.
 \end{itemize}
-As for the real data experiments, we use the Tecator data set \citep{borggaard1992optimal} to predict fat content based on near-infrared absorbance curves of \(193\) meat samples, as well as what we call the Moisture \citep{kalivas1997two} and Sugar \citep{bro1999exploratory} data sets. The first consists of near-infrared spectra of \(100\) wheat samples and the objective is to predict the samples' moisture content, whereas the second contains \(268\) samples of sugar fluorescence data in order to predict ash content. The regressors of the three data sets are measured on a grid of \(100\), \(101\) and \(115\) equispaced points on \([0, 1]\), respectively.
+As for the real data experiments, we use the Tecator data set \citep{borggaard1992optimal} to predict fat content based on near-infrared absorbance curves of 193 meat samples, as well as what we call the Moisture \citep{kalivas1997two} and Sugar \citep{bro1999exploratory} data sets. The first consists of near-infrared spectra of 100 wheat samples and the objective is to predict the samples' moisture content, whereas the second contains 268 samples of sugar fluorescence data in order to predict ash content. The regressors of the three data sets are measured on a grid of 100, 101 and 115 equispaced points on \([0, 1]\), respectively.
 
 \paragraph{Logistic regression data sets} Again we consider three different types of simulated data sets.
 \begin{itemize}
@@ -401,7 +400,7 @@ As for the real data experiments, we use the Tecator data set \citep{borggaard19
   \]
   and a heteroscedastic case to distinguish between a standard Brownian motion and a Brownian motion with kernel \(K(t,s)=2\min\{t,s\}\).
 \end{itemize}
-Additionally, we use three real data sets well known in the literature. The first one is a subset of the Medflies data set \citep{carey1998relationship}, consisting on samples of the number of eggs laid daily by \(534\) flies over \(30\) days, to predict whether their longevity is high or low. The second one is the Berkeley Growth Study data set \citep{tuddenham1954physical}, which records the height of \(54\) girls and \(39\) boys over \(31\) different points in their lives. Finally, we selected a subset of the Phoneme data set \citep{hastie1995penalized} based on \(200\) digitized speech frames over \(128\) equispaced points to predict the phonemes ``aa'' and ``ao''.
+Additionally, we use three real data sets well known in the literature. The first one is a subset of the Medflies data set \citep{carey1998relationship}, consisting on samples of the number of eggs laid daily by 534 flies over 30 days, to predict whether their longevity is high or low. The second one is the Berkeley Growth Study data set \citep{tuddenham1954physical}, which records the height of 54 girls and 39 boys over 31 different points in their lives. Finally, we selected a subset of the Phoneme data set \citep{hastie1995penalized} based on 200 digitized speech frames over 128 equispaced points to predict the phonemes ``aa'' and ``ao''.
 
 \subsection{Comparison algorithms}
 
@@ -437,22 +436,22 @@ In the logistic regression case, all the variable selection and dimension reduct
   \item Quadratic discriminant analysis (\slsc{QDA}).
 \end{itemize}
 
-The main hyperparameters of all these algorithms were selected by \(10\)-fold cross-validation, and for those that have a number of components to select, we set \(10\) as the maximum value so that comparison with our own methods are fair. In particular, regularization parameters are searched among \(20\) values in the logarithmic space \([10^{-4}, 10^4]\), the number of basis elements for cubic spline bases is in \(\{4,5,\dots,10\}\), the number of basis elements for Fourier bases is one of \(\{1,3,5,7,9\}\), and the number of neighbors in the KNN classifier is in \(\{3,5,7,9,11,13\}\). Most algorithms have been taken from the Python libraries \slsc{scikit-learn} \citep{pedregosa2011scikit} and \slsc{scikit-fda} \citep{ramos2024scikit}, the first oriented to machine learning in general and the second to \acs{FDA} in particular. However, some methods were not found in these packages and had to be implemented from scratch. This is the case of the \slsc{FLDA}, \slsc{FPLS} and \slsc{APLS} methods, which we coded following the corresponding articles.
+The main hyperparameters of all these algorithms were selected by 10-fold cross-validation, and for those that have a number of components to select, we set 10 as the maximum value so that comparison with our own methods are fair. In particular, regularization parameters are searched among 20 values in the logarithmic space \([10^{-4}, 10^4]\), the number of basis elements for cubic spline bases is in \(\{4,5,\dots,10\}\), the number of basis elements for Fourier bases is one of \(\{1,3,5,7,9\}\), and the number of neighbors in the KNN classifier is in \(\{3,5,7,9,11,13\}\). Most algorithms have been taken from the Python libraries \slsc{scikit-learn} \citep{pedregosa2011scikit} and \slsc{scikit-fda} \citep{ramos2024scikit}, the first oriented to machine learning in general and the second to \acs{FDA} in particular. However, some methods were not found in these packages and had to be implemented from scratch. This is the case of the \slsc{FLDA}, \slsc{FPLS} and \slsc{APLS} methods, which we coded following the corresponding articles.
 
 \subsection{Numerical results}
 
-We have adopted a visual approach to presenting the experimentation results, using colored graphs to help visualize them. In each case, the mean and standard deviation of the score obtained across the \(10\) independent runs is shown, depicting our methods in blue and the comparison algorithms in orange. We also show the global mean of all the comparison algorithms with a dashed vertical line, excluding extreme negative results to avoid distortion. Moreover, we separate one-stage and two-stage methods, the latter being the ones that perform variable selection or dimension reduction prior to a multiple linear/logistic regression method (represented with ``+r''/``+log'' in the figures). We name our methods according to the acronyms described in Section~\ref{sec:rjmcmc-bfr}. The same results are presented in the usual tabular format in Appendix~\ref{app:tables-bfr}.
+We have adopted a visual approach to presenting the experimentation results, using colored graphs to help visualize them. In each case, the mean and standard deviation of the score obtained across the 10 independent runs is shown, depicting our methods in blue and the comparison algorithms in orange. We also show the global mean of all the comparison algorithms with a dashed vertical line, excluding extreme negative results to avoid distortion. Moreover, we separate one-stage and two-stage methods, the latter being the ones that perform variable selection or dimension reduction prior to a multiple linear/logistic regression method (represented with ``+r''/``+log'' in the figures). We name our methods according to the acronyms described in Section~\ref{sec:rjmcmc-bfr}. The same results are presented in the usual tabular format in Appendix~\ref{app:tables-bfr}.
 
 \subsubsection*{Functional linear regression}
 
 Following \citet{nobile2007bayesian}, we select a truncated Poisson prior with a low rate parameter \(\lambda=3\) for the number of components \(p\), so that simpler models are favored. However, in the experiments with real data we set \(p\sim \mathcal U\{1,2,\dots,10\}\) to allow a less informative exploration of the parameter space. Moreover, for simplicity we choose to scale the regressors and response to have standard deviation unity in the inference step, but then convert the results back to the original scale for prediction. This allows us to set a reasonable value of \(\eta^2=25\) in the weakly informative prior of \(\beta_j\) in~\eqref{eq:prior-linear}. The metric used to evaluate the performance is the \acf{RMSE}.
 
-We begin with the simulation experiments in Figure~\ref{fig:reg_rkhs}, where we see the results for the \acs{RKHS} response. This is our baseline and the most favorable case for us, as the underlying model coincides with our assumed model. Indeed, we can see that in most instances our algorithms are the ones with lower \acs{RMSE}, as expected, and there is not much variance among our different approaches to prediction, at least in the one-stage methods. We even manage to consistently beat the \slsc{Lasso} finite-dimensional regression mechanism, which can select all \(100\) components for its model, versus our \(10\) components at most. This is an indication that our models make a more efficient selection of variables, encapsulating more information with fewer components and justifying our partiality to parsimonious models.
+We begin with the simulation experiments in Figure~\ref{fig:reg_rkhs}, where we see the results for the \acs{RKHS} response. This is our baseline and the most favorable case for us, as the underlying model coincides with our assumed model. Indeed, we can see that in most instances our algorithms are the ones with lower \acs{RMSE}, as expected, and there is not much variance among our different approaches to prediction, at least in the one-stage methods. We even manage to consistently beat the \slsc{Lasso} finite-dimensional regression mechanism, which can select all 100 components for its model, versus our 10 components at most. This is an indication that our models make a more efficient selection of variables, encapsulating more information with fewer components and justifying our partiality to parsimonious models.
 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.99\textwidth]{reg_rkhs}
-  \caption[Short caption for this figure]{Mean and standard error of \acs{RMSE} of predictors (lower is better) for \(10\) runs with \acs{GP} regressors, one on each column, that obey an underlying linear \acs{RKHS} model.}\label{fig:reg_rkhs}
+  \caption[Short caption for this figure]{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying linear \acs{RKHS} model.}\label{fig:reg_rkhs}
 \end{figure}
 
 Figure~\ref{fig:reg_l2} shows the results for an underlying \(L^2\)-model, which would be our direct competitor and a more representative test for our Bayesian model. In this case the outcome is satisfactory, as for the most part our models are on a par with the rest, even surpassing other methods that were designed with the \(L^2\)-model in mind. Especially interesting is the comparison with the standard \(L^2\) functional regression \slsc{FLin}, which we outperform most of the time.
@@ -460,7 +459,7 @@ Figure~\ref{fig:reg_l2} shows the results for an underlying \(L^2\)-model, which
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.99\textwidth]{reg_l2}
-  \caption{Mean and standard error of \acs{RMSE} of predictors (lower is better) for \(10\) runs with \acs{GP} regressors, one on each column, that obey an underlying linear \(L^2\)-model.}\label{fig:reg_l2}
+  \caption{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying linear \(L^2\)-model.}\label{fig:reg_l2}
 \end{figure}
 
 The comparison results for non-Gaussian data can be seen in Figure~\ref{fig:reg_non_gp}. In this case our methods still get better results under the \acs{RKHS} model, while the results under the \(L^2\)-model are essentially the same, which is a positive outcome.
@@ -468,7 +467,7 @@ The comparison results for non-Gaussian data can be seen in Figure~\ref{fig:reg_
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.65\textwidth]{reg_non_gp}
-  \caption{Mean and standard error of \acs{RMSE} of predictors (lower is better) for \(10\) runs with \acs{GBM} regressors. In the first column the response obeys a linear \(L^2\)-model, while in the second columns it follows a linear \acs{RKHS} model.}\label{fig:reg_non_gp}
+  \caption{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with \slsc{GBM} regressors. In the first column the response obeys a linear \(L^2\)-model, while in the second columns it follows a linear \acs{RKHS} model.}\label{fig:reg_non_gp}
 \end{figure}
 
 Lastly, Figure~\ref{fig:reg_real} depicts the results for the real data sets, where we can see that the performance of our one-stage methods is about the same as that of the comparison methods. However, our variable selection methods are somewhat worse that the reference methods, although not by a wide margin. We have to bear in mind that real data is more complex and noisy than simulated data, and it is possible that after a suitable pre-preprocessing we would have obtained better results. Nonetheless, our goal was to perform a general comparison with a uniform methodology, without focusing too much on the specifics of any particular data set.
@@ -476,7 +475,7 @@ Lastly, Figure~\ref{fig:reg_real} depicts the results for the real data sets, wh
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.8\textwidth]{reg_real}
-  \caption{Mean and standard error of \acs{RMSE} of predictors (lower is better) for \(10\) runs with real data sets, one on each column.}\label{fig:reg_real}
+  \caption{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with real data sets, one on each column.}\label{fig:reg_real}
 \end{figure}
 
 On another note, we see that some of our Bayesian models have a higher standard deviation, partly because there is an intrinsic randomness in the sampling mechanism, and it can be the cause of the occasional worse performance. In relation to this, we observe that the methods that use the trimmed mean as a summary statistic tend to have a worse score, as this statistic is more sensitive to outliers than the median or the mode, even with the \(10\%\) trimming.
@@ -486,12 +485,12 @@ On another note, we see that some of our Bayesian models have a higher standard 
 
 In this case we set the same prior distribution for \(p\) as in the linear case, but now in the fitting phase the regressors are scaled to have standard deviation \(0.5\) to accommodate the priors in~\eqref{eq:prior-logistic}. We also use the standard threshold of \(1/2\) to convert probabilities to class labels, and the performance metric is the rate of correctly predicted samples (accuracy). 
 
-First, in Figure~\ref{fig:clf_rkhs} we see the results for the \acs{GP} regressors with a logistic \acs{RKHS} response. Our models perform fairly well in this advantageous situation, and even more so in the one-stage case. We again improve the results of other models that can select far more components than our self-imposed limit of \(10\). Moreover, whenever our two-stage methods score lower, the differences account for only a couple of misclassified samples at worst.
+First, in Figure~\ref{fig:clf_rkhs} we see the results for the \acs{GP} regressors with a logistic \acs{RKHS} response. Our models perform fairly well in this advantageous situation, and even more so in the one-stage case. We again improve the results of other models that can select far more components than our self-imposed limit of 10. Moreover, whenever our two-stage methods score lower, the differences account for only a couple of misclassified samples at worst.
 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.99\textwidth]{clf_rkhs}
-  \caption{Mean and standard error of accuracy of classifiers (higher is better) for \(10\) runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \acs{RKHS} model.}\label{fig:clf_rkhs}
+  \caption{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \acs{RKHS} model.}\label{fig:clf_rkhs}
 \end{figure}
 
 Subsequently, Figure~\ref{fig:clf_l2} shows that in the \(L^2\) scenario the results are again promising, since our models score consistently on or above the mean of the reference models, and in many instances exceed most of them. In this case we also beat the alternative functional logistic regression method (\slsc{FLog}). In addition, in this situation the overall accuracy of all methods is poor (around \(60\%\)), so this is indeed a difficult problem in which even small increases in accuracy are relevant.
@@ -499,7 +498,7 @@ Subsequently, Figure~\ref{fig:clf_l2} shows that in the \(L^2\) scenario the res
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.99\textwidth]{clf_l2}
-  \caption{Mean and standard error of accuracy of classifiers (higher is better) for \(10\) runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \(L^2\)-model.}\label{fig:clf_l2}
+  \caption{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \(L^2\)-model.}\label{fig:clf_l2}
 \end{figure}
 
 Then, Figure~\ref{fig:clf_non_gp} shows that our classifiers perform better than most comparison algorithms in both non-Gaussian cases. The differences are most notable in the homoscedastic case, and in the heteroscedastic case the overall accuracy is low. Incidentally, this heteroscedastic case of two zero-mean Brownian motions has a special interest, since it can be shown that the Bayes error is zero in the limit of dense monitoring (i.e.\ with an arbitrarily fine measurement grid), a manifestation of the ``near-perfect'' classification phenomenon analyzed for example in \citet{torrecilla2020optimal}. Our results are in line with the empirical findings of this article, where the authors conclude that even though the asymptotic theoretical error is zero, most classification methods are suboptimal in practice (possibly due to the high collinearity of the data), with the notable exception of \slsc{PCA}+\slsc{QDA}.
@@ -507,7 +506,7 @@ Then, Figure~\ref{fig:clf_non_gp} shows that our classifiers perform better than
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.65\textwidth]{clf_non_gp}
-  \caption{Mean and standard error of accuracy of classifiers (higher is better) for \(10\) runs with a mix of regressors coming from two different Brownian motion processes, labeled according to their origin.}\label{fig:clf_non_gp}
+  \caption{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with a mix of regressors coming from two different Brownian motion processes, labeled according to their origin.}\label{fig:clf_non_gp}
 \end{figure}
 
 As for the real data sets, in Figure~\ref{fig:clf_real} we see positive results in general, obtaining in some cases accuracies well above the mean of the reference models. In particular, the weighted sum methods tend to have slightly better results than the \acs{MAP} methods, which is a trend that was also present in the simulated data sets and in the linear regression experiments. This was somewhat expected, since the weighted predictions use the full range of information available for prediction.
@@ -515,7 +514,7 @@ As for the real data sets, in Figure~\ref{fig:clf_real} we see positive results 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.8\textwidth]{clf_real}
-  \caption{Mean and standard error of accuracy of classifiers (higher is better) for \(10\) runs with real data sets, one on each column.}\label{fig:clf_real}
+  \caption{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with real data sets, one on each column.}\label{fig:clf_real}
 \end{figure}
 
 \FloatBarrier{}
@@ -525,7 +524,7 @@ We give an example through a series of visual representations of how one would a
 \[
 Y=5 - 5X(0.1) + 5X(0.6) + 10X(0.8) + \varepsilon, 
 \] 
-with \(\varepsilon \sim \mathcal N(0, 0.5)\). This data set is represented in Figure~\ref{fig:dataset-linear}. We run the sampler for \(3000\) iterations and discard the first \(2000\), with a \(\text{Poisson}(3)\) prior truncated to \(\{1,\dots,5\}\) for \(p\).
+with \(\varepsilon \sim \mathcal N(0, 0.5)\). This data set is represented in Figure~\ref{fig:dataset-linear}. We run the sampler for 3000 iterations and discard the first 2000, with a \(\text{Poisson}(3)\) prior truncated to \(\{1,\dots,5\}\) for \(p\).
 
 \begin{figure}[tbp]
   \myfloatalign
@@ -582,7 +581,7 @@ Lastly, we can perform a posterior predictive check (Figure~\ref{fig:pp-check}).
 \end{figure}
 
 \FloatBarrier{}
-\subsection{Execution times}\label{app:execution-times}
+\subsection{Runtime comparison}\label{sec:execution-times-bfr}
 
 In Figure~\ref{fig:reg-execution-times} and Figure~\ref{fig:clf-execution-times} we see the execution times of all the experiments. The execution times of the reference methods includes the duration of the cross-validation phase to select the best hyperparameters, a phase that our Bayesian methods lack by design. It is widely known that \acs{MCMC} sampling tends to be slow, but as we can see the differences are manageable. Our methods have reasonable run times for practical use, especially when taking into account the predictive improvement obtained in some cases. In addition, it is possible that we ran some \acs{MCMC} chains for more steps than necessary, because we wanted to perform all experiments in the same generic configuration. In real-world scenarios one would pay closer attention to convergence metrics and try to stop the sampling earlier.
 
@@ -655,7 +654,7 @@ we have
 \[
   \alpha + \sum_{j=1}^{p} \beta_j X(t_j) = \alpha' + \sum_{j=1}^{p'} \beta'_j X(t'_j),
 \]
-where \(t_j\neq t_k\) and \(t_j'\neq t_k'\) for \(j\neq k\). Reordering the terms and combining those where the impact points coincide, we have a linear combination of marginals of the process \(X\) that equals a constant. By taking variances, we can see that all the coefficients in this linear combination must vanish, since the covariance function of the process is strictly positive definite. But \(\beta_j\) and \(\beta_j'\) cannot be \(0\) for any \(j\) (by definition of \(\tTheta\)), so it must be the case that \(p=p'\) and \(\theta'=\theta[\nu]\) for some \(\nu \in \mathfrak{S}_p\). However, \(t_1< \cdots < t_p\) and \(t'_1 < \cdots < t'_p\), so  \(\nu\) must be the identity permutation, that is, \(\theta'=\theta\), contradicting the initial assumption.
+where \(t_j\neq t_k\) and \(t_j'\neq t_k'\) for \(j\neq k\). Reordering the terms and combining those where the impact points coincide, we have a linear combination of marginals of the process \(X\) that equals a constant. By taking variances, we can see that all the coefficients in this linear combination must vanish, since the covariance function of the process is strictly positive definite. But \(\beta_j\) and \(\beta_j'\) cannot be zero for any \(j\) (by definition of \(\tTheta\)), so it must be the case that \(p=p'\) and \(\theta'=\theta[\nu]\) for some \(\nu \in \mathfrak{S}_p\). However, \(t_1< \cdots < t_p\) and \(t'_1 < \cdots < t'_p\), so  \(\nu\) must be the identity permutation, that is, \(\theta'=\theta\), contradicting the initial assumption.
 
 \paragraph{Applying Doob's theorem} Next we analyze the conclusions of Doob's theorem applied to the collapsed model~\eqref{eq:model-linear-collapsed}: there exists a subset \(\tTheta_* \subseteq \tTheta\) with \(\Pi(T(\theta)\in\tTheta_*)=1\) such that, if \(T(\theta_0)\in \tTheta_*\) and \((X,Y)_{1:\infty} \sim \pp_{T(\theta_0)}(X, Y)\) i.i.d., then for any neighborhood \(B\subseteq \tTheta\) of \(T(\theta_0)\) it holds that
 \begin{equation}\label{eq:consistency-collapsed}
@@ -748,7 +747,7 @@ We need to verify the conditions of Theorem~\ref{th:consistency-hellinger}. As w
 \[
   |\mu_\theta(x) - \mu_{\theta'}(x)| = \left| (\alpha - \alpha') + \sum_{j=1}^p \left(\beta_j (x(t_j) - x(t'_{j}))+ (\beta_j - \beta'_{j})x(t'_{j})\right) \right|.
 \]
-Now from the triangle inequality, the Cauchy--Schwarz inequality and the fact that \((a+b)^2 \leq 2(a^2 + b^2)\), the following holds \(\qq_X\)-a.s.:
+Now from the triangle inequality, the Cauchy--Schwarz inequality and the fact that \((a+b)^2 \leq 2(a^2 + b^2)\), the following holds \(\qq_X-\)a.s.:
 \begin{align*}
   \frac{1}{2}(\mu_\theta(x) - \mu_{\theta'}(x))^2 &\leq (\alpha - \alpha')^2 + 2p\biggl(M_B^2\sum_{j=1}^p |x(t_j) - x(t_j')|^2\\
   &\quad + \sum_{j=1}^p x(t'_j)^2|\beta_j - \beta'_j|^2\biggr).
@@ -983,7 +982,7 @@ In the last step we have used the alternative definition of the Hellinger distan
 \[
   2d_H^2(f_0, f_\theta) = \int\left(\sqrt{f_0} - \sqrt{f_\theta}\right)^2 d\rho, 
 \] 
-the basic inequality \((a + b)^2 \leq 2(a^2 + b^2)\), and the fact that both \(f_0\) and \(f_\theta\) integrate to \(1\) over the whole space.
+the basic inequality \((a + b)^2 \leq 2(a^2 + b^2)\), and the fact that both \(f_0\) and \(f_\theta\) integrate to unity over the whole space.
 
 For the mean-variance discrepancy distance, recall the expression for the squared Hellinger distance between two normal densities, which can be formulated in this case as \(d^2_H(f_0, f_\theta)= \int g_{0,\theta}(x)\, d\qq_X(x)\), with
 \[

@@ -463,7 +463,7 @@
 \DeclareMathOperator{\dkl} {D_{KL}}
 \DeclareMathOperator{\kl} {KL}
 \DeclareMathOperator{\tr} {Tr}
-\DeclareMathOperator{\bff} {BF}
+\DeclareMathOperator{\bff} {\text{BF}}
 \DeclareMathOperator{\gp} {GP}
 \DeclareMathOperator{\diag} {diag}
 \DeclareMathOperator{\BM}{BM}
@@ -600,8 +600,9 @@
 }
 
 %% Emphasis colors for tables
-\newcommand\firstcolor[1]{\textbf{#1}}
-\newcommand\secondcolor[1]{{\color{uam-ciencias}\textit{#1}}}
+\newcommand\firstcolor[1]{{\color{uam-ciencias}#1}}
+\newcommand\secondcolor[1]{\textbf{#1}}
+
 
 % ****************************************************************************************************
 % 7. Further adjustments (experimental)
