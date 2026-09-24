@@ -142,7 +142,7 @@
 % ********************************************************************
 \usepackage{graphicx} %
 \graphicspath{ {./figures/} }
-\usepackage[section]{placeins}  % So that figures do not float past sections
+\usepackage{placeins}  % So that figures do not float past sections
 \usepackage{enumitem} %
 \usepackage{scrhack} % fix warnings when using KOMA with listings package
 \usepackage{xspace} % to get the spacing after macros right
@@ -438,6 +438,7 @@
 % Drafting and notes
 %*******************************************************
 \newcommand{\note}[2][Maroon]{\textcolor{#1}{#2}}
+\usepackage{showframe}  % Uncomment for visual bounding box
 
 %********************************************************************
 % Custom commands
@@ -506,13 +507,13 @@
 
 
 \theoremstyle{theorem-classicthesis}
-\newtheorem{theorem}{Theorem}
-\newtheorem{corollary}{Corollary}
-\newtheorem{lemma}{Lemma}
-\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
 
 \theoremstyle{definition-classicthesis}
-\newtheorem{definition}{Definition}
+\newtheorem{definition}[theorem]{Definition}
 \newtheorem*{remark}{Remark}
 
 \theoremstyle{assumption-classicthesis}

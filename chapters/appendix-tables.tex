@@ -1,182 +1,175 @@
 %*****************************************
-\chapter{Tables}\label{app:tables-bfr}
+\chapter{Tables for functional regression experiments}\label{app:tables-bfr}
 %*****************************************
 
-%\enlargethispage{5\baselineskip}
+Here we present the tables corresponding to the empirical comparison studies in Chapter~\ref{ch:functional-regression}. These tables show the numerical values that were depicted there graphically, separating one-stage and two-stage methods. In each case the best and second-best results are highlighted in \firstcolor{blue} and \secondcolor{bold}, respectively.
 
-Here we present the tables corresponding to the empirical comparison studies in Appendix~\ref{app:non-gp} and Section 4 of the main article, which show the numerical values that were depicted there graphically. In each case the best and second-best results are highlighted in \firstcolor{blue} and \secondcolor{bold}, respectively.
-
-%%%%%% métodos con slsc, siguiendo notación e.g. W-VS-Median. Quitar barra de en medio, poner toprule etc. y header en slsc. Tabla small y nombres normalsize. Añadir los \texttt{@{}} antes y después
+%%%%%% métodos con slsc, siguiendo notación e.g. W-VS-Median. SHORT CAPTIONS FOR LIST OF TABLES.
 
 \section{Functional linear regression}
 
-\begin{table}[htbp!]
+\begin{table}[h!]
   \footnotesize
   \myfloatalign
   \palatinonumbers
   %\rowcolors{2}{}{teal!8}
-  \caption{Mean \acs{RMSE} of predictors (lower is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying linear \acs{RKHS} model. The corresponding standard errors are shown between brackets.}
+  \caption[Functional linear regression experiments: synthetic data under \acs{RKHS} model]{Mean \acs{RMSE} of predictors (lower is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying linear \acs{RKHS} model. The corresponding standard errors are shown between brackets.}
   \begin{tabular}{@{}lcccc@{}}
     \toprule
-    \slsc{Prediction method} & \normalsize{\slsc{BM}}                 & \normalsize{\slsc{fBM}}                & \normalsize{\slsc{OU}}                & \normalsize{\slsc{SE}}           \\
+    \normalsize{\slsc{Method}} & \normalsize{\slsc{BM}} & \normalsize{\slsc{fBM}} & \normalsize{\slsc{OU}} & \normalsize{\slsc{SE}}\\
     \midrule
-    pls1 & 0.997 (0.051) & 0.730 (0.042) & 1.065 (0.055) & 0.673 (0.045) \\
-    lasso & 0.680 (0.044) & 0.688 (0.031) & 0.684 (0.031) & 0.671 (0.042) \\
-    fpls1 & 1.607 (0.078) & 0.751 (0.040) & 2.088 (0.099) & 0.670 (0.046) \\
-    flin & 1.829 (0.073) & 0.869 (0.037) & 2.388 (0.078) & 0.957 (0.044) \\
-    apls & 0.875 (0.053) & 0.704 (0.044) & 1.005 (0.050) & 0.672 (0.045) \\
-    w\_pp\_tmean & \firstcolor{0.668 (0.043)} & \firstcolor{0.676 (0.032)} & 0.676 (0.042) & \firstcolor{0.662 (0.040)} \\
-    w\_pp\_mode & 0.670 (0.041) & \firstcolor{0.676 (0.030)} & 0.675 (0.041) & \secondcolor{0.664 (0.040)} \\
-    w\_pp\_median & \firstcolor{0.668 (0.043)} & \firstcolor{0.676 (0.032)} & 0.676 (0.042) & \firstcolor{0.662 (0.040)} \\
-    map\_pp\_tmean & \secondcolor{0.669 (0.042)} & \secondcolor{0.677 (0.031)} & \secondcolor{0.671 (0.045)} & 0.666 (0.039) \\
-    map\_pp\_mode & 0.672 (0.041) & 0.680 (0.029) & 0.672 (0.045) & 0.670 (0.042) \\
-    map\_pp\_median & 0.670 (0.043) & \secondcolor{0.677 (0.031)} & \firstcolor{0.670 (0.045)} & 0.667 (0.040) \\
-
+    {\normalfont\slsc{pls1}} & 0.997 (0.051) & 0.730 (0.042) & 1.065 (0.055) & 0.673 (0.045) \\
+    {\normalfont\slsc{Lasso}} & 0.680 (0.044) & 0.688 (0.031) & 0.684 (0.031) & 0.671 (0.042) \\
+    {\normalfont\slsc{fpls1}} & 1.607 (0.078) & 0.751 (0.040) & 2.088 (0.099) & 0.670 (0.046) \\
+    {\normalfont\slsc{flin}} & 1.829 (0.073) & 0.869 (0.037) & 2.388 (0.078) & 0.957 (0.044) \\
+    {\normalfont\slsc{apls}} & 0.875 (0.053) & 0.704 (0.044) & 1.005 (0.050) & 0.672 (0.045) \\
+    {\normalfont\slsc{w-pp-tmean}} & \firstcolor{0.668 (0.043)} & \firstcolor{0.676 (0.032)} & 0.676 (0.042) & \firstcolor{0.662 (0.040)} \\
+    {\normalfont\slsc{w-pp-mode}} & 0.670 (0.041) & \firstcolor{0.676 (0.030)} & 0.675 (0.041) & \secondcolor{0.664 (0.040)} \\
+    {\normalfont\slsc{w-pp-median}} & \firstcolor{0.668 (0.043)} & \firstcolor{0.676 (0.032)} & 0.676 (0.042) & \firstcolor{0.662 (0.040)} \\
+    {\normalfont\slsc{map-pp-tmean}} & \secondcolor{0.669 (0.042)} & \secondcolor{0.677 (0.031)} & \secondcolor{0.671 (0.045)} & 0.666 (0.039) \\
+    {\normalfont\slsc{map-pp-mode}} & 0.672 (0.041) & 0.680 (0.029) & 0.672 (0.045) & 0.670 (0.042) \\
+    {\normalfont\slsc{map-pp-median}} & 0.670 (0.043) & \secondcolor{0.677 (0.031)} & \firstcolor{0.670 (0.045)} & 0.667 (0.040) \\
     \midrule
-
-    pls+r & 0.996 (0.056) & 0.720 (0.036) & 1.065 (0.055) & 0.674 (0.044) \\
-    pca+r & 1.521 (0.070) & 0.720 (0.034) & 2.249 (0.095) & 0.673 (0.045) \\
-    manual+r & 1.342 (0.130) & 0.717 (0.040) & 1.719 (0.101) & 0.674 (0.042) \\
-    fpls+r & 1.607 (0.078) & 0.752 (0.039) & 2.089 (0.098) & \secondcolor{0.669 (0.046)} \\
-    fpca+r & 1.512 (0.071) & 0.721 (0.034) & 2.237 (0.096) & 0.673 (0.045) \\
-    w\_vs\_tmean+r & \secondcolor{0.795 (0.069)} & 0.697 (0.029) & 0.987 (0.131) & 0.672 (0.037) \\
-    w\_vs\_mode+r & \firstcolor{0.668 (0.040)} & \firstcolor{0.678 (0.034)} & 0.667 (0.041) & 0.680 (0.050) \\
-    w\_vs\_median+r & \firstcolor{0.668 (0.039)} & 0.681 (0.031) & \secondcolor{0.666 (0.041)} & \firstcolor{0.666 (0.041)} \\
-    map\_vs\_tmean+r & \firstcolor{0.668 (0.040)} & 0.747 (0.048) & 0.971 (0.398) & 0.737 (0.093) \\
-    map\_vs\_mode+r & \firstcolor{0.668 (0.040)} & \secondcolor{0.679 (0.034)} & 0.668 (0.042) & 0.707 (0.037) \\
-    map\_vs\_median+r & \firstcolor{0.668 (0.040)} & 0.695 (0.029) & \firstcolor{0.664 (0.041)} & 0.700 (0.063) \\
+    {\normalfont\slsc{pls+r}} & 0.996 (0.056) & 0.720 (0.036) & 1.065 (0.055) & 0.674 (0.044) \\
+    {\normalfont\slsc{pca+r}} & 1.521 (0.070) & 0.720 (0.034) & 2.249 (0.095) & 0.673 (0.045) \\
+    {\normalfont\slsc{manual+r}} & 1.342 (0.130) & 0.717 (0.040) & 1.719 (0.101) & 0.674 (0.042) \\
+    {\normalfont\slsc{fpls+r}} & 1.607 (0.078) & 0.752 (0.039) & 2.089 (0.098) & \secondcolor{0.669 (0.046)} \\
+    {\normalfont\slsc{fpca+r}} & 1.512 (0.071) & 0.721 (0.034) & 2.237 (0.096) & 0.673 (0.045) \\
+    {\normalfont\slsc{w-vs-tmean+r}} & \secondcolor{0.795 (0.069)} & 0.697 (0.029) & 0.987 (0.131) & 0.672 (0.037) \\
+    {\normalfont\slsc{w-vs-mode+r}} & \firstcolor{0.668 (0.040)} & \firstcolor{0.678 (0.034)} & 0.667 (0.041) & 0.680 (0.050) \\
+    {\normalfont\slsc{w-vs-median+r}} & \firstcolor{0.668 (0.039)} & 0.681 (0.031) & \secondcolor{0.666 (0.041)} & \firstcolor{0.666 (0.041)} \\
+    {\normalfont\slsc{map-vs-tmean+r}} & \firstcolor{0.668 (0.040)} & 0.747 (0.048) & 0.971 (0.398) & 0.737 (0.093) \\
+    {\normalfont\slsc{map-vs-mode+r}} & \firstcolor{0.668 (0.040)} & \secondcolor{0.679 (0.034)} & 0.668 (0.042) & 0.707 (0.037) \\
+    {\normalfont\slsc{map-vs-median+r}} & \firstcolor{0.668 (0.040)} & 0.695 (0.029) & \firstcolor{0.664 (0.041)} & 0.700 (0.063) \\
     \bottomrule
   \end{tabular}
 \end{table}
-\newpage
 
 
-\begin{table}[htbp!]
-  \vspace{1em}
+\begin{table}[tbp]
   \footnotesize
-  \centering
+  \myfloatalign
+  \palatinonumbers
   %\rowcolors{2}{}{teal!8}
-  \begin{tabular}{lcccc}
+  \caption[Functional linear regression experiments: synthetic data under \(L^2\)-model]{Mean \acs{RMSE} of predictors (lower is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying linear \(L^2\)-model. The corresponding standard errors are shown between brackets.}
+  \begin{tabular}{@{}lcccc@{}}
     \toprule
-    \textbf{Prediction method} & \textbf{BM}                 & \textbf{fBM}                & \textbf{OU}                & \textbf{SE}           \\
+    \normalsize{\slsc{Method}} & \normalsize{\slsc{BM}} & \normalsize{\slsc{fBM}} & \normalsize{\slsc{OU}} & \normalsize{\slsc{SE}}\\
     \midrule
     pls1 & 0.678 (0.039) & 0.674 (0.030) & 0.682 (0.043) & 0.669 (0.047) \\
     lasso & 0.667 (0.037) & 0.664 (0.035) & 0.659 (0.039) & 0.664 (0.041) \\
     fpls1 & 0.671 (0.041) & 0.671 (0.044) & 0.677 (0.037) & 0.671 (0.048) \\
     flin & 0.666 (0.037) & 0.664 (0.038) & 0.662 (0.038) & \firstcolor{0.661 (0.040)} \\
     apls & 0.673 (0.045) & 0.684 (0.043) & 0.681 (0.043) & 0.674 (0.041) \\
-    w\_pp\_tmean & \firstcolor{0.652 (0.037)} & \firstcolor{0.659 (0.039)} & \firstcolor{0.651 (0.037)} & \firstcolor{0.661 (0.039)} \\
-    w\_pp\_mode & 0.655 (0.037) & \secondcolor{0.661 (0.038)} & \secondcolor{0.652 (0.037)} & \firstcolor{0.661 (0.039)} \\
-    w\_pp\_median & \firstcolor{0.652 (0.037)} & \firstcolor{0.659 (0.039)} & \firstcolor{0.651 (0.037)} & \firstcolor{0.661 (0.039)} \\
-    map\_pp\_tmean & \secondcolor{0.654 (0.037)} & \secondcolor{0.661 (0.038)} & 0.655 (0.038) & \firstcolor{0.661 (0.039)} \\
-    map\_pp\_mode & 0.655 (0.035) & 0.664 (0.039) & 0.656 (0.037) & \secondcolor{0.662 (0.037)} \\
-    map\_pp\_median & \secondcolor{0.654 (0.037)} & \secondcolor{0.661 (0.038)} & 0.655 (0.038) & \firstcolor{0.661 (0.039)} \\
-    \bottomrule
-    \toprule
+    w-pp-tmean & \firstcolor{0.652 (0.037)} & \firstcolor{0.659 (0.039)} & \firstcolor{0.651 (0.037)} & \firstcolor{0.661 (0.039)} \\
+    w-pp-mode & 0.655 (0.037) & \secondcolor{0.661 (0.038)} & \secondcolor{0.652 (0.037)} & \firstcolor{0.661 (0.039)} \\
+    w-pp-median & \firstcolor{0.652 (0.037)} & \firstcolor{0.659 (0.039)} & \firstcolor{0.651 (0.037)} & \firstcolor{0.661 (0.039)} \\
+    map-pp-tmean & \secondcolor{0.654 (0.037)} & \secondcolor{0.661 (0.038)} & 0.655 (0.038) & \firstcolor{0.661 (0.039)} \\
+    map-pp-mode & 0.655 (0.035) & 0.664 (0.039) & 0.656 (0.037) & \secondcolor{0.662 (0.037)} \\
+    map-pp-median & \secondcolor{0.654 (0.037)} & \secondcolor{0.661 (0.038)} & 0.655 (0.038) & \firstcolor{0.661 (0.039)} \\
+    \midrule
     pls+r & 0.667 (0.037) & 0.669 (0.033) & 0.669 (0.037) & \firstcolor{0.665 (0.044)} \\
     pca+r & 0.665 (0.041) & 0.664 (0.041) & 0.665 (0.041) & \secondcolor{0.666 (0.044)} \\
     manual+r & 0.665 (0.035) & \firstcolor{0.660 (0.037)} & 0.664 (0.040) & \secondcolor{0.666 (0.046)} \\
     fpls+r & 0.666 (0.040) & 0.664 (0.042) & 0.672 (0.036) & 0.668 (0.047) \\
     fpca+r & 0.665 (0.042) & 0.665 (0.042) & 0.663 (0.040) & \secondcolor{0.666 (0.045)} \\
-    w\_vs\_tmean+r & \firstcolor{0.651 (0.038)} & \firstcolor{0.660 (0.039)} & \firstcolor{0.649 (0.036)} & 0.675 (0.039) \\
-    w\_vs\_mode+r & 0.660 (0.037) & 0.662 (0.039) & 0.663 (0.032) & 0.673 (0.046) \\
-    w\_vs\_median+r & \secondcolor{0.652 (0.036)} & \firstcolor{0.660 (0.038)} & \secondcolor{0.653 (0.039)} & 0.672 (0.039) \\
-    map\_vs\_tmean+r & 0.654 (0.037) & \secondcolor{0.661 (0.037)} & 0.659 (0.039) & 0.674 (0.041) \\
-    map\_vs\_mode+r & 0.661 (0.036) & 0.667 (0.040) & 0.670 (0.036) & 0.704 (0.058) \\
-    map\_vs\_median+r & 0.655 (0.035) & 0.663 (0.035) & 0.662 (0.043) & 0.678 (0.042) \\
+    w-vs-tmean+r & \firstcolor{0.651 (0.038)} & \firstcolor{0.660 (0.039)} & \firstcolor{0.649 (0.036)} & 0.675 (0.039) \\
+    w-vs-mode+r & 0.660 (0.037) & 0.662 (0.039) & 0.663 (0.032) & 0.673 (0.046) \\
+    w-vs-median+r & \secondcolor{0.652 (0.036)} & \firstcolor{0.660 (0.038)} & \secondcolor{0.653 (0.039)} & 0.672 (0.039) \\
+    map-vs-tmean+r & 0.654 (0.037) & \secondcolor{0.661 (0.037)} & 0.659 (0.039) & 0.674 (0.041) \\
+    map-vs-mode+r & 0.661 (0.036) & 0.667 (0.040) & 0.670 (0.036) & 0.704 (0.058) \\
+    map-vs-median+r & 0.655 (0.035) & 0.663 (0.035) & 0.662 (0.043) & 0.678 (0.042) \\
     \bottomrule
   \end{tabular}
-  \caption{Mean \acs{RMSE} of predictors (lower is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying linear \(L^2\)-model. The corresponding standard errors are shown between brackets.}
 \end{table}
-\newpage
 
-\begin{table}[htbp!]
-  \vspace{1em}
+
+\begin{table}[tbp]
   \footnotesize
-  \centering
+  \myfloatalign
+  \palatinonumbers
   %\rowcolors{2}{}{teal!8}
-  \begin{tabular}{lcc}
+  \caption[Functional linear regression experiments: synthetic data with non-Gaussian regressors]{Mean \acs{RMSE} of predictors (lower is better) for 10 runs with \slsc{GBM} regressors. In the first column the response obeys a linear \(L^2\)-model, while in the second column it follows a linear \acs{RKHS} model. The corresponding standard errors are shown between brackets.}
+  \begin{tabular}{@{}lcc@{}}
     \toprule
-    \textbf{Prediction method} & \textbf{GBM + \(\mathbf{L^2}\)} & \textbf{GBM + RKHS}         \\
+    \normalsize{\slsc{Method}} & \normalsize{\normalfont\slsc{GBM + L2}} & \normalsize{\slsc{GBM + RKHS}}\\
     \midrule
     pls1 & 0.668 (0.034) & 1.579 (0.145) \\
     lasso & \secondcolor{0.657 (0.041)} & 0.676 (0.046) \\
     fpls1 & 0.666 (0.035) & 2.654 (0.182) \\
     flin & 0.660 (0.037) & 3.434 (0.384) \\
     apls & 0.662 (0.040) & 1.100 (0.100) \\
-    w\_pp\_tmean & \firstcolor{0.655 (0.042)} & \firstcolor{0.662 (0.039)} \\
-    w\_pp\_mode & 0.659 (0.043) & 0.666 (0.036) \\
-    w\_pp\_median & \firstcolor{0.655 (0.042)} & \firstcolor{0.662 (0.039)} \\
-    map\_pp\_tmean & \secondcolor{0.657 (0.043)} & \secondcolor{0.665 (0.038)} \\
-    map\_pp\_mode & 0.659 (0.041) & 0.670 (0.037) \\
-    map\_pp\_median & \secondcolor{0.657 (0.043)} & \secondcolor{0.665 (0.038)} \\
-    \bottomrule
-    \toprule
+    w-pp-tmean & \firstcolor{0.655 (0.042)} & \firstcolor{0.662 (0.039)} \\
+    w-pp-mode & 0.659 (0.043) & 0.666 (0.036) \\
+    w-pp-median & \firstcolor{0.655 (0.042)} & \firstcolor{0.662 (0.039)} \\
+    map-pp-tmean & \secondcolor{0.657 (0.043)} & \secondcolor{0.665 (0.038)} \\
+    map-pp-mode & 0.659 (0.041) & 0.670 (0.037) \\
+    map-pp-median & \secondcolor{0.657 (0.043)} & \secondcolor{0.665 (0.038)} \\
+    \midrule
     pls+r & 0.661 (0.040) & 1.574 (0.141) \\
     pca+r & 0.658 (0.040) & 2.315 (0.195) \\
     manual+r & 0.665 (0.039) & 1.478 (0.154) \\
     fpls+r & 0.665 (0.037) & 2.669 (0.189) \\
     fpca+r & 0.659 (0.040) & 2.311 (0.194) \\
-    w\_vs\_tmean+r & \firstcolor{0.655 (0.040)} & 0.986 (0.186) \\
-    w\_vs\_mode+r & 0.661 (0.044) & \secondcolor{0.665 (0.038)} \\
-    w\_vs\_median+r & \secondcolor{0.656 (0.042)} & \firstcolor{0.663 (0.037)} \\
-    map\_vs\_tmean+r & 0.662 (0.042) & \secondcolor{0.665 (0.038)} \\
-    map\_vs\_mode+r & 0.669 (0.044) & \secondcolor{0.665 (0.038)} \\
-    map\_vs\_median+r & 0.663 (0.044) & \secondcolor{0.665 (0.038)} \\
+    w-vs-tmean+r & \firstcolor{0.655 (0.040)} & 0.986 (0.186) \\
+    w-vs-mode+r & 0.661 (0.044) & \secondcolor{0.665 (0.038)} \\
+    w-vs-median+r & \secondcolor{0.656 (0.042)} & \firstcolor{0.663 (0.037)} \\
+    map-vs-tmean+r & 0.662 (0.042) & \secondcolor{0.665 (0.038)} \\
+    map-vs-mode+r & 0.669 (0.044) & \secondcolor{0.665 (0.038)} \\
+    map-vs-median+r & 0.663 (0.044) & \secondcolor{0.665 (0.038)} \\
     \bottomrule
   \end{tabular}
-  \caption{Mean \acs{RMSE} of predictors (lower is better) for 10 runs with \slsc{GBM} regressors. In the first column the response obeys a linear \(L^2\)-model, while in the second column it follows a linear \acs{RKHS} model. The corresponding standard errors are shown between brackets.}
 \end{table}
-\newpage
 
-\begin{table}[htbp!]
-  \vspace{1em}
+
+\begin{table}[tbp]
   \footnotesize
-  \centering
+  \myfloatalign
+  \palatinonumbers
   %\rowcolors{2}{}{teal!8}
-  \begin{tabular}{lccc}
+  \caption[Functional linear regression experiments: real data]{Mean \acs{RMSE} of predictors (lower is better) for 10 runs with real data sets, one on each column. The corresponding standard errors are shown between brackets.}
+  \begin{tabular}{@{}lccc@{}}
     \toprule
-    \textbf{Prediction method} & \textbf{Moisture}           & \textbf{Sugar}              & \textbf{Tecator}            \\
+    \normalsize{\slsc{Method}} & \normalsize{\slsc{Moisture}} & \normalsize{\slsc{Sugar}} & \normalsize{\slsc{Tecator}}\\
     \midrule
     pls1 & 0.232 (0.024) & 2.037 (0.219) & \secondcolor{2.606 (0.283)} \\
     lasso & 0.242 (0.026) & 1.985 (0.226) & 2.842 (0.352) \\
     fpls1 & 0.248 (0.022) & \secondcolor{1.972 (0.201)} & \firstcolor{2.605 (0.262)} \\
     flin & 1.235 (0.138) & \firstcolor{1.966 (0.198)} & 7.486 (0.648) \\
     apls & 0.237 (0.028) & 2.020 (0.226) & 2.641 (0.165) \\
-    w\_pp\_tmean & \secondcolor{0.223 (0.018)} & 1.988 (0.216) & 2.721 (0.260) \\
-    w\_pp\_mode & \firstcolor{0.222 (0.020)} & 1.996 (0.219) & 2.718 (0.266) \\
-    w\_pp\_median & \secondcolor{0.223 (0.018)} & 1.989 (0.217) & 2.721 (0.262) \\
-    map\_pp\_tmean & 0.228 (0.021) & 1.997 (0.212) & 2.724 (0.267) \\
-    map\_pp\_mode & 0.236 (0.023) & 2.010 (0.210) & 2.741 (0.271) \\
-    map\_pp\_median & 0.228 (0.021) & 1.996 (0.212) & 2.720 (0.267) \\
-    \bottomrule
-    \toprule
+    w-pp-tmean & \secondcolor{0.223 (0.018)} & 1.988 (0.216) & 2.721 (0.260) \\
+    w-pp-mode & \firstcolor{0.222 (0.020)} & 1.996 (0.219) & 2.718 (0.266) \\
+    w-pp-median & \secondcolor{0.223 (0.018)} & 1.989 (0.217) & 2.721 (0.262) \\
+    map-pp-tmean & 0.228 (0.021) & 1.997 (0.212) & 2.724 (0.267) \\
+    map-pp-mode & 0.236 (0.023) & 2.010 (0.210) & 2.741 (0.271) \\
+    map-pp-median & 0.228 (0.021) & 1.996 (0.212) & 2.720 (0.267) \\
+    \midrule
     pls+r & \firstcolor{0.225 (0.021)} & \secondcolor{1.998 (0.208)} & \firstcolor{2.536 (0.236)} \\
     pca+r & \secondcolor{0.233 (0.024)} & 2.034 (0.219) & 2.712 (0.183) \\
     manual+r & 0.268 (0.021) & 2.041 (0.214) & \secondcolor{2.586 (0.270)} \\
     fpls+r & 0.241 (0.018) & \firstcolor{1.962 (0.202)} & 2.595 (0.249) \\
     fpca+r & 0.307 (0.055) & 2.054 (0.226) & 2.657 (0.189) \\
-    w\_vs\_tmean+r & 0.308 (0.075) & 2.003 (0.221) & 2.822 (0.323) \\
-    w\_vs\_mode+r & 0.236 (0.018) & 2.050 (0.221) & 2.713 (0.255) \\
-    w\_vs\_median+r & 0.236 (0.025) & 2.000 (0.217) & 2.801 (0.261) \\
-    map\_vs\_tmean+r & 0.455 (0.284) & 2.059 (0.233) & 2.900 (0.403) \\
-    map\_vs\_mode+r & 0.261 (0.029) & 2.188 (0.321) & 2.833 (0.291) \\
-    map\_vs\_median+r & 0.266 (0.030) & 2.082 (0.219) & 2.826 (0.269) \\
+    w-vs-tmean+r & 0.308 (0.075) & 2.003 (0.221) & 2.822 (0.323) \\
+    w-vs-mode+r & 0.236 (0.018) & 2.050 (0.221) & 2.713 (0.255) \\
+    w-vs-median+r & 0.236 (0.025) & 2.000 (0.217) & 2.801 (0.261) \\
+    map-vs-tmean+r & 0.455 (0.284) & 2.059 (0.233) & 2.900 (0.403) \\
+    map-vs-mode+r & 0.261 (0.029) & 2.188 (0.321) & 2.833 (0.291) \\
+    map-vs-median+r & 0.266 (0.030) & 2.082 (0.219) & 2.826 (0.269) \\
     \bottomrule
   \end{tabular}
-  \caption{Mean \acs{RMSE} of predictors (lower is better) for 10 runs with real data sets, one on each column. The corresponding standard errors are shown between brackets.}
 \end{table}
-\newpage
 
 \section{Functional logistic regression}
 
-\begin{table}[htbp!]
+\begin{table}[h!]
   \footnotesize
-  \centering
+  \myfloatalign
+  \palatinonumbers
   %\rowcolors{2}{}{teal!8}
-  \begin{tabular}{lcccc}
+  \caption[Functional logistic regression experiments: synthetic data under \acs{RKHS} model]{Mean accuracy of classifiers (higher is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \acs{RKHS} model. The corresponding standard errors are shown between brackets.}
+  \begin{tabular}{@{}lcccc@{}}
     \toprule
-    \textbf{Classification method} & \textbf{BM}                 & \textbf{fBM}                & \textbf{OU}                & \textbf{SE}           \\
+    \normalsize{\slsc{Method}} & \normalsize{\slsc{BM}} & \normalsize{\slsc{fBM}} & \normalsize{\slsc{OU}} & \normalsize{\slsc{SE}}\\
     \midrule
     qda & 0.510 (0.000) & 0.510 (0.000) & 0.510 (0.000) & 0.500 (0.000) \\
     mdc & 0.804 (0.034) & 0.822 (0.022) & 0.735 (0.037) & 0.839 (0.045) \\
@@ -186,14 +179,13 @@ Here we present the tables corresponding to the empirical comparison studies in 
     flog & 0.845 (0.036) & 0.837 (0.024) & 0.809 (0.028) & 0.871 (0.033) \\
     flda & 0.846 (0.031) & 0.830 (0.029) & 0.813 (0.029) & 0.854 (0.039) \\
     fknn & 0.851 (0.033) & 0.834 (0.027) & 0.799 (0.024) & 0.847 (0.041) \\
-    w\_pp\_tmean & \firstcolor{0.856 (0.030)} & 0.846 (0.011) & 0.828 (0.022) & 0.873 (0.035) \\
-    w\_pp\_mode & 0.853 (0.031) & \secondcolor{0.847 (0.012)} & 0.825 (0.025) & \firstcolor{0.878 (0.036)} \\
-    w\_pp\_median & \firstcolor{0.856 (0.029)} & \secondcolor{0.847 (0.011)} & 0.827 (0.022) & 0.873 (0.035) \\
-    map\_pp\_tmean & 0.854 (0.034) & 0.845 (0.013) & \firstcolor{0.830 (0.025)} & 0.874 (0.035) \\
-    map\_pp\_mode & 0.852 (0.032) & 0.846 (0.014) & \secondcolor{0.829 (0.025)} & \secondcolor{0.877 (0.036)} \\
-    map\_pp\_median & \secondcolor{0.855 (0.030)} & 0.844 (0.013) & \firstcolor{0.830 (0.025)} & 0.876 (0.036) \\
-    \bottomrule
-    \toprule
+    w-pp-tmean & \firstcolor{0.856 (0.030)} & 0.846 (0.011) & 0.828 (0.022) & 0.873 (0.035) \\
+    w-pp-mode & 0.853 (0.031) & \secondcolor{0.847 (0.012)} & 0.825 (0.025) & \firstcolor{0.878 (0.036)} \\
+    w-pp-median & \firstcolor{0.856 (0.029)} & \secondcolor{0.847 (0.011)} & 0.827 (0.022) & 0.873 (0.035) \\
+    map-pp-tmean & 0.854 (0.034) & 0.845 (0.013) & \firstcolor{0.830 (0.025)} & 0.874 (0.035) \\
+    map-pp-mode & 0.852 (0.032) & 0.846 (0.014) & \secondcolor{0.829 (0.025)} & \secondcolor{0.877 (0.036)} \\
+    map-pp-median & \secondcolor{0.855 (0.030)} & 0.844 (0.013) & \firstcolor{0.830 (0.025)} & 0.876 (0.036) \\
+    \midrule
     rkvs+log & \firstcolor{0.848 (0.024)} & 0.838 (0.026) & 0.790 (0.032) & 0.872 (0.041) \\
     pls+nc & 0.816 (0.038) & 0.828 (0.022) & 0.793 (0.029) & 0.867 (0.039) \\
     pls+log & \secondcolor{0.847 (0.034)} & 0.844 (0.021) & 0.817 (0.022) & 0.864 (0.037) \\
@@ -203,26 +195,25 @@ Here we present the tables corresponding to the empirical comparison studies in 
     fpca+log & \secondcolor{0.847 (0.030)} & \secondcolor{0.847 (0.014)} & \secondcolor{0.830 (0.024)} & 0.866 (0.036) \\
     apls+nc & 0.819 (0.036) & \secondcolor{0.847 (0.014)} & 0.816 (0.027) & 0.854 (0.036) \\
     apls+log & 0.829 (0.041) & 0.844 (0.012) & 0.816 (0.027) & 0.857 (0.039) \\
-    w\_vs\_tmean+log & 0.831 (0.038) & 0.840 (0.017) & 0.823 (0.033) & 0.873 (0.038) \\
-    w\_vs\_mode+log & 0.846 (0.021) & 0.828 (0.019) & 0.806 (0.020) & 0.875 (0.040) \\
-    w\_vs\_median+log & 0.838 (0.029) & 0.844 (0.017) & \firstcolor{0.834 (0.030)} & 0.875 (0.039) \\
-    map\_vs\_tmean+log & 0.816 (0.028) & 0.838 (0.023) & 0.801 (0.027) & \secondcolor{0.876 (0.040)} \\
-    map\_vs\_mode+log & 0.839 (0.022) & 0.831 (0.022) & 0.807 (0.014) & \firstcolor{0.877 (0.043)} \\
-    map\_vs\_median+log & 0.829 (0.024) & 0.839 (0.019) & 0.816 (0.034) & 0.871 (0.048) \\
+    w-vs-tmean+log & 0.831 (0.038) & 0.840 (0.017) & 0.823 (0.033) & 0.873 (0.038) \\
+    w-vs-mode+log & 0.846 (0.021) & 0.828 (0.019) & 0.806 (0.020) & 0.875 (0.040) \\
+    w-vs-median+log & 0.838 (0.029) & 0.844 (0.017) & \firstcolor{0.834 (0.030)} & 0.875 (0.039) \\
+    map-vs-tmean+log & 0.816 (0.028) & 0.838 (0.023) & 0.801 (0.027) & \secondcolor{0.876 (0.040)} \\
+    map-vs-mode+log & 0.839 (0.022) & 0.831 (0.022) & 0.807 (0.014) & \firstcolor{0.877 (0.043)} \\
+    map-vs-median+log & 0.829 (0.024) & 0.839 (0.019) & 0.816 (0.034) & 0.871 (0.048) \\
     \bottomrule
   \end{tabular}
-  \caption{Mean accuracy of classifiers (higher is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \acs{RKHS} model. The corresponding standard errors are shown between brackets.}
 \end{table}
-\newpage
 
-\begin{table}[htbp!]
-  \vspace{1em}
+\begin{table}[tbp]
   \footnotesize
-  \centering
+  \myfloatalign
+  \palatinonumbers
   %\rowcolors{2}{}{teal!8}
-  \begin{tabular}{lcccc}
+  \caption[Functional logistic regression experiments: synthetic data under \(L^2\)-model]{Mean accuracy of classifiers (higher is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \(L^2\)-model. The corresponding standard errors are shown between brackets.}
+  \begin{tabular}{@{}lcccc@{}}
     \toprule
-    \textbf{Classification method} & \textbf{BM}                 & \textbf{fBM}                & \textbf{OU}                & \textbf{SE}           \\
+    \normalsize{\slsc{Method}} & \normalsize{\slsc{BM}} & \normalsize{\slsc{fBM}} & \normalsize{\slsc{OU}} & \normalsize{\slsc{SE}}\\
     \midrule
     qda & \firstcolor{0.610 (0.000)} & 0.610 (0.000) & \firstcolor{0.620 (0.000)} & \secondcolor{0.610 (0.000)} \\
     mdc & 0.602 (0.033) & \firstcolor{0.619 (0.048)} & \secondcolor{0.615 (0.029)} & 0.603 (0.042) \\
@@ -232,14 +223,13 @@ Here we present the tables corresponding to the empirical comparison studies in 
     flog & 0.580 (0.020) & 0.602 (0.037) & 0.600 (0.031) & 0.609 (0.028) \\
     flda & 0.601 (0.027) & 0.609 (0.049) & 0.593 (0.032) & 0.595 (0.048) \\
     fknn & 0.587 (0.056) & 0.576 (0.033) & 0.564 (0.042) & 0.578 (0.041) \\
-    w\_pp\_tmean & 0.597 (0.027) & 0.600 (0.026) & 0.592 (0.023) & 0.608 (0.035) \\
-    w\_pp\_mode & 0.599 (0.028) & 0.606 (0.027) & 0.595 (0.030) & 0.605 (0.034) \\
-    w\_pp\_median & 0.597 (0.023) & 0.599 (0.030) & 0.591 (0.020) & 0.607 (0.037) \\
-    map\_pp\_tmean & 0.595 (0.022) & 0.599 (0.027) & 0.594 (0.020) & 0.602 (0.037) \\
-    map\_pp\_mode & 0.605 (0.027) & 0.604 (0.030) & 0.602 (0.030) & 0.606 (0.041) \\
-    map\_pp\_median & 0.593 (0.026) & 0.599 (0.028) & 0.600 (0.023) & 0.602 (0.034) \\
-    \bottomrule
-    \toprule
+    w-pp-tmean & 0.597 (0.027) & 0.600 (0.026) & 0.592 (0.023) & 0.608 (0.035) \\
+    w-pp-mode & 0.599 (0.028) & 0.606 (0.027) & 0.595 (0.030) & 0.605 (0.034) \\
+    w-pp-median & 0.597 (0.023) & 0.599 (0.030) & 0.591 (0.020) & 0.607 (0.037) \\
+    map-pp-tmean & 0.595 (0.022) & 0.599 (0.027) & 0.594 (0.020) & 0.602 (0.037) \\
+    map-pp-mode & 0.605 (0.027) & 0.604 (0.030) & 0.602 (0.030) & 0.606 (0.041) \\
+    map-pp-median & 0.593 (0.026) & 0.599 (0.028) & 0.600 (0.023) & 0.602 (0.034) \\
+    \midrule
     rkvs+log & 0.569 (0.039) & 0.586 (0.026) & 0.593 (0.035) & 0.611 (0.034) \\
     pls+nc & \firstcolor{0.610 (0.033)} & \firstcolor{0.623 (0.042)} & \firstcolor{0.607 (0.035)} & \firstcolor{0.629 (0.036)} \\
     pls+log & 0.590 (0.029) & 0.589 (0.036) & 0.593 (0.020) & \secondcolor{0.621 (0.043)} \\
@@ -249,26 +239,26 @@ Here we present the tables corresponding to the empirical comparison studies in 
     fpca+log & \secondcolor{0.599 (0.021)} & 0.592 (0.034) & 0.600 (0.039) & 0.614 (0.042) \\
     apls+nc & 0.593 (0.024) & 0.569 (0.047) & 0.591 (0.039) & 0.615 (0.023) \\
     apls+log & 0.571 (0.030) & 0.585 (0.033) & 0.594 (0.025) & 0.614 (0.038) \\
-    w\_vs\_tmean+log & 0.588 (0.034) & 0.594 (0.022) & 0.596 (0.017) & 0.605 (0.029) \\
-    w\_vs\_mode+log & 0.597 (0.024) & 0.597 (0.028) & \secondcolor{0.601 (0.026)} & 0.617 (0.026) \\
-    w\_vs\_median+log & 0.591 (0.030) & 0.589 (0.023) & 0.599 (0.035) & 0.600 (0.031) \\
-    map\_vs\_tmean+log & 0.590 (0.031) & 0.594 (0.026) & 0.589 (0.030) & 0.609 (0.031) \\
-    map\_vs\_mode+log & 0.597 (0.024) & 0.593 (0.022) & 0.599 (0.027) & 0.617 (0.021) \\
-    map\_vs\_median+log & 0.587 (0.036) & 0.592 (0.021) & 0.598 (0.036) & 0.605 (0.034) \\
+    w-vs-tmean+log & 0.588 (0.034) & 0.594 (0.022) & 0.596 (0.017) & 0.605 (0.029) \\
+    w-vs-mode+log & 0.597 (0.024) & 0.597 (0.028) & \secondcolor{0.601 (0.026)} & 0.617 (0.026) \\
+    w-vs-median+log & 0.591 (0.030) & 0.589 (0.023) & 0.599 (0.035) & 0.600 (0.031) \\
+    map-vs-tmean+log & 0.590 (0.031) & 0.594 (0.026) & 0.589 (0.030) & 0.609 (0.031) \\
+    map-vs-mode+log & 0.597 (0.024) & 0.593 (0.022) & 0.599 (0.027) & 0.617 (0.021) \\
+    map-vs-median+log & 0.587 (0.036) & 0.592 (0.021) & 0.598 (0.036) & 0.605 (0.034) \\
     \bottomrule
   \end{tabular}
-  \caption{Mean accuracy of classifiers (higher is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \(L^2\)-model. The corresponding standard errors are shown between brackets.}
 \end{table}
-\newpage
 
-\begin{table}[htbp!]
-  \vspace{1em}
+
+\begin{table}[tbp]
   \footnotesize
-  \centering
+  \myfloatalign
+  \palatinonumbers
   %\rowcolors{2}{}{teal!8}
-  \begin{tabular}{lcccc}
+  \caption[Functional logistic regression experiments: synthetic data with non-Gaussian regressors]{Mean accuracy of classifiers (higher is better) for 10 runs with a mix of regressors coming from two different Brownian motion processes, labeled according to their origin. The corresponding standard errors are shown between brackets.}
+  \begin{tabular}{@{}lcccc@{}}
     \toprule
-    \textbf{Classification method} & \textbf{Heteroscedastic}    & \textbf{Homoscedastic}      \\
+    \normalsize{\slsc{Method}} & \normalsize{\slsc{Heteroscedastic}} & \normalsize{\slsc{Homoscedastic}}\\
     \midrule
     qda & 0.530 (0.000) & 0.530 (0.000) \\
     mdc & \secondcolor{0.532 (0.004)} & 0.600 (0.042) \\
@@ -278,14 +268,13 @@ Here we present the tables corresponding to the empirical comparison studies in 
     flog & 0.499 (0.034) & 0.617 (0.035) \\
     flda & 0.486 (0.059) & 0.602 (0.040) \\
     fknn & \firstcolor{0.538 (0.037)} & 0.538 (0.049) \\
-    w\_pp\_tmean & 0.517 (0.030) & 0.621 (0.043) \\
-    w\_pp\_mode & 0.527 (0.012) & 0.623 (0.043) \\
-    w\_pp\_median & 0.520 (0.028) & 0.622 (0.040) \\
-    map\_pp\_tmean & 0.523 (0.017) & \secondcolor{0.626 (0.044)} \\
-    map\_pp\_mode & \secondcolor{0.532 (0.010)} & 0.622 (0.046) \\
-    map\_pp\_median & 0.529 (0.013) & \firstcolor{0.629 (0.040)} \\
-    \bottomrule
-    \toprule
+    w-pp-tmean & 0.517 (0.030) & 0.621 (0.043) \\
+    w-pp-mode & 0.527 (0.012) & 0.623 (0.043) \\
+    w-pp-median & 0.520 (0.028) & 0.622 (0.040) \\
+    map-pp-tmean & 0.523 (0.017) & \secondcolor{0.626 (0.044)} \\
+    map-pp-mode & \secondcolor{0.532 (0.010)} & 0.622 (0.046) \\
+    map-pp-median & 0.529 (0.013) & \firstcolor{0.629 (0.040)} \\
+    \midrule
     rkvs+log & 0.509 (0.044) & 0.613 (0.031) \\
     pls+nc & 0.463 (0.042) & 0.593 (0.038) \\
     pls+log & 0.507 (0.036) & 0.600 (0.048) \\
@@ -295,27 +284,25 @@ Here we present the tables corresponding to the empirical comparison studies in 
     fpca+log & 0.519 (0.033) & 0.599 (0.047) \\
     apls+nc & 0.484 (0.065) & 0.606 (0.037) \\
     apls+log & 0.513 (0.036) & 0.605 (0.040) \\
-    w\_vs\_tmean+log & 0.519 (0.033) & 0.624 (0.039) \\
-    w\_vs\_mode+log & \secondcolor{0.530 (0.000)} & 0.623 (0.035) \\
-    w\_vs\_median+log & \secondcolor{0.530 (0.000)} & \firstcolor{0.633 (0.037)} \\
-    map\_vs\_tmean+log & 0.519 (0.033) & 0.626 (0.045) \\
-    map\_vs\_mode+log & \secondcolor{0.530 (0.000)} & 0.630 (0.024) \\
-    map\_vs\_median+log & \secondcolor{0.530 (0.000)} & \secondcolor{0.632 (0.037)} \\
+    w-vs-tmean+log & 0.519 (0.033) & 0.624 (0.039) \\
+    w-vs-mode+log & \secondcolor{0.530 (0.000)} & 0.623 (0.035) \\
+    w-vs-median+log & \secondcolor{0.530 (0.000)} & \firstcolor{0.633 (0.037)} \\
+    map-vs-tmean+log & 0.519 (0.033) & 0.626 (0.045) \\
+    map-vs-mode+log & \secondcolor{0.530 (0.000)} & 0.630 (0.024) \\
+    map-vs-median+log & \secondcolor{0.530 (0.000)} & \secondcolor{0.632 (0.037)} \\
     \bottomrule
   \end{tabular}
-  \caption{Mean accuracy of classifiers (higher is better) for 10 runs with a mix of regressors coming from two different Brownian motion processes, labeled according to their origin. The corresponding standard errors are shown between brackets.}
 \end{table}
-\newpage
 
-
-\begin{table}[htbp!]
-  \vspace{1em}
+\begin{table}[tbp]
   \footnotesize
-  \centering
+  \myfloatalign
+  \palatinonumbers
   %\rowcolors{2}{}{teal!8}
-  \begin{tabular}{lcccc}
+  \caption[Functional logistic regression experiments: real data]{Mean accuracy of classifiers (higher is better) for 10 runs with real data sets, one on each column. The corresponding standard errors are shown between brackets.}
+  \begin{tabular}{@{}lcccc@{}}
     \toprule
-    \textbf{Classification method} & \textbf{Growth}             & \textbf{Medflies}           & \textbf{Phoneme}            \\
+    \normalsize{\slsc{Method}} & \normalsize{\slsc{Growth}} & \normalsize{\slsc{Medflies}} & \normalsize{\slsc{Phoneme}}\\
     \midrule
     qda & 0.581 (0.000) & 0.579 (0.028) & 0.578 (0.034) \\
     mdc & 0.694 (0.103) & 0.526 (0.024) & 0.704 (0.042) \\
@@ -325,14 +312,13 @@ Here we present the tables corresponding to the empirical comparison studies in 
     flog & 0.926 (0.043) & 0.596 (0.026) & 0.785 (0.053) \\
     flda & 0.939 (0.051) & 0.550 (0.023) & 0.782 (0.046) \\
     fknn & 0.948 (0.036) & 0.539 (0.028) & \secondcolor{0.796 (0.035)} \\
-    w\_pp\_tmean & 0.948 (0.041) & \firstcolor{0.611 (0.029)} & 0.790 (0.037) \\
-    w\_pp\_mode & 0.935 (0.046) & 0.603 (0.033) & 0.790 (0.041) \\
-    w\_pp\_median & \secondcolor{0.952 (0.036)} & \secondcolor{0.610 (0.029)} & 0.794 (0.041) \\
-    map\_pp\_tmean & 0.945 (0.046) & 0.606 (0.035) & 0.791 (0.031) \\
-    map\_pp\_mode & 0.935 (0.046) & 0.601 (0.040) & 0.779 (0.039) \\
-    map\_pp\_median & \secondcolor{0.952 (0.036)} & 0.606 (0.038) & 0.791 (0.031) \\
-    \bottomrule
-    \toprule
+    w-pp-tmean & 0.948 (0.041) & \firstcolor{0.611 (0.029)} & 0.790 (0.037) \\
+    w-pp-mode & 0.935 (0.046) & 0.603 (0.033) & 0.790 (0.041) \\
+    w-pp-median & \secondcolor{0.952 (0.036)} & \secondcolor{0.610 (0.029)} & 0.794 (0.041) \\
+    map-pp-tmean & 0.945 (0.046) & 0.606 (0.035) & 0.791 (0.031) \\
+    map-pp-mode & 0.935 (0.046) & 0.601 (0.040) & 0.779 (0.039) \\
+    map-pp-median & \secondcolor{0.952 (0.036)} & 0.606 (0.038) & 0.791 (0.031) \\
+    \midrule
     rkvs+log & 0.929 (0.050) & 0.589 (0.032) & \secondcolor{0.804 (0.046)} \\
     pls+nc & 0.858 (0.090) & 0.558 (0.032) & 0.776 (0.058) \\
     pls+log & 0.945 (0.032) & 0.574 (0.019) & \firstcolor{0.810 (0.043)} \\
@@ -342,17 +328,15 @@ Here we present the tables corresponding to the empirical comparison studies in 
     fpca+log & 0.955 (0.033) & 0.561 (0.024) & 0.769 (0.050) \\
     apls+nc & \firstcolor{0.961 (0.028)} & 0.551 (0.030) & 0.781 (0.047) \\
     apls+log & 0.952 (0.036) & 0.562 (0.015) & 0.776 (0.048) \\
-    w\_vs\_tmean+log & \firstcolor{0.961 (0.028)} & \secondcolor{0.597 (0.036)} & 0.749 (0.071) \\
-    w\_vs\_mode+log & 0.948 (0.046) & \secondcolor{0.597 (0.025)} & \secondcolor{0.804 (0.037)} \\
-    w\_vs\_median+log & 0.952 (0.033) & \secondcolor{0.597 (0.021)} & 0.779 (0.049) \\
-    map\_vs\_tmean+log & 0.945 (0.046) & 0.592 (0.047) & 0.746 (0.066) \\
-    map\_vs\_mode+log & 0.948 (0.046) & 0.592 (0.036) & 0.779 (0.035) \\
-    map\_vs\_median+log & 0.939 (0.047) & 0.592 (0.031) & 0.782 (0.050) \\
+    w-vs-tmean+log & \firstcolor{0.961 (0.028)} & \secondcolor{0.597 (0.036)} & 0.749 (0.071) \\
+    w-vs-mode+log & 0.948 (0.046) & \secondcolor{0.597 (0.025)} & \secondcolor{0.804 (0.037)} \\
+    w-vs-median+log & 0.952 (0.033) & \secondcolor{0.597 (0.021)} & 0.779 (0.049) \\
+    map-vs-tmean+log & 0.945 (0.046) & 0.592 (0.047) & 0.746 (0.066) \\
+    map-vs-mode+log & 0.948 (0.046) & 0.592 (0.036) & 0.779 (0.035) \\
+    map-vs-median+log & 0.939 (0.047) & 0.592 (0.031) & 0.782 (0.050) \\
     \bottomrule
   \end{tabular}
-  \caption{Mean accuracy of classifiers (higher is better) for 10 runs with real data sets, one on each column. The corresponding standard errors are shown between brackets.}
 \end{table}
-\newpage
 %*****************************************
 %*****************************************
 %*****************************************

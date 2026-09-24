@@ -8,39 +8,24 @@
   \citep{berrendero2025bayesian}.}
 \end{flushannotation}
 
-\noindent Our first goal is to study functional regression problems with scalar response---the infinite-dimensional equivalents of the typical statistical regression problems---from a Bayesian perspective. In particular, we are concerned with functional linear and logistic regression models, that is, situations where the objective is to predict a continuous or dichotomous variable from functional observations. Even though these problems can be formally stated with almost no differences from their finite-dimensional counterparts, there are some fundamental challenges as well as some subtle drawbacks that emerge as a result of working in infinite dimensions. To set a common framework, we will consider throughout a scalar response variable \(Y\) (either continuous or binary) which has some dependence on the stochastic process \(X\). We will further suppose for simplicity that \(X\) is centered, that is, \(\E[X(t)]=0\) for all \(t\in[0,1]\). In addition, we will tacitly assume the existence of a labeled data set 
-\[
-\mathcal D_n =\left\{(X_i, Y_i): i=1,\dots, n\right\}
-\] of independent observations from \((X, Y)\), and our aim will be to accurately predict the response corresponding to unlabeled functional samples from \(X\).
+\noindent Our first goal is to study functional regression problems with scalar response---the infinite-dimensional equivalents of the typical statistical regression problems---from a Bayesian perspective. In particular, we are concerned with functional linear and logistic regression models, that is, situations where the objective is to predict a continuous or dichotomous variable from functional observations. To set a common framework, we will consider throughout a scalar response variable \(Y\) (either continuous or binary) which has some dependence on the stochastic process \(X\). We will further suppose for simplicity that \(X\) is centered, that is, \(\E[X(t)]=0\) for all \(t\in[0,1]\). In addition, we will tacitly assume the existence of a labeled data set \(\mathcal D_n =\{(X_i, Y_i): i=1,\dots, n\}\) of independent observations from \((X, Y)\), and our aim will be to accurately predict the response corresponding to unlabeled functional samples from \(X\).
 
-The most common scalar-on-function linear regression model is the classical \(L^2\)-model, widely popularized since the first edition (1997) of the pioneering monograph by~\citet{ramsay2005functional}. It can be seen as a generalization of the usual finite-dimensional model, replacing the scalar product in \(\R^D\) for that of the functional space \(L^2[0,1]\):
-\begin{equation}\label{eq:l2-linear-model}
-  Y = \alpha + \dotprod{X}{\beta}_2 + \epsilon = \alpha + \int_0^1 X(t)\beta(t)\, dt + \epsilon,
-\end{equation}
-where \(\alpha\in \R\), \(\epsilon\) is a random error term independent from \(X\) with \(\E [\epsilon]=0\), and the functional slope parameter \(\beta=\beta(\cdot)\) is a member of the infinite-dimensional space \(L^2[0, 1]\). In this case, the inference on \(\beta\) is hampered by the fact that \(L^2[0,1]\) is an extremely broad space that contains many nonsmooth or ill-behaved functions, so any estimation procedure involving optimization on it will typically be hard. In spite of this, model~\eqref{eq:l2-linear-model} is not flexible enough to include ``simple'' impact points submodels based on linear combinations of the marginals of \(X\), such as \(Y=\alpha + \beta_1 X(t_1)+ \cdots + \beta_p X(t_p) + \epsilon\) for some constants \(\alpha,\beta_j\in\R\) and instants \(t_j\in[0,1]\), which are especially appealing to practitioners confronted with functional data problems \citep[see][for additional details]{berrendero2024functional}. Moreover, the noninvertibility of the covariance operator associated with \(X\), which plays the role of the covariance matrix in the infinite case, invalidates the usual least squares theory \citep{cardot2011functional}. Thus, some regularization or dimensionality reduction technique is needed for parameter estimation; see \citet{reiss2017methods} for a summary of several widespread methods.
-
-A similar \(L^2\)-based functional logistic equation can be derived for the binary classification problem via the logistic function:
-\begin{equation}\label{eq:l2-logistic-model}
-  \pp(Y=1 \mid X) = \frac{1}{1 + \exp\{-\alpha - \dotprod{X}{\beta}_2\}},
-\end{equation}
-where \(\alpha \in \R\) and \(\beta \in L^2[0, 1]\). In the equivalent finite-dimensional problem, the natural way of estimating the slope parameter is via its \acf{MLE}. However, apart from the issues outlined above for the linear model, functional settings pose an additional challenge in the logistic case: under fairly general conditions, the \acs{MLE} does not exist with probability one \citep[see][]{berrendero2023functional}.
-
-\section{Reproducing kernel models for functional regression}
-
-It turns out that in both regression scenarios a natural alternative to the \(L^2\)-model is the so-called \acs{RKHS} model, which instead assumes the unknown functional parameter \(\beta\) to be a member of the \acs{RKHS} associated with the covariance function of the process \(X\). As we will show later on, not only is this model simpler and arguably easier to interpret, but it also constrains the parameter space to smoother and more manageable functions. In fact, it does include a model based on finite linear combinations of the marginals of \(X\) as a particular case, while also generalizing the aforementioned \(L^2\)-models under some conditions. These \acs{RKHS}-based models and their idiosyncrasies have been explored in \citet{berrendero2019rkhs, berrendero2024functional} in the linear case, and in \citet{berrendero2023functional} in the logistic case.
+It turns out that in both regression scenarios a natural alternative to the \(L^2\)-model described in Section~\ref{sec:functional-regression} is the so-called \acs{RKHS} model, which instead assumes the unknown functional parameter \(\beta\) to be a member of the \acs{RKHS} associated with the covariance function of the process \(X\). As we will show later on, not only is this model simpler and arguably easier to interpret, but it also constrains the parameter space to smoother and more manageable functions. In fact, it does include a model based on finite linear combinations of the marginals of \(X\) as a particular case, while also generalizing the aforementioned \(L^2\)-models under some conditions. These \acs{RKHS}-based models and their idiosyncrasies have been explored in \citet{berrendero2019rkhs, berrendero2024functional} in the linear case, and in \citet{berrendero2023functional} in the logistic case.
 
 Our main contribution is the proposal of a Bayesian approach for inference in these \acs{RKHS} models, in which a prior distribution is imposed on \(\beta\) to use the posterior probabilities for prediction. Similar Bayesian schemes have recently been explored in \citet{grollemund2019bayesian} and \citet{abraham2024informative}, albeit not in a \acs{RKHS} setting. Another set of techniques extensively studied in this context are variable selection methods, which aim to select the marginals \(\{X(t_j)\}\) of the process that better summarize it according to some optimality criterion (see \citealp{ferraty2010most} or \citealp{berrendero2016variable} by way of illustration). As it happens, some \acs{RKHS}-based variable selection methods have already been proposed \citep[e.g.][]{bueno2019variable}, but in general they have their own dedicated algorithms and procedures. As will shortly become apparent, our Bayesian methodology allows us to easily isolate the marginal posterior distribution corresponding to a finite set of marginals, providing a Bayesian variable selection process along with other prediction methods that naturally arise from our approach.
 
-\note{In principle, the functional \acs{RKHS} models contemplated in this work are those obtained by considering a functional parameter \(\beta \in \Hcal(K)\) and replacing the scalar product for \(\dotprod{X}{\beta}_K\) in the \(L^2\)-models~\eqref{eq:l2-linear-model} and~\eqref{eq:l2-logistic-model}, which has tangible benefits both in theory and practice on account of the \acs{RKHS} properties. However, to further simplify things we will follow a parametric approach and suppose that \(\beta\) is in fact a member of the dense subspace \(\Hcal_0(K)\) defined in~\eqref{eq:h0}, i.e.:
+\section{Reproducing kernel models for functional regression}
+
+In principle, the functional \acs{RKHS} models contemplated in this work are those obtained by considering a functional parameter \(\beta \in \Hcal(K)\) and replacing the scalar product for \(\dotprod{X}{\beta}_K\) in the \(L^2\)-models~\eqref{eq:l2-linear-model} and~\eqref{eq:l2-logistic-model}, which has tangible benefits both in theory and practice on account of the \acs{RKHS} properties. However, to further simplify things we will follow a parametric approach and suppose that \(\beta\) is in fact a member of the dense subspace \(\Hcal_0(K)\) defined in~\eqref{eq:h0}, i.e.:
 \begin{equation}\label{eq:beta}
   \beta(\cdot) = \sum_{j=1}^p \beta_j K(t_j, \cdot).
-\end{equation}}
+\end{equation}
 
 Although fairly natural in this context, the crucial assumption that \(\beta \in \Hcal_0(K)\) may seem too restrictive at first glance, since we are essentially truncating the dimensionality of the model. Nevertheless, in this way we get a simpler, finite-dimensional approximation of the functional \acs{RKHS} model, which we argue reduces the overall complexity while still capturing most of the relevant information. Plus, the simplified model remains ``truly functional'' in the sense that the number of components \(p\) and the time instants \(t_j\) are not fixed beforehand. In short, we are exploiting the \acs{RKHS} perspective to give a functional nature to the collection of finite-dimensional models based on random linear combinations of the marginals, offering a unified treatment of all the so-called \textit{impact points} models (\citealp[see][]{ kneip2016functional,poss2020superconsistent}).
 
-\note{As we said before, with a slight abuse of notation we will understand the expression \(\dotprod{x}{\beta}_K\) as \(\Psi_x(\beta)\), where \(x=X(\omega)\) is a realization of \(X\) and \(\Psi_x\) is Loève's isometry, defined in~\eqref{eq:loeves-isometry}. Hence, taking into account that \(\Psi_X(K(t, \cdot)) = X(t)\) by definition, we can identify \(\dotprod{x}{\beta}_K\) with the finite linear combination \(\sum_j \beta_j x(t_j)\).}
+In view of~\eqref{eq:beta}, to place a prior distribution on the unknown function \(\beta\) it suffices to consider a discrete prior distribution on the number of components \(p\), and then select \(p\)-dimensional continuous priors for the coefficients \(\beta_j\) and the times \(t_j\) given \(p\). Thanks to this parametric approach, the challenging task of setting a prior distribution on a space of functions is considerably simplified, while simultaneously not constraining the model to any specific distribution (in contrast to, say, Gaussian process regression methods). Moreover, note that our simplifying assumption on \(\beta\) is not particularly limiting from a Bayesian point of view, since any distribution \(\pp\) on \(\Hcal_0(K)\) can be directly extended to a distribution \(\bar{\pp}\) on \(\Hcal(K)\) by defining \(\bar{\pp}(B) = \pp_0(B\cap \Hcal_0(K))\) for all Borel sets \(B\) on \(\Hcal(K)\).
 
-In view of~\eqref{eq:beta}, to place a prior distribution on the unknown function \(\beta\) (that is, a prior distribution on the functional space \(\Hcal_{0}(K)\)) it suffices to consider a discrete prior distribution on the number of components \(p\), and then select \(p\)-dimensional continuous priors for the coefficients \(\beta_j\) and the times \(t_j\) given \(p\). Thanks to this parametric approach, the challenging task of setting a prior distribution on a space of functions is considerably simplified, while simultaneously not constraining the model to any specific distribution (in contrast to, say, Gaussian process regression methods). Moreover, note that our simplifying assumption on \(\beta\) is not particularly limiting from a Bayesian point of view, since any distribution \(\pp\) on \(\Hcal_0(K)\) can be directly extended to a distribution \(\bar{\pp}\) on \(\Hcal(K)\) by defining \(\bar{\pp}(B) = \pp_0(B\cap \Hcal_0(K))\) for all Borel sets \(B\) on \(\Hcal(K)\).
+In addition, as we said before, with a slight abuse of notation we will understand the expression \(\dotprod{x}{\beta}_K\) as \(\Psi_x(\beta)\), where \(x=X(\omega)\) is a realization of \(X\) and \(\Psi_x\) is Loève's isometry, defined in~\eqref{eq:loeves-isometry}. Hence, taking into account that \(\Psi_X(K(t, \cdot)) = X(t)\) by definition, we can identify \(\dotprod{x}{\beta}_K\) with the finite linear combination \(\sum_j \beta_j x(t_j)\).
 
 \subsection{Functional linear regression}\label{sec:rkhs-linear-model}
 
@@ -48,11 +33,7 @@ In the case of functional linear regression, the simplified \acs{RKHS} model con
 \[
   Y = \alpha + \dotprod{X}{\beta}_K + \epsilon = \alpha + \sum_{j=1}^p \beta_j X(t_j) + \epsilon,
 \]
-where \(\beta(\cdot)=\sum_{j=1}^p\beta_j K(t_j, \cdot) \in \Hcal_0(K)\), \(\alpha\in\R\), and \(\epsilon \sim \mathcal N(0,\sigma^2)\) is an error term independent from \(X\). This model is essentially a finite-dimensional approximation from a functional perspective to the more general \acs{RKHS} model that assumes \(\beta \in \Hcal(K)\) \citep{berrendero2024functional}. Since the number of components \(p\) is unknown, a generic parameter will be denoted by
-\[
-\theta_p = (p, t_1,\dots, t_p, \beta_1,\dots, \beta_p, \alpha, \sigma^2) \equiv (p, \tau_p, b_p, \alpha, \sigma^2),
-\] 
-though we will usually omit the subscript if the value of \(p\) is understood. The full parameter space is thus given by
+where \(\beta(\cdot)=\sum_{j=1}^p\beta_j K(t_j, \cdot) \in \Hcal_0(K)\), \(\alpha\in\R\), and \(\epsilon \sim \mathcal N(0,\sigma^2)\) is an error term independent from \(X\). This model is essentially a finite-dimensional approximation from a functional perspective to the more general \acs{RKHS} model that assumes \(\beta \in \Hcal(K)\) \citep{berrendero2024functional}. Since the number of components \(p\) is unknown, a generic parameter will be denoted by \(\theta_p = (p, t_1,\dots, t_p, \beta_1,\dots, \beta_p, \alpha, \sigma^2) \equiv (p, \tau_p, b_p, \alpha, \sigma^2)\), though we will usually omit the subscript if the value of \(p\) is understood. The full parameter space is thus given by
 \begin{equation}\label{eq:theta-parameter-space-bfr}
 \Theta = \bigcup_{p\in\N}\Theta_p,\quad \text{where } \Theta_p = \{p\} \times [0, 1]^p \times \R^p  \times \R \times \R^+_0.
 \end{equation}
@@ -78,7 +59,7 @@ where  \(\pi\) is any discrete distribution on \(\N\) (e.g.~uniform on a given f
 
 \subsubsection*{Posterior distribution}
 
-Since we will be approximating the posterior distribution through \acs{MCMC} methods, we only need to compute a function proportional to it. A standard algebraic manipulation using Bayes's formula yields the following result.
+Even though we cannot compute the posterior distribution in closed form, we can derive a function proportional to it. A standard algebraic manipulation using Bayes's formula yields the following result.
 
 \begin{proposition}
   Under the linear \acs{RKHS} model~\eqref{eq:rkhs-model-linear-2} and the prior distribution~\eqref{eq:prior-linear}, the log-posterior distribution up to an additive constant is given by
@@ -139,26 +120,17 @@ The posterior distribution in the logistic case is again derived via Bayes' form
   where \(\beta(\cdot)=\sum_{j=1}^p \beta_j K(t_j, \cdot)\) and \(\dotprod{X_i}{\beta}_K = \sum_{j=1}^p \beta_j X_i(t_j)\).
 \end{proposition}
 
-\section{Reversible jump samplers for prediction}\label{sec:rjmcmc-bfr}
+\section{Prediction strategies}\label{sec:prediction-bfr}
 
-\note{revisar y mergear con appendix A de paper test. La mayoría se va a chapter de rjmcmc}
-\note{Lastly, since the value of \(p\) can vary, we need a way to introduce dimension information in our posterior approximation scheme. There are several alternatives such as product space formulations \citep{carlin1995bayesian} or Bayesian averaging/model selection methods \citep{hoeting1999bayesian}, but this is precisely the problem that \acs{RJMCMC} was designed to solve. The use of these samplers fits naturally within our framework, as they allow the complexity of the model to be directly chosen by the data, jointly inferring about the dimensionality and the value of the parameters.}
-
-For the inference step in our Bayesian procedure, the usual approach would be to consider a fixed number of components, chosen separately via some model selection criterion. Instead, we aim to construct a fully Bayesian methodology that allows us to model the number of components and the component parameters jointly. Since we do not impose conjugate priors and the posterior distribution does not have a recognizable shape, a simple way to achieve the desired outcome is to use \acs{RJMCMC} to approximate the posterior. Originally envisioned for approximate inference in Bayesian mixtures, this technique can be used to sample models with an unknown number of components, providing a certain level of flexibility and theoretically allowing the exploration of the whole parameter space \citep[see][]{richardson1997bayesian}.
-
-The basis of the \acs{RJMCMC} mechanism is a clever reformulation of the standard \acs{MCMC} algorithm: on each iteration, apart from updating the current parameters, it tries to increase or decrease the dimension, creating new components or eliminating some already present. The acceptance fraction for these new moves is selected so that detailed balance as a whole is maintained, but this includes the possibly challenging computation of a certain Jacobian that is the key to dimension matching \citep{green1995reversible}. However, in nested models such as ours, we can simplify this expression by only allowing on each iteration either the birth of a new component or the death of an existing one (i.e.~changing the dimension by one unit at a time). If we also make the proposal distribution for the newly birthed components independent of previous values, the Jacobian term disappears, and the acceptance fraction reduces to
-\[
-  \alpha_\text{nested} = \min\left(1, \frac{L(Y \mid X, \theta_{p+1})}{L(Y\mid X, \theta_p)}\frac{\Pi(\theta_{p+1})}{\Pi(\theta_p)}\frac{b_{p, p+1}}{d_{p+1, p}}\frac{1}{q(\theta_{+1})}\right).
-\]
-Here \(p\) is the current number of components, \(b_{p, p+1}\) is the probability of increasing the dimension from \(p\) to \(p+1\) (birth), \(d_{p+1, p}\) is the probability of the reverse move (death), \(q(\theta_{+1})\) is the proposal distribution for the added source, \(\Pi\) is the prior probability and \(L\) represents the likelihood. This is already a rather manageable expression that can be implemented efficiently, but we introduce another simplification: the proposal distribution is chosen to match the prior distribution, so that the corresponding terms cancel out. Nonetheless, in real-world scenarios one could consider more sophisticated proposal distributions that might better explore the parameter space; see for example \citet{davies2023transport} for some interesting ideas.
+For the inference step in our Bayesian procedure, the usual approach would be to consider a fixed number of components, chosen separately via some model selection criterion, and then approximate the corresponding posterior distribution through computational methods. However, we aim to construct a fully Bayesian methodology that allows us to model the variable number of components and the component parameters jointly. Since we do not impose conjugate priors and the posterior distribution does not have a recognizable shape, a straightforward way to achieve the desired outcome is to use \acs{RJMCMC} to approximate the posterior distribution. There are several alternatives, such as product space formulations \citep{carlin1995bayesian} or Bayesian averaging/model selection methods \citep{hoeting1999bayesian}, but this is precisely the problem that \acs{RJMCMC} was designed to solve. The use of these samplers fits naturally within our framework, as they allow the complexity of the model to be directly chosen by the data, jointly inferring about the dimensionality and the value of the parameters.
 
 From a higher level perspective, the \acs{RJMCMC} algorithm is an iterative procedure that produces a chain of \(R\) approximate samples 
 \[
 \theta^{(r)}=(p^{(r)}, \tau^{(r)}, b^{(r)}, \alpha^{(r)}, (\sigma^{2})^{(r)}), \quad r=1,\dots,R
 \] 
-of the posterior distribution \(\Pi_n(\theta| \mathcal D_n)\), each possibly of a different dimension (\note{see Chapter~\ref{ch:rjmcmc} for a more detailed description}). Given a previously unseen regressor \(X_{\text{test}}\), with each of these samples we can generate an individual approximate response following our \acs{RKHS} models, denoted by \(F(X_{\text{test}}, \theta^{(r)})\). In the linear case we sample from the distribution \(Y | X_{\text{test}}, \theta^{(r)}\) given in~\eqref{eq:rkhs-model-linear-2}, and in the logistic case we directly consider the probabilities \(\pp(Y=1|X_{\text{test}},\theta^{(r)})\) in~\eqref{eq:rkhs-model-logistic-2}. We propose to combine these predictions in four different ways.
+of the posterior distribution \(\Pi_n(\theta| \mathcal D_n)\), each possibly of a different dimension (see Chapter~\ref{ch:rjmcmc} for a more detailed description). Given a previously unseen regressor \(X_{\text{test}}\), with each of these samples we can generate an individual approximate response following our \acs{RKHS} models, denoted by \(F(X_{\text{test}}, \theta^{(r)})\). In the linear case we sample from the distribution \(Y | X_{\text{test}}, \theta^{(r)}\) given in~\eqref{eq:rkhs-model-linear-2}, and in the logistic case we directly consider the probabilities \(\pp(Y=1|X_{\text{test}},\theta^{(r)})\) in~\eqref{eq:rkhs-model-logistic-2}. We propose to combine these predictions in four different ways.
 
-\subsubsection*{One-stage methods}
+\subsection{One-stage methods}
 
 In these methods we essentially make use of the so-called posterior predictive distribution, and they are in turn divided in two approaches.
 
@@ -172,7 +144,7 @@ In these methods we essentially make use of the so-called posterior predictive d
   \[
   \hat Y = g(\{F(X_{\text{test}}, \theta^{(r)})\}_{r:p^{(r)}=\hat p}).\] Although this method may ignore many samples in the posterior approximation, this omission can help reduce noise and prevent outliers from affecting the final prediction.
 
-\subsubsection*{Two-stage methods}
+\subsection{Two-stage methods}
 
 In these methods we focus only on the marginal posterior distribution of the impact points \(\tau_p = (t_1, \dots, t_p)\), disregarding the rest of the parameters and effectively constructing a variable selection procedure. After choosing a set of time instants \(\hat \tau_p=(\hat t_1,\dots, \hat t_p)\) using the approximate posterior samples \(\{\tau^{(r)}\}\), we can reduce the original functional regressors to just the marginals \(\{X_i(\hat \tau_p)\}=\{(X_i(\hat t_1),\dots, X_i(\hat t_p))\}\) and apply any of the well-known finite-dimensional prediction algorithms suited for this situation.
 
@@ -189,9 +161,7 @@ where \(\hat \tau_{p}=(\hat t_1, \dots ,\hat t_p)=g(\{\tau^{(r)}\}_{r:p^{(r)}=p}
 
 \section{Posterior consistency}\label{sec:consistency-bfr}
 
-\note{Similar analyses for other functional regression models are carried out for example by \citet{lian2016posterior, abraham2020posterior}, albeit not within a \acs{RKHS} framework.}
-
-This section explores the theoretical foundations of the proposed Bayesian models in the context of predictive inference. In particular, we establish results grounded in the theory of posterior consistency introduced in Chapter~\ref{ch:introduction}, which provide rigorous justification for the reliability of these functional models in asymptotic settings (from a frequentist perspective). We focus on the linear case, but the results we obtain generally hold \textit{mutatis mutandis} in the logistic case. All technical details and proofs are deferred to Section~\ref{sec:proofs-bfr}.
+This section explores the theoretical foundations of our Bayesian models in the context of predictive inference. In particular, we establish results grounded in the theory of posterior consistency introduced in Section~\ref{sec:posterior-consistency-intro}, which provide rigorous justification for the reliability of these functional models in asymptotic settings (from a frequentist perspective). We focus on the linear case, but the results we obtain generally hold \textit{mutatis mutandis} in the logistic case. All technical details and proofs are deferred to Section~\ref{sec:proofs-bfr}.
 
 Recall that in our functional linear model the data is an i.i.d.\ sample \((X_1, Y_1), \ldots, (X_n, Y_n)\) of a random vector \((X,Y)\), where \(X=X(t)\) is a second-order stochastic process taking values in \(\mathcal X=\mathcal C[0,1]\), and \(Y\) is a random variable taking values in \(\mathcal Y=\R\). The parameter space is the disjoint union \(\Theta=\bigcup_p \Theta_p\), defined in~\eqref{eq:theta-parameter-space-bfr}, so that each \(\theta\in\Theta\) belongs to exactly one of the \(\Theta_p\). As usual, we equip both \(\mathcal X \times \mathcal Y\) and \(\Theta\) with their respective Borel sigma-algebras, and observe that both are Polish spaces.
 
@@ -269,9 +239,9 @@ The condition is met, for example, if \(\Pi(p)>0\) and \((\tau, b, \alpha, \sigm
 
 \subsection{Consistency and contraction rates via Schwartz's theorem}
 
-The Doob-type results of the previous section, although interesting, are still assertions on consistency from the point of view of the prior distribution. We now seek additional results that offer more definitive statements and, more importantly, establish posterior contraction rates. In a nonparametric setting where the object of interest is a probability density, there is a stronger consistency result by \citet{schwartz1965bayes} which omits the \(\Pi\)-almost sure qualification under some more restrictive conditions, though it requires a dominated model and a density to estimate. To this end, we consider the conditional model \(Y|X=x, \theta \sim f_\theta(y|x)\), where \(\theta\in\Theta\) is a parameter vector and \(f_\theta(y|x)\) is the density of \(Y\) given \(X=x\) with respect to the Lebesgue measure \(\mathfrak{m}\) on \(\mathcal Y\). Under our assumptions, \(f_\theta(y|x)\) is the density of the normal distribution given by~\eqref{eq:rkhs-model-linear-2}. We could work with this model and analyze the fixed design case with data that is not i.i.d.\ \citep[see][]{choi2008remarks}, but we choose to focus on the arguably more significant random design case.
+The Doob-type results of the previous section, although interesting, are still assertions on consistency from the point of view of the prior distribution. We now seek additional results that offer more definitive statements and, more importantly, establish posterior contraction rates. To this end, we consider the conditional model \(Y|X=x, \theta \sim f_\theta(y|x)\), where \(\theta\in\Theta\) is a parameter vector and \(f_\theta(y|x)\) is the density of \(Y\) given \(X=x\) with respect to the Lebesgue measure \(\mathfrak{m}\) on \(\mathcal Y=\R\). Under our assumptions, \(f_\theta(y|x)\) is the density of the normal distribution given by~\eqref{eq:rkhs-model-linear-2}. We could work with this model and analyze the fixed design case with data that is not i.i.d.\ \citep[see][]{choi2008remarks}, but we choose to focus on the arguably more significant random design case.
 
-In general, in infinite-dimensional models there is no reference measure with respect to which to define a density. However, in our specific functional regression setting we can find such a density through the following observation. 
+In general, in infinite-dimensional models there is no reference measure with respect to which to define a density, and to apply the consistency results derived from Schwartz's theorem we need a dominated model (see Section~\ref{sec:posterior-consistency-intro}). As it turns out, in our specific functional regression setting we can find such a density through the following observation. 
 
 \begin{lemma}\label{lemma:joint-density-rho}
   \marginproof{proof:joint-density-rho}
@@ -283,9 +253,9 @@ In this way, denoting \(f_\theta := f_\theta(y|x)\) and \(\mathcal F=\{f_\theta:
   (X, Y)_{1:n} \mid f_\theta &\stackrel{\text{i.i.d.}}{\sim} f_\theta,\\
   f_\theta &\sim \Pi_{\mathcal F},
 \end{align*}
-where \(\Pi_{\mathcal F}\) is a prior distribution on the parameter class \(\mathcal F\). In practice, we work with the prior distribution \(\Pi\) on \(\Theta\) specified in~\eqref{eq:model-linear}, and interpret \(\Pi_{\mathcal F}\) as the pushforward measure of \(\Pi\) by the measurable mapping \(\Phi: \Theta \to \mathcal F\) given by \(\Phi(\theta)= f_\theta\). As always, we assume the existence of a ``true'' density \(f_0 :=f_{\theta_0}(y|x)\in \mathcal F\) that generates the observations.
+where \(\Pi_{\mathcal F}\) is a prior distribution on the parameter class \(\mathcal F\). In practice, we work with the prior distribution \(\Pi\) on \(\Theta\) specified in~\eqref{eq:model-linear}, and interpret \(\Pi_{\mathcal F}\) as the pushforward measure of \(\Pi\) by the measurable mapping \(\theta \mapsto f_\theta\). As always, we assume the existence of a ``true'' density \(f_0 :=f_{\theta_0}(y|x)\in \mathcal F\) that generates the observations.
 
-The idea now is to apply Theorem~\ref{th:consistency-hellinger} to obtain posterior consistency. Looking at the form of the parameter space \(\Theta\) in~\eqref{eq:theta-parameter-space-bfr}, a natural choice for the sieve is 
+The idea now is to apply Theorem~\ref{th:consistency-hellinger} to obtain posterior consistency with respect to the Hellinger distance \(d_H\). Looking at the form of the parameter space \(\Theta\) in~\eqref{eq:theta-parameter-space-bfr}, a natural choice for the sieve is 
 \[
 \Theta_n = \bigcup_{p=1}^{p_n} \Theta_p\quad \text{and}\quad  \mathcal F_n=\{f_\theta\in\mathcal F: \theta \in \Theta_n\},
 \]
@@ -299,19 +269,19 @@ We are ready to state a new Hellinger consistency result for our model, which tr
 
 \begin{theorem}\label{th:consistency-schwartz-linear}
   \marginproof{proof:consistency-schwartz-linear}
-  Assume~\ref{cond:condition-schwartz-X} holds, and suppose that \(\Pi(p)=O(e^{-\delta p (\log p)^k})\) as \(p\to\infty\), for some \(\delta > 0\) and \(k>1\). If \(\Pi\) assigns positive mass to every open neighborhood of \(\theta_0\) in \(\Theta_0\), then the posterior distribution in the model \(\theta \sim \Pi\) and \((X,Y)_{1:n}|\theta \sim f_\theta\) i.i.d.\ is consistent relative to \(d_H\) at \(f_0\), i.e., for every \(\epsilon>0\) it holds that
+  Assume~\ref{cond:condition-schwartz-X} holds, and suppose that there exist \(\delta > 0\) and \(k>1\) such that \(\Pi(p)=O(e^{-\delta p (\log p)^k})\) as \(p\to\infty\). If \(\Pi\) assigns positive mass to every open neighborhood of \(\theta_0\) in \(\Theta_0\), then the posterior distribution in the model \(\theta \sim \Pi\) and \((X,Y)_{1:n}|\theta \sim f_\theta\) i.i.d.\ is consistent relative to \(d_H\) at \(f_0\), i.e., for every \(\epsilon>0\) it holds that
   \[
     \lim_{n\to\infty} \Pi_n(\theta: d_H(f_0, f_\theta) < \epsilon \mid (X,Y)_{1:n})=1\quad P_0^\infty(X,Y)-\text{a.s.}
   \]
 \end{theorem}
 
-An immediate observation is that if \(\Pi(p)\) is supported on a finite set, then the prior tail condition is automatically verified. Moreover, since it only needs to hold for large values of \(p\), we can always consider a hybrid prior distribution that changes at some large cutoff point to have rapidly decaying tails.
+An immediate observation is that if \(\Pi(p)\) is supported on a finite set, then the prior tail condition is automatically verified. Moreover, since this condition only needs to hold for large values of \(p\), we can always consider a hybrid prior distribution that changes at some large cutoff point to have rapidly decaying tails.
 
 Following a similar proof strategy as in Theorem~\ref{th:consistency-schwartz-linear}, we can find a convenient sieve to apply Theorem~\ref{th:contraction-rate} and obtain posterior contraction rates in the Hellinger distance.
 
 \begin{theorem}\label{th:contraction-rate-schwartz-linear}
   \marginproof{proof:contraction-rate-schwartz-linear}
-Assume Condition~\ref{cond:condition-schwartz-X} holds. Let \(0<\gamma<1/2\) and suppose that \(\Pi(p)=O(e^{-\delta p \log p})\) as \(p\to\infty\), for some \(\delta>16(3-4\gamma)/(1-2\gamma)\). If \(\Pi\) has a density on the continuous components of \(\Theta_0\) with respect to Lebesgue measure that is bounded away from zero in a neighborhood of \(\theta_0\), then the posterior distribution in the model \(\theta \sim \Pi\) and \((X,Y)_{1:n}|\theta \sim f_\theta\) i.i.d.\ contracts at a rate \(\epsilon_n= n^{-\gamma}\) relative to \(d_H\) at \(f_0\), i.e., for every \(M_n\to\infty\) it holds that
+Assume~\ref{cond:condition-schwartz-X} holds. Let \(0<\gamma<1/2\) and suppose that \(\Pi(p)=O(e^{-\delta p \log p})\) as \(p\to\infty\), for some \(\delta>16(3-4\gamma)/(1-2\gamma)\). If \(\Pi\) has a density on the continuous components of \(\Theta_0\) with respect to Lebesgue measure that is bounded away from zero in a neighborhood of \(\theta_0\), then the posterior distribution in the model \(\theta \sim \Pi\) and \((X,Y)_{1:n}|\theta \sim f_\theta\) i.i.d.\ contracts at a rate \(\epsilon_n= n^{-\gamma}\) relative to \(d_H\) at \(f_0\), i.e., for every \(M_n\to\infty\) it holds that
 \[
     \Pi_n(\theta: d_H(f_0, f_\theta) \geq M_n \epsilon_n \mid (X,Y)_{1:n}) \to 0 \quad \text{in } P_0^{(n)}(X,Y)\text{-probability}.
     \]
@@ -354,11 +324,9 @@ For example, we might take \(W(t)\) to be a standard Brownian motion, an Ornstei
 
 \section{Experimental results and analysis}\label{sec:results-bfr}
 
-In this section we present the results of the experiments carried out to test the performance of our functional regression methods in different scenarios.\footnote{The Python code is available at \url{https://github.com/antcc/rk-bfr-jump}.} We consider both simulated and real data, divided into training and testing sets with a 66\%/33\% split. The models are fitted on the training data, using \acs{RJMCMC} to sample from the approximate posterior, and then out-of-sample predictions are computed on the testing set. The initial experiments carried out indicate that low values of \(p\) provide sufficient flexibility in most scenarios, so we allow the number of components to vary in the set \(\{1,2,\dots,10\}\). We independently repeat the whole process 10 times (each with a different train/test configuration) to account for the stochasticity in the sampling step, and average the results across these executions. For the purposes of prediction we consider the point statistics \textit{trimmed mean} (\(10\%\)), \textit{median} and \textit{mode} to aggregate together predictions and summarize parameters (see Section~\ref{sec:rjmcmc-bfr}). Moreover, the values of \(\{t_j\}\) that fall outside the specified grid are truncated to the nearest neighbor in the grid, with the additional restriction that time instants in different components of our models cannot be equal.
+In this section we present the results of the experiments carried out to test the performance of our functional regression methods in different scenarios.\footnote{The Python code is available at \url{https://github.com/antcc/rk-bfr-jump}.} We consider both simulated and real data, divided into training and testing sets with a 66\%/33\% split. The models are fitted on the training data, using \acs{RJMCMC} to sample from the approximate posterior, and then out-of-sample predictions are computed on the testing set. We independently repeat the whole process 10 times (each with a different train/test configuration) to account for the stochasticity in the sampling step, and average the results across these executions. For the purposes of prediction we consider the point statistics \textit{trimmed mean} (\(10\%\)), \textit{median} and \textit{mode} to aggregate together predictions and summarize parameters (see Section~\ref{sec:prediction-bfr}). The initial experiments carried out indicate that low values of \(p\) provide sufficient flexibility in most scenarios, so we allow the number of components to vary in the set \(\{1,2,\dots,10\}\). Moreover, the values of \(\{t_j\}\) that fall outside the specified grid are truncated to the nearest neighbor in the grid, with the additional restriction that time instants in different components of our models cannot be equal.
 
-The Python library used to perform the \acs{RJMCMC} approximation is \slsc{Eryn} \citep{karnesis2023eryn}. It is a toolbox for Bayesian inference that allows trans-dimensional posterior approximation, running multiple chains in an ensemble configuration. Because of execution time constraints, the hyperparameters of the \slsc{Eryn} sampler are selected manually based on preliminary experiments and the authors' recommendations; this reduction in computational cost renders the sampling step practically viable. Moreover, some amount of post-processing is needed to mitigate the well-known label switching phenomenon that occurs in \acs{MCMC} approximations of finite mixture models (see Chapter~\ref{ch:rjmcmc}).
-
-\note{PARAMETERS OF THE EXECUTION, NUMBER OF ITERATIONS, CHAINS, ETC}
+The Python library used to perform the \acs{RJMCMC} approximation is \slsc{Eryn} \citep{karnesis2023eryn}. It is a toolbox for Bayesian inference that allows trans-dimensional posterior sampling, running multiple chains in an ensemble configuration. In the experiments we use 64 chains and run them for 5000 iterations in total, discarding the first 4000 as burn-in. Because of execution time constraints, the rest of the hyperparameters of the \slsc{Eryn} sampler are selected manually based on preliminary experiments and the authors' recommendations; this reduction in computational cost renders the sampling step practically viable. Moreover, some amount of post-processing is needed to mitigate the well-known label switching phenomenon that occurs in \acs{MCMC} approximations of finite mixture models. We give more details on the implementation in Chapter~\ref{ch:rjmcmc}.
 
 \subsection{Data sets}
 
@@ -440,7 +408,7 @@ The main hyperparameters of all these algorithms were selected by 10-fold cross-
 
 \subsection{Numerical results}
 
-We have adopted a visual approach to presenting the experimentation results, using colored graphs to help visualize them. In each case, the mean and standard deviation of the score obtained across the 10 independent runs is shown, depicting our methods in blue and the comparison algorithms in orange. We also show the global mean of all the comparison algorithms with a dashed vertical line, excluding extreme negative results to avoid distortion. Moreover, we separate one-stage and two-stage methods, the latter being the ones that perform variable selection or dimension reduction prior to a multiple linear/logistic regression method (represented with ``+r''/``+log'' in the figures). We name our methods according to the acronyms described in Section~\ref{sec:rjmcmc-bfr}. The same results are presented in the usual tabular format in Appendix~\ref{app:tables-bfr}.
+We have adopted a visual approach to presenting the experimentation results, using colored graphs to help visualize them. In each case, the mean and standard deviation of the score obtained across the 10 independent runs is shown, depicting our methods in blue and the comparison algorithms in orange. We also show the global mean of all the comparison algorithms with a dashed vertical line, excluding extreme negative results to avoid distortion. Moreover, we separate one-stage and two-stage methods, the latter being the ones that perform variable selection or dimension reduction prior to a multiple linear/logistic regression method (represented with ``+r''/``+log'' in the figures). We name our methods according to the acronyms described in Section~\ref{sec:prediction-bfr}. The same results are presented in the usual tabular format in Appendix~\ref{app:tables-bfr}.
 
 \subsubsection*{Functional linear regression}
 
@@ -448,13 +416,15 @@ Following \citet{nobile2007bayesian}, we select a truncated Poisson prior with a
 
 We begin with the simulation experiments in Figure~\ref{fig:reg_rkhs}, where we see the results for the \acs{RKHS} response. This is our baseline and the most favorable case for us, as the underlying model coincides with our assumed model. Indeed, we can see that in most instances our algorithms are the ones with lower \acs{RMSE}, as expected, and there is not much variance among our different approaches to prediction, at least in the one-stage methods. We even manage to consistently beat the \slsc{Lasso} finite-dimensional regression mechanism, which can select all 100 components for its model, versus our 10 components at most. This is an indication that our models make a more efficient selection of variables, encapsulating more information with fewer components and justifying our partiality to parsimonious models.
 
+Figure~\ref{fig:reg_l2} shows the results for an underlying \(L^2\)-model, which would be our direct competitor and a more representative test for our Bayesian model. In this case the outcome is satisfactory, as for the most part our models are on a par with the rest, even surpassing other methods that were designed with the \(L^2\)-model in mind. Especially interesting is the comparison with the standard \(L^2\) functional regression \slsc{FLin}, which we outperform most of the time.
+
+The comparison results for non-Gaussian data can be seen in Figure~\ref{fig:reg_non_gp}. In this case our methods still get better results under the \acs{RKHS} model, while the results under the \(L^2\)-model are essentially the same, which is a positive outcome.
+
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.99\textwidth]{reg_rkhs}
   \caption[Short caption for this figure]{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying linear \acs{RKHS} model.}\label{fig:reg_rkhs}
 \end{figure}
-
-Figure~\ref{fig:reg_l2} shows the results for an underlying \(L^2\)-model, which would be our direct competitor and a more representative test for our Bayesian model. In this case the outcome is satisfactory, as for the most part our models are on a par with the rest, even surpassing other methods that were designed with the \(L^2\)-model in mind. Especially interesting is the comparison with the standard \(L^2\) functional regression \slsc{FLin}, which we outperform most of the time.
 
 \begin{figure}[tbp]
   \myfloatalign
@@ -462,21 +432,21 @@ Figure~\ref{fig:reg_l2} shows the results for an underlying \(L^2\)-model, which
   \caption{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying linear \(L^2\)-model.}\label{fig:reg_l2}
 \end{figure}
 
-The comparison results for non-Gaussian data can be seen in Figure~\ref{fig:reg_non_gp}. In this case our methods still get better results under the \acs{RKHS} model, while the results under the \(L^2\)-model are essentially the same, which is a positive outcome.
-
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.65\textwidth]{reg_non_gp}
   \caption{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with \slsc{GBM} regressors. In the first column the response obeys a linear \(L^2\)-model, while in the second columns it follows a linear \acs{RKHS} model.}\label{fig:reg_non_gp}
 \end{figure}
 
-Lastly, Figure~\ref{fig:reg_real} depicts the results for the real data sets, where we can see that the performance of our one-stage methods is about the same as that of the comparison methods. However, our variable selection methods are somewhat worse that the reference methods, although not by a wide margin. We have to bear in mind that real data is more complex and noisy than simulated data, and it is possible that after a suitable pre-preprocessing we would have obtained better results. Nonetheless, our goal was to perform a general comparison with a uniform methodology, without focusing too much on the specifics of any particular data set.
-
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.8\textwidth]{reg_real}
   \caption{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with real data sets, one on each column.}\label{fig:reg_real}
 \end{figure}
+
+\FloatBarrier{}
+
+Lastly, Figure~\ref{fig:reg_real} depicts the results for the real data sets, where we can see that the performance of our one-stage methods is about the same as that of the comparison methods. However, our variable selection methods are somewhat worse that the reference methods, although not by a wide margin. We have to bear in mind that real data is more complex and noisy than simulated data, and it is possible that after a suitable pre-preprocessing we would have obtained better results. Nonetheless, our goal was to perform a general comparison with a uniform methodology, without focusing too much on the specifics of any particular data set.
 
 On another note, we see that some of our Bayesian models have a higher standard deviation, partly because there is an intrinsic randomness in the sampling mechanism, and it can be the cause of the occasional worse performance. In relation to this, we observe that the methods that use the trimmed mean as a summary statistic tend to have a worse score, as this statistic is more sensitive to outliers than the median or the mode, even with the \(10\%\) trimming.
 
@@ -487,13 +457,16 @@ In this case we set the same prior distribution for \(p\) as in the linear case,
 
 First, in Figure~\ref{fig:clf_rkhs} we see the results for the \acs{GP} regressors with a logistic \acs{RKHS} response. Our models perform fairly well in this advantageous situation, and even more so in the one-stage case. We again improve the results of other models that can select far more components than our self-imposed limit of 10. Moreover, whenever our two-stage methods score lower, the differences account for only a couple of misclassified samples at worst.
 
+Subsequently, Figure~\ref{fig:clf_l2} shows that in the \(L^2\) scenario the results are again promising, since our models score consistently on or above the mean of the reference models, and in many instances exceed most of them. In this case we also beat the alternative functional logistic regression method (\slsc{FLog}). In addition, in this situation the overall accuracy of all methods is poor (around \(60\%\)), so this is indeed a difficult problem in which even small increases in accuracy are relevant.
+
+Then, Figure~\ref{fig:clf_non_gp} shows that our classifiers perform better than most comparison algorithms in both non-Gaussian cases. The differences are most notable in the homoscedastic case, and in the heteroscedastic case the overall accuracy is low.
+
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.99\textwidth]{clf_rkhs}
   \caption{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \acs{RKHS} model.}\label{fig:clf_rkhs}
 \end{figure}
 
-Subsequently, Figure~\ref{fig:clf_l2} shows that in the \(L^2\) scenario the results are again promising, since our models score consistently on or above the mean of the reference models, and in many instances exceed most of them. In this case we also beat the alternative functional logistic regression method (\slsc{FLog}). In addition, in this situation the overall accuracy of all methods is poor (around \(60\%\)), so this is indeed a difficult problem in which even small increases in accuracy are relevant.
 
 \begin{figure}[tbp]
   \myfloatalign
@@ -501,21 +474,24 @@ Subsequently, Figure~\ref{fig:clf_l2} shows that in the \(L^2\) scenario the res
   \caption{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \(L^2\)-model.}\label{fig:clf_l2}
 \end{figure}
 
-Then, Figure~\ref{fig:clf_non_gp} shows that our classifiers perform better than most comparison algorithms in both non-Gaussian cases. The differences are most notable in the homoscedastic case, and in the heteroscedastic case the overall accuracy is low. Incidentally, this heteroscedastic case of two zero-mean Brownian motions has a special interest, since it can be shown that the Bayes error is zero in the limit of dense monitoring (i.e.\ with an arbitrarily fine measurement grid), a manifestation of the ``near-perfect'' classification phenomenon analyzed for example in \citet{torrecilla2020optimal}. Our results are in line with the empirical findings of this article, where the authors conclude that even though the asymptotic theoretical error is zero, most classification methods are suboptimal in practice (possibly due to the high collinearity of the data), with the notable exception of \slsc{PCA}+\slsc{QDA}.
-
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.65\textwidth]{clf_non_gp}
   \caption{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with a mix of regressors coming from two different Brownian motion processes, labeled according to their origin.}\label{fig:clf_non_gp}
 \end{figure}
 
-As for the real data sets, in Figure~\ref{fig:clf_real} we see positive results in general, obtaining in some cases accuracies well above the mean of the reference models. In particular, the weighted sum methods tend to have slightly better results than the \acs{MAP} methods, which is a trend that was also present in the simulated data sets and in the linear regression experiments. This was somewhat expected, since the weighted predictions use the full range of information available for prediction.
 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.8\textwidth]{clf_real}
   \caption{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with real data sets, one on each column.}\label{fig:clf_real}
 \end{figure}
+
+\FloatBarrier{}
+
+Incidentally, this heteroscedastic case of two zero-mean Brownian motions has a special interest, since it can be shown that the Bayes error is zero in the limit of dense monitoring (i.e.\ with an arbitrarily fine measurement grid), a manifestation of the ``near-perfect'' classification phenomenon analyzed for example in \citet{torrecilla2020optimal}. Our results are in line with the empirical findings of this article, where the authors conclude that even though the asymptotic theoretical error is zero, most classification methods are suboptimal in practice (possibly due to the high collinearity of the data), with the notable exception of \slsc{PCA}+\slsc{QDA}.
+
+As for the real data sets, in Figure~\ref{fig:clf_real} we see positive results in general, obtaining in some cases accuracies well above the mean of the reference models. In particular, the weighted sum methods tend to have slightly better results than the \acs{MAP} methods, which is a trend that was also present in the simulated data sets and in the linear regression experiments. This was somewhat expected, since the weighted predictions use the full range of information available for prediction.
 
 \FloatBarrier{}
 \subsection{Analysis and validation of a model}
@@ -534,19 +510,21 @@ with \(\varepsilon \sim \mathcal N(0, 0.5)\). This data set is represented in Fi
 
 The first thing we can do is look at arbitrary samples in the last iteration of a few chains, to check that we get reasonable values. Then, we can examine the acceptance rate of all the moves to see that they are not either very low or very high. Next we proceed with the visual checks. We can look at the flat posterior distribution of all parameters for all values of \(p\) and all the chains aggregated together (Figure~\ref{fig:flat-posterior-linear}), or visualize the posterior of the multidimensional parameters for each \(p\) in a sort of triangular configuration (Figure~\ref{fig:triangular-posterior-linear}). In addition, we can also check the traces of individual parameters for all values of \(p\) (Figure~\ref{fig:trace-plot}). Looking at the traces is useful to check that the chains are mixing well and that they are correctly exploring the parameter space; we can do the same thing with the values of \(p\) (Figure~\ref{fig:trace-p}). 
 
-\begin{figure}[p]
+Lastly, we can perform a posterior predictive check (Figure~\ref{fig:pp-check}). This is arguably the most useful test for prediction purposes, since we represent the posterior predictive distribution that will be used for inference and prediction. We can do it on the training data or directly on previously unseen regressors. If the sampling has been successful, the posterior predictive should look like a tubular region around the observed data.
+
+\begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.9\textwidth]{reg_analysis_flat_posterior}
   \caption{Aggregated posterior distribution of all the samples \(\theta^{(r)}\) for all \(r\). Note that the true values of the parameters are essentially recovered.}\label{fig:flat-posterior-linear}
 \end{figure}
 
-\begin{figure}[p]
+\begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.99\textwidth]{reg_analysis_triangular_posterior}
   \caption{Posterior distribution of all the \(\tau_p^{(r)}\) for each \(p\). The most frequent value is \(p=3\), highlighted in red. In this run there were no samples with \(p=1\) or \(p=2\) after burn-in.}\label{fig:triangular-posterior-linear}
 \end{figure}
 
-\begin{figure}[p]
+\begin{figure}[tbp]
   \myfloatalign
   \subfloat{%
     \includegraphics[width=\textwidth]{reg_analysis_trace_1}
@@ -566,13 +544,11 @@ The first thing we can do is look at arbitrary samples in the last iteration of 
   \caption{Posterior distribution (left) and trace (right) of all the \(\beta_j^{(r)}\), combined for all \(p\).}\label{fig:trace-plot}
 \end{figure}
 
-\begin{figure}[p]
+\begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.9\textwidth]{reg_analysis_trace_p}
   \caption{Posterior distribution (left) and trace (right) of \(p\). We see that the true number of components is recovered.}\label{fig:trace-p}
 \end{figure}
-
-Lastly, we can perform a posterior predictive check (Figure~\ref{fig:pp-check}). This is arguably the most useful test for prediction purposes, since we represent the posterior predictive distribution that will be used for inference and prediction. We can do it on the training data or directly on previously unseen regressors. If the sampling has been successful, the posterior predictive should look like a tubular region around the observed data.
 
 \begin{figure}[tbp]
   \myfloatalign
@@ -618,7 +594,7 @@ For this part, the general strategy will be to apply Doob's theorem (Theorem~\re
   
 We break the proof into several steps.
 
-\paragraph{Measurability issues} We first show the measurability of the mapping \(\theta \mapsto \pp_\theta(X,Y)(A)\) for every measurable set \(A \subseteq \mathcal X \times \mathcal Y\). Define the function \(h(\theta, x, y)=f_\theta(y|x)\mathds{1}_A(x,y)\), where \(f_\theta(\cdot|x)\) is the density of the normal distribution \( \mathcal N(\alpha + \sum_j \beta_j x(t_j),\, \sigma^2)\), and \(\mathds{1}_{A}\) is the indicator function of the set \(A\). Let \(E(x,t)=x(t)\) be the evaluation map on \(\mathcal C[0,1]\times [0,1]\), and note that \(x\mapsto x(t)\) is continuous on \(\mathcal C[0,1]\) while \(t\mapsto x(t)\) is continuous on \([0,1]\). It follows that \(E\) is a Carathéodory function and hence jointly measurable \citep[][Lemma~4.51]{aliprantis2006infinite}. Thus, \(h\) is seen to be measurable as a composition of Borel measurable functions, and by Fubini/Tonelli \citep[\S23]{bauer2001measure}, the function
+\paragraph{Measurability issues} We first show the measurability of the mapping \(\theta \mapsto \pp_\theta(X,Y)(A)\) for every measurable set \(A \subseteq \mathcal X \times \mathcal Y\). Define the function \(h(\theta, x, y)=f_\theta(y|x)\mathds{1}_A(x,y)\), where \(f_\theta(\cdot|x)\) is the density of the normal distribution \( \mathcal N(\alpha + \sum_j \beta_j x(t_j),\, \sigma^2)\), and \(\mathds{1}_{A}\) is the indicator function of the set \(A\). Let \(E(x,t)=x(t)\) be the evaluation map on \(\mathcal C[0,1]\times [0,1]\), and note that \(x\mapsto x(t)\) is continuous on \(\mathcal C[0,1]\) while \(t\mapsto x(t)\) is continuous on \([0,1]\). It follows that \(E\) is a Carathéodory function and hence jointly measurable \citep[][Lemma~4.51]{aliprantis2006infinite}. Thus, \(h\) is seen to be measurable as a composition of Borel measurable functions, and by Fubini/Tonelli, the function
 \[
   \theta \mapsto \int_{\mathcal X \times \mathcal Y} h(\theta, x, y)\, d\qq_X(x)\,d\mathfrak{m}(y) = \pp_\theta(X, Y)(A)
 \]
@@ -633,7 +609,7 @@ where
 \]
 Note that \(\tTheta_p\) is an open subset of \(\Theta_p\), and thus open in the full space \(\Theta\). Now consider the disjoint union \(\tTheta = \bigcup_{p\in \N}\tTheta_p\), and observe that \(\tTheta\) is a Polish space, by virtue of being open in the Polish space \(\Theta\) \citep[\S26]{bauer2001measure}, thus satisfying the requirement of Doob's theorem.
 
-\paragraph{Transformation into ordered form} For \(\theta\in\Theta_p\), define the measurable mapping \(T(\theta)=\theta[\nu]\) if there is a permutation \(\nu\in \mathfrak{S}_p\) such that \(\theta[\nu]\in \tTheta_p\); otherwise set \(T(\theta)=\theta\). Note that we can only transform \(\theta\) to be in \(\tTheta_p\) if the times \(t_j\) are all distinct and the coefficients \(\beta_j\) are all nonzero. But since the prior distribution assigns probability one to both events by Condition~\ref{cond:condition-ident}, we have \(\Pi(T(\theta)\in\tTheta)=1\). It will be useful later to observe that for any set \(B\subseteq \tTheta_p\), if we denote 
+\paragraph{Transformation into ordered form} For \(\theta\in\Theta_p\), define the measurable mapping \(T(\theta)=\theta[\nu]\) if there is a permutation \(\nu\in \mathfrak{S}_p\) such that \(\theta[\nu]\in \tTheta_p\); otherwise set \(T(\theta)=\theta\). Note that we can only transform \(\theta\) to be in \(\tTheta_p\) if the times \(t_j\) are all distinct and the coefficients \(\beta_j\) are all nonzero. But since the prior distribution assigns probability one to both events by~\ref{cond:condition-ident}, we have \(\Pi(T(\theta)\in\tTheta)=1\). It will be useful later to observe that for any set \(B\subseteq \tTheta_p\), if we denote 
 \[
   B[\nu] = \{\theta[\nu]: \theta \in B\},
 \]
@@ -836,10 +812,10 @@ As we said before, multiplicative constants do not significantly affect the boun
 \]
 Note that the lower bound \(p_n \gtrsim \frac{n}{(\log n)^k}\) does not contradict the upper bound \(p_n=o(n/\log n)\) needed for the metric entropy condition above. Hence, we can choose an appropriate growth rate for \(p_n\) in our sieve to make both conditions hold simultaneously.
 
-\paragraph{Verifying the KL support} First, we proceed by directly computing \(D_{\mathrm{KL}}(f_0 \,\|\, f_\theta)\) for \(\theta\in\Theta_0\), which again has a familiar formula in the normal case \citep[e.g.][p.~47]{pardo2018statistical}, and bounding the result by a similar bound as before:
+\paragraph{Verifying the KL support} First, we proceed by directly computing \(\dkl(f_0 \,\|\, f_\theta)\) for \(\theta\in\Theta_0\), which again has a familiar formula in the normal case \citep[e.g.][p.~47]{pardo2018statistical}, and bounding the result by a similar bound as before:
 \begin{equation}\label{eq:th9-bound4}
   \begin{split}
-  D_{\mathrm{KL}}(f_0 \,\|\, f_\theta) & =  \bigintssss \left(f_0(y|x)\log\left(\frac{f_0(y|x)}{f_\theta(y|x)}\right)  d\mathfrak{m}(y)\right)d\qq_X(x)\\
+  \dkl(f_0 \,\|\, f_\theta) & =  \bigintssss \left(f_0(y|x)\log\left(\frac{f_0(y|x)}{f_\theta(y|x)}\right)  d\mathfrak{m}(y)\right)d\qq_X(x)\\
   & = \frac{1}{2}\left(\frac{\sigma_0^2}{\sigma^2} - 1 - \log \frac{\sigma_0^2}{\sigma^2} \right)\\
   &\quad + \frac{1}{2\sigma^2}\bigintssss (\mu_0(x) - \mu_\theta(x))^2\, d\qq_X(x)\\
   & \leq C_1\|\theta_0 - \theta\|^2 + C_2\|\theta_0-\theta\|^2 \\
@@ -851,8 +827,8 @@ where \(\mu_0(x) := \mu_{\theta_0}(x)\). To obtain \(C_1\), let \(I=[\sigma^2_{\
 \]
 It follows that \(g(u) \leq H (u-1)^2\) for \(u\in I\), which gives us the desired bound after undoing the change of variables. Then, from~\eqref{eq:th9-bound4} and the behavior of \(\Pi\) on \(\Theta_0\) we can conclude that \(f_0\in\operatorname{KL}(\Pi_{\mathcal F})\), since for every \(\epsilon>0\) we have
 \begin{align*}
-  \Pi_{\mathcal F}(f_\theta\in \mathcal F: D_{\mathrm{KL}}(f_0 \,\|\, f_\theta) < \epsilon) & =\Pi(\theta \in \Theta: D_{\mathrm{KL}}(f_0 \,\|\, f_\theta) < \epsilon)      \\
-  & \geq \Pi(\theta \in \Theta_0: D_{\mathrm{KL}}(f_0 \,\|\, f_\theta) <\epsilon) \\
+  \Pi_{\mathcal F}(f_\theta\in \mathcal F: \dkl(f_0 \,\|\, f_\theta) < \epsilon) & =\Pi(\theta \in \Theta: \dkl(f_0 \,\|\, f_\theta) < \epsilon)      \\
+  & \geq \Pi(\theta \in \Theta_0: \dkl(f_0 \,\|\, f_\theta) <\epsilon) \\
   & \geq \Pi(\theta\in\Theta_0: \|\theta_0 - \theta\|^2 < \epsilon/\tilde C)\\
   & > 0.
 \end{align*}
@@ -864,11 +840,11 @@ To prove the theorem concerning the contraction rate, we will use the following 
   If the prior \(\Pi\) has a density on \(\Theta_0\) with respect to Lebesgue measure that is bounded away from zero in a neighborhood of \(\theta_0\), then there is a constant \(c>0\) such that \(\Pi(B(\theta_0, r))\geq cr^{2p_0+2}\) for all sufficiently small \(r>0\).
 \end{lemma}
 \begin{proof}
-  Let \(g\) be the density of \(\Pi\) restricted to \(\Theta_0\), and let \(r_0>0\) be a radius such that \(g(\theta)\geq g_0>0\) for all \(\theta\in B(\theta_0, r_0)\). Then, if \(d=2p_0+2\), for every \(0<r\leq r_0\) we have
+  Let \(g\) be the density of \(\Pi\) restricted to \(\Theta_0\), and let \(r_0>0\) be a radius such that \(g(\theta)\geq g_0>0\) for all \(\theta\in B(\theta_0, r_0)\). Then, if \(q=2p_0+2\), for every \(0<r\leq r_0\) we have
   \[
-    \Pi(B(\theta_0, r)) =\int_{B(\theta_0, r)} g\, d\mathfrak{m}_d \geq g_0 \mathfrak{m}_d(B(\theta_0, r)) = g_0 c_d r^d,
+    \Pi(B(\theta_0, r)) =\int_{B(\theta_0, r)} g\, d\mathfrak{m}_q \geq g_0 \mathfrak{m}_q(B(\theta_0, r)) = g_0 c_q r^q,
   \]
-  where \(\mathfrak{m}_d\) is the Lebesgue measure on \(\Theta_0\) and \(c_d>0\) is a constant that depends only on the dimension of \(\Theta_0\).
+  where \(\mathfrak{m}_q\) is the Lebesgue measure on \(\Theta_0\) and \(c_q>0\) is a constant that depends only on the dimension of \(\Theta_0\).
 \end{proof}
 
 Now we will show that the sequence \(\epsilon_n=Dn^{-\gamma}\) with \(0<\gamma<1/2\) and a certain \(D>0\) satisfies the conditions of Theorem~\ref{th:contraction-rate}, and thus is a posterior contraction rate for our model. Note that the specific value of \(D\) is of no relevance, since it is absorbed into the diverging sequence \(M_n\) in the definition of a contraction rate.
@@ -940,11 +916,11 @@ On the other hand, the lower bound \(D^2>3-4\gamma\) gives
 \]
 which is precisely our assumption on \(\delta\).
 
-\paragraph{Sufficient prior mass around the true density} Let \(\theta\in\Theta_0\). We know from~\eqref{eq:th9-bound4} in the proof of Theorem~\ref{th:consistency-schwartz-linear} that there exists a constant \(C_1>0\) such that \(D_{\mathrm{KL}}(f_0 \,\|\, f_\theta)\leq C_1^2 \|\theta_0 - \theta\|^2\). On the other hand, direct calculation \citep[see e.g.][]{choi2007posterior} shows that, under Gaussianity,
+\paragraph{Sufficient prior mass around the true density} Let \(\theta\in\Theta_0\). We know from~\eqref{eq:th9-bound4} in the proof of Theorem~\ref{th:consistency-schwartz-linear} that there exists a constant \(C_1>0\) such that \(\dkl(f_0 \,\|\, f_\theta)\leq C_1^2 \|\theta_0 - \theta\|^2\). On the other hand, direct calculation \citep[see e.g.][]{choi2007posterior} shows that, under Gaussianity,
 \[
   V_2(f_0, f_\theta) = \frac{(\sigma_0^2 - \sigma^2)^2}{2\sigma^4} + \frac{\sigma_0^2}{\sigma^4}\int (\mu_0(x) - \mu_\theta(x))^2\, d\qq_X(x).
 \]
-Following the same reasoning as we did multiple times before, we can see that \(V_2(f_0, f_\theta)\) is bounded above by \(C_2^2\|\theta_0 - \theta\|^2\) with \(C_2>0\). Therefore, if \(\|\theta_0 - \theta\| < \epsilon_n/\tilde C\) where \(\tilde C = \max\{C_1, C_2\}\), it follows that \(D_{\mathrm{KL}}(f_0 \,\|\, f_\theta)< \epsilon_n^2\) and \(V_2(f_0, f_\theta) < \epsilon_n^2\). Thus, if we denote by \(B(\theta_0, \epsilon)\) the open ball of radius \(\epsilon\) centered at \(\theta_0\) in \(\Theta_0\), we have just shown that \(\theta \in B(\theta_0,\epsilon_n/\tilde{C})\) implies \(f_\theta \in B_2(f_0, \epsilon_n)\), and hence
+Following the same reasoning as we did multiple times before, we can see that \(V_2(f_0, f_\theta)\) is bounded above by \(C_2^2\|\theta_0 - \theta\|^2\) with \(C_2>0\). Therefore, if \(\|\theta_0 - \theta\| < \epsilon_n/\tilde C\) where \(\tilde C = \max\{C_1, C_2\}\), it follows that \(\dkl(f_0 \,\|\, f_\theta)< \epsilon_n^2\) and \(V_2(f_0, f_\theta) < \epsilon_n^2\). Thus, if we denote by \(B(\theta_0, \epsilon)\) the open ball of radius \(\epsilon\) centered at \(\theta_0\) in \(\Theta_0\), we have just shown that \(\theta \in B(\theta_0,\epsilon_n/\tilde{C})\) implies \(f_\theta \in B_2(f_0, \epsilon_n)\), and hence
 \begin{equation}\label{eq:th11-bound2}
   \Pi_{\mathcal F}(B_2(f_0, \epsilon_n)) \geq \Pi(B(\theta_0,\epsilon_n/\tilde{C})).
 \end{equation}

@@ -1,21 +1,25 @@
 %*****************************************
-\chapter{On the comparison methods for the functional test}\label{app:comparison-test}
+\chapter{Other functional testing methods}\label{app:comparison-test}
 %*****************************************
 
-The frequentist comparison methods were mostly described in Chapter~4 of \citet{zhang2013analysis}. We consider the pivotal test function \(\Delta_n(s) = \sqrt{n}\bar X_n(s)\), which will be small when the null hypothesis is true. We also fix a significance level \(\alpha\in (0,1)\) and the discretized grid \(\mathcal S=\{s_1,\dots,s_g\}\).
+We provide a brief description of the comparison methods used in the experiments in Chapter~\ref{ch:functional-testing}. 
 
-\subsubsection{Pointwise \(t\)-Test}
+\section{Frequentist methods}
 
-The first naive idea is to construct a pointwise \(t\)-test over all points on the grid, and then reject \(H_0\) if any pointwise test rejects \(H_{0s}: \mu(s)=0\). The local test statistics are
+The frequentist comparison methods were described in Chapter~4 of the monograph by \citet{zhang2013analysis}. They revolve around the pivotal test function \(\Delta_n(s) = \sqrt{n}\bar X_n(s)\), which is small when the null hypothesis is true. In what follows, we fix a significance level \(\alpha\in (0,1)\) and the discretized grid \(\mathcal S=\{s_1,\dots,s_G\}\).
+
+\subsubsection*{Pointwise \(t\)-test}
+
+The first naive idea is to construct a pointwise \(t\)-test over all points on the grid, and then reject \(H_0\) if any pointwise test rejects the local null hypothesis \(H_{0s}: \mu(s)=0\). The test statistics are
 \[
 z_n(s) = \frac{\Delta_n(s)}{\sqrt{\hat C_n(s,s)}} \sim t_{n-1},\quad s\in[0,1].
 \]
 
-We use the Bonferroni correction on the \(p\)-values~\citep{shaffer1995multiple} to produce a global test that accounts for the multiple comparisons problem and controls the probability of the so-called family-wise error rate (FWER), at the expense of decreased power. In particular, we reject \(H_{0}\) whenever the \(p\)-value of at least one of the local tests is less than \(\alpha/G\). While there are more sophisticated approaches to correct \(p\)-values \citep[e.g.][]{cox2008pointwise}, we keep the simple Bonferroni method as a baseline.
+We use the Bonferroni correction on the \(p\)-values~\citep{shaffer1995multiple} to produce a global test that accounts for the multiple comparisons problem and controls the probability of the so-called family-wise error rate, at the expense of decreased power. In particular, we reject \(H_0\) whenever the \(p\)-value of at least one of the local tests is less than \(\alpha/G\). While there are more sophisticated approaches to correct \(p\)-values \citep[e.g.][]{cox2008pointwise}, we keep the simple Bonferroni method as a baseline.
 
-\subsubsection{\(L^2\)-Norm Based Tests}
+\subsubsection*{\(L^2\)-norm based tests}
 
-We perform a global test based on the squared \(L^2\)-norm \(\|\cdot\|_2\) of the pivotal test function \(\Delta_n\). The proposed test statistic is
+We perform a global test based on the squared \(L^2\)-norm of the pivotal test function \(\Delta_n\). The proposed test statistic is
 \begin{equation}\label{eq:test-statistic-l2}
 T_n = \|\Delta_n\|^2_2 = n\int_0^1 \bar{X}_n^2(s)\, ds.
 \end{equation}
@@ -43,15 +47,15 @@ T_{n,p} = n \sum_{j=1}^p \frac{\bar{\xi}_j^2}{\lambda_j},
 \end{equation}
 where normalization by the eigenvalues is introduced to simplify the expression of the null distribution. Indeed, by standard \acs{FPCA} theory, under \(H_0\) and the Gaussian assumption we have \(T_{n,p}\sim \chi^2_p\). Of course, we rarely have access to the true \(K\), so we construct estimates \(\{\hat\lambda_j\}\) and \(\{\hat\phi_j\}\) for the eigenvalues and eigenfunctions via the (truncated) spectral decomposition of the empirical covariance \(\hat C_n\), and then compute an approximate \(\hat T_{n,p}\) plugging in the estimated values into~\eqref{eq:l2-fpca-scores} and~\eqref{eq:statistic-l2-fpca}. Under mild assumptions (finite fourth moments, distinctness of the true eigenvalues), it can be shown that \(\hat T_{n,p}\stackrel{d}{\to}\chi^2_p\) as \(n\to\infty\) \citep[Theorem~5.3]{horvath2012inference}, so asymptotically the \(p\)-value for the test is \(\pp(\chi^2_p \geq \hat T_{n,p})\). As we said before, in practice we compute all quantities involved in the discretized grid \(\mathcal S\):
 \[
-\hat \lambda_j \approx \hat l_j,\qquad \hat\phi_j \approx \hat{\mathbf v}_j=(\hat v_{j1},\dots, \hat v_{jG})', \qquad \hat T_{n,p} \approx n\sum_{j=1}^p \frac{(\sum_{g=1}^G \bar{X}_n(s_g)\hat v_{jg})^2}{\hat l_j}, 
+\hat \lambda_j \approx \hat l_j,\quad \hat\phi_j \approx \hat{\mathbf v}_j=(\hat v_{j1},\dots, \hat v_{jG})', \quad \hat T_{n,p} \approx n\sum_{j=1}^p \frac{\left(\sum_{g=1}^G \bar{X}_n(s_g)\hat v_{jg}\right)^2}{\hat l_j}, 
 \]
 where \(\{\hat l_j, \hat{\mathbf v}_j\}\) are the eigenvalues and (normalized) eigenvectors of the \(G\times G\) empirical covariance matrix \(\hat{\mathbf C}_n\). We could also use the regularized version \(\hat{\mathbf K}_n^{\text{OAS}}\) to compute the eigendecomposition, and even though we did not explore the theoretical guarantees in this case, it is likely that the eigenvalues and eigenvectors of the \acs{OAS} estimator constitute sufficiently good approximations for our purposes.
 
 The only missing aspect is the question of how many components to retain. We follow the simple approach proposed by \citet{ramsay2005functional}, who suggest selecting \(p\) so that the resulting functional principal components cumulatively explain a fixed large percentage of the variance (e.g.\ 90\%).
 
-\subsubsection{\(F\)-Type Test}
+\subsubsection*{\(F\)-type test}
 
-The previous \(L^2\)-based tests do not take into account the variation of the covariance function. Under \(H_0\) and Gaussian data, we have \(\E\|\Delta_n\|^2_2 = \tr(K)\) and \(\E[\tr(\hat{C}_n)] = \tr(K)\), so we can consider the statistic
+The previous \(L^2\)-based tests do not take into account the variation of the covariance function. Under \(H_0\) and Gaussian data, \(\E\|\Delta_n\|^2_2 = \tr(K)\) and \(\E[\tr(\hat{C}_n)] = \tr(K)\), so we can consider the statistic
 \[
 F_n = \frac{\|\Delta_n\|^2_2}{\tr(\hat C_n)} \approx \frac{n\sum_{g=1}^G \bar{X}_n^2(s_g)}{\tr(\hat{\mathbf C}_n)},
 \]
@@ -61,7 +65,7 @@ F_n \sim F_{\hat d, (n-1)\hat d}\  \ \text{approximately}.
 \]
 The approximate \(p\)-value for the test is then \(\pp(F_{\hat d, (n-1)\hat d} \geq F_n)\). This method works for the \acs{OAS} estimator as well, since \(\tr(\hat{\mathbf K}_n^{\text{OAS}})=\tr(\hat{\mathbf K}_n)\).
 
-\subsubsection{Bootstrap Procedures}
+\subsubsection*{Bootstrap procedures}
 
 Both the \(L^2\)-based tests and the \(F\)-type test rely on asymptotic approximations, so their performance can deteriorate when the sample size \(n\) is small. For such cases we can resort to a nonparametric bootstrap scheme to approximate the null distribution of the statistics. In particular, we consider the following simple algorithm:
 \begin{enumerate}
@@ -76,18 +80,17 @@ p^*(T_n) = \frac{1 + \#\{T_n^* \geq T_n\}}{R+1},\qquad p^*(F_n) = \frac{1 + \#\{
 \]
 where the original statistic is added as a positive instance to avoid the case of \(p^*=0\) \citep[see][p.~141]{davison1997bootstrap}. Note that the same procedure can be applied to the \(L^2\) test with \acs{FPCA}, recomputing the eigendecomposition of the bootstrap empirical covariance matrix \(\hat{\mathbf C}_n^*\) each time. In our implementation, we activate this bootstrap procedure with \(R=5000\) whenever \(n\leq 50\).
 
+\section{Bayesian methods}
 
-\subsubsection{Bayesian Functional Test with \acs{FPCA}}
-
-Consider for all \(i=1,\dots, n\) the discretized vector \(\mathbf X_i=(X_i(s_1), \dots, X_i(s_G))'\), and place a multivariate normal model on these finite-dimensional observations, that is,
+Consider the discretized vector \(\mathbf X_i=(X_i(s_1), \dots, X_i(s_G))'\) for \(i=1,\dots, n\), and place a multivariate normal model on these finite-dimensional observations:
 \[
-\mathbf X_i|\boldsymbol{\mu}, \mathbf K \sim \mathcal N_G(\boldsymbol \mu, \mathbf K),\quad  i=1,\dots,n,
+\mathbf X_i\mid \symbfit{\mu}, \mathbf K \sim \mathcal N_G(\symbfit \mu, \mathbf K),\quad  i=1,\dots,n,
 \]
-where \(\boldsymbol\mu=(\mu(s_1), \dots, \mu(s_G))'\) and \(\mathbf K\) is the \(G\times G\) discretized covariance on the grid. To test \(H_0: \boldsymbol\mu = 0\) against \(H_1: \boldsymbol\mu \neq 0\), we place a \(g\)-prior on the mean under \(H_1\), i.e.,
+where \(\symbfit\mu=(\mu(s_1), \dots, \mu(s_G))'\) and \(\mathbf K\) is the \(G\times G\) discretized covariance on the grid. To test \(H_0: \symbfit\mu = 0\) against \(H_1: \symbfit\mu \neq 0\), we place a \(g\)-prior on the mean under \(H_1\), i.e.,
 \[
-\boldsymbol \mu | g, \mathbf K \sim \mathcal{N}_G(0, g \mathbf K),
+\symbfit \mu \mid g, \mathbf K \sim \mathcal{N}_G(0, g \mathbf K),
 \]
-where \(g>0\) is a scalar hyperparameter. This prior, introduced by \citet{zellner1986assessing}, encodes the belief that the mean function varies along the same directions as the data covariance, scaled by the factor \(g\). Under this conjugate model, the Bayes factor in favor of the alternative is available in closed form after integrating out \(\boldsymbol \mu\) \citep[for a similar computation, see][]{liang2008mixtures}:
+where \(g>0\) is a scalar hyperparameter. This prior, introduced by \citet{zellner1986assessing}, encodes the belief that the mean function varies along the same directions as the data covariance, scaled by the factor \(g\). Under this conjugate model, the Bayes factor in favor of the alternative is available in closed form after integrating out \(\symbfit \mu\) \citep[for a similar computation, see][]{liang2008mixtures}:
 \begin{equation}\label{eq:log-bf10}
 \log \bff_{10} = -\frac{G}{2}\log(1+ng) + \frac{n^2 g}{2(1+ng)}Q_n,
 \end{equation}
@@ -101,19 +104,19 @@ In practice, we compute the Bayes factor using the plug-in estimators \(\hat{\ma
 
 From a functional perspective, both problems are organically resolved by projecting onto the top \(p\ll G\) functional principal components, retaining the signal-carrying directions and discarding the noisy ones. As before, consider the eigendecomposition
 \[
-\mathbf K = \mathbf V \Sigma \mathbf V', \qquad \mathbf V = [\mathbf v_1 | \cdots | \mathbf v_p], \qquad \Sigma = \diag(l_1,\dots, l_p),
+\mathbf K = \mathbf V \Sigma \mathbf V', \qquad \mathbf V = [\mathbf v_1 \mid \cdots \mid \mathbf v_p], \qquad \Sigma = \diag(l_1,\dots, l_p),
 \]
 where \(l_1 \geq \cdots \geq l_p > 0\) are the leading eigenvalues of \(\mathbf K\) and \(\mathbf v_1,\dots, \mathbf v_p\) are the corresponding eigenvectors. We can transform the data onto the \(p\)-dimensional score space, defining the \acs{FPCA} scores as
 \[
 \xi_i = \mathbf V' \mathbf X_i, \quad i=1,\dots,n.
 \]
-In score space, the null hypothesis can be expressed as \(H_0: \tilde{\mu}=0\), where \(\tilde{\mu}=(\tilde \mu_1,\dots, \tilde \mu_p)'\) and \(\tilde \mu_j = \boldsymbol \mu' \mathbf v_j\) is the projection of the true mean vector onto the \(j\)-th eigenvector. In this way, the model becomes
+In score space, the null hypothesis can be expressed as \(H_0: \tilde{\mu}=0\), where \(\tilde{\mu}=(\tilde \mu_1,\dots, \tilde \mu_p)'\) and \(\tilde \mu_j = \symbfit \mu' \mathbf v_j\) is the projection of the true mean vector onto the \(j\)-th eigenvector. In this way, the model becomes
 \[
-\xi_i|\tilde{\mu}, \Sigma \sim \mathcal N_p(\tilde{\mu}, \Sigma), \quad i=1,\dots,n,
+\xi_i\mid \tilde{\mu}, \Sigma \sim \mathcal N_p(\tilde{\mu}, \Sigma), \quad i=1,\dots,n,
 \]
 and the corresponding \(g\)-prior under \(H_1\) is
 \[
-\tilde{\mu}|g, \Sigma \sim \mathcal N_p(0, g\Sigma).
+\tilde{\mu}\mid g, \Sigma \sim \mathcal N_p(0, g\Sigma).
 \]
 We can derive the Bayes factor for this reduced model in the same way as we did above for the fully discretized model (in fact now it is easier because the prior factorizes in independent components), obtaining
 \begin{equation}\label{eq:log-bf10-fpca}

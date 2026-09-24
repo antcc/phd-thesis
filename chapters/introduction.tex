@@ -29,6 +29,22 @@ As the name suggests, \acs{FDA} techniques are heavily inspired by functional an
 
 Moreover, convergence in probability will be denoted in the usual way by the symbol ``\(\stackrel{\pp}{\longrightarrow}\)''.
 
+\section{Functional regression}\label{sec:functional-regression}
+
+Even though these problems can be formally stated with almost no differences from their finite-dimensional counterparts, there are some fundamental challenges as well as some subtle drawbacks that emerge as a result of working in infinite dimensions.
+
+The most common scalar-on-function linear regression model is the classical \(L^2\)-model, widely popularized since the first edition (1997) of the pioneering monograph by~\citet{ramsay2005functional}. It can be seen as a generalization of the usual finite-dimensional model, replacing the scalar product in \(\R^D\) for that of the functional space \(L^2[0,1]\):
+\begin{equation}\label{eq:l2-linear-model}
+  Y = \alpha + \dotprod{X}{\beta}_2 + \epsilon = \alpha + \int_0^1 X(t)\beta(t)\, dt + \epsilon,
+\end{equation}
+where \(\alpha\in \R\), \(\epsilon\) is a random error term independent from \(X\) with \(\E [\epsilon]=0\), and the functional slope parameter \(\beta=\beta(\cdot)\) is a member of the infinite-dimensional space \(L^2[0, 1]\). In this case, the inference on \(\beta\) is hampered by the fact that \(L^2[0,1]\) is an extremely broad space that contains many nonsmooth or ill-behaved functions, so any estimation procedure involving optimization on it will typically be hard. In spite of this, model~\eqref{eq:l2-linear-model} is not flexible enough to include ``simple'' impact points submodels based on linear combinations of the marginals of \(X\), such as \(Y=\alpha + \beta_1 X(t_1)+ \cdots + \beta_p X(t_p) + \epsilon\) for some constants \(\alpha,\beta_j\in\R\) and instants \(t_j\in[0,1]\), which are especially appealing to practitioners confronted with functional data problems \citep[see][for additional details]{berrendero2024functional}. Moreover, the noninvertibility of the covariance operator associated with \(X\), which plays the role of the covariance matrix in the infinite case, invalidates the usual least squares theory \citep{cardot2011functional}. Thus, some regularization or dimensionality reduction technique is needed for parameter estimation; see \citet{reiss2017methods} for a summary of several widespread methods.
+
+A similar \(L^2\)-based functional logistic equation can be derived for the binary classification problem via the logistic function:
+\begin{equation}\label{eq:l2-logistic-model}
+  \pp(Y=1 \mid X) = \frac{1}{1 + \exp\{-\alpha - \dotprod{X}{\beta}_2\}},
+\end{equation}
+where \(\alpha \in \R\) and \(\beta \in L^2[0, 1]\). In the equivalent finite-dimensional problem, the natural way of estimating the slope parameter is via its \acf{MLE}. However, apart from the issues outlined above for the linear model, functional settings pose an additional challenge in the logistic case: under fairly general conditions, the \acs{MLE} does not exist with probability one \citep[see][]{berrendero2023functional}.
+
 
 \section{Essentials on reproducing kernel Hilbert spaces}
 
@@ -39,6 +55,8 @@ The methodology proposed in this work relies heavily on the use of \acs{RKHSs}, 
   \Hcal_0(K) = \left\{ f \in L^2[0,1]: \ f(\cdot) = \sum_{j=1}^p \beta_j K(t_j, \cdot), \ p \in \N, \ \beta_j \in \R, \ t_j \in [0, 1] \right\}.
 \end{equation}
 This space is endowed with the inner product \(\dotprod{f}{g}_K = \sum_{j, k} \beta_j \gamma_k K(t_j, s_k)\), given that \(f(\cdot)=\sum_j \beta_j K(t_j, \cdot) \) and \(g(\cdot)=\sum_k \gamma_k K(s_k, \cdot)\). Then, \(\Hcal(K)\) is defined to be the completion of \(\Hcal_0(K)\) under the norm induced by the scalar product \(\dotprod{\cdot}{\cdot}_K\). As it turns out, functions in this space satisfy the so-called \textit{reproducing property}: \(\dotprod{K(t, \cdot)}{f}_K = f(t)\) for all \(f \in \Hcal(K)\) and \(t \in [0, 1]\). An important consequence of this identity is that \(\Hcal(K)\) is a space of genuine functions and not of equivalence classes, since the values of the functions at specific points are in fact relevant, unlike in \(L^2\)-spaces.
+
+\note{Proposición prop:rkhs-properties sobre propiedades, e.g. todas las funciones son continuas si K es continua}
 
 Now, a particularly useful approach in statistics is to regard \(\Hcal(K)\) as an isometric copy of a well-known space related to \(X\). Specifically, via \textit{Loève's isometry} \citep{loeve1948fonctions} one can establish a congruence \(\Psi_X\) between \(\Hcal(K)\) and the linear span of the process, \(\mathcal L(X)\), in the space of all random variables with finite second moment, \(L^2(\Omega)\) \citep[see Lemma 1.1 in][]{lukic2001stochastic}. This isometry is essentially the completion of the correspondence
 \begin{equation}\label{eq:loeves-isometry}
@@ -53,7 +71,7 @@ Despite the close connection between the process \(X\) and the space \(\Hcal(K)\
 
 We follow the path started by \citet{ferguson1974prior} of setting a prior distribution on a functional space and using the corresponding posterior distribution for inference. In our case, we use a particular \acs{RKHS} as the ambient space, resulting in functional regression models that allow for a simple yet efficient Bayesian treatment of functional data.
 
-\section{Posterior consistency}
+\section{Posterior consistency}\label{sec:posterior-consistency-intro}
 
 Moreover, we also study the basic theoretical question of posterior consistency in these \acs{RKHS} models within the proposed Bayesian framework. Consistency and posterior concentration are a type of frequentist validation criteria that have arguably been an active point of research in the last few decades, particularly in infinite-dimensional settings. To put it simply, posterior consistency ensures that with enough data points, the Bayesian updating mechanism works as intended and the posterior distribution eventually concentrates around the true value of the parameters, supposing the model is well specified. For an in-depth treatment of posterior consistency and related concepts, we refer the reader to \citet{ghosal2017fundamentals}.
 
@@ -86,6 +104,8 @@ It turns out that, under very general conditions, the posterior distribution is 
 \end{theorem}
 
 \note{EXPLICAR NOTACION O PEQUEÑA, O GRANDE Y O EN PROBABILIDAD}
+
+In a nonparametric setting where the object of interest is a probability density, there is a stronger consistency result by \citet{schwartz1965bayes} which omits the \(\Pi\)-almost sure qualification under some more restrictive conditions, though it requires a dominated model and a density to estimate.
 
 Now we introduce a few concepts that lie at the core of most extensions of Schwartz's consistency theorem. Recall that the Kullback--Leibler divergence from \(f_0\) to \(f_\theta\) is defined as \(\dkl(f_0 \,\|\, f_\theta) = \int f_0 \log (f_0/f_\theta)\, d\rho\). We say that \(f_0\) belongs to the \textit{Kullback--Leibler support of \(\Pi_{\mathcal F}\)}, and write it as \(f_0 \in \kl(\Pi_{\mathcal F})\), if \(\Pi_{\mathcal F}\left(f_\theta: \dkl(f_0 \,\|\, f_\theta) < \epsilon\right) > 0\) for all \(\epsilon > 0\). This can be interpreted as saying that the prior places sufficient mass ``near'' \(f_0\). On the other hand, let \(N(\epsilon, \mathcal F, d)\) denote the \(\epsilon\)-covering number of the set \(\mathcal F\) with respect to the distance \(d\), i.e., the minimal number of \(d\)-balls of radius \(\epsilon\) needed to cover \(\mathcal F\). Finally, define the Hellinger distance \(d_H\) between two densities (with respect to \(\rho\)) as \(d^2_H(f_\theta, f_{\theta'}) = 1 - \int \sqrt{f_\theta f_{\theta'}}\, d\rho\). The following result will give us consistency in the sense of Schwartz, by means of a sieve that controls the complexity of the model as the sample size \(n\) increases, measured in terms of the \textit{metric entropy} (the logarithm of the \(\epsilon\)-covering number) of the model.
 

@@ -2,23 +2,28 @@
 \chapter{Source code overview}\label{app:source-code}
 %*****************************************
 
-\section{Source code overview}
+All experiments in this thesis were run on a Linux laptop with an AMD Ryzen 7 6800HS CPU and 16 GB of RAM. The code for the functional regression experiments was executed with a random seed set to the value 2024 for reproducibility, while the functional testing experiments used a random seed set to 2026. 
 
+The Python code developed for this work is available under a GPLv3 license at the following GitHub repositories: 
+\begin{center}
+  \begin{tabular}{l}
+\url{https://github.com/antcc/rk-bfr-jump},\\
+\url{https://github.com/antcc/rk-bt-jump}.
+  \end{tabular}
+\end{center}
 
-All experiments were run on a Linux laptop with an AMD Ryzen 7 6800HS CPU and 16 GB of RAM. \note{Mencionar los dos enlaces de github.}
-
-The Python code developed for this work is available under a GPLv3 license at the GitHub repository \url{https://github.com/antcc/rk-bfr-jump}. The code is adequately documented and is structured in several directories as follows:
+The code is adequately documented and is structured in several directories as follows:
 
 \begin{itemize}
-  \item In the \texttt{rkbfr\_jump} folder we find the files responsible for the implementation of our Bayesian models, separated according to the functionality they provide. There is also a \texttt{utils} folder inside with some utility files for simulation, experimentation and visualization.
-  \item The \texttt{reference\_methods} folder contains our implementation of the functional comparison algorithms that were not available through a standard Python library.
-  \item The \texttt{results} folder contains plain text files with the execution times and the numerical results shown in Appendix~\ref{app:execution-times} and Appendix~\ref{app:tables}, as well as \texttt{.csv} files that facilitate working with them.
-  \item At the root folder we have a Python script \texttt{experiments.py} for executing our experiments, which accepts several user-specified parameters (such as the number of iterations or the type of data set). There is also a \texttt{setup.py} file to install our method as a Python package.
+  \item In the \texttt{rkbfr\_jump} and \texttt{rkbt\_jump} folders we find the files responsible for the implementation of our Bayesian models, separated according to the functionality they provide.
+  \item The \texttt{reference\_methods} folders contain our implementation of the functional comparison algorithms that were not available through a standard Python library.
+  \item The \texttt{results} folders contain plain text files with the execution times and the numerical results, as well as \texttt{.csv} files that facilitate working with them.
+  \item At the root folder we have a Python script \texttt{experiments.py} for executing our experiments, which accepts several user-specified parameters (such as the number of iterations or the type of data set).
 \end{itemize}
 
-When possible, the code was implemented in a generic way that would allow for easy extensions or derivations. It was also developed with efficiency in mind, so many functions and methods exploit the vectorization capabilities of the \textit{numpy} and \textit{scipy} libraries, and are sometimes parallelized using \textit{numba}. Moreover, since we followed closely the style of the \textit{scikit-learn} and \textit{scikit-fda} libraries, our methods are compatible and could be integrated (after some minor tweaking) with both of them. 
+When possible, the code was implemented in a generic way that would allow for easy extensions or derivations. It was also developed with efficiency in mind, so many functions and methods exploit the vectorization capabilities of the \slsc{numpy} and \slsc{scipy} libraries, and are sometimes parallelized using \slsc{numba}. Moreover, since we followed closely the style of the \slsc{scikit-learn} and \slsc{scikit-fda} libraries, our methods are compatible and could be integrated (after some minor tweaking) with both of them. 
 
-The code for the experiments was executed with a random seed set to the value 2024 for reproducibility. We provide a script file \texttt{launch.sh} that illustrates a typical execution. Lastly, there are \textit{Jupyter} notebooks that demonstrate the use of our methods in a more visual way. Inside these notebooks there is a step-by-step guide on how one might execute our algorithms, accompanied by many graphical representations, and offering the possibility of changing multiple parameters to experiment with the code. In addition, there is also a notebook that can be used to generate all the tables and figures of this document and the main article pertaining to the experimental results.
+Lastly, there are \slsc{Jupyter} notebooks that demonstrate the use of our methods in a more visual way. Inside these notebooks there is a step-by-step guide on how one might execute our algorithms, accompanied by many graphical representations, and offering the possibility of changing multiple parameters to experiment with the code.
 
 %*****************************************
 %*****************************************
