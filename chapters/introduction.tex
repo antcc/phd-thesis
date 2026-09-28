@@ -2,7 +2,9 @@
 \chapter{Introduction}\label{ch:introduction}
 %************************************************
 
-\note{Definir functional data}
+\note{Definir functional data y usar acf}
+\note{usar acf con rjmcmc y mcmc. Contar que mcmc se usa con una función proporcional... etc (de master-thesis)}
+\note{Revisar que todos los acronyms tienen acf en el texto}
 \note{Definir proceso estocástico X en [0,T] con trayectorias en L2 y quizás después decir que suponemos que son continuas ( In addition, we will assume that \(X\) has a version with continuous sample paths, so that point evaluation is well-defined.) Definir el espacio C[0,1]. Observado en un grid denso. Asumimos T=1. ASUMIMOS COVARIANZA ESTRICTAMENTE DEF. POS. to ensure identifiability. Asumimos que hay un grid denso en [0,1]}
 
 \note{Contributions? chapter-by-chapter? mencionar los artículos explícitamente. decir hay una partial reproduction?}
@@ -95,6 +97,8 @@ Naturally, once we have established a contraction rate, every slower sequence is
 It turns out that, under very general conditions, the posterior distribution is always consistent at almost every value of \(\theta_0\) with respect to the measure induced by the prior \citep{doob1949application}. We state this classical result in the general setting introduced earlier.
 
 \note{Añadir también lo de la esperanza: for \(\Pi\)-almost every \(theta\), we have \(\E[g(\theta)|X_{1:n}] \to g(\theta_) \pp_\theta-\)a.s. for every bounded measurable \(g\). VER ARTICLE MILLER}
+
+\note{Definir Polish space en tesis y cambiar enunciado de Doob a Polish. Cuidado con sutilezas sobre qué espacio topológico subyacente hay y por qué un espacio concreto es Polish (no necesariamente con la métrica usual)}
 
 \begin{theorem}[Doob's consistency theorem]\label{th:doob}
   Let the state space \(\mathcal X\) and the parameter space \(\Theta\) be complete separable metric spaces, endowed with their respective Borel sigma-algebras. If \(\theta \mapsto P_\theta\) is one-to-one and \(\theta \mapsto P_\theta(A)\) is measurable for all measurable sets \(A\subseteq \mathcal X\), then the posterior distribution is consistent at \(\Pi\)-almost all values of \(\Theta\). That is, there exists \(\Theta_*\subseteq \Theta\) such that \(\Pi(\Theta_*)=1\) and for all \(\theta_0\in\Theta_*\), if \(X_1,X_2,\ldots \sim P_{\theta_0}\) i.i.d., then for any neighborhood \(B\) of \(\theta_0\) we have

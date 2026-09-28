@@ -472,11 +472,10 @@ We draw \(n=50\) functional samples from each distribution, observed on a discre
 \[
   \mu_*^{\text{RKHS}}(t) = 0.2K(0.15, t) - 0.3K(0.4, t) + 0.5K(0.75, t)
 \]
-and a periodic function
+where \(K\) is the corresponding covariance kernel in each case, and a periodic function
 \[
   \mu_*^{\text{P}}(t) = 0.3\sin(2\pi t),
 \]
-where \(K\) is the corresponding covariance kernel in each case. 
 
 We implement a reduced model with \(P_{\text{max}}=5\) components, a uniform prior distribution \(p\sim\mathcal U\{1,2,3,4,5\}\), and a uniform prior for the time instants as well (restricted to the grid points in \(\mathcal S\)). Moreover, we assume for simplicity that the null and alternative hypotheses are a priori equally likely, so that \(\pi_0=1-\pi_0=1/2\). When choosing the crucial hyperparameter \(\eta\) one has to be wary of Lindley's paradox \citep{lindley1957statistical}. We propose to compute it from the discretized data through the formula
 \[
@@ -606,7 +605,7 @@ Our approach connects the functional testing problem to a variable-dimension mod
 
 \section{Proofs}\label{sec:proofs-bft}
 
-Here we present the proofs of the theoretical results in this chapter. Bear in mind that the covariance function \(K\) is supposed to be strictly positive definite and continuous. Continuity is inherited by all functions in the \acs{RKHS} by \note{Proposition~\ref{prop:rkhs-properties}}, so \(\mu\in\Hcal(K)\) is also continuous. In fact, continuity of \(K\) and \(\mu\) always holds for Gaussian data with continuous sample paths.\footnote{Gaussianity is not essential for the continuity of \(K\) and \(\mu\). Under~\ref{ass:continuous-paths}, finiteness of \(\E[\sup_t X(t)^2]\) suffices, which indeed holds automatically for Gaussian data \citep{landau1970supremum}.} To see this, let \(t_n\to t\) and \(u_n \to u\) in \([0,1]\). Under~\ref{ass:continuous-paths},
+Here we present the proofs of the theoretical results in this chapter. Bear in mind that the covariance function \(K\) is supposed to be strictly positive definite and continuous. Continuity is inherited by all functions in the \acs{RKHS} by Proposition~\ref{prop:rkhs-properties}, so \(\mu\in\Hcal(K)\) is also continuous. In fact, continuity of \(K\) and \(\mu\) always holds for Gaussian data with continuous sample paths.\footnote{Gaussianity is not essential for the continuity of \(K\) and \(\mu\). Under~\ref{ass:continuous-paths}, finiteness of \(\E[\sup_t X(t)^2]\) suffices, which indeed holds automatically for Gaussian data \citep{landau1970supremum}.} To see this, let \(t_n\to t\) and \(u_n \to u\) in \([0,1]\). Under~\ref{ass:continuous-paths},
 \[
   (X(t_n), X(u_n))\to (X(t), X(u))\quad \text{in distribution},
 \]

@@ -558,10 +558,10 @@
 % Quotation after chapter title
 \newenvironment{flushquote}[3][mid-gray]{%
 \begin{flushright}%
-    \begin{minipage}{0.65\textwidth}%
-    \raggedleft\slshape\small\color{#1}%
-    #2\\ \medskip%
-    {\normalfont ---\, #3}%
+    \begin{minipage}{0.66\textwidth}%
+    \raggedleft\itshape\small\color{#1}%
+    ``#2''\\ \smallskip%
+    {---\, \emph{#3}}%
 }{%
     \end{minipage}%
   \end{flushright}%
