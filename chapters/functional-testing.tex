@@ -18,13 +18,11 @@ and measures the evidence for \(H_1\) over \(H_0\). It is linked to the prior an
 \]
 Using Bayes factors to quantify the evidence against the null hypothesis in a continuous manner is the standard approach in multivariate Bayesian testing, popularized since the seminal work by \citet{kass1995bayes}. Because they are intimately related to the posterior probability of the null, Bayes factors provide a direct probabilistic way of interpreting the test decision, while also allowing the incorporation of prior information. Moreover, despite being a loose analog of a likelihood ratio test, the Bayes factor \(\bff_{10}\) can be inverted to provide evidence in favor of \(H_0\), which is not possible in frequentist tests due to the built-in asymmetry. 
 
-
-
 \section{Reproducing kernel model for functional testing}\label{sec:rkhs-test}
 
 Most functional tests in the literature employ some form of dimension reduction via projections or basis expansions as a first step. We take a slightly different approach and directly assume, as we did in Chapter~\ref{ch:functional-regression}, that the mean function is a member of \acs{RKHS} associated with the covariance function of the underlying process, so that it can be approximated through a finite linear combination of kernel sections. For simplicity, in this chapter we restrict ourselves to Gaussian data.
 
-Let \(X_{1:n}=(X_1,\dots, X_n)\) be an i.i.d.\ sample of a Gaussian process \(X\sim \gp(\mu, K)\) with mean \(\mu\) and strictly positive definite covariance function \(K\), which is assumed to be known for the time being. We will mainly work with functional observations, but whenever discretization is needed we will suppose that the process is observed on an arbitrarily dense grid \(\mathcal S=\{s_1,\dots, s_G\}\subset [0,1]\) of size \(G\). Without loss of generality we set \(\mu_0\equiv 0\) and consider the hypotheses
+Let \(X_{1:n}=(X_1,\dots, X_n)\) be an i.i.d.\ sample of a Gaussian process \(X\sim \gp(\mu, K)\) with mean \(\mu\) and strictly positive definite covariance function \(K\), which is assumed to be known for the time being. We will mainly work with functional observations, but whenever discretization is needed we will suppose that the process is observed on an arbitrarily dense grid \(\mathcal S=\{s_1,\dots, s_G\}\subset [0,1]\) of size \(G\). Moreover, discretized quantities on the grid will be denoted by boldface letters. Without loss of generality we set \(\mu_0\equiv 0\) and consider the hypotheses
 \[
 H_0: \mu(t)=0 \text{ for all } t \in [0,1] \quad \text{vs.} \quad H_1: \mu(t)\neq 0 \text{ for some } t \in [0,1].
 \]
@@ -246,7 +244,7 @@ which approximates the discretized covariance \(\mathbf K=[K(s_g, s_h)]_{g,h=1}^
 \]
 where
 \begin{equation}\label{eq:rho-oas}
-\hat\rho_n = \min\left(1,\ \frac{(1-2/G)\tr(\hat{\mathbf C}_n^2) + \tr^2(\hat{\mathbf C}_n)}{(n+1-2/G)\left[\tr(\hat{\mathbf C}_n^2) - \tr^2(\hat{\mathbf C}_n)/G \right]}\right).
+\hat\rho_n = \min\left\{1,\, \frac{(1-2/G)\tr(\hat{\mathbf C}_n^2) + \tr^2(\hat{\mathbf C}_n)}{(n+1-2/G)\left[\tr(\hat{\mathbf C}_n^2) - \tr^2(\hat{\mathbf C}_n)/G \right]}\right\}.
 \end{equation}
 
 A convenient consequence of this formulation is that the resulting covariance matrix is strictly positive definite (except in pathological cases). Moreover, it can be shown that as the sample size grows the \acs{OAS} estimator increasingly resembles the empirical covariance estimator \(\hat{\mathbf C}_n\), which is the expected behavior since there is less and less need for regularization.
@@ -477,7 +475,7 @@ where \(K\) is the corresponding covariance kernel in each case, and a periodic 
   \mu_*^{\text{P}}(t) = 0.3\sin(2\pi t),
 \]
 
-We implement a reduced model with \(P_{\text{max}}=5\) components, a uniform prior distribution \(p\sim\mathcal U\{1,2,3,4,5\}\), and a uniform prior for the time instants as well (restricted to the grid points in \(\mathcal S\)). Moreover, we assume for simplicity that the null and alternative hypotheses are a priori equally likely, so that \(\pi_0=1-\pi_0=1/2\). When choosing the crucial hyperparameter \(\eta\) one has to be wary of Lindley's paradox \citep{lindley1957statistical}. We propose to compute it from the discretized data through the formula
+We implement a reduced model with \(P_{\max}=5\) components, a uniform prior distribution \(p\sim\mathcal U\{1,2,3,4,5\}\), and a uniform prior for the time instants as well (restricted to the grid points in \(\mathcal S\)). Moreover, we assume for simplicity that the null and alternative hypotheses are a priori equally likely, so that \(\pi_0=1-\pi_0=1/2\). When choosing the crucial hyperparameter \(\eta\) one has to be wary of Lindley's paradox \citep{lindley1957statistical}. We propose to compute it from the discretized data through the formula
 \[
 \hat \eta_n=\eta_0 \sqrt{\frac{\tr(\hat{\mathbf K}_n^{\text{OAS}})}{G}}, \quad \eta_0>0,
 \]
@@ -605,7 +603,7 @@ Our approach connects the functional testing problem to a variable-dimension mod
 
 \section{Proofs}\label{sec:proofs-bft}
 
-Here we present the proofs of the theoretical results in this chapter. Bear in mind that the covariance function \(K\) is supposed to be strictly positive definite and continuous. Continuity is inherited by all functions in the \acs{RKHS} by Proposition~\ref{prop:rkhs-properties}, so \(\mu\in\Hcal(K)\) is also continuous. In fact, continuity of \(K\) and \(\mu\) always holds for Gaussian data with continuous sample paths.\footnote{Gaussianity is not essential for the continuity of \(K\) and \(\mu\). Under~\ref{ass:continuous-paths}, finiteness of \(\E[\sup_t X(t)^2]\) suffices, which indeed holds automatically for Gaussian data \citep{landau1970supremum}.} To see this, let \(t_n\to t\) and \(u_n \to u\) in \([0,1]\). Under~\ref{ass:continuous-paths},
+Here we present the proofs of the theoretical results in this chapter. Bear in mind that the covariance function \(K\) is supposed to be strictly positive definite and continuous. Continuity is inherited by all functions in the \acs{RKHS} \citep[Corollary~5]{berlinet2004reproducing}, so \(\mu\in\Hcal(K)\) is also continuous. In fact, continuity of \(K\) and \(\mu\) always holds for Gaussian data with continuous sample paths.\footnote{Gaussianity is not essential for the continuity of \(K\) and \(\mu\). Under~\ref{ass:continuous-paths}, finiteness of \(\E[\sup_t X(t)^2]\) suffices, which indeed holds automatically for Gaussian data \citep{landau1970supremum}.} To see this, let \(t_n\to t\) and \(u_n \to u\) in \([0,1]\). Under~\ref{ass:continuous-paths},
 \[
   (X(t_n), X(u_n))\to (X(t), X(u))\quad \text{in distribution},
 \]
@@ -766,9 +764,9 @@ To conclude, observe that by~\eqref{eq:posterior-slab}
 \[
 \Pi_n(H_0\mid X_{1:n}) = \frac{\pi_0}{\pi_0 + (1-\pi_0)m_1(X_{1:n})} \leq \frac{\pi_0}{(1-\pi_0)m_1(X_{1:n})},
 \]
-so if we define \(D'=\pi_0/((1-\pi_0)D)\), for large \(n\) we have
+so if we define \(\tilde{D}=\pi_0/((1-\pi_0)D)\), for large \(n\) we have
 \begin{align*}
-&\pp_{\mu_*}\left(\Pi_n(H_0\mid X_{1:n}) > D'\exp\left\{\frac{-nc_\epsilon}{1+\epsilon}\right\}\right)\\
+&\pp_{\mu_*}\left(\Pi_n(H_0\mid X_{1:n}) > \tilde{D}\exp\left\{\frac{-nc_\epsilon}{1+\epsilon}\right\}\right)\\
 &\quad \leq \pp_{\mu_*}\left(m_1(X_{1:n}) \leq D \exp\left\{\frac{nc_\epsilon}{1+\epsilon}\right\}\right) < \delta,
 \end{align*}
 i.e., \(\Pi_n(H_0|X_{1:n}) = O_{\pp_{\mu_*}}(e^{-nc_\epsilon/(1+\epsilon)})\). Since \(\epsilon\) was arbitrarily small, the constant \(\gamma\) in the exponent is as close as desired to 
@@ -839,11 +837,11 @@ This follows directly from Mourier's law of large numbers in Banach spaces \cite
   \]
   and note that \(\|\hat{D}_{n,\tau}\|_F^2 = \tr(\hat D_{n,\tau}\hat D_{n,\tau}') = \tr(\hat C_{n,\tau}^2) - \tr^2(\hat C_{n,\tau})/p\). Then, for \(\tau\in \mathcal C_p\) we have
   \begin{equation}\label{eq:rho-frobenius-difference}
-  \hat\rho_{n,\tau}\left\|\frac{\tr(\hat C_{n,\tau})}{p}I_p - \hat C_{n,\tau}\right\|_F = \min\left(1,\ \frac{\hat{N}_{n,\tau}}{(n + 1 - 2/p)\|\hat{D}_{n,\tau}\|_F^2}\right)\|\hat{D}_{n,\tau}\|_F,
+  \hat\rho_{n,\tau}\left\|\frac{\tr(\hat C_{n,\tau})}{p}I_p - \hat C_{n,\tau}\right\|_F = \min\left\{1,\, \frac{\hat{N}_{n,\tau}}{(n + 1 - 2/p)\|\hat{D}_{n,\tau}\|_F^2}\right\}\|\hat{D}_{n,\tau}\|_F,
   \end{equation}
   where \(\hat{N}_{n,\tau} = (1-2/p) \tr(\hat C_{n,\tau}^2) + \tr^2(\hat C_{n,\tau}) \geq 0\). 
 
-  Now, for any \(A\geq 0\), \(c>0\) and \(x\geq 0\) the algebraic inequality \(\min(1,\frac{A}{cx^2})x \leq \sqrt{\frac{A}{c}}\) holds (if \(x \leq \sqrt{A/c}\) the bound is trivial since the minimum is at most one, and if \(x > \sqrt{A/c}\) it evaluates to \(\frac{A}{cx^2}\), and in turn \(\frac{A}{cx^2}x < \sqrt{A/c}\)). Applying this bound to~\eqref{eq:rho-frobenius-difference} yields
+  Now, for any \(A\geq 0\), \(c>0\) and \(x\geq 0\) the algebraic inequality \(\min\left\{1,\frac{A}{cx^2}\right\}x \leq \sqrt{\frac{A}{c}}\) holds (if \(x \leq \sqrt{A/c}\) the bound is trivial since the minimum is at most one; if \(x > \sqrt{A/c}\) it evaluates to \(\frac{A}{cx^2}\), and in turn \(\frac{A}{cx^2}x < \sqrt{A/c}\)). Applying this bound to~\eqref{eq:rho-frobenius-difference} yields
   \[
   \hat\rho_{n,\tau}\|\hat D_{n,\tau}\|_F \leq \sqrt{\frac{\hat{N}_{n,\tau}}{n + 1 - 2/p}}.
   \]
@@ -951,15 +949,15 @@ Since \(nd_\epsilon/(1+\epsilon)\) grows slower than \(nd_\epsilon - \sqrt{n}M\)
 \]
 Therefore,
 \[
-  \hat\Pi_n(H_0\mid X_{1:n}) = \frac{\pi_0}{(1-\pi_0)\hat m_1(X_{1:n})}\leq D'\exp\left\{\frac{-nd_\epsilon}{1+\epsilon}\right\},\quad \text{on } G_n\cap H_M,
+  \hat\Pi_n(H_0\mid X_{1:n}) = \frac{\pi_0}{(1-\pi_0)\hat m_1(X_{1:n})}\leq \tilde{D}\exp\left\{\frac{-nd_\epsilon}{1+\epsilon}\right\},\quad \text{on } G_n\cap H_M,
 \]
-where \(D'=\pi_0/((1-\pi_0)D)\). Note that 
+where \(\tilde{D}=\pi_0/((1-\pi_0)D)\). Note that 
 \[
   \pp_{\mu_*}(G_n^c\cup H_M^c)\leq \pp_{\mu_*}(G_n^c)+\pp_{\mu_*}(H_M^c),
 \]
 and observe that the first term vanishes as \(n\to\infty\), while the second is at most \(\delta/2\). Then, for sufficiently large \(n\) we have proved that
 \[
-\pp_{\mu_*}\left(\hat\Pi_n(H_0\mid X_{1:n})>D'\exp\{-nd_\epsilon/(1+\epsilon)\}\right)<\delta,
+\pp_{\mu_*}\left(\hat\Pi_n(H_0\mid X_{1:n})>\tilde{D}\exp\{-nd_\epsilon/(1+\epsilon)\}\right)<\delta,
 \]
 so \(\hat\Pi_n(H_0|X_{1:n})=O_{\pp_{\mu_*}}(e^{-nd_\epsilon/(1+\epsilon)})\) and, as before, 
 \[

@@ -140,7 +140,7 @@ In these methods we essentially make use of the so-called posterior predictive d
   \]
   where \(\hat \Pi_n(p|\mathcal D_n) = R^{-1}\sum_r \mathds 1\{p^{(r)}=p\}\). In the logistic case, we employ the usual thresholding procedure to convert the final probability to a binary class label in \(\{0,1\}\). Note that this approach is reminiscent of posterior factorization \(\Pi_n(\theta|\mathcal D_n) = \sum_{p}\Pi_n(p|\mathcal D_n)\Pi_n(\tau,b,\alpha,\sigma^2|p, \mathcal D_n)\). We shall see in Section~\ref{sec:results-bfr} that this method produces the best results in practice.
 
-  \paragraph{Maximum a posteriori (MAP-PP)} We also consider a \acf{MAP} strategy, where only the most probable sub-model is used and the rest of the samples are discarded. In this case, denoting \(\hat p = \arg\max_p \hat  \Pi_n(p|\mathcal D_n)\), predictions are computed as 
+  \paragraph{Maximum a posteriori (MAP-PP)} We also consider a \acf{MAP} strategy, where only the most probable sub-model is used and the rest of the samples are discarded. In this case, denoting \(\hat p = \arg\max_p \hat\Pi_n(p|\mathcal D_n)\), predictions are computed as 
   \[
   \hat Y = g(\{F(X_{\text{test}}, \theta^{(r)})\}_{r:p^{(r)}=\hat p}).\] Although this method may ignore many samples in the posterior approximation, this omission can help reduce noise and prevent outliers from affecting the final prediction.
 
@@ -156,7 +156,7 @@ where \(\hat \tau_{p}=(\hat t_1, \dots ,\hat t_p)=g(\{\tau^{(r)}\}_{r:p^{(r)}=p}
 
 \paragraph{Maximum a posteriori (MAP-VS)} We consider a \acs{MAP} approach to variable selection with only the information of the most probable sub-model, i.e., 
 \[
-\hat Y = G(X_{\text{test}}, \hat \tau_{\tilde p}).
+\hat Y = G(X_{\text{test}}, \hat \tau_{\hat p}).
 \]
 
 \section{Posterior consistency}\label{sec:consistency-bfr}
@@ -180,10 +180,10 @@ where \(\theta = (p, \tau, b, \alpha, \sigma^2)\) is a random variable taking va
 
 \subsection{Consistency via Doob's theorem}
 
-At this point we can follow an approach very similar to the one in \citet{miller2023consistency}, where posterior consistency is established through Doob's theorem (see Theorem~\ref{th:doob}) in a mixture model with an unknown number of components, which has an infinite-dimensional parameter space that factorizes in the same way as~\eqref{eq:theta-parameter-space-bfr}. Considering that we will only be interested in small balls around the true value of the parameter, we can define a bounded metric for \(\theta, \theta' \in \Theta\) by
+At this point we can follow an approach very similar to the one in \citet{miller2023consistency}, where posterior consistency is established through Doob's theorem (see Theorem~\ref{th:doob}) in a mixture model with an unknown number of components, which has an infinite-dimensional parameter space that factorizes in the same way as~\eqref{eq:theta-parameter-space-bfr}. Considering that we will only be interested in small balls around the true value of the parameter, we can define a bounded metric for \(\theta_p, \bar\theta_{\bar p} \in \Theta\) by
 \begin{equation}\label{eq:metric-doob}
-  d_\Theta(\theta, \theta')= \begin{cases}
-    \min \left\{\|\theta - \theta'\|, 1\right\}, \quad & \text{if } p=p', \\
+  d_\Theta(\theta_p, \bar\theta_{\bar p})= \begin{cases}
+    \min \left\{\|\theta_p - \bar\theta_{\bar p}\|,\, 1\right\}, \quad & \text{if } p=\bar{p}, \\
     1, \quad                                           & \text{otherwise}.
   \end{cases}
 \end{equation}
@@ -271,7 +271,7 @@ We are ready to state a new Hellinger consistency result for our model, which tr
   \marginproof{proof:consistency-schwartz-linear}
   Assume~\ref{cond:condition-schwartz-X} holds, and suppose that there exist \(\delta > 0\) and \(k>1\) such that \(\Pi(p)=O(e^{-\delta p (\log p)^k})\) as \(p\to\infty\). If \(\Pi\) assigns positive mass to every open neighborhood of \(\theta_0\) in \(\Theta_0\), then the posterior distribution in the model \(\theta \sim \Pi\) and \((X,Y)_{1:n}|\theta \sim f_\theta\) i.i.d.\ is consistent relative to \(d_H\) at \(f_0\), i.e., for every \(\epsilon>0\) it holds that
   \[
-    \lim_{n\to\infty} \Pi_n(\theta: d_H(f_0, f_\theta) < \epsilon \mid (X,Y)_{1:n})=1\quad P_0^\infty(X,Y)-\text{a.s.}
+    \lim_{n\to\infty} \Pi_n(\theta: d_H(f_0, f_\theta) < \epsilon \mid (X,Y)_{1:n})=1\quad \pp_0^\infty(X,Y)-\text{a.s.}
   \]
 \end{theorem}
 
@@ -283,7 +283,7 @@ Following a similar proof strategy as in Theorem~\ref{th:consistency-schwartz-li
   \marginproof{proof:contraction-rate-schwartz-linear}
 Assume~\ref{cond:condition-schwartz-X} holds. Let \(0<\gamma<1/2\) and suppose that \(\Pi(p)=O(e^{-\delta p \log p})\) as \(p\to\infty\), for some \(\delta>16(3-4\gamma)/(1-2\gamma)\). If \(\Pi\) has a density on the continuous components of \(\Theta_0\) with respect to Lebesgue measure that is bounded away from zero in a neighborhood of \(\theta_0\), then the posterior distribution in the model \(\theta \sim \Pi\) and \((X,Y)_{1:n}|\theta \sim f_\theta\) i.i.d.\ contracts at a rate \(\epsilon_n= n^{-\gamma}\) relative to \(d_H\) at \(f_0\), i.e., for every \(M_n\to\infty\) it holds that
 \[
-    \Pi_n(\theta: d_H(f_0, f_\theta) \geq M_n \epsilon_n \mid (X,Y)_{1:n}) \to 0 \quad \text{in } P_0^{(n)}(X,Y)\text{-probability}.
+    \Pi_n(\theta: d_H(f_0, f_\theta) \geq M_n \epsilon_n \mid (X,Y)_{1:n}) \to 0 \quad \text{in } \pp_0^{(n)}(X,Y)\text{-probability}.
     \]
 \end{theorem}
 
@@ -330,7 +330,7 @@ The Python library used to perform the \acs{RJMCMC} approximation is \slsc{Eryn}
 
 \subsection{Data sets}
 
-For the simulations we consider \(n=200\) training samples and \(n'=100\) testing samples, with functional regressors measured on an equispaced grid of 100 points on \([0, 1]\). Furthermore, we choose a set of functional regressors common to linear and logistic regression problems. They are four zero-mean \acf{GPs}, each with a different covariance function:
+For the simulations we consider 200 training samples and 100 testing samples, with functional regressors measured on an equispaced grid of 100 points on \([0, 1]\). Furthermore, we choose a set of functional regressors common to linear and logistic regression problems. They are four zero-mean \acf{GPs}, each with a different covariance function:
 \begin{itemize}
   \item A Brownian motion (\slsc{BM}), with kernel \(K_1(t,s)=\min\{t,s\}\).
   \item A fractional Brownian motion (\slsc{fBM}), with Hurst parameter \(H=0.8\) and kernel \(K_2(t,s)=1/2(s^{2H} + t^{2H} - |t-s|^{2H})\).
@@ -578,7 +578,7 @@ In Figure~\ref{fig:reg-execution-times} and Figure~\ref{fig:clf-execution-times}
 
 We have introduced a natural and computationally feasible way of integrating Bayesian inference into functional regression models, by means of a \acs{RKHS} approach that simplifies the inherently hard task of setting a prior distribution on an infinite-dimensional space. The proposed \acs{RKHS} formulation gives a common framework to all finite-dimensional models based on linear combinations of the marginals of the underlying process, establishing a solid theoretical foundation for these popular points-of-impact models while retaining a functional viewpoint. Our approximation relies on simpler functional parameters, thus enhancing interpretability and ease of implementation, and also enables meaningful model comparisons across different dimensions and facilitates the analysis of the effects of local characteristics of the process.
 
-We have also proved posterior consistency results that ensure the coherence and correctness of the Bayesian methods we developed. These kinds of results have in other contexts more intricate and restrictive conditions to arrive at essentially the same conclusions as we did, but again the introduction of \acs{RKHS}'s is the key point to greatly simplifying them. On the one hand, we have successfully adapted the methodology recently introduced in \citet{miller2023consistency}---originally intended for mixture models---to the fundamentally different scenario of functional regression, obtaining ``Lebesgue''-almost sure consistency for both the model parameters and the unknown number of components. On the other hand, we have derived alternative consistency results and optimal contraction rates through a more sophisticated approach based on Schwartz's theorem, which is the standard tool in nonparametric consistency problems. In addition, it is worth mentioning that the theorems we have proved are applicable to a wide range of prior distributions, including many that are rather simple and hence easier to work with.
+We have also proved posterior consistency results that ensure the coherence and correctness of the Bayesian methods we developed. These kinds of results have in other contexts more intricate and restrictive conditions to arrive at essentially the same conclusions as we did, but again the introduction of the \acs{RKHS} is the key point to greatly simplifying them. On the one hand, we have successfully adapted the methodology recently introduced in \citet{miller2023consistency}---originally intended for mixture models---to the fundamentally different scenario of functional regression, obtaining ``Lebesgue''-almost sure consistency for both the model parameters and the unknown number of components. On the other hand, we have derived alternative consistency results and optimal contraction rates through a more sophisticated approach based on Schwartz's theorem, which is the standard tool in nonparametric consistency problems. In addition, it is worth mentioning that the theorems we have proved are applicable to a wide range of prior distributions, including many that are rather simple and hence easier to work with.
 
 Lastly, we have presented numerical evidence that supports the proposed Bayesian methodology and its predictive performance with simulated and real data sets. Thanks to our \acs{RKHS} formulation, we can effectively leverage the capabilities of \acs{RJMCMC} samplers and integrate the unknown number of components into the Bayesian procedure, which to our knowledge is a novel application in \acs{FDA}. Moreover, a key finding in our empirical studies is that a relatively low number of components is sufficient to obtain good results. This practical side of our work showcases that the Bayesian prediction methods we constructed are competitive against several (not cherry-picked) frequentist techniques, especially those based on the usual \(L^2\)-models, while still remaining viable implementation-wise. Of course, our proposed model is not without limitations, and we are not suggesting that the \(L^2\) perspective should be abandoned, but merely offering a simple, theoretically-backed alternative that can perform better in many situations.
 
@@ -618,19 +618,19 @@ we have
   \bigcup_{\nu\in \mathfrak{S}_p} B[\nu] = T^{-1}(B).
 \end{equation}
 
-\paragraph{Collapsed model} Let \(\tilde \Pi_T\) denote the distribution of \(T(\theta)\) restricted to \(\tTheta\), and note that \(\pp_{T(\theta)}(X,Y)=\pp_\theta(X,Y)\). Then the following model holds on the reduced space \(\tTheta\):
+\paragraph{Collapsed model} Let \(\tilde{\Pi}_T\) denote the distribution of \(T(\theta)\) restricted to \(\tTheta\), and note that \(\pp_{T(\theta)}(X,Y)=\pp_\theta(X,Y)\). Then the following model holds on the reduced space \(\tTheta\):
 \begin{equation}\label{eq:model-linear-collapsed}
   \begin{split}
-     & T(\theta) \sim \tilde{\Pi}_T,                                         \\
+     & T(\theta) \sim \tilde{\Pi}_T, \\
      & (X,Y)_{1:n}\mid T(\theta) \sim \pp_{T(\theta)}(X,Y) \quad \text{i.i.d.}
   \end{split}
 \end{equation}
 
-\paragraph{Verifying conditions} We will now show that the conditions of Doob's theorem hold on \(\tTheta\). First, since \(\theta \mapsto \pp_\theta(X, Y)(A)\) is measurable on \(\Theta\), it is also measurable on \(\tTheta\) for all sets \(A\subseteq \mathcal X \times \mathcal Y\) measurable. For the identifiability part, suppose by contradiction that there are two parameters \(\theta,\theta' \in \tTheta\) such that \(\theta\neq \theta'\) and \(\pp_{\theta}(X, Y) = \pp_{\theta'}(X, Y)\). Then necessarily the Gaussian distributions \(\pp_{\theta}(Y|X)\) and \(\pp_{\theta'}(Y|X)\) coincide, which in turn implies that the means and variances of these distributions are equal, i.e., \(\sigma^2=(\sigma^2)'\) and
+\paragraph{Verifying conditions} We will now show that the conditions of Doob's theorem hold on \(\tTheta\). First, since \(\theta \mapsto \pp_\theta(X, Y)(A)\) is measurable on \(\Theta\), it is also measurable on \(\tTheta\) for all sets \(A\subseteq \mathcal X \times \mathcal Y\) measurable. For the identifiability part, suppose by contradiction that there are two parameters \(\theta_p,\bar\theta_{\bar p} \in \tTheta\) such that \(\theta\neq \bar\theta\) and \(\pp_{\theta}(X, Y) = \pp_{\bar\theta}(X, Y)\). Then necessarily the Gaussian distributions \(\pp_{\theta}(Y|X)\) and \(\pp_{\bar\theta}(Y|X)\) coincide, which in turn implies that the means and variances of these distributions are equal, i.e., \(\sigma^2=\bar\sigma^2\) and
 \[
-  \alpha + \sum_{j=1}^{p} \beta_j X(t_j) = \alpha' + \sum_{j=1}^{p'} \beta'_j X(t'_j),
+  \alpha + \sum_{j=1}^{p} \beta_j X(t_j) = \bar\alpha + \sum_{j=1}^{\bar p} \bar\beta_j X(\bar t_j),
 \]
-where \(t_j\neq t_k\) and \(t_j'\neq t_k'\) for \(j\neq k\). Reordering the terms and combining those where the impact points coincide, we have a linear combination of marginals of the process \(X\) that equals a constant. By taking variances, we can see that all the coefficients in this linear combination must vanish, since the covariance function of the process is strictly positive definite. But \(\beta_j\) and \(\beta_j'\) cannot be zero for any \(j\) (by definition of \(\tTheta\)), so it must be the case that \(p=p'\) and \(\theta'=\theta[\nu]\) for some \(\nu \in \mathfrak{S}_p\). However, \(t_1< \cdots < t_p\) and \(t'_1 < \cdots < t'_p\), so  \(\nu\) must be the identity permutation, that is, \(\theta'=\theta\), contradicting the initial assumption.
+where \(t_j\neq t_k\) and \(\bar t_j\neq \bar t_k\) for \(j\neq k\). Reordering the terms and combining those where the impact points coincide, we have a linear combination of marginals of the process \(X\) that equals a constant. By taking variances, we can see that all the coefficients in this linear combination must vanish, since the covariance function of the process is strictly positive definite. But \(\beta_j\) and \(\bar\beta_j\) cannot be zero for any \(j\) (by definition of \(\tTheta\)), so it must be the case that \(p=\bar p\) and \(\bar\theta=\theta[\nu]\) for some \(\nu \in \mathfrak{S}_p\). However, \(t_1< \cdots < t_p\) and \(\bar t_1 < \cdots < \bar t_p\), so  \(\nu\) must be the identity permutation, that is, \(\bar\theta=\theta\), contradicting the initial assumption.
 
 \paragraph{Applying Doob's theorem} Next we analyze the conclusions of Doob's theorem applied to the collapsed model~\eqref{eq:model-linear-collapsed}: there exists a subset \(\tTheta_* \subseteq \tTheta\) with \(\Pi(T(\theta)\in\tTheta_*)=1\) such that, if \(T(\theta_0)\in \tTheta_*\) and \((X,Y)_{1:\infty} \sim \pp_{T(\theta_0)}(X, Y)\) i.i.d., then for any neighborhood \(B\subseteq \tTheta\) of \(T(\theta_0)\) it holds that
 \begin{equation}\label{eq:consistency-collapsed}
@@ -699,9 +699,9 @@ Next, we present a collection of standard results on covering numbers that will 
 \begin{lemma}[see \citealp{van1996weak}]\label{lemma:covering-number}
   Suppose \(d\) is a distance on the set of densities \(\mathcal F=\{f_\theta: \theta\in\Theta\}\).
   \begin{enumerate}[label=(\roman*)]
-    \item If \(\epsilon\leq \epsilon'\) then \(N(\epsilon', \mathcal F, d) \leq N(\epsilon, \mathcal F, d)\).
-    \item If \(d'\) is another distance on \(\mathcal F\) such that \(d\leq \tilde C d'\) for some \(\tilde C > 0\), then \(N(\epsilon, \mathcal F, d) \leq N(\epsilon/\tilde C, \mathcal F, d')\) for all \(\epsilon > 0\).
-    \item If there is a constant \(\tilde C>0\) such that \(d(f_{\theta}, f_{\theta'})\leq \tilde C \|\theta - \theta'\|\) for all \(\theta, \theta' \in  \Theta\), then \(N(\epsilon, \mathcal F, d)\leq N(\epsilon/\tilde C, \Theta, \|\cdot\|)\) for all \(\epsilon > 0\). % Theorem 2.7.17 in van der Vaart and Wellner (1996)
+    \item If \(\epsilon\leq \tilde\epsilon\) then \(N(\tilde\epsilon, \mathcal F, d) \leq N(\epsilon, \mathcal F, d)\).
+    \item If \(\tilde d\) is another distance on \(\mathcal F\) such that \(d\leq \tilde C \tilde d\) for some \(\tilde C > 0\), then \(N(\epsilon, \mathcal F, d) \leq N(\epsilon/\tilde C, \mathcal F, \tilde d)\) for all \(\epsilon > 0\).
+    \item If there is a constant \(\tilde C>0\) such that \(d(f_{\theta}, f_{\bar\theta})\leq \tilde C \|\theta - \bar\theta\|\) for all \(\theta, \bar\theta \in  \Theta\), then \(N(\epsilon, \mathcal F, d)\leq N(\epsilon/\tilde C, \Theta, \|\cdot\|)\) for all \(\epsilon > 0\). % Theorem 2.7.17 in van der Vaart and Wellner (1996)
     \item If \(A\subset \R^D\) has finite diameter \(R_D\), then \(N(\epsilon, A, \|\cdot\|) \leq (3R_D/\epsilon)^D\) for all \(0<\epsilon<R_D\). % Proposition C.2 in Ghosal and van der Vaart (2017)
   \end{enumerate}
 \end{lemma}
@@ -719,38 +719,38 @@ which allows us to express the density of \(Y|X=x, \theta\) in our linear model 
 
 We need to verify the conditions of Theorem~\ref{th:consistency-hellinger}. As was previously announced, we will be using the sieve of parameters \(\Theta_n = \bigcup_{p=1}^{p_n} \Theta_p\), and the corresponding sieve of densities given by \(\mathcal F_n=\{f_\theta\in \mathcal F: \theta \in \Theta_n\}\). The idea is to select a suitable growth order for the upper limit \(p_n\) in the sieve so that all conditions hold.
 
-\paragraph{Bounding the metric entropy} First, we claim that there exists \(C^{(p)}>0\) so that \(d_H(f_\theta, f_{\theta'})\leq C^{(p)}\|\theta - \theta'\|\) for all \(\theta, \theta'\) in a fixed (finite-dimensional) \(\Theta_p\). Starting with the function \(\mu_\theta\) and a given trajectory \(x\) of \(X\), rewrite the absolute difference in means as
+\paragraph{Bounding the metric entropy} First, we claim that there exists \(C^{(p)}>0\) so that \(d_H(f_\theta, f_{\bar\theta})\leq C^{(p)}\|\theta - \bar\theta\|\) for all \(\theta, \bar\theta\) in a fixed (finite-dimensional) \(\Theta_p\). Starting with the function \(\mu_\theta\) and a given trajectory \(x\) of \(X\), rewrite the absolute difference in means as
 \[
-  |\mu_\theta(x) - \mu_{\theta'}(x)| = \left| (\alpha - \alpha') + \sum_{j=1}^p \left(\beta_j (x(t_j) - x(t'_{j}))+ (\beta_j - \beta'_{j})x(t'_{j})\right) \right|.
+  |\mu_\theta(x) - \mu_{\bar\theta}(x)| = \left| (\alpha - \bar\alpha) + \sum_{j=1}^p \left(\beta_j (x(t_j) - x(\bar t_{j}))+ (\beta_j - \bar\beta_{j})x(\bar t_{j})\right) \right|.
 \]
 Now from the triangle inequality, the Cauchy--Schwarz inequality and the fact that \((a+b)^2 \leq 2(a^2 + b^2)\), the following holds \(\qq_X-\)a.s.:
 \begin{align*}
-  \frac{1}{2}(\mu_\theta(x) - \mu_{\theta'}(x))^2 &\leq (\alpha - \alpha')^2 + 2p\biggl(M_B^2\sum_{j=1}^p |x(t_j) - x(t_j')|^2\\
-  &\quad + \sum_{j=1}^p x(t'_j)^2|\beta_j - \beta'_j|^2\biggr).
+  \frac{1}{2}(\mu_\theta(x) - \mu_{\bar\theta}(x))^2 &\leq (\alpha - \bar\alpha)^2 + 2p\biggl(M_B^2\sum_{j=1}^p |x(t_j) - x(\bar t_j)|^2\\
+  &\quad + \sum_{j=1}^p x(\bar t_j)^2|\beta_j - \bar\beta_j|^2\biggr).
 \end{align*}
-Note that \(\|\theta-\theta'\|^2\) is always bigger than the sum of just some of the squared components of \(\theta - \theta'\). Using the Lipschitz property in~\ref{cond:condition-schwartz-X} and integrating on both sides with respect to \(\qq_X\), we get
+Note that \(\|\theta-\bar\theta\|^2\) is always bigger than the sum of just some of the squared components of \(\theta - \bar\theta\). Using the Lipschitz property in~\ref{cond:condition-schwartz-X} and integrating on both sides with respect to \(\qq_X\), we get
 \begin{align*}
-  \frac{1}{2}\E_{\qq_X}\left[(\mu_\theta - \mu_{\theta'})^2\right] &\leq \|\theta - \theta'\|^2 + 2p\biggl(M_B^2 \|\theta - \theta'\|^2 \E_{\qq_X}[L^2]\\ 
-  &\quad + \|\theta - \theta'\|^2 \sup_{t\in[0,1]} \E_{\qq_X}[x(t)^2] \biggr).
+  \frac{1}{2}\E_{\qq_X}\left[(\mu_\theta - \mu_{\bar\theta})^2\right] &\leq \|\theta - \bar\theta\|^2 + 2p\biggl(M_B^2 \|\theta - \bar\theta\|^2 \E_{\qq_X}[L^2]\\ 
+  &\quad + \|\theta - \bar\theta\|^2 \sup_{t\in[0,1]} \E_{\qq_X}[x(t)^2] \biggr).
 \end{align*}
 Recall that the covariance function \(K\) of \(X\) is assumed to be continuous, so the quantity \(\sup_{t\in[0,1]} \E_{\qq_X}[x(t)^2]=\sup_{t\in[0,1]}K(t,t)\) is finite, and so is the integral \(\E_{\qq_X}[L^2]\) owing to~\ref{cond:condition-schwartz-X}. Then, we can bring all constants together (which are positive and depend on \(M_B\), \(p\) and \(X\)) into \(C_1>0\) to write
 \begin{equation}\label{eq:th9-bound1}
-  \E_{\qq_X}\left[(\mu_\theta - \mu_{\theta'})^2\right] \leq C_1 \|\theta - \theta'\|^2.
+  \E_{\qq_X}\left[(\mu_\theta - \mu_{\bar\theta})^2\right] \leq C_1 \|\theta - \bar\theta\|^2.
 \end{equation}
-Now we compute \(d^2_H(f_\theta, f_{\theta'})\). Denote by \(\sigma^2_1\) and \(\sigma^2_2\) the variance parameters corresponding to \(\theta\) and \(\theta'\), respectively, and define 
+Now we compute \(d^2_H(f_\theta, f_{\bar\theta})\). First, define the auxiliary function
 \[
-  S(\sigma_1, \sigma_2)= \sqrt{\frac{2\sigma_1\sigma_2}{\sigma_1^2 + \sigma_2^2}}.
+  S(\sigma, \bar\sigma)= \sqrt{\frac{2\sigma \bar\sigma}{\sigma^2 + \bar\sigma^2}}.
 \]
 Using the inequality \(e^{-a}\geq 1-a\) for \(a\geq 0\) and the well-known expression for the Hellinger distance between two univariate normal distributions \citep[e.g.][p.~51]{pardo2018statistical}, we have
 \begin{equation}\label{eq:th9-bound2}
 \begin{split}
-  d^2_H(f_\theta, f_{\theta'}) & = 1 - \bigintssss \left(\bigintssss\sqrt{f_\theta(y|x) f_{\theta'}(y|x)}\, d\mathfrak{m}(y)\right) d\qq_X(x)\\
-  & = 1 - S(\sigma_1, \sigma_2)\bigintsss \exp\left\{ -\frac{(\mu_\theta(x) - \mu_{\theta'}(x))^2}{4(\sigma_1^2 + \sigma_2^2)} \right\} d\qq_X(x)                                         \\
-  & \leq 1 - S(\sigma_1, \sigma_2) + S(\sigma_1, \sigma_2) \bigintsss \frac{(\mu_\theta(x) - \mu_{\theta'}(x))^2}{4(\sigma_1^2+\sigma_2^2)}\, d\qq_X(x) \\
-  & \leq C_2\|\theta - \theta'\|^2 + C_3 \E_{\qq_X}\left[(\mu_\theta - \mu_{\theta'})^2\right],
+  d^2_H(f_\theta, f_{\bar\theta}) & = 1 - \bigintssss \left(\bigintssss\sqrt{f_\theta(y|x) f_{\bar\theta}(y|x)}\, d\mathfrak{m}(y)\right) d\qq_X(x)\\
+  & = 1 - S(\sigma, \bar\sigma)\bigintsss \exp\left\{ -\frac{(\mu_\theta(x) - \mu_{\bar\theta}(x))^2}{4(\sigma^2 + \bar\sigma^2)} \right\} d\qq_X(x)                                         \\
+  & \leq 1 - S(\sigma, \bar\sigma) + S(\sigma, \bar\sigma) \bigintsss \frac{(\mu_\theta(x) - \mu_{\bar\theta}(x))^2}{4(\sigma^2+\bar\sigma^2)}\, d\qq_X(x) \\
+  & \leq C_2\|\theta - \bar\theta\|^2 + C_3 \E_{\qq_X}\left[(\mu_\theta - \mu_{\bar\theta})^2\right],
 \end{split}
 \end{equation}
-where \(C_2\) and \(C_3\) are positive constants that depend on \(\sigma^2_{\text{min}}\) and \(\sigma^2_{\text{max}}\). Obtaining \(C_3\) is straightforward; to get \(C_2\), let \(u=\sigma_1^2\), \(v=\sigma_2^2\) and \(S=\sqrt{\frac{2\sqrt{uv}}{u+v}}\), and note that
+where \(C_2\) and \(C_3\) are positive constants that depend on \(\sigma^2_{\text{min}}\) and \(\sigma^2_{\text{max}}\). Obtaining \(C_3\) is straightforward; to get \(C_2\), let \(u=\sigma^2\), \(v=\bar\sigma^2\) and \(S=\sqrt{\frac{2\sqrt{uv}}{u+v}}\), and note that
 \[
   1-S = \frac{1-S^2}{1+S} \leq 1 - S^2.
 \]
@@ -760,10 +760,10 @@ Now, a bit of algebraic manipulation yields
 \end{equation}
 and after reverting the change of variables the denominator can be easily bounded in terms of \(\sigma^2_{\text{min}}\) and \(\sigma^2_{\text{max}}\). To conclude, combine~\eqref{eq:th9-bound2} with the previous bound~\eqref{eq:th9-bound1} to get the desired inequality
 \begin{equation}\label{eq:th9-bound3}
-  d^2_H(f_\theta, f_{\theta'}) \leq C^{(p)} \|\theta - \theta'\|^2,
+  d^2_H(f_\theta, f_{\bar\theta}) \leq C^{(p)} \|\theta - \bar\theta\|^2,
 \end{equation}
 where \(C^{(p)}>0\) increases linearly with \(p\).
-Next, consider the distance \(d_\Theta\) on \(\Theta\) defined in~\eqref{eq:metric-doob}. From~\eqref{eq:th9-bound3} one can readily verify that \(d_H(f_\theta, f_{\theta'}) \leq C(n) d_\Theta(\theta, \theta')\) for \(\theta, \theta' \in \Theta_n\), where \(C(n)=O(p_n)\). Moreover, the relationship \(d_\Theta(\theta,\theta')\leq \|\theta - \theta'\|\) always holds on \(\Theta_p\). Denote by \(R_p\) the diameter of \((\Theta_p, \|\cdot\|)\), and note that each \(\Theta_p\) is contained in a hypercube of dimension \(2p+2\) and length independent of \(p\), say \(\ell\). Then, \(R_p\leq \ell\sqrt{2p+2}\) for all \(p\). Putting it all together and invoking Lemma~\ref{lemma:covering-number}, for sufficiently small \(\epsilon>0\) we have
+Next, consider the distance \(d_\Theta\) on \(\Theta\) defined in~\eqref{eq:metric-doob}. From~\eqref{eq:th9-bound3} one can readily verify that \(d_H(f_\theta, f_{\bar\theta}) \leq C(n) d_\Theta(\theta, \bar\theta)\) for \(\theta, \bar\theta \in \Theta_n\), where \(C(n)=O(p_n)\). Moreover, the relationship \(d_\Theta(\theta,\bar\theta)\leq \|\theta - \bar\theta\|\) always holds on \(\Theta_p\). Denote by \(R_p\) the diameter of \((\Theta_p, \|\cdot\|)\), and note that each \(\Theta_p\) is contained in a hypercube of dimension \(2p+2\) and length independent of \(p\), say \(\ell\). Then, \(R_p\leq \ell\sqrt{2p+2}\) for all \(p\). Putting it all together and invoking Lemma~\ref{lemma:covering-number}, for sufficiently small \(\epsilon>0\) we have
 \begin{align*}
   N(\epsilon, \mathcal F_n, d_H) & \leq N(\epsilon/C(n), \Theta_n, d_\Theta)                               \\
   & \leq \sum_{p=1}^{p_n} N(\epsilon/C(n), \Theta_p, \|\cdot\|)             \\

@@ -70,16 +70,16 @@
         \acrodef{GPs}[GPs]{Gaussian Processes}
         \acro{GBM}{Geometric Brownian Motion}
         \acro{LLN}{Law of Large Numbers}
-        \acro{MCMC}{Markov Chain Monte Carlo}
         \acro{MAP}{Maximum A Posteriori}
+        \acro{MCMC}{Markov Chain Monte Carlo}
         \acro{MLE}{Maximum Likelihood Estimator}
         \acro{OAS}{Oracle Approximating Shrinkage}
-        \acro{ROC}{Receiver Operating Characteristic}
-        \acro{ROPE}{Region of Practical Equivalence}
+        \acro{RJMCMC}{Reversible Jump Markov Chain Monte Carlo}
         \acro{RKHS}{Reproducing Kernel Hilbert Space}
         \acrodef{RKHSs}[RKHSs]{Reproducing Kernel Hilbert Spaces}
-        \acro{RJMCMC}{Reversible Jump Markov Chain Monte Carlo}
         \acro{RMSE}{Root Mean Square Error}
+        \acro{ROC}{Receiver Operating Characteristic}
+        \acro{ROPE}{Region of Practical Equivalence}
     \end{acronym}
 
     \vspace{6.5ex}
@@ -96,14 +96,25 @@
     % Remove the colon just for this list
     \renewcommand{\descriptionlabel}[1]{\hspace*{\labelsep}\slsc{#1}}
     \begin{symbolsdesc}[labelwidth=6em, leftmargin=5em, style=nextline, itemsep=1pt]
-        \item[\(L^2[0,1]\)] Hilbert space of square integrable functions on \([0,1]\)
-        \item[\(\mathcal C[0,1]\)] Banach space of continuous functions on \([0,1]\)
-        \item [\(\dotprod{\cdot}{\cdot}_2\)] Inner product on \(L^2[0,1]\)
+        \item [\(v'\)] Transpose of a column vector \(v\)
+        \item [\(\mathds{1}\{\cdot\}\)] Indicator function
+        \item[\(L^2[0,1]\)] Hilbert space of real square integrable functions on \([0,1]\)
+        \item [\(L^2(\qq)\)] Space of random elements with finite second moment with respect to a probability measure \(\qq\)
+        \item[\(\mathcal C[0,1]\)] Banach space of real continuous functions on \([0,1]\)
+        \item [\(\Hcal(K)\)] Reproducing kernel Hilbert space associated with a covariance function \(K\)
+        \item [\(\Hcal_0(K)\)] Pre-Hilbert space dense in \(\Hcal(K)\)
         \item [\(\|\cdot\|\)] Euclidean norm or generic matrix norm
         \item [\(\|\cdot\|_2\)] \(L^2[0,1]\)-norm or spectral norm on matrices
-        \item [\(\|\cdot\|_{2,\pp}\)] Norm on \(L^2(\pp)\) for a certain measure \(\pp\)
+        \item [\(\|\cdot\|_{2,\qq}\)] Norm on \(L^2(\qq)\)
         \item [\(\|\cdot\|_\infty\)] Supremum norm on \(\mathcal C[0,1]\)
-        \item [\(a\lesssim b\)] There exists \(C>0\) such that \(a\leq Cb\)
+        \item [\(\|\cdot\|_K\)] Norm on \(\Hcal(K)\)
+        \item [\(\dotprod{\cdot}{\cdot}_2\)] Inner product on \(L^2[0,1]\)
+        \item [\(\dotprod{\cdot}{\cdot}_2\)] Inner product on \(\Hcal(K)\)
+        \item [\(\Psi_X\)] Loève's isometry
+        \item [\(\Pi\)] Prior distribution
+        \item [\(\Pi_n\)] Posterior distribution based on \(n\) observations
+        \item [\(\stackrel{\pp}{\longrightarrow}\)] Convergence in \(\pp\)-probability
+        \item [\(a\lesssim b\)] There exists \(C>0\) such that \(a\leq Cb\), for \(a,b\geq 0\)
     \end{symbolsdesc}
     \endgroup
 \endgroup
