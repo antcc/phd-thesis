@@ -194,8 +194,8 @@ Since each \(\Theta_p\) is itself a complete separable metric space with the inh
 which consists of all parameters that are within \(\epsilon\) (in the metric \(d_\Theta\)) of some relabeling of \(\theta_0\). Now, for identifiability to hold, we need to place some very mild restrictions on the prior distribution.
 \begin{assumption} Under the model in~\eqref{eq:model-linear}, for all \(p\in\N\):\label{cond:condition-ident}
   \begin{enumerate}[label=(\roman*)]
-    \item \(\Pi(t_i=t_j\mid p)=0\) for all \(1\leq i < j \leq p\).\label{cond:condition-ident-1}
-    \item \(\Pi(\beta_j=0 \mid p)=0\) for all \(1\leq j \leq p\).\label{cond:condition-ident-2}
+    \item \(\Pi(t_i=t_j\mid p)=0\) for all \(1\leq i < j \leq p\).
+    \item \(\Pi(\beta_j=0 \mid p)=0\) for all \(1\leq j \leq p\).
   \end{enumerate}
 \end{assumption}
 Both conditions are automatically satisfied if one chooses prior distributions which have a density with respect to Lebesgue measure. They can be interpreted as a way of pursuing parsimony in the model, aiming for as few components as possible. With this setup in mind, we are ready to state our consistency result.
@@ -326,7 +326,7 @@ For example, we might take \(W(t)\) to be a standard Brownian motion, an Ornstei
 
 In this section we present the results of the experiments carried out to test the performance of our functional regression methods in different scenarios.\footnote{The Python code is available at \url{https://github.com/antcc/rk-bfr-jump}.} We consider both simulated and real data, divided into training and testing sets with a 66\%/33\% split. The models are fitted on the training data, using \acs{RJMCMC} to sample from the approximate posterior, and then out-of-sample predictions are computed on the testing set. We independently repeat the whole process 10 times (each with a different train/test configuration) to account for the stochasticity in the sampling step, and average the results across these executions. For the purposes of prediction we consider the point statistics \textit{trimmed mean} (\(10\%\)), \textit{median} and \textit{mode} to aggregate together predictions and summarize parameters (see Section~\ref{sec:prediction-bfr}). The initial experiments carried out indicate that low values of \(p\) provide sufficient flexibility in most scenarios, so we allow the number of components to vary in the set \(\{1,2,\dots,10\}\). Moreover, the values of \(\{t_j\}\) that fall outside the specified grid are truncated to the nearest neighbor in the grid, with the additional restriction that time instants in different components of our models cannot be equal.
 
-The Python library used to perform the \acs{RJMCMC} approximation is \slsc{Eryn} \citep{karnesis2023eryn}. It is a toolbox for Bayesian inference that allows trans-dimensional posterior sampling, running multiple chains in an ensemble configuration. In the experiments we use 64 chains and run them for 5000 iterations in total, discarding the first 4000 as burn-in. Because of execution time constraints, the rest of the hyperparameters of the \slsc{Eryn} sampler are selected manually based on preliminary experiments and the authors' recommendations; this reduction in computational cost renders the sampling step practically viable. Moreover, some amount of post-processing is needed to mitigate the well-known label switching phenomenon that occurs in \acs{MCMC} approximations of finite mixture models. We give more details on the implementation in Chapter~\ref{ch:rjmcmc}.
+The Python library used to perform the \acs{RJMCMC} approximation is \slsc{Eryn} \citep{karnesis2023eryn}. It is a toolbox for Bayesian inference that allows trans-dimensional posterior sampling, running multiple chains in an ensemble configuration. In the experiments we use 64 chains and run them for 5000 iterations in total, discarding the first 4000 as burn-in. Because of execution time constraints, the rest of the hyperparameters of the \slsc{Eryn} sampler are selected manually based on preliminary experiments and the authors' recommendations; this reduction in computational cost renders the sampling step practically viable. Moreover, some amount of post-processing is needed to mitigate the well-known label switching phenomenon that occurs in \acs{RJMCMC} approximations of finite mixture models. We give more details on the implementation in Chapter~\ref{ch:rjmcmc}.
 
 \subsection{Data sets}
 
@@ -423,25 +423,25 @@ The comparison results for non-Gaussian data can be seen in Figure~\ref{fig:reg_
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.99\textwidth]{reg_rkhs}
-  \caption[Short caption for this figure]{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying linear \acs{RKHS} model.}\label{fig:reg_rkhs}
+  \caption[Functional linear regression experiments: synthetic data under \acs{RKHS} model]{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying linear \acs{RKHS} model.}\label{fig:reg_rkhs}
 \end{figure}
 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.99\textwidth]{reg_l2}
-  \caption{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying linear \(L^2\)-model.}\label{fig:reg_l2}
+  \caption[Functional linear regression experiments: synthetic data under \(L^2\)-model]{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying linear \(L^2\)-model.}\label{fig:reg_l2}
 \end{figure}
 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.65\textwidth]{reg_non_gp}
-  \caption{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with \slsc{GBM} regressors. In the first column the response obeys a linear \(L^2\)-model, while in the second columns it follows a linear \acs{RKHS} model.}\label{fig:reg_non_gp}
+  \caption[Functional linear regression experiments: synthetic data with non-Gaussian regressors]{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with \slsc{GBM} regressors. In the first column the response obeys a linear \(L^2\)-model, while in the second columns it follows a linear \acs{RKHS} model.}\label{fig:reg_non_gp}
 \end{figure}
 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.8\textwidth]{reg_real}
-  \caption{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with real data sets, one on each column.}\label{fig:reg_real}
+  \caption[Functional linear regression experiments: real data]{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with real data sets, one on each column.}\label{fig:reg_real}
 \end{figure}
 
 \FloatBarrier{}
@@ -464,27 +464,27 @@ Then, Figure~\ref{fig:clf_non_gp} shows that our classifiers perform better than
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.99\textwidth]{clf_rkhs}
-  \caption{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \acs{RKHS} model.}\label{fig:clf_rkhs}
+  \caption[Functional logistic regression experiments: synthetic data under \acs{RKHS} model]{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \acs{RKHS} model.}\label{fig:clf_rkhs}
 \end{figure}
 
 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.99\textwidth]{clf_l2}
-  \caption{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \(L^2\)-model.}\label{fig:clf_l2}
+  \caption[Functional logistic regression experiments: synthetic data under \(L^2\)-model]{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with \acs{GP} regressors, one on each column, that obey an underlying logistic \(L^2\)-model.}\label{fig:clf_l2}
 \end{figure}
 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.65\textwidth]{clf_non_gp}
-  \caption{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with a mix of regressors coming from two different Brownian motion processes, labeled according to their origin.}\label{fig:clf_non_gp}
+  \caption[Functional logistic regression experiments: synthetic data with non-Gaussian regressors]{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with a mix of regressors coming from two different Brownian motion processes, labeled according to their origin.}\label{fig:clf_non_gp}
 \end{figure}
 
 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.8\textwidth]{clf_real}
-  \caption{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with real data sets, one on each column.}\label{fig:clf_real}
+  \caption[Functional logistic regression experiments: real data]{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with real data sets, one on each column.}\label{fig:clf_real}
 \end{figure}
 
 \FloatBarrier{}
@@ -505,23 +505,24 @@ with \(\varepsilon \sim \mathcal N(0, 0.5)\). This data set is represented in Fi
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.9\textwidth]{reg_analysis_dataset}
-  \caption{Data set with squared exponential \acs{GP} regressors and linear \acs{RKHS} response.}\label{fig:dataset-linear}
+  \caption[Example of functional regression data set]{Data set with squared exponential \acs{GP} regressors and linear \acs{RKHS} response.}\label{fig:dataset-linear}
 \end{figure}
 
-The first thing we can do is look at arbitrary samples in the last iteration of a few chains, to check that we get reasonable values. Then, we can examine the acceptance rate of all the moves to see that they are not either very low or very high. Next we proceed with the visual checks. We can look at the flat posterior distribution of all parameters for all values of \(p\) and all the chains aggregated together (Figure~\ref{fig:flat-posterior-linear}), or visualize the posterior of the multidimensional parameters for each \(p\) in a sort of triangular configuration (Figure~\ref{fig:triangular-posterior-linear}). In addition, we can also check the traces of individual parameters for all values of \(p\) (Figure~\ref{fig:trace-plot}). Looking at the traces is useful to check that the chains are mixing well and that they are correctly exploring the parameter space; we can do the same thing with the values of \(p\) (Figure~\ref{fig:trace-p}). 
+The first thing we can do is look at arbitrary samples in the last iteration of a few chains, to check that we get reasonable values. Then, we can examine the acceptance rate of all the moves to see that they are not either very low or very high. We can also compute the so-called Gelman--Rubin statistic \citep{gelman1992inference}, which is a quantitative measurement of the convergence of the chains.
 
-Lastly, we can perform a posterior predictive check (Figure~\ref{fig:pp-check}). This is arguably the most useful test for prediction purposes, since we represent the posterior predictive distribution that will be used for inference and prediction. We can do it on the training data or directly on previously unseen regressors. If the sampling has been successful, the posterior predictive should look like a tubular region around the observed data.
+Next we proceed with the visual checks. We can look at the flat posterior distribution of all parameters for all values of \(p\) and all the chains aggregated together (Figure~\ref{fig:flat-posterior-linear}), or visualize the posterior of some multidimensional parameters for each \(p\) in a sort of triangular configuration (Figure~\ref{fig:triangular-posterior-linear}). In addition, we can also check the traces of individual parameters for all values of \(p\) (Figure~\ref{fig:trace-plot}). Looking at the traces is useful to check that the chains are mixing well and that they are correctly exploring the parameter space; we can do the same thing with the values of \(p\) (Figure~\ref{fig:trace-p}). 
 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.9\textwidth]{reg_analysis_flat_posterior}
-  \caption{Aggregated posterior distribution of all the samples \(\theta^{(r)}\) for all \(r\). Note that the true values of the parameters are essentially recovered.}\label{fig:flat-posterior-linear}
+  \caption[Functional regression validation: posterior distribution of all the samples]{Aggregated posterior distribution of all the samples \(\theta^{(r)}\) for all \(r\). Note that the true values of the parameters are essentially recovered.}\label{fig:flat-posterior-linear}
+  \vspace{10pt} % Separate this figure from the next figure
 \end{figure}
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.99\textwidth]{reg_analysis_triangular_posterior}
-  \caption{Posterior distribution of all the \(\tau_p^{(r)}\) for each \(p\). The most frequent value is \(p=3\), highlighted in red. In this run there were no samples with \(p=1\) or \(p=2\) after burn-in.}\label{fig:triangular-posterior-linear}
+  \includegraphics[width=.9\textwidth]{reg_analysis_triangular_posterior}
+  \caption[Functional regression validation: triangular posterior distribution of time instants for each dimension]{Posterior distribution of all the \(\tau_p^{(r)}\) for each \(p\). The most frequent value is \(p=3\), highlighted in red. In this run there were no samples with \(p=1\) or \(p=2\) after burn-in.}\label{fig:triangular-posterior-linear}
 \end{figure}
 
 \begin{figure}[tbp]
@@ -541,39 +542,40 @@ Lastly, we can perform a posterior predictive check (Figure~\ref{fig:pp-check}).
   \subfloat{%
       \includegraphics[width=\textwidth]{reg_analysis_trace_5}
   }
-  \caption{Posterior distribution (left) and trace (right) of all the \(\beta_j^{(r)}\), combined for all \(p\).}\label{fig:trace-plot}
+  \caption[Functional regression validation: combined posterior distribution and trace of coefficients]{Posterior distribution (left) and trace (right) of all the \(\beta_j^{(r)}\), combined for all \(p\).}\label{fig:trace-plot}
 \end{figure}
 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.9\textwidth]{reg_analysis_trace_p}
-  \caption{Posterior distribution (left) and trace (right) of \(p\). We see that the true number of components is recovered.}\label{fig:trace-p}
+  \caption[Functional regression validation: posterior distribution and trace of the number of components]{Posterior distribution (left) and trace (right) of \(p\). We see that the true number of components is recovered.}\label{fig:trace-p}
 \end{figure}
+
+Lastly, we can perform a posterior predictive check (Figure~\ref{fig:pp-check}). This is arguably the most useful test for prediction purposes, since we represent the posterior predictive distribution that will be used for inference and prediction. We can do it on the training data or directly on previously unseen regressors. If the sampling has been successful, the posterior predictive should look like a tubular region around the observed data.
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.75\textwidth]{reg_analysis_pp_check}
-  \caption{Posterior predictive distribution \(Y|X, \theta^{(r)}\) for each individual chain \(r\), along with the mean of all chains and the actual observed data \(Y\).}\label{fig:pp-check}
+  \includegraphics[width=.8\textwidth]{reg_analysis_pp_check}
+  \caption[Functional regression validation: posterior predictive distribution]{Posterior predictive distribution \(Y|X, \theta^{(r)}\) for each individual chain \(r\), along with the mean of all chains and the actual observed data \(Y\).}\label{fig:pp-check}
 \end{figure}
 
-\FloatBarrier{}
 \subsection{Runtime comparison}\label{sec:execution-times-bfr}
 
-In Figure~\ref{fig:reg-execution-times} and Figure~\ref{fig:clf-execution-times} we see the execution times of all the experiments. The execution times of the reference methods includes the duration of the cross-validation phase to select the best hyperparameters, a phase that our Bayesian methods lack by design. It is widely known that \acs{MCMC} sampling tends to be slow, but as we can see the differences are manageable. Our methods have reasonable run times for practical use, especially when taking into account the predictive improvement obtained in some cases. In addition, it is possible that we ran some \acs{MCMC} chains for more steps than necessary, because we wanted to perform all experiments in the same generic configuration. In real-world scenarios one would pay closer attention to convergence metrics and try to stop the sampling earlier.
+In Figure~\ref{fig:reg-execution-times} and Figure~\ref{fig:clf-execution-times} we see the execution times of all the experiments. The execution times of the reference methods includes the duration of the cross-validation phase to select the best hyperparameters, a phase that our Bayesian methods lack by design. It is widely known that \acs{RJMCMC} sampling tends to be slow, but as we can see the differences are manageable. Our methods have reasonable run times for practical use, especially when taking into account the predictive improvement obtained in some cases. In addition, it is possible that we ran some chains for more steps than necessary, because we wanted to perform all experiments in the same generic configuration. In real-world scenarios one would pay closer attention to convergence metrics and try to stop the sampling earlier.
 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.85\textwidth]{reg_execution_times}
-  \caption{Mean and standard error of execution times for all splits in the experiments with the functional linear model.}\label{fig:reg-execution-times}
+  \caption[Functional linear regression experiments: execution times]{Mean and standard error of execution times for all splits in the experiments with the functional linear model.}\label{fig:reg-execution-times}
 \end{figure}
 
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.85\textwidth]{clf_execution_times}
-  \caption{Mean and standard error of execution times for all splits in the experiments with the functional logistic model.}\label{fig:clf-execution-times}
+  \caption[Functional logistic regression experiments: execution times]{Mean and standard error of execution times for all splits in the experiments with the functional logistic model.}\label{fig:clf-execution-times}
 \end{figure}
 
-
+\FloatBarrier{}
 \section{Discussion}\label{sec:fr-discussion}
 
 We have introduced a natural and computationally feasible way of integrating Bayesian inference into functional regression models, by means of a \acs{RKHS} approach that simplifies the inherently hard task of setting a prior distribution on an infinite-dimensional space. The proposed \acs{RKHS} formulation gives a common framework to all finite-dimensional models based on linear combinations of the marginals of the underlying process, establishing a solid theoretical foundation for these popular points-of-impact models while retaining a functional viewpoint. Our approximation relies on simpler functional parameters, thus enhancing interpretability and ease of implementation, and also enables meaningful model comparisons across different dimensions and facilitates the analysis of the effects of local characteristics of the process.
@@ -865,7 +867,7 @@ Since \(\epsilon_n=Dn^{-\gamma}\), \(C(n)\lesssim  p_n\) eventually, and \(\sqrt
 \begin{equation}\label{eq:th11-bound1}
   \log N(\epsilon_n/2, \mathcal F_n, d_H)  \leq \log p_n + (2p_n+2)\log\left(c_1 p_n^{3/2}n^\gamma\right).
 \end{equation}
-Then, given that \(p_n\leq \frac{n^{1-2\gamma}}{\log n}\), substituting into~\eqref{eq:th11-bound1} yields
+Observe that \(p_n\leq \frac{n^{1-2\gamma}}{\log n}\) by the upper limit imposed earlier, so substituting into~\eqref{eq:th11-bound1} yields
 \begin{align*}
   \log N(\epsilon_n/2, \mathcal F_n, d_H) & \leq \log \left(\frac{n^{1-2\gamma}}{\log n}\right)\\
   &\quad + \frac{2n^{1-2\gamma}}{\log n}\left[\log c_1 + \log\left(\frac{n^{3/2-2\gamma}}{(\log n)^{3/2}}\right)\right] \\
@@ -896,9 +898,9 @@ Now, since \(p_n\geq \frac{n^{1-2\gamma}}{2\log n}\), for large \(n\) we have
 \end{align*}
 Since \(p_n\to\infty\), there exists a constant \(c_2>0\) such that
 \[
-  \frac{\exp\{-\delta \log p_n\}}{1-\exp\{-\delta \log p_n\}}\leq c_2
+  \frac{\exp\{-\delta \log p_n\}}{1-\exp\{-\delta \log p_n\}}\leq c_2\quad \text{for large } n.
 \]
-for large \(n\). Then, using the lower bounds on \(p_n\) and \(\log p_n\) it follows that
+Then, using the lower bounds on \(p_n\) and \(\log p_n\) it follows that
 \[
   \Pi(\Theta \setminus \Theta_n) \leq c_1c_2 \exp\left\{\frac{-\delta (1-2\gamma)}{4}n^{1-2\gamma}\right\}.
 \]

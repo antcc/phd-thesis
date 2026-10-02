@@ -491,7 +491,7 @@ Then, we compare our method (which we call \slsc{RKBT}) to other one-sample test
 \end{itemize}
 The frequentist competitors are primarily those outlined by \citet{zhang2013analysis}, whereas the Bayesian competitor arguably represents a novel---albeit simple---approach. A detailed breakdown of the comparison methods is provided in Appendix~\ref{app:comparison-test}.
 
-Performance is measured through several frequentist metrics, repeating the whole procedure 100 times with different random seeds. We compare the rejection rate under \(H_0\) (type I error) and under \(H_1\) (power), as well as the \acs{AUC} metric. The frequentist methods are calibrated to the nominal size of \(\alpha=0.05\), and the Bayesian methods are thresholded through the estimated Bayes factor to produce a binary accept/reject decision. Specifically, we use the standard rejection region provided by Jeffreys' scale (see Table~\ref{tab:jeffreys-scale}), which is given by \(\{\hat{{\bff}}_{10}>3\}\) and corresponds to \(\{\hat\pi_{\text{null}}<1/4\}\) with our prior assumptions. 
+Performance is measured through several frequentist metrics, repeating the whole procedure 100 times with different random seeds. We compare the rejection rate under \(H_0\) (type I error) and under \(H_1\) (power), as well as the \acf{AUC} metric \citep{krzanowski2009roc}. The frequentist methods are calibrated to the nominal size of \(\alpha=0.05\), and the Bayesian methods are thresholded through the estimated Bayes factor to produce a binary accept/reject decision. Specifically, we use the standard rejection region provided by Jeffreys' scale (see Table~\ref{tab:jeffreys-scale}), which is given by \(\{\hat{{\bff}}_{10}>3\}\) and corresponds to \(\{\hat\pi_{\text{null}}<1/4\}\) with our prior assumptions. 
 
 The results of the simulation study are presented in Table~\ref{tab:metrics-rkhs} and Table~\ref{tab:metrics-p}. We can see that our \slsc{RKBT} method has great control of the type I error, while also achieving decent power and \acs{AUC} in most cases, despite having only a relatively low number of components to work with. Moreover, the comparison methods that obtain a higher power generally do so at the expense of a greater type I error, which may be undesirable. Note that we could increase the power of our test by lowering the rejection threshold, which is fairly conservative, to a point where we still maintain an acceptable type I error (i.e.\ below 5\%). 
 
@@ -577,7 +577,7 @@ Lastly, Figure~\ref{fig:climate_posterior} provides a useful functional interpre
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.99\textwidth]{figures/real_climate_posterior.pdf}
-  \caption{Estimated posterior mean and 95\% simultaneous credible bands given by our \slsc{RKBT} test for the three pairwise-difference temperature data sets. The empirical mean is also shown for reference.}\label{fig:climate_posterior}
+  \caption[Functional testing experiments: posterior evidence in real data]{Estimated posterior mean and 95\% simultaneous credible bands given by our \slsc{RKBT} test for the three pairwise-difference temperature data sets. The empirical mean is also shown for reference.}\label{fig:climate_posterior}
 \end{figure}
 
 
@@ -589,7 +589,7 @@ Our test is slower than the competitors due to the \acs{RJMCMC} sampling, but it
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.95\textwidth]{figures/runtime.pdf}
-  \caption{Mean runtime of all tests for the synthetic data sets (log-scale x-axis).}\label{fig:runtime}
+  \caption[Functional testing experiments: execution times]{Mean runtime of all tests for the synthetic data sets (log-scale x-axis).}\label{fig:runtime}
 \end{figure}
 
 

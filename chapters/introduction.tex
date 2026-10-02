@@ -2,37 +2,31 @@
 \chapter{Introduction}\label{ch:introduction}
 %************************************************
 
+\section{Functional Data Analysis}
 
-\note{Definir proceso estocástico X en [0,T] con trayectorias en L2 y quizás después decir que suponemos que son continuas ( In addition, we will assume that \(X\) has a version with continuous sample paths, so that point evaluation is well-defined.) Definir el espacio C[0,1]. Observado en un grid denso. Asumimos T=1. ASUMIMOS COVARIANZA ESTRICTAMENTE DEF. POS. to ensure identifiability, y también continua}
+\acf{FDA} has emerged as one of the most active areas of statistical research over the past decades, driven by the increasing availability of data collected over time, space, or other continuous domains. In contrast to classical multivariate statistics, where each data point is a vector, the \acs{FDA} framework treats each observation as a curve, surface, or more general function, typically viewed as a realization of an underlying stochastic process. While in principle the functional data could simply be regarded as a discretized vector in a very high dimension, there are often many advantages in taking into account its functional nature, ranging from modeling the correlation among points that are close in the domain, to extracting information that may be hidden in the derivatives of the function in question (see Figure~\ref{fig:tecator}). As a consequence, numerous proposals have arisen on how to suitably deal with functional data, which essentially explores statistical techniques to process, model and make inference on data varying over a continuum. The monograph by \citet{ramsay2005functional} is generally regarded as a standard reference for the subject, while detailed up-to-date accounts of the theory and applications can be found for example in \citet{hsing2015theoretical, horvath2012inference, wang2016functional}.
 
-\note{Contributions? chapter-by-chapter? mencionar los artículos explícitamente. decir hay una partial reproduction?}
-\note{Revisar que todos los acronyms tienen acf en el texto.}
-\note{Usar mid. Theta con la p}
+This paradigm shift has enabled more nuanced analyses in diverse fields including climatology, biomechanics, neuroimaging, and econometrics, where the fundamental units of observation are inherently functional~\citep{ullah2013applications}. Accordingly, there are many recent contributions on how to tackle functional data problems, both from a theoretical and practical standpoint. Chief among them is the approach of reducing the problem to a finite-dimensional one, for example using a truncated basis expansion or spline interpolation methods~\citep{muller2005generalized, aguilera2013comparative}. At the same time, much effort has been put into building a sound theoretical basis for \acs{FDA}, generalizing different frequentist concepts to the infinite-dimensional framework. Examples of this endeavor include the definition of centrality measures and depth-based notions for functional data~\citep{lopez2009concept}, functional analysis of variance tests~\citep{cuevas2004anova}, a functional Mahalanobis distance~\citep{galeano2015mahalanobis, berrendero2020mahalanobis}, or an extension of Fisher's discriminant analysis for random functions~\citep{shin2008extension}, among others.
 
-\note{symbols: frobenius norm, maximum norm}
+\begin{figure}[t]
+  \myfloatalign
+  \subfloat[Original curves]{%
+    \includegraphics[width=0.48\textwidth]{tecator}%
+  }
+  \hfill
+  \subfloat[Second derivatives]{%
+    \includegraphics[width=0.48\textwidth]{tecator_derivative}%
+  }
+  \caption[Curves in the Tecator data set]{Curves in the Tecator data set \citep{borggaard1992optimal} and their second derivatives (after smoothing). The functional samples represent near-infrared absorbance curves of meat samples. At first glance it does not seem that the trajectories contain much relevant information to help classify the samples, but a clearer pattern emerges after differentiating twice.}\label{fig:tecator}
+\end{figure}
 
+As the name suggests, \acs{FDA} techniques are heavily inspired by functional analysis tools: Hilbert spaces, linear operators, orthonormal bases, and so on. Incidentally, a notion that also intersects with the classical theory of machine learning and pattern recognition, and that has attained popularity in recent years, is that of \acf{RKHSs} and their applications in functional data~\citep{kupresanin2010rkhs, yuan2010reproducing, berrendero2018use}.
 
-%%%%%%%%%%%%%%%%%%%%%%
+On the other hand, Bayesian inference methods are ubiquitous in the realm of statistics, and though they also make use of random functions, the approach is slightly different from the \acs{FDA} case. While there are recent works that offer a Bayesian treatment of functional data~\citep[e.g.][]{shi2011gaussian}, there is still no systematic approach to Bayesian methodologies within \acs{FDA}. It is precisely at this relatively unexplored intersection between \acs{FDA} and Bayesian methods that our work is aimed. We follow the path started by \citet{ferguson1974prior} of setting a prior distribution on a functional space and using the corresponding posterior distribution for inference. In our case, we use a particular \acs{RKHS} as the ambient space, resulting in finite mixture models that allow for a simple yet efficient Bayesian treatment of functional data. The posterior distribution can be approximated through computational methods, specifically via \acf{RJMCMC}.
 
-While in principle the functional data could simply be regarded as a discretized vector in a very high dimension, there are often many advantages in taking into account its functional nature, ranging from modeling the correlation among points that are close in the domain, to extracting information that may be hidden in the derivatives of the function in question. As a consequence, numerous proposals have arisen on how to suitably deal with functional data, all of them encompassed under the term \acf{FDA}, which essentially explores statistical techniques to process, model and make inference on data varying over a continuum. A partial survey on such methods is \citet{cuevas2014partial}, while a more detailed exposition of the theory and applications can be found for example in \citet{hsing2015theoretical} and \citet{horvath2012inference}.
+Throughout this work we will consider a second-order stochastic process \(X=\{X(t): t\in[0,1]\}\) taking values in a certain space \(\mathcal X\), with mean function \(\mu(t)=\E[X(t)]\) and covariance function given by \(K(t,s)=\E[(X(t)-\mu(t))(X(s)-\mu(s))]\) for all \(t,s\in[0,1]\). The usual choice in the literature is \(\mathcal X=L^2[0,1]\), but we will suppose for convenience that the trajectories of \(X\) are continuous, so that \(\mathcal X=\mathcal C[0,1]\). In this way, pointwise evaluation is well-defined, which is necessary for the \acs{RKHS} models we propose. We will also assume that the covariance function \(K\) is strictly positive definite and continuous.
 
-\acs{FDA} has emerged as one of the most active areas of statistical research over the past decades, driven by the increasing availability of data collected over time, space, or other continuous domains. In contrast to classical multivariate statistics, where each data point is a vector, the \acs{FDA} framework treats each observation as a curve, surface, or more general function, typically viewed as a realization of an underlying stochastic process. This paradigm shift has enabled more nuanced analyses in diverse fields including climatology, biomechanics, neuroimaging, and econometrics, where the fundamental units of observation are inherently functional~\citep{ullah2013applications}. The monograph by \citet{ramsay2005functional} is generally regarded as a standard reference for the subject, while detailed up-to-date accounts of the theory and applications can be found for example in \citet{hsing2015theoretical, horvath2012inference,wang2016functional}.
-
-\acs{FDA} is undoubtedly an active area of research, which finds applications in a wide variety of fields, such as biomedicine, finance, meteorology or chemistry~\citep{ullah2013applications}. Accordingly, there are many recent contributions on how to tackle functional data problems, both from a theoretical and practical standpoint. Chief among them is the approach of reducing the problem to a finite-dimensional one, for example using a truncated basis expansion or spline interpolation methods~\citep{muller2005generalized, aguilera2013comparative}. At the same time, much effort has been put into building a sound theoretical basis for \acs{FDA}, generalizing different frequentist concepts to the infinite-dimensional framework. Examples of this endeavor include the definition of centrality measures and depth-based notions for functional data~\citep{lopez2009concept}, functional analysis of variance tests~\citep{cuevas2004anova}, a functional Mahalanobis distance~\citep{galeano2015mahalanobis, berrendero2020mahalanobis}, or an extension of Fisher's discriminant analysis for random functions~\citep{shin2008extension}, among many others.
-
-As the name suggests, \acs{FDA} techniques are heavily inspired by functional analysis tools and methods: Hilbert spaces, linear operators, orthonormal bases, and so on. Incidentally, a notion that also intersects with the classical theory of machine learning and pattern recognition, and that has attained popularity in recent years, is that of \acf{RKHSs} and their applications in functional data problems~\citep{kupresanin2010rkhs, yuan2010reproducing, berrendero2018use}. \note{RKHS as ambient space}
-
-
-%%%%%%%%%%%%%%%%%%%%%%
-
-On the other hand, Bayesian inference methods are ubiquitous in the realm of statistics, and though they also make use of random functions, the approach is slightly different from the \acs{FDA} case. While there are recent works that offer a Bayesian treatment of functional data~\citep[e.g.][]{shi2011gaussian}, there is still no systematic approach to Bayesian methodologies within \acs{FDA}. It is precisely at this relatively unexplored intersection between \acs{FDA} and Bayesian methods that our work is aimed.
-
-We follow the path started by \citet{ferguson1974prior} of setting a prior distribution on a functional space and using the corresponding posterior distribution for inference. In our case, we use a particular \acs{RKHS} as the ambient space, resulting in functional regression models that allow for a simple yet efficient Bayesian treatment of functional data.
-
-
-Bayesian hypothesis testing methods---introduced in modern form by \citet{jeffreys1961theory}---are extensively studied and applied in multivariate settings, offering a principled alternative to the often criticized \(p\)-value approach \citep[see][and references therein]{robert2007bayesian, robert202250}.
-
-\section{Functional regression}\label{sec:functional-regression}
+\subsection{Functional regression}\label{sec:functional-regression}
 
 The problem of predicting a scalar response from a functional covariate is one that has gained traction over the last few decades, as more and more real-world data is being generated with an ever-increasing level of granularity in the measurements. Even though these problems can be formally stated with almost no differences from their finite-dimensional counterparts, there are some fundamental challenges as well as some subtle drawbacks that emerge as a result of working in infinite dimensions.
 
@@ -48,11 +42,11 @@ A similar \(L^2\)-based functional logistic equation can be derived for the bina
 \end{equation}
 where \(\alpha \in \R\) and \(\beta \in L^2[0, 1]\). In the equivalent finite-dimensional problem, the natural way of estimating the slope parameter is via its \acf{MLE}. However, apart from the issues outlined above for the linear model, functional settings pose an additional challenge in the logistic case: under fairly general conditions, the \acs{MLE} does not exist with probability one \citep[see][]{berrendero2023functional}.
 
-\section{Functional testing}
+\subsection{Functional testing}
 
 Another core problem in statistics involves hypothesis testing for quantities of interest. As such, considerable efforts have been devoted to generalizing classical testing frameworks to functional data, providing \(p\)-values and decision rules based on asymptotic approximations or bootstrap resampling. These methods include frequentist two-sample tests \citep{fan1998test,hall2007two,zhang2010two}, analysis of variance methods \citep{cuevas2004anova, cuesta2010simple, zhang2013analysis}, change point detection procedures \citep{berkes2009detecting,hormann2010weakly}, repeated measures analysis \citep{martinez2011repeated,smaga2020note} or dependence tests in linear regression \citep{cardot2003testing,kokoszka2008testing}, among others. However, the conceptually simpler one-sample tests, often used to detect the presence or absence of a certain effect within a given population, have received less attention in the \acs{FDA} literature. Notable exceptions include proposals by \citet{mas2007testing}, \citet{munk2008one} and \citet{zhang2013analysis}, where the authors explore different tests for the mean of a functional sample.
-\note{Definir error tipo i, tipo ii, potencia, \acf{AUC} (which is a number in \([0,1]\) that measures the overall ability to correctly distinguish between positive and negative cases across all possible decision thresholds, by computing the area under the \acf{ROC} curve \citet{krzanowski2009roc})}
 
+On the other hand, Bayesian hypothesis testing methods---introduced in modern form by \citet{jeffreys1961theory}---are extensively studied and applied in multivariate settings, offering a principled alternative to the often criticized \(p\)-value approach \citep[see][and references therein]{robert2007bayesian, robert202250}. However, as in the functional regression case, their use in functional situations is less prominent.
 
 \section{Essentials on reproducing kernel Hilbert spaces}
 
@@ -68,7 +62,7 @@ This space is endowed with the inner product
 \]
 given that \(f(\cdot)=\sum_j \beta_j K(t_j, \cdot) \) and \(g(\cdot)=\sum_k \gamma_k K(s_k, \cdot)\). Then, \(\Hcal(K)\) is defined to be the completion of \(\Hcal_0(K)\) under the norm induced by the scalar product \(\dotprod{\cdot}{\cdot}_K\). As it turns out, functions in this space satisfy the so-called \textit{reproducing property}: \(\dotprod{K(t, \cdot)}{f}_K = f(t)\) for all \(f \in \Hcal(K)\) and \(t \in [0, 1]\). An important consequence of this identity is that \(\Hcal(K)\) is a space of genuine functions and not of equivalence classes, since the values of the functions at specific points are in fact relevant, unlike in \(L^2\)-spaces.
 
-Now, a particularly useful approach in statistics is to regard \(\Hcal(K)\) as an isometric copy of a well-known space related to \(X\). Specifically, via \textit{Loève's isometry} \citep{loeve1948fonctions} one can establish a congruence \(\Psi_X\) between \(\Hcal(K)\) and the linear span of the process, \(\mathcal L(X)\), in the space of all random variables with finite second moment \citep[see Lemma 1.1 in][]{lukic2001stochastic}. This isometry is essentially the completion of the correspondence
+Now, a particularly useful approach in statistics is to regard \(\Hcal(K)\) as an isometric copy of a well-known space related to \(X\). Specifically, via \textit{Loève's isometry} \citep{loeve1948fonctions} one can establish a congruence \(\Psi_X\) between \(\Hcal(K)\) and the closed linear span of the process, \(\mathcal L(X)\), in the space of all random variables with finite second moment \citep[see Lemma 1.1 in][]{lukic2001stochastic}. This isometry is essentially the completion of the correspondence
 \begin{equation}\label{eq:loeves-isometry}
   \sum_{j=1}^p \beta_j X(t_j) \longleftrightarrow \sum_{j=1}^p \beta_j K(t_j, \cdot),
 \end{equation}
@@ -81,12 +75,11 @@ Despite the close connection between the process \(X\) and the space \(\Hcal(K)\
 
 \section{Posterior consistency}\label{sec:posterior-consistency-intro}
 
-Moreover, we also study the basic theoretical question of posterior consistency in these \acs{RKHS} models within the proposed Bayesian framework. Consistency and posterior concentration are a type of frequentist validation criteria that have arguably been an active point of research in the last few decades, particularly in infinite-dimensional settings. To put it simply, posterior consistency ensures that with enough data points, the Bayesian updating mechanism works as intended and the posterior distribution eventually concentrates around the true value of the parameters, supposing the model is well specified. For an in-depth treatment of posterior consistency and related concepts, we refer the reader to \citet{ghosal2017fundamentals}.
+A major aim of this work is to study the basic theoretical question of posterior consistency within the proposed Bayesian framework. Consistency and posterior concentration are a type of frequentist validation criteria that have arguably been an active point of research in the last few decades, particularly in infinite-dimensional settings. To put it simply, posterior consistency ensures that with enough data points, the Bayesian updating mechanism works as intended and the posterior distribution eventually concentrates around the true value of the parameters, supposing the model is well specified. For an in-depth treatment of posterior consistency and related concepts, we refer the reader to \citet{ghosal2017fundamentals}.
 
-Consider the general setting of an i.i.d.\ sample \(X_1,\dots, X_n\) from a random element \(X\) taking values in a certain space \(\mathcal X\). Let us fix a prior distribution \(\Pi\) for random variables \(\theta\) on the parameter space \(\Theta\), that is, \(\theta \sim \Pi\), and let \(\pp_\theta\) represent a sampling model (a distribution on \(\mathcal X\) indexed by \(\theta \in \Theta\)) such that \(X | \theta \sim \pp_{\theta}\). Furthermore, assume that the model is well-specified, i.e., there is a true value \(\theta_{0}\in\Theta\) such that \(X \sim \pp_{\theta_0}\), and denote by \(\pp_0^\infty\) and \(\pp_0^{(n)}\) the joint probability measure of \((X_1, X_2, \dots)\) and \((X_1, X_2, \dots, X_n)\), respectively, when \(\theta_0\) is the true value of the parameter.
+Consider the general setting of an i.i.d.\ sample \(X_1,\dots, X_n\) from \(X\). Let us fix a prior distribution \(\Pi\) for random variables \(\theta\) on the parameter space \(\Theta\), that is, \(\theta \sim \Pi\), and let \(\pp_\theta\) represent a sampling model (a distribution on \(\mathcal X\) indexed by \(\theta \in \Theta\)) such that \(X | \theta \sim \pp_{\theta}\). Furthermore, assume that the model is well-specified, i.e., there is a true value \(\theta_{0}\in\Theta\) such that \(X \sim \pp_{\theta_0}\), and denote by \(\pp_0^\infty\) and \(\pp_0^{(n)}\) the joint probability measures of \((X_1, X_2, \dots)\) and \((X_1, X_2, \dots, X_n)\), respectively, when \(\theta_0\) is the true value of the parameter.
 
-\begin{definition}\marginparlow{For a metric space, the neighborhoods \(B\) can just be the open balls around \(\theta_0\).}
-We say that the posterior distribution is (strongly) consistent at \(\theta_0\) if for every neighborhood \(B\) of \(\theta_0\) we have
+\begin{definition} We say that the posterior distribution is (strongly) consistent at \(\theta_0\) if for every neighborhood \(B\) of \(\theta_0\) we have
   \[
     \lim_{n\to\infty} \Pi_n(\theta \in B \mid X_1, \dots, X_n) = 1 \quad \pp_0^\infty-\text{a.s.}
   \]
@@ -100,34 +93,60 @@ Note that the conditional probabilities are computed under the assumed joint dis
 
 Naturally, once we have established a contraction rate, every slower sequence is also a valid contraction rate. Even though we are interested in the fastest possible rate, this is often difficult to compute or does not exist at all. Hence, we are usually content with finding a good enough rate, which we call ``the'' rate of contraction for the model.
 
-It turns out that, under very general conditions, the posterior distribution is always consistent at almost every value of \(\theta_0\) with respect to the measure induced by the prior \citep{doob1949application}. We state this classical result in the general setting introduced earlier.
+It turns out that, under very general conditions, the posterior distribution is always consistent at almost every value of \(\theta_0\) with respect to the measure induced by the prior \citep{doob1949application}. First, we need the underlying spaces to be sufficiently nice.
 
-\note{Recalcar importancia artículos Miller}
-
-\note{Definir Polish spaces, y decir la importancia que tienen. Sustituirlo en enunciado de Doob. Citar propiedades, como que todo abierto de un polish es polish \citep[\S26]{bauer2001measure}}
-
-\note{Añadir también lo de la esperanza: for \(\Pi\)-almost every \(theta\), we have \(\E[g(\theta)|X_{1:n}] \to g(\theta) \pp_\theta-\)a.s. for every bounded measurable \(g\). VER ARTICLE MILLER}
-
-\note{Definir Polish space en tesis y cambiar enunciado de Doob a Polish. Cuidado con sutilezas sobre qué espacio topológico subyacente hay y por qué un espacio concreto es Polish (no necesariamente con la métrica usual)}
+\begin{definition}
+  A Polish space is a separable, completely metrizable topological space; that is, a space homeomorphic to a complete metric space that has a countable dense subset.
+\end{definition}
 
 \begin{theorem}[Doob's consistency theorem]\label{th:doob}
-  Let the state space \(\mathcal X\) and the parameter space \(\Theta\) be complete separable metric spaces, endowed with their respective Borel sigma-algebras. If \(\theta \mapsto \pp_\theta\) is one-to-one and \(\theta \mapsto \pp_\theta(A)\) is measurable for all measurable sets \(A\subseteq \mathcal X\), then the posterior distribution is consistent at \(\Pi\)-almost all values of \(\Theta\). That is, there exists \(\Theta_*\subseteq \Theta\) such that \(\Pi(\Theta_*)=1\) and for all \(\theta_0\in\Theta_*\), if \(X_1,X_2,\ldots \sim \pp_{\theta_0}\) i.i.d., then for any neighborhood \(B\) of \(\theta_0\) we have
+  Let the path space \(\mathcal X\) and the parameter space \(\Theta\) be Polish spaces, endowed with their respective Borel sigma-algebras. If \(\theta \mapsto \pp_\theta\) is one-to-one and \(\theta \mapsto \pp_\theta(A)\) is measurable for all measurable sets \(A\subseteq \mathcal X\), then the posterior distribution is consistent at \(\Pi\)-almost all values of \(\Theta\). That is, there exists \(\Theta_*\subseteq \Theta\) such that \(\Pi(\Theta_*)=1\) and for all \(\theta_0\in\Theta_*\), if \(X_1,X_2,\ldots \sim \pp_{\theta_0}^\infty\) i.i.d., then for any neighborhood \(B\) of \(\theta_0\) we have
   \[
     \lim_{n\to\infty} \Pi_n(\theta \in B \mid X_1,\dots, X_n) = 1 \quad \pp_{0}^\infty-\text{a.s.}
   \]
+  Moreover, for any \(g\in L^1(\Pi)\) we have
+  \[
+  \lim_{n\to\infty} \E[g(\theta)\mid X_1,\dots, X_n] = g(\theta_0) \quad \pp_0^\infty-\text{a.s.}
+  \]
 \end{theorem}
 
-\note{EXPLICAR NOTACION O PEQUEÑA, O GRANDE Y O EN PROBABILIDAD}
+A fairly comprehensive analysis of this result is available in \citet{miller2018detailed}, and an extension to finite mixture models is studied in \citet{miller2023consistency}. We draw inspiration from this latter work to establish consistency results in the models we propose.
 
-In a nonparametric setting where the object of interest is a probability density, there is a stronger consistency result by \citet{schwartz1965bayes} which omits the \(\Pi\)-almost sure qualification under some more restrictive conditions, though it requires a dominated model and a density to estimate.
+In a nonparametric setting where the object of interest is a probability density, there is a stronger consistency result by \citet{schwartz1965bayes} which omits the \(\Pi\)-almost sure qualification under some more restrictive conditions, though it requires a dominated model with a reference measure \(\rho\) and a density \(f_\theta\) to estimate. Consider the class of densities \(\mathcal F=\{f_\theta: \theta\in\Theta\}\), a prior distribution \(\Pi_{\mathcal F}\) on \(\mathcal F\), and suppose that there is a ``true'' density \(f_0\in\mathcal F\). We introduce below a few concepts that lie at the core of most extensions of Schwartz's consistency theorem. 
 
-Now we introduce a few concepts that lie at the core of most extensions of Schwartz's consistency theorem. Recall that the Kullback--Leibler divergence from \(f_0\) to \(f_\theta\) is defined as \(\dkl(f_0 \,\|\, f_\theta) = \int f_0 \log (f_0/f_\theta)\, d\rho\). We say that \(f_0\) belongs to the \textit{Kullback--Leibler support of \(\Pi_{\mathcal F}\)}, and write it as \(f_0 \in \kl(\Pi_{\mathcal F})\), if \(\Pi_{\mathcal F}\left(f_\theta: \dkl(f_0 \,\|\, f_\theta) < \epsilon\right) > 0\) for all \(\epsilon > 0\). This can be interpreted as saying that the prior places sufficient mass ``near'' \(f_0\). On the other hand, let \(N(\epsilon, \mathcal F, d)\) denote the \(\epsilon\)-covering number of the set \(\mathcal F\) with respect to the distance \(d\), i.e., the minimal number of \(d\)-balls of radius \(\epsilon\) needed to cover \(\mathcal F\). Finally, define the Hellinger distance \(d_H\) between two densities (with respect to \(\rho\)) as \(d^2_H(f_\theta, f_{\tilde\theta}) = 1 - \int \sqrt{f_\theta f_{\tilde\theta}}\, d\rho\). The following result will give us consistency in the sense of Schwartz, by means of a sieve that controls the complexity of the model as the sample size \(n\) increases, measured in terms of the \textit{metric entropy} (the logarithm of the \(\epsilon\)-covering number) of the model.
+Recall that the Kullback--Leibler divergence from \(f_\theta\) to \(f_{\bar\theta}\) is defined as 
+\[
+  \dkl(f_\theta \,\|\, f_{\bar\theta}) = \int f_\theta \log (f_\theta/f_{\bar\theta})\, d\rho.
+\] 
+We say that \(f_0\) belongs to the \textit{Kullback--Leibler support of \(\Pi_{\mathcal F}\)}, and write it as \(f_0 \in \kl(\Pi_{\mathcal F})\), if 
+\[
+  \Pi_{\mathcal F}\left(f_\theta: \dkl(f_0 \,\|\, f_\theta) < \epsilon\right) > 0\quad \text{for all } \epsilon > 0.
+\] 
+This can be interpreted as saying that the prior places sufficient mass ``near'' \(f_0\). 
+
+On the other hand, let \(N(\epsilon, \mathcal F, d)\) denote the \(\epsilon\)-covering number of the set \(\mathcal F\) with respect to the distance \(d\), i.e., the minimal number of \(d\)-balls of radius \(\epsilon\) needed to cover \(\mathcal F\). 
+
+Finally, define the Hellinger distance \(d_H\) between two densities as
+\[
+  d^2_H(f_\theta, f_{\bar\theta}) = 1 - \bigintssss \sqrt{f_\theta f_{\bar\theta}}\, d\rho.
+\] 
+
+The following result gives consistency in the sense of Schwartz, by means of a sieve that controls the complexity of the model as the sample size \(n\) increases, measured in terms of the \textit{metric entropy} (the logarithm of the \(\epsilon\)-covering number) of the model.
 
 \begin{theorem}[Theorem 6.23 in \citealp{ghosal2017fundamentals}]\label{th:consistency-hellinger}
-  Suppose that for every \(\epsilon > 0\) there exist measurable sets \(\mathcal F_n \subseteq \mathcal F\) and a constant \(C>0\) such that, for sufficiently large \(n\), (i) \(\log N(\epsilon, \mathcal F_n, d_H) \leq n\epsilon^2\) and (ii) \(\Pi_{\mathcal F}(\mathcal F \setminus \mathcal F_n) \leq \exp\{-Cn\}\). Then the posterior distribution is consistent relative to \(d_H\) at every \(f_0\in \kl(\Pi_{\mathcal F})\).
+  Suppose that for every \(\epsilon > 0\) there exist measurable sets \(\mathcal F_n \subseteq \mathcal F\) and a constant \(C>0\) such that, for sufficiently large \(n\): 
+  \begin{enumerate}[label=(\roman*)]
+    \item \(\log N(\epsilon, \mathcal F_n, d_H) \leq n\epsilon^2\).
+    \item \(\Pi_{\mathcal F}(\mathcal F \setminus \mathcal F_n) \leq \exp\{-Cn\}\).
+  \end{enumerate}
+  Then the posterior distribution is consistent relative to \(d_H\) at every density \(f_0\in \kl(\Pi_{\mathcal F})\).
 \end{theorem}
 
-To find posterior contraction rates for our model we consider an extension of Theorem~\ref{th:consistency-hellinger} that employs the so-called \textit{second Kullback--Leibler variation}, defined by \(V_2(f_0, f_\theta)=\E_{f_0}[(\log(f_0/f_\theta) - \dkl(f_0 \,\|\, f_\theta))^2]\), to quantify the Kullback--Leibler property of \(f_0\) in terms of convergence speed. In particular, for \(\epsilon>0\) we consider the neighborhood
+To obtain posterior contraction rates, there is an extension of Theorem~\ref{th:consistency-hellinger} that employs the so-called \textit{second Kullback--Leibler variation}, defined as 
+\[
+  V_2(f_0, f_\theta)=\E_{f_0}\left[\left(\log(f_0/f_\theta) - \dkl(f_0 \,\|\, f_\theta)\right)^2\right],
+\]
+to quantify the Kullback--Leibler property of \(f_0\) in terms of convergence speed. In particular, for \(\epsilon>0\) consider the neighborhood
 \[
 B_2(f_0, \epsilon) = \{f\in \mathcal F: \dkl(f_0 \,\|\, f_\theta) < \epsilon^2,\  V_2(f_0, f_\theta) < \epsilon^2\}.
 \]
@@ -144,28 +163,39 @@ B_2(f_0, \epsilon) = \{f\in \mathcal F: \dkl(f_0 \,\|\, f_\theta) < \epsilon^2,\
 
 Note that the condition \(n\epsilon_n^2\to\infty\) excludes the parametric rate \(n^{-1/2}\), since in nonparametric situations the rates are usually slower. Condition (i) bounds the complexity of the model, condition (ii) merely expresses that subsets of negligible prior mass do not play a role in the rate of contraction, and condition (iii) ensures that sufficient prior mass is put ``near'' the true density \(f_0\).
 
-For the consistency results, we introduce the notation \(a\lesssim b\) to mean inequality up to a multiplicative positive constant. We write \(g(n)=O(h(n))\) for positive functions \(g\) and \(h\) if there exist \(C,n_0>0\) such that \(g(n)\leq Ch(n)\) for all \(n\geq n_0\). Intuitively, this means that \(g(n)\) is of order smaller than or equal to \(h(n)\), i.e., \(\lim\sup_{n\to\infty} g(n)/h(n) < \infty\). Moreover, we say that \(g(n)=o(h(n))\) if for every \(c>0\) there exists \(n_0\in\N\) such that \(g(n)\leq ch(n)\) for all \(n\geq n_0\). Equivalently, this means that \(g(n)\) grows much slower than \(h(n)\), i.e., \(\lim_{n\to\infty} g(n)/h(n) = 0\).
-
-Additionally, when the process \(X\) is understood as a mapping \(X:\Omega \to \mathcal C[0,1]\), we will make frequent use of the correspondence \(\E[g(X)]=\E_{\qq_X}[g]\) for a measurable function \(g\) on \(\mathcal C[0,1]\), where the latter quantity is an integral in the Bochner sense. In a similar vein, if \(e_t:\mathcal C[0,1]\to \R\) is the evaluation functional \(x\mapsto x(t)\), given \(h:\R \to \R\) we will denote \(\E_{\qq_X}[h\circ e_t]\) by \(\E_{\qq_X}[h(x(t))]\). In particular, for \(h=id\) we have
-\[
-  \E_{\qq_X}[x(t)]:=\E_{\qq_X}[e_t]=\E[e_t(X)]=\E[X(t)].
-\]
-
-Posterior consistency means that, as the sample size grows, the posterior probability assigned to the true hypothesis converges in probability to one (under the true data generating distribution), so the Bayesian procedure is asymptotically correct. More generally, a posterior contraction rate quantifies how fast the posterior mass concentrates around the true hypothesis as \(n\to\infty\). 
-
-To evaluate contraction rates we will use the standard concept of \textit{stochastic boundedness} \citep[e.g.][Chapter 2]{vaart1998asymptotic}.
+Lastly, we are also interested in evaluating posterior consistency in a testing situation, where consistency means that, as the sample size grows, the posterior probability assigned to the true hypothesis converges in probability to one (under the true data generating distribution). To obtain contraction rates we can also use the standard concept of \textit{stochastic boundedness} \citep[e.g.][Chapter 2]{vaart1998asymptotic}.
 
 \begin{definition}\label{def:stochastic-boundedness}
   Given a sequence of nonnegative random variables \(Y_n\), whose distribution is determined by \(\pp\), and a sequence of positive numbers \(a_n\), we write \(Y_n=O_{\pp}(a_n)\) if for any \(\epsilon>0\) there exist \(N,M>0\) such that \(\pp(Y_n/a_n > M) < \epsilon\) for all \(n> N\). In this case, if \(a_n\to 0\) we say that \(a_n\) is a contraction rate for \(Y_n\), or equivalently, that \(Y_n\) decays at rate \(a_n\) (in probability).
 \end{definition}
 
-\section{RJMCMC}
+\section{Contributions and structure of the thesis}
 
+We summarize here the main theoretical and methodological contributions of this work.
 
-Following recent trends in Bayesian computation techniques, the posterior distribution is approximated via...
+\begin{itemize}
+  \item A unified \acs{RKHS} framework for functional data, tackling two basic statistical problems: regression and testing. We use the \acs{RKHS} generated by the covariance function of the underlying stochastic process as the ambient space for the functional parameter of interest.
+  \begin{itemize}
+    \item Functional models for linear and logistic regression, presented as an alternative to the usual \(L^2\)-models.
+    \item A functional testing methodology for the mean of a Gaussian process.
+  \end{itemize}
+  \item A Bayesian approach for inference in the functional models proposed, including the specification of prior distributions over the functional parameters.
+  \item A comprehensive asymptotic theory that validates the Bayesian inference, establishing posterior consistency and near-optimal posterior contraction rates.
+  \item A computational Python implementation of the proposed methods, based on a \acs{RJMCMC} sampler for posterior approximation.
+  \item Empirical studies and real data applications, which show that our methods are competitive against existing frequentist alternatives.
+\end{itemize}
 
-can traverse a variable-dimension parameter space by proposing the birth of a new component or the death of an existing one at each iteration.
+The Bayesian functional regression models are contained in \citet{berrendero2025bayesian}, while the Bayesian functional test is developed in \citet{berrendero2026bayesian}. The rest of this document is organized as follows.
 
+In \slsc{Chapter~\ref{ch:functional-regression}} we propose two models for functional linear and logistic regression, enabled by replacing the general infinite-dimensional functional parameter with a finite linear combination of kernel sections. This representation leads naturally to models with an unknown number of components and unknown impact points, for which suitable prior distributions are considered. We then introduce \acs{RJMCMC} as the main computational tool and develop four prediction strategies, combining posterior predictive inference with Bayesian variable selection. The theoretical part of the chapter establishes posterior consistency for the proposed models, first through an approach based on Doob's theorem and then through Schwartz-type arguments leading to posterior contraction rates. Lastly, the proposed methodology is assessed through extensive simulation studies and applications to real functional data, with comparisons against a range of established functional and finite-dimensional methods, followed by a discussion of computational performance and practical model validation.
+
+\slsc{Chapter~\ref{ch:functional-testing}} extends the Bayesian \acs{RKHS} framework to functional hypothesis testing, focusing on a one-sample test for the mean function of a Gaussian process. We consider a point-null hypothesis and introduce a spike-and-slab prior that assigns positive probability to the null while retaining a continuous alternative. The resulting posterior distribution is simplified by analytically marginalizing the regression coefficients, after which \acs{RJMCMC} is used to explore the remaining variable-dimensional parameter space. In addition to posterior null probabilities and Bayes factors, the framework provides posterior summaries of the mean function and simultaneous credible bands, thereby combining hypothesis testing with uncertainty quantification. We then address the practical case of an unknown covariance function through a plug-in strategy based on regularized covariance estimators, and establish consistency and contraction results both for known covariance and for the plug-in setting. The theoretical analysis further characterizes the different rates of posterior concentration under the null and the alternative. We conclude with simulation studies and a real-data application illustrating the empirical performance and interpretability of the proposed test.
+
+In \slsc{Chapter~\ref{ch:rjmcmc}} we take a closer look at the computational tools used to approximate the posterior distribution in the proposed Bayesian models. We first introduce the \acs{RJMCMC} framework from a theoretical perspective, and then we describe the implementation details of the Python library \slsc{Eryn} \citep{karnesis2023eryn}. We conclude with a discussion of the label switching phenomenon, which is a common issue in the Bayesian analysis of finite mixture models.
+
+Finally, in \slsc{Chapter~\ref{ch:conclusions}} we summarize the main findings and discuss future work and open lines of research.
+
+We provide several appendices that complement the main text. In \slsc{Appendix~\ref{app:comparison-test}} we review several existing techniques for performing one-sample tests with functional data; in \slsc{Appendix~\ref{app:tables-bfr}} we provide the full tables of numerical results for the functional regression experiments; and in \slsc{Appendix~\ref{app:source-code}} we briefly comment on the source code for the computational implementation we developed.
 
 %*****************************************
 %*****************************************

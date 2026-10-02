@@ -2,7 +2,7 @@
 % Abstract
 %*******************************************************
 \pdfbookmark[1]{Abstract}{Abstract}
-% \addcontentsline{toc}{chapter}{\tocEntry{Abstract}}
+%\addcontentsline{toc}{chapter}{\tocEntry{Abstract}}
 
 \begingroup
 \let\clearpage\relax
@@ -12,25 +12,23 @@
 \chapter*{Abstract}
 
 
+\acf{FDA} provides a natural framework for observations that evolve over a continuous domain, which have become commonplace in many statistical applications. Under this point of view, the objects of interest are random functions rather than random points in a finite-dimensional space. Due to its increasing popularity, quite a few statistical methods have been developed for functional data, usually generalizing the existing approaches in the corresponding multivariate problems. However, Bayesian methodology, while crucial in many finite-dimensional models, remains comparatively underdeveloped for many fundamental functional inference problems. 
+
+In this thesis we propose a unified Bayesian framework for functional data based on \acf{RKHSs}, with applications to functional regression and functional hypothesis testing. A major aim of this work is to motivate these \acs{RKHS} models within the functional framework, while also providing efficient techniques to apply them in practice. Although placing a prior distribution on a functional space is generally a hard task, the specific parametric formulation we propose greatly facilitates this. The resulting posterior distribution, which is essential to any Bayesian method, can be approximated computationally through \acf{RJMCMC}.
+
+We focus on functional data represented as a second-order stochastic process \(\{X(t): t\in[0,1]\}\) with covariance function \(K\). A key assumption common to all models we propose is that the functional parameters of interest are members of the \acs{RKHS} associated with the kernel \(K\). The central idea is to represent functional parameters as finite linear combinations of kernel sections, thereby obtaining tractable finite-dimensional models while retaining a genuinely functional interpretation. These models can be expressed in terms of linear combinations of the marginals of \(X\), that is, \(\sum_{j=1}^p \beta_j X(t_j)\), by leveraging a correspondence between the \acs{RKHS} and the linear span of the process. In this representation, the number of components, the coefficients and their associated impact points are treated as unknown quantities and inferred from the data. This provides a common framework for models based on marginal evaluations of the process \(X\), while avoiding the unrestricted complexity of conventional \(L^2\)-based functional models.
+
+The first part of the thesis develops Bayesian \acs{RKHS} models for scalar-on-function regression, covering both functional linear regression and functional logistic regression. Priors are assigned jointly to the model dimension, impact points, and regression coefficients, and posterior inference is performed using \acs{RJMCMC}, allowing models of different dimensions to be explored within a single Bayesian analysis. The resulting posterior distribution supports several prediction strategies as well as a Bayesian variable selection procedure based on the marginal posterior distribution of the impact points.
+
+The second part proposes a Bayesian one-sample test for the mean function of a Gaussian process, testing an exact point-null hypothesis against a general functional alternative. We obtain a closed-form likelihood expression via Radon--Nikodym derivatives, and a spike-and-slab prior assigns positive probability to the null hypothesis while retaining a continuous prior over the alternative. Analytical marginalization of the regression coefficients largely simplifies the trans-dimensional computation, which is again performed through \acs{RJMCMC}. The resulting procedure provides posterior null probabilities and Bayes factors as measures of evidence, together with posterior estimates and simultaneous credible bands for the mean function.
+
+In addition, we develop an asymptotic theory for these Bayesian procedures, as a way to validate the methodology from a theoretical point of view. We study the large-sample consistency of our models and measure the speed of posterior concentration. This technique has become a standard tool in the frequentist assessment of Bayesian procedures, as exemplified by the highly relevant work of \citet{ghosal2017fundamentals}. For functional regression, we establish posterior consistency and contraction rates obtained through certain extensions of classical results by \citet{doob1949application} and \citet{schwartz1965bayes}. For the functional test, posterior consistency is established under both the null and alternative hypotheses, with polynomial contraction under the null and exponential contraction under fixed alternatives. The theory is also extended to the practically relevant case in which the covariance function is estimated rather than known, showing that suitable plug-in covariance estimators preserve the contraction rates.
+
+Our contribution also includes substantial computational work in the form of a \acs{RJMCMC} sampling implementation for the proposed functional models, which is applied in extensive numerical studies. The results obtained from these experiments support the practical usefulness of the methods, showing that our Bayesian procedures are competitive against other usual alternatives in both simulations and real data sets.
 
 
-\paragraph{Chapter~\ref{ch:functional-regression}} In this chapter we will.... citar artículos correspondientes. We leverage the properties of \acf{RKHSs} and certain extensions of classical results by \citet{doob1949application} and \citet{schwartz1965bayes} to show that posterior consistency and contraction at an optimal rate hold in our models with minimal conditions, thus providing a coherent background to our Bayesian approach. Moreover, this theoretical side is complemented by extensive experimentation that showcases the application of the functional \acs{RKHS} models in various prediction tasks.
-We propose a novel Bayesian methodology for inference in functional linear and logistic regression models based on the theory of \acs{RKHSs}. We introduce general models that build upon the \acs{RKHS} generated by the covariance function of the underlying stochastic process, and whose formulation includes as particular cases all finite-dimensional models based on linear combinations of marginals of the process, which can collectively be seen as a dense subspace made of simple approximations. By imposing a suitable prior distribution on this dense functional space we can perform data-driven inference via standard Bayes methodology, estimating the posterior distribution through \acf{RJMCMC}. In this context, our contribution is two-fold. First, we derive theoretical results that guarantee strong posterior consistency and contraction at an optimal rate under mild conditions. Second, we show that several prediction strategies stemming from our Bayesian procedure are competitive against other usual alternatives in both simulations and real data sets, including a Bayesian-motivated variable selection method. This computational work highlights the predictive performance of the proposed functional regression models, especially when compared with other usual frequentist methods.
-
-
-A major aim of this work is to motivate these models within the functional framework, while also providing efficient techniques to apply them in practice.  Although placing a prior distribution on a functional space is generally a hard task, the specific parametric formulation we propose greatly facilitates this.
-
-
-
-%%%%% BAYESIAN TESTING
-that the mean function is a member of \acs{RKHS} associated with the covariance function of the underlying Gaussian process, so that it can be approximated through a finite linear combination of kernel sections. We will see that this assumption is reasonable and allows us to completely specify a Bayesian test, circumventing the difficulty of placing a prior distribution on an infinite-dimensional space, and providing a closed-form likelihood expression via Radon--Nikodym derivatives. Since we do not restrict ourselves to conjugate models, we use \acs{RJMCMC} to approximate the posterior distribution. From this approximation we obtain estimators of the posterior probability of the null hypothesis and the Bayes factor, which can be used to guide decision-making while explicitly accounting for uncertainty.
-
-To validate the methodology from a theoretical point of view, we study the large-sample consistency of our test and measure the speed of posterior concentration. This technique has become a standard tool in the frequentist assessment of Bayesian procedures, as exemplified by the highly relevant work of \citet{ghosal2017fundamentals}. On the other hand, finite-sample performance is evaluated by numerical simulations in terms of frequentist metrics, such as type I error (false positive rate), type II error (false negative rate) or power (true positive rate).
-
-
-%%TODO: ADD MODE
 \paragraph{Keywords}
-reproducing kernel Hilbert space\qquad Bayesian inference\qquad functional data
+functional data\qquad Bayesian inference\qquad reproducing kernel Hilbert space\qquad functional regression\qquad functional testing\qquad posterior consistency\qquad reversible jump Markov chain Monte Carlo
 
 
 \endgroup
