@@ -20,7 +20,7 @@
 %\newcommand{\printing}{}
 
 % Uncomment for adding Spanish abstract and conclusions
-%\newcommand{\spanishAbstractConclusions}{}
+\newcommand{\spanishAbstractConclusions}{}
 
 \ifdefined\printing
   \PassOptionsToClass{twoside}{scrbook}
@@ -63,7 +63,7 @@
 %\cleardoublepage\include{frontbackmatter/acknowledgments}
 \cleardoublepage\include{frontbackmatter/abstract}
 \ifdefined\spanishAbstractConclusions
-  \cleardoublepage\include{frontbackmatter/abstract-spanish}
+  \cleardoublepage\include{frontbackmatter/resumen}
 \fi
 \cleardoublepage\include{frontbackmatter/contents}
 %********************************************************************
@@ -81,7 +81,7 @@
 \include{chapters/rjmcmc}
 \include{chapters/conclusions}
 \ifdefined\spanishAbstractConclusions
-  \include{chapters/conclusions-spanish}
+  \include{chapters/conclusiones}
 \fi
 % ********************************************************************
 % Backmatter
