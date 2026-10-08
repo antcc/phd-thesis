@@ -10,13 +10,7 @@ This paradigm shift has enabled more nuanced analyses in diverse fields includin
 
 \begin{figure}[t]
   \myfloatalign
-  \subfloat[Original curves]{%
-    \includegraphics[width=0.48\textwidth]{tecator}%
-  }
-  \hfill
-  \subfloat[Second derivatives]{%
-    \includegraphics[width=0.48\textwidth]{tecator_derivative}%
-  }
+  \includegraphics[width=.99\textwidth]{tecator}
   \caption[Curves in the Tecator data set]{Curves in the Tecator data set \citep{borggaard1992optimal} and their second derivatives (after smoothing). The functional samples represent near-infrared absorbance curves of meat samples. At first glance it does not seem that the trajectories contain much relevant information to help classify the samples, but a clearer pattern emerges after differentiating twice.}\label{fig:tecator}
 \end{figure}
 
@@ -34,7 +28,7 @@ The most common scalar-on-function linear regression model is the classical \(L^
 \begin{equation}\label{eq:l2-linear-model}
   Y = \alpha + \dotprod{X}{\beta}_2 + \epsilon = \alpha + \int_0^1 X(t)\beta(t)\, dt + \epsilon,
 \end{equation}
-where \(\alpha\in \R\), \(\epsilon\) is a random error term independent from \(X\) with \(\E [\epsilon]=0\), and the functional slope parameter \(\beta=\beta(\cdot)\) is a member of the infinite-dimensional space \(L^2[0, 1]\). In this case, the inference on \(\beta\) is hampered by the fact that \(L^2[0,1]\) is an extremely broad space that contains many nonsmooth or ill-behaved functions, so any estimation procedure involving optimization on it will typically be hard. In spite of this, model~\eqref{eq:l2-linear-model} is not flexible enough to include ``simple'' impact points submodels based on linear combinations of the marginals of \(X\), such as \(Y=\alpha + \beta_1 X(t_1)+ \cdots + \beta_p X(t_p) + \epsilon\) for some constants \(\alpha,\beta_j\in\R\) and instants \(t_j\in[0,1]\), which are especially appealing to practitioners confronted with functional data problems \citep[see][for additional details]{berrendero2024functional}. Moreover, the noninvertibility of the covariance operator associated with \(X\), which plays the role of the covariance matrix in the infinite case, invalidates the usual least squares theory \citep{cardot2011functional}. Thus, some regularization or dimensionality reduction technique is needed for parameter estimation; see \citet{reiss2017methods} for a summary of several widespread methods.
+where \(\alpha\in \R\), \(\epsilon\) is a random error term independent from \(X\) with \(\E [\epsilon]=0\), and the functional slope parameter \(\beta=\beta(\cdot)\) is a member of the infinite-dimensional space \(L^2[0, 1]\). In this case, the inference on \(\beta\) is hampered by the fact that \(L^2[0,1]\) is an extremely broad space that contains many nonsmooth or ill-behaved functions, so any estimation procedure involving optimization on it will typically be hard. In spite of this, model~\eqref{eq:l2-linear-model} is not flexible enough to include ``simple'' impact points submodels based on linear combinations of the marginals of \(X\), such as \(Y=\alpha + \beta_1 X(t_1)+ \cdots + \beta_p X(t_p) + \epsilon\) for some constants \(\alpha,\beta_j\in\R\) and instants \(t_j\in[0,1]\), which are especially appealing to practitioners confronted with functional data problems \citep[see][for additional details]{berrendero2024functional}. Moreover, the noninvertibility of the covariance operator associated with \(X\), which plays the role of the covariance matrix in the infinite case, invalidates the usual least squares theory \citep{cardot2010functional}. Thus, some regularization or dimensionality reduction technique is needed for parameter estimation; see \citet{reiss2017methods} for a summary of several widespread methods.
 
 A similar \(L^2\)-based functional logistic equation can be derived for the binary classification problem via the logistic function:
 \begin{equation}\label{eq:l2-logistic-model}
@@ -76,7 +70,7 @@ To accommodate a Bayesian framework for functional data, we propose simplified \
 \[
 \beta(\cdot) = \sum_{j=1}^p \beta_j K(t_j, \cdot),
 \]
-where \(\beta_j, t_j\) and \(p\) are unknown parameters that can be conveniently modeled through suitable prior distributions. We aim to exploit the \acs{RKHS} perspective to give a functional nature to the collection of finite-dimensional models based on random linear combinations of marginals (through Loève's isometry), offering a unified treatment of all the so-called \textit{impact points} models \citep[see][]{kneip2016functional,poss2020superconsistent}.
+where \(\beta_j, t_j\) and \(p\) are unknown parameters that can be conveniently modeled through suitable prior distributions. We aim to exploit the \acs{RKHS} perspective to give a functional nature to the collection of finite-dimensional models based on random linear combinations of marginals (through Loève's isometry), offering a unified treatment of all the so-called \textit{impact points} models. These models have received considerable attention in the functional literature, due to their simplicity and practical relevance \citep[see][]{kneip2016functional,poss2020superconsistent,mckeague2010fractals, lindquist2009logistic}.
 
 
 \section{Posterior consistency}\label{sec:posterior-consistency-intro}
@@ -189,7 +183,7 @@ Our proposal essentially relies on the use of the \acf{RKHS} associated with the
   \item Lastly, we provide empirical studies and real data applications, which show that our methods are competitive against existing frequentist alternatives.
 \end{itemize}
 
-The research presented in this thesis has resulted in two articles. The Bayesian functional regression models are contained in \citet{berrendero2025bayesian}, while the Bayesian functional test is developed in \citet{berrendero2026bayesian}. 
+The research presented in this thesis has resulted in two articles. The Bayesian functional regression models are contained in \citet{berrendero2025bayesian}, published in \textit{Bayesian Analysis}. The Bayesian functional test is developed in \citet{berrendero2026bayesian}, currently submitted for publication.
 
 \subsubsection*{Structure}
 

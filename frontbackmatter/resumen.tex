@@ -4,7 +4,9 @@
 \pdfbookmark[1]{Resumen}{Resumen}
 %\addcontentsline{toc}{chapter}{\tocEntry{Resumen}}
 
+
 \begingroup
+
 \let\clearpage\relax
 \let\cleardoublepage\relax
 \let\cleardoublepage\relax
@@ -15,7 +17,7 @@ El análisis de datos funcionales (\acs{FDA}) es un campo de investigación esta
 
 En esta tesis proponemos un marco unificado de inferencia bayesiana para datos funcionales basado en espacios de Hilbert con núcleo reproductor (\acs{RKHS}), con aplicaciones a la regresión funcional y al contraste de hipótesis funcionales. Uno de los principales objetivos de esta investigación es motivar estos modelos dentro del marco funcional, a la vez que proporcionar técnicas eficientes para su aplicación en la práctica. Aunque la especificación de una distribución a priori sobre un espacio de funciones es, en general, una tarea compleja, la formulación paramétrica específica que proponemos facilita considerablemente este proceso. La distribución a posteriori resultante, que es esencial para cualquier técnica bayesiana, puede aproximarse computacionalmente mediante métodos de Montecarlo basados en cadenas de Markov de salto reversible (\acs{RJMCMC}).
 
-Nos centramos en datos funcionales representados mediante un proceso estocástico de segundo orden \(\{X(t): t\in[0,1]\}\) con función de covarianza \(K\). Un supuesto fundamental común a todos los modelos que proponemos es que los parámetros funcionales de interés son miembros del \acs{RKHS} asociado con el núcleo \(K\). La idea central consiste en representar los parámetros funcionales como combinaciones lineales finitas de secciones del núcleo, lo que resulta en modelos de dimensión finita manejables, mientras que se mantiene una interpretación auténticamente funcional. Estos modelos pueden expresarse en términos de combinaciones lineales de las marginales del proceso \(X\), es decir, \(\sum_{j=1}^p \beta_j X(t_j)\), aprovechando la correspondencia entre el \acs{RKHS} y el espacio lineal generado por el proceso. En esta representación, el número de componentes, los coeficientes y sus puntos de impacto asociados se consideran cantidades desconocidas y se infieren a partir de los datos. Esto proporciona un marco común para los modelos basados en evaluaciones marginales del proceso, evitando al mismo tiempo la complejidad de los modelos funcionales convencionales basados en espacios \(L^2\).
+Nos centramos en datos funcionales representados mediante un proceso estocástico de segundo orden \(\{X(t): t\in[0,1]\}\) con función de covarianza \(K\). Un supuesto fundamental común a todos los modelos que proponemos es que los parámetros funcionales de interés son miembros del \acs{RKHS} asociado con el núcleo \(K\). La idea central consiste en representar los parámetros funcionales como combinaciones lineales finitas de secciones del núcleo, lo que resulta en modelos de dimensión finita manejables, manteniendo al mismo tiempo una interpretación auténticamente funcional. Estos modelos pueden expresarse en términos de combinaciones lineales de las marginales del proceso \(X\), es decir, \(\sum_{j=1}^p \beta_j X(t_j)\), aprovechando la correspondencia entre el \acs{RKHS} y el espacio lineal generado por el proceso. En esta representación, el número de componentes, los coeficientes y sus puntos de impacto asociados se consideran cantidades desconocidas y se infieren a partir de los datos. Esto proporciona un marco común para los modelos basados en evaluaciones marginales del proceso, evitando al mismo tiempo la complejidad de los modelos funcionales convencionales basados en espacios \(L^2\).
 
 En la primera parte de la tesis desarrollamos modelos bayesianos basados en \acs{RKHS} para regresión de una variable escalar sobre una función, incluyendo tanto regresión lineal funcional como regresión logística funcional. Se asignan distribuciones a priori conjuntamente a la dimensión del modelo, los puntos de impacto y los coeficientes de regresión, y la inferencia posterior se realiza mediante \acs{RJMCMC}, permitiendo explorar modelos de distinta dimensión dentro de un único análisis bayesiano. La distribución a posteriori resultante permite considerar varias estrategias de predicción, así como un procedimiento bayesiano de selección de variables basado en la distribución marginal a posteriori de los puntos de impacto.
 
@@ -30,4 +32,3 @@ datos funcionales\qquad inferencia bayesiana\qquad regresión funcional\qquad co
 
 
 \endgroup
-

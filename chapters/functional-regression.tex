@@ -117,9 +117,9 @@ The posterior distribution in the logistic case is again derived via Bayes' form
   \begin{align*}
     \log \Pi_n(\theta \mid \mathcal D_n) \propto & \sum_{i=1}^n \biggl[Y_i \left(\alpha + \dotprod{X_i}{\beta}_K\right)\\
     & - \log\left(1 + \exp\left\{\alpha +\dotprod{X_i}{\beta}_K\right\}\right) \biggr]\\
-    & - 3\sum_{j=1}^p \log\left(4\beta_j^2 + 125\right)\\
+    & - 3\sum_{j=1}^p \log(4\beta_j^2 + 125)\\
     & + p \left[\frac{15}{2}\log 5 + 4 \log 2 - \log (3\pi)\right]\\
-    & - \log\left(100 + \alpha^2\right) + \log \Pi(p),
+    & - \log(100 + \alpha^2) + \log \Pi(p),
   \end{align*}
   where \(\beta(\cdot)=\sum_{j=1}^p \beta_j K(t_j, \cdot)\) and \(\dotprod{X_i}{\beta}_K = \sum_{j=1}^p \beta_j X_i(t_j)\).
 \end{proposition}
@@ -193,7 +193,7 @@ At this point we can follow an approach very similar to the one in \citet{miller
     1, \quad                                           & \text{otherwise}.
   \end{cases}
 \end{equation}
-Since each \(\Theta_p\) is itself a complete separable metric space with the inherited Euclidean norm, Proposition A.1 in \citet{miller2023consistency} ensures that \((\Theta, d_\Theta)\) is a complete separable metric space. Note that \(\pp_\theta(X,Y)\) is invariant under permutations of the component labels \(\tau\) and \(b\), so in an identifiable model we can only show consistency in the parameter space up to one such permutation. To that effect, let \(\mathfrak{S}_p\) denote the set of permutations of \(\{1,\dots,p\}\), and for \(\theta \in \Theta_p\) and any \(\nu\in \mathfrak{S}_p\), denote by \(\theta[\nu]\) the result of applying the permutation \(\nu\) to the component labels of \(\theta\). That is, if \(\theta=(p, t_1,\dots, t_p, \beta_1,\dots,\beta_p, \alpha,\sigma^2)\), then \(\theta[\nu]=(p, t_{\nu_1},\dots, t_{\nu_p}, \beta_{\nu_1},\dots,\beta_{\nu_p}, \alpha,\sigma^2)\). Next, for a given \(\theta_0\in\Theta_{p_0}\) and \(\epsilon>0\), denote \(\mathfrak{S_0}=\mathfrak{S_{p_0}}\) and define the permutation-invariant neighborhood 
+Since each \(\Theta_p\) is itself a complete separable metric space with the inherited Euclidean norm, Proposition A.1 in \citet{miller2023consistency} ensures that \((\Theta, d_\Theta)\) is a complete separable metric space. Note that \(\pp_\theta(X,Y)\) is invariant under permutations of the component labels \(\tau\) and \(b\), so in an identifiable model we can only show consistency in the parameter space up to one such permutation. To that effect, let \(\mathfrak{S}_p\) denote the set of permutations of \(\{1,\dots,p\}\), and for \(\theta \in \Theta_p\) and any \(\nu\in \mathfrak{S}_p\), denote by \(\theta[\nu]\) the result of applying the permutation \(\nu\) to the component labels of \(\theta\). That is, if \(\theta=(p, t_1,\dots, t_p, \beta_1,\dots,\beta_p, \alpha,\sigma^2)\), then \(\theta[\nu]=(p, t_{\nu_1},\dots, t_{\nu_p}, \beta_{\nu_1},\dots,\beta_{\nu_p}, \alpha,\sigma^2)\). Next, for a given \(\theta_0\in\Theta_{p_0}\) and \(\epsilon>0\), denote \(\mathfrak{S}_0=\mathfrak{S}_{p_0}\) and define the permutation-invariant neighborhood 
 \[
   B_{d_\Theta}^{\mathfrak{S}}(\theta_0, \epsilon) =\bigcup_{\nu\in \mathfrak{S}_0} \left\{\theta \in \Theta: d_\Theta(\theta_0[\nu], \theta) < \epsilon \right\},
 \]
@@ -414,7 +414,7 @@ The main hyperparameters of all these algorithms were selected by 10-fold cross-
 
 \subsection{Numerical results}
 
-We have adopted a visual approach to presenting the experimentation results, using colored graphs to help visualize them. In each case, the mean and standard deviation of the score obtained across the 10 independent runs is shown, depicting our methods in blue and the comparison algorithms in orange. We also show the global mean of all the comparison algorithms with a dashed vertical line, excluding extreme negative results to avoid distortion. Moreover, we separate one-stage and two-stage methods, the latter being the ones that perform variable selection or dimension reduction prior to a multiple linear/logistic regression method (represented with ``+r''/``+log'' in the figures). We name our methods according to the acronyms described in Section~\ref{sec:prediction-bfr}. The same results are presented in the usual tabular format in Appendix~\ref{app:tables-bfr}.
+We have adopted a visual approach to presenting the experimentation results, using colored graphs to help visualize them. In each case, the mean and standard deviation of the score obtained across the 10 independent runs is shown, depicting our methods in \firstcolor{blue} and the comparison algorithms in \secondcolor{green}. We also show the global mean of all the comparison algorithms with a dashed vertical line, excluding extreme negative results to avoid distortion. Moreover, we separate one-stage and two-stage methods, the latter being the ones that perform variable selection or dimension reduction prior to a multiple linear/logistic regression method (represented with ``\slsc{+r}''/``\slsc{+l}'' in the figures). We name our methods according to the acronyms described in Section~\ref{sec:prediction-bfr}. The same results are presented in the usual tabular format in Appendix~\ref{app:tables-bfr}.
 
 \subsubsection*{Functional linear regression}
 
@@ -459,7 +459,7 @@ On another note, we see that some of our Bayesian models have a higher standard 
 \FloatBarrier{}
 \subsubsection*{Functional logistic regression}
 
-In this case we set the same prior distribution for \(p\) as in the linear case, but now in the fitting phase the regressors are scaled to have standard deviation \(0.5\) to accommodate the priors in~\eqref{eq:prior-logistic}. We also use the standard threshold of \(1/2\) to convert probabilities to class labels, and the performance metric is the rate of correctly predicted samples (accuracy). 
+In this case we set the same prior distribution for \(p\) as in the linear case, but now in the fitting phase the regressors are scaled to have standard deviation \(0.5\) to accommodate the priors in~\eqref{eq:prior-logistic}. We also use the standard threshold of \(0.5\) to convert probabilities to class labels, and the performance metric is the rate of correctly predicted samples (accuracy). 
 
 First, in Figure~\ref{fig:clf_rkhs} we see the results for the \acs{GP} regressors with a logistic \acs{RKHS} response. Our models perform fairly well in this advantageous situation, and even more so in the one-stage case. We again improve the results of other models that can select far more components than our self-imposed limit of 10. Moreover, whenever our two-stage methods score lower, the differences account for only a couple of misclassified samples at worst.
 
@@ -520,15 +520,15 @@ Next we proceed with the visual checks. We can look at the flat posterior distri
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.9\textwidth]{reg_analysis_flat_posterior}
+  \includegraphics[width=.925\textwidth]{reg_analysis_flat_posterior}
   \caption[Functional regression validation: posterior distribution of all the samples]{Aggregated posterior distribution of all the samples \(\theta^{(r)}\) for all \(r\). Note that the true values of the parameters are essentially recovered.}\label{fig:flat-posterior-linear}
   \vspace{10pt} % Separate this figure from the next figure
 \end{figure}
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.9\textwidth]{reg_analysis_triangular_posterior}
-  \caption[Functional regression validation: triangular posterior distribution of time instants for each dimension]{Posterior distribution of all the \(\tau_p^{(r)}\) for each \(p\). The most frequent value is \(p=3\), highlighted in red. In this run there were no samples with \(p=1\) or \(p=2\) after burn-in.}\label{fig:triangular-posterior-linear}
+  \includegraphics[width=.925\textwidth]{reg_analysis_triangular_posterior}
+  \caption[Functional regression validation: triangular posterior distribution of time instants for each dimension]{Posterior distribution of all the \(\tau_p^{(r)}\) for each \(p\). In this run there were no samples with \(p=1\) or \(p=2\) after burn-in.}\label{fig:triangular-posterior-linear}
 \end{figure}
 
 \begin{figure}[tbp]
@@ -553,7 +553,7 @@ Next we proceed with the visual checks. We can look at the flat posterior distri
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.9\textwidth]{reg_analysis_trace_p}
+  \includegraphics[width=.925\textwidth]{reg_analysis_trace_p}
   \caption[Functional regression validation: posterior distribution and trace of the number of components]{Posterior distribution (left) and trace (right) of \(p\). We see that the true number of components is recovered.}\label{fig:trace-p}
 \end{figure}
 
@@ -567,18 +567,20 @@ Lastly, we can perform a posterior predictive check (Figure~\ref{fig:pp-check}).
 
 \subsection{Runtime comparison}\label{sec:execution-times-bfr}
 
-In Figure~\ref{fig:reg-execution-times} and Figure~\ref{fig:clf-execution-times} we see the execution times of all the experiments. The execution times of the reference methods includes the duration of the cross-validation phase to select the best hyperparameters, a phase that our Bayesian methods lack by design. It is widely known that \acs{RJMCMC} sampling tends to be slow, but as we can see the differences are manageable. Our methods have reasonable run times for practical use, especially when taking into account the predictive improvement obtained in some cases. In addition, it is possible that we ran some chains for more steps than necessary, because we wanted to perform all experiments in the same generic configuration. In real-world scenarios one would pay closer attention to convergence metrics and try to stop the sampling earlier.
+In Figure~\ref{fig:reg-execution-times} and Figure~\ref{fig:clf-execution-times} we see the execution times of all the experiments. For illustration purposes, we average the runtime of all our methods and all the reference methods over all train/test splits for each dataset.
+
+The execution time of the reference methods includes the duration of the cross-validation phase to select the best hyperparameters, a phase that our Bayesian methods lack by design. It is widely known that \acs{RJMCMC} sampling tends to be slow, but as we can see the differences are manageable. Our methods have reasonable run times for practical use, especially when taking into account the predictive improvement obtained in some cases. It is possible that we ran some chains for more steps than necessary, because we wanted to perform all experiments in the same generic configuration. In real-world scenarios one would pay closer attention to convergence metrics and try to stop the sampling earlier.
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.85\textwidth]{reg_execution_times}
-  \caption[Functional linear regression experiments: execution times]{Mean and standard error of execution times for all splits in the experiments with the functional linear model.}\label{fig:reg-execution-times}
+  \includegraphics[width=.975\textwidth]{reg_execution_times}
+  \caption[Functional linear regression experiments: execution times]{Mean and standard error of execution times for all splits and all methods in the experiments with the functional linear model.}\label{fig:reg-execution-times}
 \end{figure}
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.85\textwidth]{clf_execution_times}
-  \caption[Functional logistic regression experiments: execution times]{Mean and standard error of execution times for all splits in the experiments with the functional logistic model.}\label{fig:clf-execution-times}
+  \includegraphics[width=.975\textwidth]{clf_execution_times}
+  \caption[Functional logistic regression experiments: execution times]{Mean and standard error of execution times for all splits and all methods in the experiments with the functional logistic model.}\label{fig:clf-execution-times}
 \end{figure}
 
 \FloatBarrier{}
@@ -704,7 +706,7 @@ where \(M_A,M_B>0\) and \(0<\sigma^2_{\text{min}}<\sigma^2_{\text{max}}\). Somet
 
 Next, we present a collection of standard results on covering numbers that will be extensively used in the subsequent proofs.
 
-\begin{lemma}[see \citealp{van1996weak}]\label{lemma:covering-number}
+\begin{lemma}[see \citealp{vaart2023weak}]\label{lemma:covering-number}
   Suppose \(d\) is a distance on the set of densities \(\mathcal F=\{f_\theta: \theta\in\Theta\}\).
   \begin{enumerate}[label=(\roman*)]
     \item If \(\epsilon\leq \tilde\epsilon\) then \(N(\tilde\epsilon, \mathcal F, d) \leq N(\epsilon, \mathcal F, d)\).
