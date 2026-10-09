@@ -22,7 +22,7 @@ Using Bayes factors to quantify the evidence against the null hypothesis in a co
 
 Most functional tests in the literature employ some form of dimension reduction via projections or basis expansions as a first step. We take a slightly different approach and directly assume, as we did in Chapter~\ref{ch:functional-regression}, that the mean function is a member of \acs{RKHS} associated with the covariance function of the underlying process, so that it can be approximated through a finite linear combination of kernel sections. For simplicity, in this chapter we restrict ourselves to Gaussian data.
 
-Let \(X_{1:n}=(X_1,\dots, X_n)\) be an i.i.d.\ sample of a Gaussian process \(X\sim \gp(\mu, K)\) with mean \(\mu\) and strictly positive definite covariance function \(K\), which is assumed to be known for the time being. We will mainly work with functional observations, but whenever discretization is needed we will suppose that the process is observed on an arbitrarily dense grid \(\mathcal S=\{s_1,\dots, s_G\}\subset [0,1]\) of size \(G\). Moreover, discretized quantities on the grid will be denoted by boldface letters. Without loss of generality we set \(\mu_0\equiv 0\) and consider the hypotheses
+Let \(X_{1:n}=(X_1,\dots, X_n)\) be an i.i.d.\ sample of a Gaussian process \(X\sim \gp(\mu, K)\) with mean \(\mu\) and strictly positive definite covariance function \(K\), which is assumed to be known for the time being. We will mainly work with functional observations, but whenever discretization is needed we will suppose that the process is observed on an arbitrarily dense grid \(\mathcal S=\{s_1,\dots, s_G\}\subset [0,1]\) of size \(G\). Moreover, discretized quantities on the grid will be denoted by \textbf{boldface} letters. Without loss of generality we set \(\mu_0\equiv 0\) and consider the hypotheses
 \[
 H_0: \mu(t)=0 \text{ for all } t \in [0,1] \quad \text{vs.} \quad H_1: \mu(t)\neq 0 \text{ for some } t \in [0,1].
 \]
@@ -45,7 +45,7 @@ respectively, where \(\mathcal T_p = \{(t_1,\dots,t_p)\in [0,1]^p: t_1 < \cdots 
 
 \subsection{Likelihood and prior distribution} 
 
-Let \(\pp_\mu\) be the distribution of \(\gp(\mu, K)\) on the path space \(\mathcal C[0,1]\), and similarly let \(\pp_0\) be the distribution of \(\gp(0, K)\). Since both distributions are Gaussian with common covariance, the Feldman--Hájek dichotomy \citep{feldman1958equivalence} implies that \(\pp_\mu\) is absolutely continuous with respect to \(\pp_0\) whenever \(\mu\in\Hcal(K)\), which is precisely our assumption on the mean function. In this situation, the density of \(\pp_{\mu_\theta}\) with respect to \(\pp_0\) is given by \citep[Theorem 1]{berrendero2018use}
+Let \(\pp_\mu\) be the distribution of \(\gp(\mu, K)\) on the path space \(\mathcal C[0,1]\), and similarly let \(\pp_0\) be the distribution of \(\gp(0, K)\). Since both distributions are Gaussian with common covariance, the Feldman--Hájek dichotomy \citep{feldman1958equivalence} implies that \(\pp_\mu\) is absolutely continuous with respect to \(\pp_0\) whenever \(\mu\in\Hcal(K)\), which is precisely our assumption on the mean function. In this situation, the density of \(\pp_{\mu_\theta}\) with respect to \(\pp_0\) is given by \citep[Theorem~1]{berrendero2018use}
 \begin{equation}\label{eq:rn-derivative}
   \frac{d\pp_{\mu_\theta}}{d\pp_0}(X) = \exp\left\{\langle X, \mu_\theta\rangle_K - \frac{1}{2}\|\mu_\theta\|^2_K\right\}.
 \end{equation}
@@ -285,7 +285,7 @@ The first option is the natural one in a Bayesian framework, but it presents imp
 \]
 so that \(\phi\) dictates both the data variance \(K_\phi\) and the shape of the basis functions \(K_\phi(t_j, \cdot)\) in the finite-dimensional expansion of the mean. This could cause a confounding issue in which the \acs{RJMCMC} sampler could not decide a suitable value for \(\phi\) that describes both effects accurately. For example, a small change \(\phi\to\tilde\phi\) could cause the current basis functions \(K_{\tilde\phi}(t_j, \cdot)\) to be a bad fit for the mean, so the move would most likely be rejected, and the sampler could have a high rejection rate and poor mixing. Moreover, we would need to update the values of \(\phi\) (and hence \(K_\phi\)) on each iteration, re-computing all matrices and inverses that depend on it, which would come at a high computational cost.
 
-The second option, while not ideal, can still be interpreted in a pseudo-Bayesian way if we follow an Empirical Bayes approach. The idea is to compute the estimator by maximizing the marginal likelihood with respect to \(\phi\), i.e., \(\hat\phi = \arg\max_\phi m(X_{1:n}|\phi)\), using numerical integration or standard Monte Carlo techniques. Even though we would only have a single point estimate for \(\phi\), we could try to propagate the uncertainty somewhat with a Laplace approximation of the form \(\phi \sim \mathcal N(\hat\phi, \widehat{Var}(\hat\phi))\) (or similar), and average across samples of this distribution when computing the posterior metrics.
+The second option, while not ideal, can still be interpreted in a pseudo-Bayesian way if we follow an Empirical Bayes approach. The idea is to compute the estimator by maximizing the marginal likelihood with respect to \(\phi\), i.e., \(\hat\phi = \arg\max_\phi m(X_{1:n}|\phi)\), using numerical integration or standard Monte Carlo techniques. Even though we would only have a single point estimate for \(\phi\), we could try to propagate the uncertainty somewhat with a Laplace approximation of the form \(\phi \sim \mathcal N(\hat\phi, \widehat{{\var}}(\hat\phi))\) (or similar), and average across samples of this distribution when computing the posterior metrics.
 
 
 \section{Asymptotic theory}\label{sec:consistency-bft}
@@ -302,7 +302,7 @@ We already established that the sample paths of the process \(X\) are supposed t
 
 \subsection{Consistency and contraction rates for known covariance}\label{sec:consistency-known}
 
-We first focus on the case where \(H_0\) is true, that is, \(X_1,\dots,X_n \sim \gp(0, K)\) i.i.d.\ with distribution \(\pp_0\). As it is often the case in Bayesian tests with a point-null hypothesis, posterior consistency holds if \(\Pi(H_0)>0\), through a direct application of Doob's theorem \citep[][Theorem 10.24]{dass2004note,ghosal2017fundamentals}. We provide an explicit proof for completeness.
+We first focus on the case where \(H_0\) is true, that is, \(X_1,\dots,X_n \sim \gp(0, K)\) i.i.d.\ with distribution \(\pp_0\). As it is often the case in Bayesian tests with a point-null hypothesis, posterior consistency holds if \(\Pi(H_0)>0\), through a direct application of Doob's theorem (see \citealp{dass2004note} or Theorem 10.24 in \citealp{ghosal2017fundamentals}). Nevertheless, we provide an explicit proof for completeness.
 
 \begin{theorem}\label{th:consistency-h0}
   \marginproof{proof:consistency-h0}
@@ -390,7 +390,7 @@ We can state a variant of Theorem~\ref{th:consistency-rates-h1} under this alter
 
 \subsection{Consistency and contraction rates for plug-in covariance}\label{sec:consistency-plug-in}
 
-We extend the results of Section~\ref{sec:consistency-known} to the case in which the true covariance function \(K(t,s)\) is unknown and replaced by a symmetric plug-in estimator \(\hat K_n(t,s)\), which need not be strictly positive definite. For any \(\tau\in\mathcal T_p\), let \(\hat K_{n,\tau} = [\hat K_n(t_j, t_k)]_{j,k=1}^p\) be the plug-in analog of the matrix \(K_\tau\) defined in~\eqref{eq:likelihood}. We will see that as long as we have uniform consistency of \(\hat K_{n,\tau}\) to \(K_\tau\), the approximation effect is negligible and the posterior contraction rates stay the same. Therefore, we impose the following condition.
+We extend the results of Section~\ref{sec:consistency-known} to the case in which the true covariance function \(K(t,s)\) is unknown and replaced by a symmetric plug-in estimator \(\hat K_n(t,s)\), which need not be strictly positive definite. For any \(\tau\in\mathcal T_p\), let \(\hat K_{n,\tau} = [\hat K_n(t_j, t_k)]_{j,k=1}^p\) be the plug-in analog of the matrix \(K_\tau\) defined in~\eqref{eq:likelihood}. We will see that as long as we have uniform consistency of \(\hat K_{n,\tau}\) to \(K_\tau\), the approximation effect is negligible, and the posterior contraction rates stay the same. Therefore, we impose the following condition.
 
 \begin{assumption}\label{ass:uniform-consistency-plug-in}
   For every \(p\) with \(\Pi(p)>0\) and any compact set \(\mathcal C_p\subset \mathcal T_p\), it holds that
@@ -569,7 +569,7 @@ The Bayesian metrics obtained are summarized in Table~\ref{tab:metrics-climate}.
   \(2010\)s--\(1990\)s & \(0.0784\) & \(5.8815\) & \(4.8832\) & \(0.0980\) \\
   \bottomrule
   \end{tabular}
-  \vspace{10pt}  % Separate this table from the next figure
+  \vspace{12pt}  % Separate this table from the next figure
 \end{table}
 
 Lastly, Figure~\ref{fig:climate_posterior} provides a useful functional interpretation of the posterior evidence reported in Table~\ref{tab:metrics-climate}, illustrating the posterior mean function \(\hat\mu_n^{\text{PM}}\) and the 95\% simultaneous bands described in Section~\ref{sec:posterior-summaries}. The estimated mean difference is relatively small and close to zero for the 2000s--1990s comparison, whereas the comparisons involving the 2010s display a markedly positive posterior mean over much of the year, with the largest discrepancy occurring between the 2010s and 1990s. Observe that the variability in the credible bands is generally more pronounced in the warmer months (September--March in the Southern Hemisphere), indicating that the uncertainty is higher precisely where the temperature differences are largest.
@@ -908,7 +908,7 @@ and bound the plug-in error by
 \sup_{(\tau,b)\in U}|\hat f_n(\tau,b) - f(\tau,b)| &= \sup_{(\tau,b)\in U}\frac{1}{2}|b'(\hat K_{n,\tau}-K_\tau)b| \\
 &\leq \frac{B^2}{2}\sup_{\tau\in U_1}\|\hat K_{n,\tau}-K_\tau\|_2,
 \end{align*}
-where \(0<B=\sup_{b\in U_2} \|b\|<\infty\) and \(\|\cdot\|_2\) is the spectral norm on matrices. Now, define the event 
+where \(0<B=\sup_{b\in U_2} \|b\|<\infty\). Now, define the event 
 \[
 G_n = \left\{\sup_{\tau\in U_1}\|\hat K_{n,\tau} - K_\tau\|_2 \leq \frac{2\epsilon^2}{B^2}\right\}.
 \]
