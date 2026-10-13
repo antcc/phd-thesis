@@ -528,7 +528,7 @@ Next we proceed with the visual checks. We can look at the flat posterior distri
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.925\textwidth]{reg_analysis_triangular_posterior}
-  \caption[Functional regression validation: triangular posterior distribution of time instants for each dimension]{Posterior distribution of all the \(\tau_p^{(r)}\) for each \(p\). In this run there were no samples with \(p=1\) or \(p=2\) after burn-in.}\label{fig:triangular-posterior-linear}
+  \caption[Functional regression validation: triangular posterior distribution of impact points for each dimension]{Posterior distribution of all the \(\tau_p^{(r)}\) for each \(p\). In this run there were no samples with \(p=1\) or \(p=2\) after burn-in.}\label{fig:triangular-posterior-linear}
 \end{figure}
 
 \begin{figure}[tbp]
@@ -554,7 +554,7 @@ Next we proceed with the visual checks. We can look at the flat posterior distri
 \begin{figure}[tbp]
   \myfloatalign
   \includegraphics[width=.925\textwidth]{reg_analysis_trace_p}
-  \caption[Functional regression validation: posterior distribution and trace of the number of components]{Posterior distribution (left) and trace (right) of \(p\). We see that the true number of components is recovered.}\label{fig:trace-p}
+  \caption[Functional regression validation: posterior distribution and trace of number of components]{Posterior distribution (left) and trace (right) of \(p\). We see that the true number of components is recovered.}\label{fig:trace-p}
 \end{figure}
 
 Lastly, we can perform a posterior predictive check (Figure~\ref{fig:pp-check}). This is arguably the most useful test for prediction purposes, since we represent the posterior predictive distribution that will be used for inference and prediction. We can do it on the training data or directly on previously unseen regressors. If the sampling has been successful, the posterior predictive should look like a tubular region around the observed data.
