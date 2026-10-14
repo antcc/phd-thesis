@@ -28,7 +28,7 @@ In addition, as we said before, with a slight abuse of notation we will understa
 
 Although fairly natural in this context, the crucial assumption that \(\beta \in \Hcal_0(K)\) may seem too restrictive at first glance, since we are essentially truncating the dimensionality of the model. Nevertheless, in this way we get a simpler, finite-dimensional approximation of the functional \acs{RKHS} model, which we argue reduces the overall complexity while still capturing most of the relevant information. Plus, the simplified model remains ``truly functional'' in the sense that the number of components \(p\) and the time instants \(t_j\) are not fixed beforehand.
 
-In view of~\eqref{eq:beta}, to place a prior distribution on the unknown function \(\beta\) it suffices to consider a discrete prior distribution on the number of components \(p\), and then select \(p\)-dimensional continuous priors for the coefficients \(\beta_j\) and the times \(t_j\) given \(p\). Thanks to this parametric approach, the challenging task of setting a prior distribution on a space of functions is considerably simplified, while simultaneously not constraining the model to any specific distribution (in contrast to, say, Gaussian process regression methods). Moreover, note that our simplifying assumption on \(\beta\) is not particularly limiting from a Bayesian point of view, since any distribution \(\pp\) on \(\Hcal_0(K)\) can be directly extended to a distribution \(\bar{\pp}\) on \(\Hcal(K)\) by defining \(\bar{\pp}(B) = \pp_0(B\cap \Hcal_0(K))\) for all Borel sets \(B\) on \(\Hcal(K)\).
+In view of~\eqref{eq:beta}, to place a prior distribution on the unknown function \(\beta\) it suffices to consider a discrete prior distribution on the number of components \(p\), and then select \(p\)-dimensional continuous priors for the coefficients \(\beta_j\) and the times \(t_j\) given \(p\). Thanks to this parametric approach, the challenging task of setting a prior distribution on a space of functions is considerably simplified, while simultaneously not constraining the model to any specific distribution (in contrast to, say, Gaussian process regression methods). Moreover, note that our simplifying assumption on \(\beta\) is not particularly limiting from a Bayesian point of view, since any distribution \(\pp\) on \(\Hcal_0(K)\) can be directly extended to a distribution \(\bar{\pp}\) on \(\Hcal(K)\) by defining \(\bar{\pp}(B) = \pp(\Hcal_0(K)\cap B)\) for all Borel sets \(B\) on \(\Hcal(K)\).
 
 
 \subsection{Functional linear regression}\label{sec:rkhs-linear-model}
@@ -91,7 +91,7 @@ where
   \pp(Y_i=1 \mid X_i,\theta) = \frac{1}{\displaystyle 1 + \exp\left\{-\alpha - \sum_{j=1}^p \beta_j X_i(t_j)\right\}}, \quad i=1,\dots, n.
 \]
 
-In much the same way as the linear regression model described above, this \acs{RKHS}-based logistic regression model offers some advantages over the classical \(L^2\)-model. First, it has a more straightforward interpretation and allows for a workable Bayesian approach. Secondly, it can be shown that under mild conditions the general \acs{RKHS} logistic functional model holds whenever the conditional distributions \(X | Y=i\) (\(i=0,1\)) are homoscedastic Gaussian processes, and in some cases it also entails the \(L^2\)-model~\citep[see][]{berrendero2023functional}; this arguably provides a solid theoretical motivation for the reduced model. Incidentally, these models also shed light on the near-perfect classification phenomenon for functional data, described by \citet{delaigle2012achieving} and further examined for example in the works of \citet{berrendero2018use} or \citet{torrecilla2020optimal}.
+In much the same way as the linear regression model described above, this \acs{RKHS}-based logistic regression model offers some advantages over the classical \(L^2\)-model. First, it has a more straightforward interpretation and allows for a workable Bayesian approach. Secondly, it can be shown that, under mild conditions, the general \acs{RKHS} logistic functional model holds whenever the conditional distributions \(X | Y=i\) (\(i=0,1\)) are homoscedastic Gaussian processes, and in some cases it also entails the \(L^2\)-model~\citep[see][]{berrendero2023functional}; this arguably provides a solid theoretical motivation for the reduced model. Incidentally, these models also shed light on the near-perfect classification phenomenon for functional data, described by \citet{delaigle2012achieving} and further examined for example in the works of \citet{berrendero2018use} or \citet{torrecilla2020optimal}.
 
 Furthermore, a maximum likelihood approach for parameter estimation (although not considered here) is possible as well, since the finite-dimensional approximation  mitigates the problem of nonexistence of the \acs{MLE} in the functional case. However, let us recall that even in finite-dimensional settings there are cases of quasi-complete separation in which the \acs{MLE} does not exist \citep{albert1984existence}. Additionally, the nonexistence issue of the \acs{MLE} becomes more pronounced as the dimension increases, as exemplified in the theory recently developed by \citet{candes2020phase}. In any event, we argue that the simplified \acs{RKHS} model presented here is a compelling and feasible approach to functional logistic regression, since it bypasses the main difficulties of the usual maximum likelihood techniques.
 
@@ -152,7 +152,7 @@ In these methods we essentially make use of the so-called posterior predictive d
 
 \subsection{Two-stage methods}
 
-In these methods we focus only on the marginal posterior distribution of the impact points \(\tau_p = (t_1, \dots, t_p)\), disregarding the rest of the parameters and effectively constructing a variable selection procedure. After choosing a set of time instants \(\hat \tau_p=(\hat t_1,\dots, \hat t_p)\) using the approximate posterior samples \(\{\tau^{(r)}\}\), we can reduce the original functional regressors to just the marginals \(\{X_i(\hat \tau_p)\}=\{(X_i(\hat t_1),\dots, X_i(\hat t_p))\}\) and apply any of the well-known finite-dimensional prediction algorithms suited for this situation.
+In these methods we focus only on the marginal posterior distribution of the impact points \(\tau_p = (t_1, \dots, t_p)\), disregarding the rest of the parameters and effectively constructing a variable selection procedure. After choosing a set of time instants \(\hat \tau_p=(\hat t_1,\dots, \hat t_p)\) using the approximate posterior samples \(\{\tau^{(r)}\}\), we can reduce the original functional regressors to just the marginals \(\{X_i(\hat \tau_p)\}=\{(X_i(\hat t_1),\dots, X_i(\hat t_p))\}\), and apply any of the well-known finite-dimensional prediction algorithms suited for this situation.
 
 \paragraph{Weighted sum (W-VS)} We can mirror the weighted sum approach of the one-stage methods, with predictions computed as
 \[
@@ -160,7 +160,7 @@ In these methods we focus only on the marginal posterior distribution of the imp
 \]
 where \(\hat \tau_{p}=(\hat t_1, \dots ,\hat t_p)=g(\{\tau^{(r)}\}_{r:p^{(r)}=p})\) and \(g\) is a component-wise summary statistic. The function \(G\) represents the prediction for \(X_{\text{test}}\) of a regular linear/logistic regression algorithm, fitted with the transformed data set \(\{(X_i(\hat \tau_p), Y_i): i=1,\dots,n\}\).
 
-\paragraph{Maximum a posteriori (MAP-VS)} We consider a \acs{MAP} approach to variable selection with only the information of the most probable sub-model, i.e., 
+\paragraph{Maximum a posteriori (MAP-VS)} We also consider a \acs{MAP} approach to variable selection with only the information of the most probable sub-model, i.e., 
 \[
 \hat Y = G(X_{\text{test}}, \hat \tau_{\hat p}).
 \]
@@ -176,27 +176,27 @@ Let \(\pp_{\theta}(X,Y)\) be the joint data distribution in terms of \(\theta\in
   \begin{split}
     \text{(no.\ of components)}\quad & p \sim \pi,                                                                                    \\
     \text{(component times)}\quad    & \tau \mid p \sim \mathfrak{T}_p,                                                                     \\
-    \text{(component values)}\quad   & b \mid p \sim \mathfrak{B}_p,                                                                        \\
+    \text{(impact points)}\quad   & b \mid p \sim \mathfrak{B}_p,                                                                        \\
     \text{(intercept)}\quad          & \alpha \sim \Gamma,                                                                                     \\
     \text{(error variance)}\quad     & \sigma^2 \sim \Delta,                                                                                   \\
     \text{(observed data)}\quad      & (X,Y)_{1:n} \mid \theta \sim \pp_{\theta}(X,Y) \quad \text{i.i.d.},
   \end{split}
 \end{equation}
-where \(\theta = (p, \tau, b, \alpha, \sigma^2)\) is a random variable taking values in \(\Theta\), and \(\pi\), \(\mathfrak{T}_p\), \(\mathfrak{B}_p\), \(\Gamma\) and \(\Delta\) are probability measures on \(\N\), \([0,1]^p\), \(\R^p\), \(\R\) and \(\R^+_0\), respectively. We denote by \(\Pi\) the prior distribution on \(\theta\) implied by the model in~\eqref{eq:model-linear}. Further, we suppose that the model is well-specified, so that there exists \(\theta_0\in\Theta\) such that \((X,Y)\sim \pp_{\theta_0}(X,Y)\), and denote by \(\pp_0^\infty(X,Y)\) and \(\pp_0^{(n)}(X,Y)\) the probability measures of \((X,Y)_{1:\infty}\) and \((X,Y)_{1:n}\), respectively, when \(\theta_0\) is the true value of the parameter.
+where \(\theta = (p, \tau, b, \alpha, \sigma^2)\) is a random variable taking values in \(\Theta\), and \(\pi\), \(\mathfrak{T}_p\), \(\mathfrak{B}_p\), \(\Gamma\) and \(\Delta\) are probability measures on \(\N\), \([0,1]^p\), \(\R^p\), \(\R\) and \(\R^+_0\), respectively. We denote by \(\Pi\) the prior distribution on \(\theta\) implied by the model in~\eqref{eq:model-linear}. Further, we suppose that the model is well-specified, so that there exists \(\theta_0\in\Theta_{p_0}\) such that \((X,Y)\sim \pp_{\theta_0}(X,Y)\), and denote by \(\pp_0^\infty(X,Y)\) and \(\pp_0^{(n)}(X,Y)\) the probability measures of \((X,Y)_{1:\infty}\) and \((X,Y)_{1:n}\), respectively, when \(\theta_0\) is the true value of the parameter.
 
 \subsection{Consistency via Doob's theorem}
 
-At this point we can follow an approach very similar to the one in \citet{miller2023consistency}, where posterior consistency is established through Doob's theorem (see Theorem~\ref{th:doob}) in a mixture model with an unknown number of components, which has an infinite-dimensional parameter space that factorizes in the same way as~\eqref{eq:theta-parameter-space-bfr}. Considering that we will only be interested in small balls around the true value of the parameter, we can define a bounded metric for \(\theta_p, \bar\theta_{\bar p} \in \Theta\) by
+At this point we can follow an approach very similar to the one in \citet{miller2023consistency}, where posterior consistency is established through Doob's theorem (Theorem~\ref{th:doob}) in a mixture model with an unknown number of components, which has an infinite-dimensional parameter space that factorizes in the same way as~\eqref{eq:theta-parameter-space-bfr}. Considering that we will only be interested in small balls around the true value of the parameter, we can define a bounded metric for \(\theta_p, \tilde\theta_{\tilde p} \in \Theta\) by
 \begin{equation}\label{eq:metric-doob}
-  d_\Theta(\theta_p, \bar\theta_{\bar p})= \begin{cases}
-    \min \left\{\|\theta_p - \bar\theta_{\bar p}\|,\, 1\right\}, \quad & \text{if } p=\bar{p}, \\
+  d_\Theta(\theta_p, \tilde\theta_{\tilde p})= \begin{cases}
+    \min \left\{\|\theta_p - \tilde\theta_{\tilde p}\|,\, 1\right\}, \quad & \text{if } p=\tilde{p}, \\
     1, \quad                                           & \text{otherwise}.
   \end{cases}
 \end{equation}
 Since each \(\Theta_p\) is itself a complete separable metric space with the inherited Euclidean norm, Proposition A.1 in \citet{miller2023consistency} ensures that \((\Theta, d_\Theta)\) is a complete separable metric space. Note that \(\pp_\theta(X,Y)\) is invariant under permutations of the component labels \(\tau\) and \(b\), so in an identifiable model we can only show consistency in the parameter space up to one such permutation. To that effect, let \(\mathfrak{S}_p\) denote the set of permutations of \(\{1,\dots,p\}\), and for \(\theta \in \Theta_p\) and any \(\nu\in \mathfrak{S}_p\), denote by \(\theta[\nu]\) the result of applying the permutation \(\nu\) to the component labels of \(\theta\). That is, if \(\theta=(p, t_1,\dots, t_p, \beta_1,\dots,\beta_p, \alpha,\sigma^2)\), then \(\theta[\nu]=(p, t_{\nu_1},\dots, t_{\nu_p}, \beta_{\nu_1},\dots,\beta_{\nu_p}, \alpha,\sigma^2)\). Next, for a given \(\theta_0\in\Theta_{p_0}\) and \(\epsilon>0\), denote \(\mathfrak{S}_0=\mathfrak{S}_{p_0}\) and define the permutation-invariant neighborhood 
-\[
+\begin{equation}\label{eq:neighborhood-doob-permutation}
   B_{d_\Theta}^{\mathfrak{S}}(\theta_0, \epsilon) =\bigcup_{\nu\in \mathfrak{S}_0} \left\{\theta \in \Theta: d_\Theta(\theta_0[\nu], \theta) < \epsilon \right\},
-\]
+\end{equation}
 which consists of all parameters that are within \(\epsilon\) (in the metric \(d_\Theta\)) of some relabeling of \(\theta_0\). Now, for identifiability to hold, we need to place some very mild restrictions on the prior distribution.
 \begin{assumption} Under the model in~\eqref{eq:model-linear}, for all \(p\in\N\):\label{cond:condition-ident}
   \begin{enumerate}[label=(\roman*)]
@@ -228,7 +228,7 @@ It is worth pointing out that the proofs of the results above can be easily adju
 
 All in all, Theorem~\ref{th:consistency-doob-linear} guarantees consistency for \(\Pi\)-almost every parameter in the support of the prior distribution. However, even though we can choose the prior so that \(\supp( \Pi) = \Theta\), in principle there is no assurance that the \(\Pi\)-null set in which consistency may fail will not be a large set with respect to other measures. In fact, when the parameter space is infinite-dimensional there are examples of big inconsistency sets, even for reasonably chosen prior distributions~\citep{diaconis1986consistency}. Nonetheless, this problem can be alleviated when the parameter space is a countable union of disjoint finite-dimensional sets. First, note that there is a natural extension of the Lebesgue measure to our parameter space \(\Theta\): just consider the genuine Lebesgue measure \(\mathfrak{m}_{2p+2}\) on the continuous coordinates of \(\Theta_p\), and for all \(B\subseteq \Theta\) measurable define 
 \[
-\mathfrak{m}_\infty(B) = \sum_{p=1}^\infty \mathfrak{m}_{2p+2}(\Theta_p \cap B).
+\mathfrak{m}_\infty(B) := \sum_{p=1}^\infty \mathfrak{m}_{2p+2}(\Theta_p \cap B).
 \]
 Then, if we choose a prior distribution with respect to which this measure is absolutely continuous, the exceptional set in Theorem~\ref{th:consistency-doob-linear} will satisfy \(\mathfrak{m}_\infty(\Theta \setminus \Theta_*)=0\) and thus be ``small'' with respect to a Lebesgue-type measure. In our case, this requirement can be weakened because consistency is invariant under permutations of the component labels: it suffices that every set with positive Lebesgue measure have positive prior probability for at least one permutation of the component labels.
 
@@ -261,7 +261,7 @@ In this way, denoting \(f_\theta := f_\theta(y|x)\) and \(\mathcal F=\{f_\theta:
 \end{align*}
 where \(\Pi_{\mathcal F}\) is a prior distribution on the parameter class \(\mathcal F\). In practice, we work with the prior distribution \(\Pi\) on \(\Theta\) specified in~\eqref{eq:model-linear}, and interpret \(\Pi_{\mathcal F}\) as the pushforward measure of \(\Pi\) by the measurable mapping \(\theta \mapsto f_\theta\). As always, we assume the existence of a ``true'' density \(f_0 :=f_{\theta_0}(y|x)\in \mathcal F\) that generates the observations.
 
-The idea now is to apply Theorem~\ref{th:consistency-hellinger} to obtain posterior consistency with respect to the Hellinger distance \(d_H\). Looking at the form of the parameter space \(\Theta\) in~\eqref{eq:theta-parameter-space-bfr}, a natural choice for the sieve is 
+The idea now is to apply Theorem~\ref{th:consistency-hellinger} to obtain posterior consistency with respect to the Hellinger distance \(d_H\). Looking at the form of the parameter space \(\Theta\) in~\eqref{eq:theta-parameter-space-bfr}, a natural choice for the sieves is 
 \[
 \Theta_n = \bigcup_{p=1}^{p_n} \Theta_p\quad \text{and}\quad  \mathcal F_n=\{f_\theta\in\mathcal F: \theta \in \Theta_n\},
 \]
@@ -293,9 +293,9 @@ Assume~\ref{cond:condition-schwartz-X} holds. Let \(0<\gamma<1/2\) and suppose t
     \]
 \end{theorem}
 
-The requirements of this result are akin to those of Theorem~\ref{th:consistency-schwartz-linear}, but the conclusion is considerably stronger. To verify the condition on the density of \(\Pi\), provided that it exists, it suffices to show that it is continuous and positive at the continuous components of \(\theta_0\) (which our proposed prior distributions satisfy). The contraction rate \(\epsilon_n=n^{-\gamma}\) with \(0<\gamma<1/2\) is optimal in the sense that it is as close as desired to the parametric rate of \(n^{-1/2}\), and it is \textit{minimax optimal} for estimators of \(f_\theta\) given the model \(\mathcal F_n\) \citep[see][p.~198 and references therein]{ghosal2017fundamentals}.
+The requirements of this result are akin to those of Theorem~\ref{th:consistency-schwartz-linear}, but the conclusion is considerably stronger. To verify the condition on the density of \(\Pi\), provided that it exists, it suffices to show that it is continuous and positive at the continuous components of \(\theta_0\) (which our proposed prior distributions satisfy). The contraction rate \(\epsilon_n=n^{-\gamma}\) with \(0<\gamma<1/2\) is optimal in the sense that it is as close as desired to the parametric rate of \(n^{-1/2}\), and it is \textit{minimax optimal} for estimators of \(f_\theta\) given the class \(\mathcal F_n\) \citep[see][p.~198 and references therein]{ghosal2017fundamentals}.
 
-It is worth pointing out that a contraction rate relative to \(d_H\) is also a contraction rate relative to any distance bounded above by a multiple of the Hellinger distance, so we immediately have consistency and a contraction rate in more descriptive distances. Let \([h]_M\) be the real-valued function \(h\) truncated to the interval \([-M, M]\), and denote the \(L^2(\qq_X)\)-norm by \(\|\cdot\|_{2,\qq_X}\).
+It is worth pointing out that a contraction rate relative to \(d_H\) is also a contraction rate relative to any distance bounded above by a multiple of the Hellinger distance, so we immediately have consistency and a contraction rate in more descriptive distances. Let \([h]_M\) represent the real-valued function \(h\) truncated to the interval \([-M, M]\), and denote the \(L^2(\qq_X)\)-norm by \(\|\cdot\|_{2,\qq_X}\).
 
 \begin{corollary}\label{corollary:contraction-rate-schwartz-linear-2}
   \marginproof{proof:contraction-rate-schwartz-linear-2}
@@ -310,7 +310,7 @@ where \(H_\theta(x)=\pp(Y=1|x,\theta)\) is the parameter of the Bernoulli distri
 
 \subsubsection*{On the smoothness requirements}
 
-Note that~\ref{cond:condition-schwartz-X} implies that the process \(X\) is \textit{mean-square Lipschitz continuous}, i.e., there exists \(L>0\) such that \(\E[(X(t) - X(s))^2] \leq L (t-s)^2\) for all \(t, s \in [0,1]\). Looking carefully at the proofs of the results above, we could substitute the almost sure Lipschitzness of the trajectories by this new condition and arrive at the same conclusions. Moreover, note that this guarantees, via Kolmogorov's continuity theorem, that the sample paths of \(X\) (after an eventual modification) are continuous functions. Apart from somewhat trivial examples, such as a deterministic process or a linear random process, we can show that processes with a sufficiently smooth kernel satisfy our requirements.
+Note that~\ref{cond:condition-schwartz-X} implies that the process \(X\) is \textit{mean-square Lipschitz continuous}, i.e., there exists \(L>0\) such that \(\E[(X(t) - X(s))^2] \leq L (t-s)^2\) for all \(t, s \in [0,1]\). Looking carefully at the proofs of the results above, we could substitute the almost sure Lipschitzness of the trajectories by this new condition and arrive at the same conclusions. Moreover, note that this guarantees, via Kolmogorov's continuity theorem, that the sample paths of \(X\) (after an eventual modification) are continuous functions. Apart from somewhat trivial examples, such as a deterministic process or a linear random process, we can show that processes with a sufficiently smooth covariance satisfy our requirements.
 
 \begin{lemma}\label{lemma:mean-square-lipschitz}
   \marginproof{proof:mean-square-lipschitz}
@@ -344,7 +344,7 @@ For the simulations we consider 200 training samples and 100 testing samples, wi
   \item A \acs{GP} with a squared exponential kernel (\slsc{SE}), also known as Gaussian kernel, given by \(K_4(t,s)=e^{-(t-s)^2/2\xi^2}\) with \(\xi=0.2\). 
 \end{itemize}
 
-\paragraph{Linear regression data sets} We employ three different types of simulated data sets, all with a common value of \(\alpha=5\) for the intercept and \(\sigma^2=0.5\) for the error variance.
+\paragraph{Linear regression data sets} We employ three different types of simulated data sets, with a common value of \(\alpha=5\) for the intercept and \(\sigma^2=0.5\) for the error variance.
 \begin{itemize}
   \item A finite-dimensional \acs{RKHS} response with three components for each of the four \acs{GP} regressors mentioned above, namely
   \[
@@ -374,7 +374,7 @@ As for the real data experiments, we use the Tecator data set \citep{borggaard19
   \]
   and a heteroscedastic case to distinguish between a standard Brownian motion and a Brownian motion with kernel \(K(t,s)=2\min\{t,s\}\).
 \end{itemize}
-Additionally, we use three real data sets well known in the literature. The first one is a subset of the Medflies data set \citep{carey1998relationship}, consisting on samples of the number of eggs laid daily by 534 flies over 30 days, to predict whether their longevity is high or low. The second one is the Berkeley Growth Study data set \citep{tuddenham1954physical}, which records the height of 54 girls and 39 boys over 31 different points in their lives. Finally, we selected a subset of the Phoneme data set \citep{hastie1995penalized} based on 200 digitized speech frames over 128 equispaced points to predict the phonemes ``aa'' and ``ao''.
+Additionally, we use three real data sets well known in the literature. The first one is a subset of the Medflies data set \citep{carey1998relationship}, consisting on samples of the number of eggs laid daily by 534 flies over 30 days, to predict whether their longevity is high or low. The second one is the Berkeley Growth Study data set \citep{tuddenham1954physical}, which records the height of 54 girls and 39 boys over 31 different points in their lives. Finally, we select a subset of the Phoneme data set \citep{hastie1995penalized} based on 200 digitized speech frames over 128 equispaced points, to predict the phonemes ``aa'' and ``ao''.
 
 \subsection{Comparison algorithms}
 
@@ -422,7 +422,7 @@ Following \citet{nobile2007bayesian}, we select a truncated Poisson prior with a
 
 We begin with the simulation experiments in Figure~\ref{fig:reg_rkhs}, where we see the results for the \acs{RKHS} response. This is our baseline and the most favorable case for us, as the underlying model coincides with our assumed model. Indeed, we can see that in most instances our algorithms are the ones with lower \acs{RMSE}, as expected, and there is not much variance among our different approaches to prediction, at least in the one-stage methods. We even manage to consistently beat the \slsc{Lasso} finite-dimensional regression mechanism, which can select all 100 components for its model, versus our 10 components at most. This is an indication that our models make a more efficient selection of variables, encapsulating more information with fewer components and justifying our partiality to parsimonious models.
 
-Figure~\ref{fig:reg_l2} shows the results for an underlying \(L^2\)-model, which would be our direct competitor and a more representative test for our Bayesian model. In this case the outcome is satisfactory, as for the most part our models are on a par with the rest, even surpassing other methods that were designed with the \(L^2\)-model in mind. Especially interesting is the comparison with the standard \(L^2\) functional regression \slsc{FLin}, which we outperform most of the time.
+Figure~\ref{fig:reg_l2} shows the results for an underlying \(L^2\)-model, which would be our direct competitor and a more representative test for our Bayesian methods. In this case the outcome is satisfactory, as for the most part our models are on a par with the rest, even surpassing other methods that were designed with the \(L^2\)-model in mind. Especially interesting is the comparison with the standard \(L^2\) functional regression \slsc{FLin}, which we outperform most of the time.
 
 The comparison results for non-Gaussian data can be seen in Figure~\ref{fig:reg_non_gp}. In this case our methods still get better results under the \acs{RKHS} model, while the results under the \(L^2\)-model are essentially the same, which is a positive outcome.
 
@@ -454,7 +454,7 @@ The comparison results for non-Gaussian data can be seen in Figure~\ref{fig:reg_
 
 Lastly, Figure~\ref{fig:reg_real} depicts the results for the real data sets, where we can see that the performance of our one-stage methods is about the same as that of the comparison methods. However, our variable selection methods are somewhat worse that the reference methods, although not by a wide margin. We have to bear in mind that real data is more complex and noisy than simulated data, and it is possible that after a suitable pre-preprocessing we would have obtained better results. Nonetheless, our goal was to perform a general comparison with a uniform methodology, without focusing too much on the specifics of any particular data set.
 
-On another note, we see that some of our Bayesian models have a higher standard deviation, partly because there is an intrinsic randomness in the sampling mechanism, and it can be the cause of the occasional worse performance. In relation to this, we observe that the methods that use the trimmed mean as a summary statistic tend to have a worse score, as this statistic is more sensitive to outliers than the median or the mode, even with the \(10\%\) trimming.
+On another note, we see that some of our Bayesian models have a higher standard deviation, partly because there is an intrinsic randomness in the sampling mechanism, which can be the cause of the occasional worse performance. In relation to this, we observe that the methods that use the trimmed mean as a summary statistic tend to have a worse score, as this statistic is more sensitive to outliers than the median or the mode, even with the \(10\%\) trimming.
 
 \FloatBarrier{}
 \subsubsection*{Functional logistic regression}
@@ -465,7 +465,7 @@ First, in Figure~\ref{fig:clf_rkhs} we see the results for the \acs{GP} regresso
 
 Subsequently, Figure~\ref{fig:clf_l2} shows that in the \(L^2\) scenario the results are again promising, since our models score consistently on or above the mean of the reference models, and in many instances exceed most of them. In this case we also beat the alternative functional logistic regression method (\slsc{FLog}). In addition, in this situation the overall accuracy of all methods is poor (around \(60\%\)), so this is indeed a difficult problem in which even small increases in accuracy are relevant.
 
-Then, Figure~\ref{fig:clf_non_gp} shows that our classifiers perform better than most comparison algorithms in both non-Gaussian cases. The differences are most notable in the homoscedastic case, and in the heteroscedastic case the overall accuracy is low.
+Then, Figure~\ref{fig:clf_non_gp} shows that our classifiers perform better than most comparison algorithms in both non-Gaussian cases. The differences are most notable in the homoscedastic case, while in the heteroscedastic case the overall accuracy is low.
 
 \begin{figure}[tbp]
   \myfloatalign
@@ -557,7 +557,7 @@ Next we proceed with the visual checks. We can look at the flat posterior distri
   \caption[Functional regression validation: posterior distribution and trace of number of components]{Posterior distribution (left) and trace (right) of \(p\). We see that the true number of components is recovered.}\label{fig:trace-p}
 \end{figure}
 
-Lastly, we can perform a posterior predictive check (Figure~\ref{fig:pp-check}). This is arguably the most useful test for prediction purposes, since we represent the posterior predictive distribution that will be used for inference and prediction. We can do it on the training data or directly on previously unseen regressors. If the sampling has been successful, the posterior predictive should look like a tubular region around the observed data.
+Lastly, we can perform a posterior predictive check (Figure~\ref{fig:pp-check}). This is arguably the most useful check for prediction purposes, since we represent the posterior predictive distribution that will be used for inference and prediction. We can do it on the training data or directly on previously unseen regressors. If the sampling has been successful, the posterior predictive should look like a tubular region around the observed data.
 
 \begin{figure}[tbp]
   \myfloatalign
@@ -567,9 +567,9 @@ Lastly, we can perform a posterior predictive check (Figure~\ref{fig:pp-check}).
 
 \subsection{Runtime comparison}\label{sec:execution-times-bfr}
 
-In Figure~\ref{fig:reg-execution-times} and Figure~\ref{fig:clf-execution-times} we see the execution times of all the experiments. For illustration purposes, we average the runtime of all our methods and all the reference methods over all train/test splits for each dataset.
+In Figure~\ref{fig:reg-execution-times} and Figure~\ref{fig:clf-execution-times} we see the execution times of all the experiments. For each dataset, we report the average runtime of all our methods and the average runtime of all the reference methods, over all train/test splits.
 
-The execution time of the reference methods includes the duration of the cross-validation phase to select the best hyperparameters, a phase that our Bayesian methods lack by design. It is widely known that \acs{RJMCMC} sampling tends to be slow, but as we can see the differences are manageable. Our methods have reasonable run times for practical use, especially when taking into account the predictive improvement obtained in some cases. It is possible that we ran some chains for more steps than necessary, because we wanted to perform all experiments in the same generic configuration. In real-world scenarios one would pay closer attention to convergence metrics and try to stop the sampling earlier.
+The execution time of the reference methods includes the duration of the cross-validation phase to select the best hyperparameters, a phase that our Bayesian methods lack by design. It is widely known that \acs{RJMCMC} sampling tends to be slow, but as we can see the differences are manageable. Our methods have reasonable runtimes for practical use, especially when taking into account the predictive improvement obtained in some cases. It is possible that we ran some chains for more steps than necessary, because we wanted to perform all experiments in the same generic configuration. In real-world scenarios one would pay closer attention to convergence metrics and try to stop the sampling earlier, potentially reducing the computational cost.
 
 \begin{figure}[tbp]
   \myfloatalign
@@ -586,11 +586,11 @@ The execution time of the reference methods includes the duration of the cross-v
 \FloatBarrier{}
 \section{Discussion}\label{sec:fr-discussion}
 
-We have introduced a natural and computationally feasible way of integrating Bayesian inference into functional regression models, by means of a \acs{RKHS} approach that simplifies the inherently hard task of setting a prior distribution on an infinite-dimensional space. The proposed \acs{RKHS} formulation gives a common framework to all finite-dimensional models based on linear combinations of the marginals of the underlying process, establishing a solid theoretical foundation for these popular points-of-impact models while retaining a functional viewpoint. Our approximation relies on simpler functional parameters, thus enhancing interpretability and ease of implementation, and also enables meaningful model comparisons across different dimensions and facilitates the analysis of the effects of local characteristics of the process.
+We have introduced a natural and computationally feasible way of integrating Bayesian inference into functional regression models, by means of a \acs{RKHS} approach that simplifies the inherently hard task of setting a prior distribution on an infinite-dimensional space. The proposed \acs{RKHS} formulation gives a common framework to all finite-dimensional models based on linear combinations of the marginals of the underlying process, establishing a solid theoretical foundation for these popular points-of-impact models while retaining a functional viewpoint. Our approximation relies on simpler functional parameters, thus enhancing interpretability and ease of implementation. Moreover, it enables meaningful model comparisons across different dimensions, while also facilitating the analysis of the effects of local characteristics of the process.
 
-We have also proved posterior consistency results that ensure the coherence and correctness of the Bayesian methods we developed. These kinds of results have in other contexts more intricate and restrictive conditions to arrive at essentially the same conclusions as we did, but again the introduction of the \acs{RKHS} is the key point to greatly simplifying them. On the one hand, we have successfully adapted the methodology recently introduced in \citet{miller2023consistency}---originally intended for mixture models---to the fundamentally different scenario of functional regression, obtaining ``Lebesgue''-almost sure consistency for both the model parameters and the unknown number of components. On the other hand, we have derived alternative consistency results and optimal contraction rates through a more sophisticated approach based on Schwartz's theorem, which is the standard tool in nonparametric consistency problems. In addition, it is worth mentioning that the theorems we have proved are applicable to a wide range of prior distributions, including many that are rather simple and hence easier to work with.
+We have also proved posterior consistency results that ensure the coherence and correctness of the Bayesian methods we developed. Similar conclusions in other settings often depend on substantially more restrictive conditions; here, introducing \acs{RKHSs} is key to significantly simplifying them. On the one hand, we have successfully adapted the methodology recently introduced in \citet{miller2023consistency}---originally intended for mixture models---to the fundamentally different scenario of functional regression, obtaining ``Lebesgue''-almost sure consistency for both the model parameters and the unknown number of components. On the other hand, we have derived alternative consistency results and optimal contraction rates through a more sophisticated approach based on Schwartz's theorem, which is the standard tool in nonparametric consistency problems. In addition, it is worth mentioning that the results we obtained are applicable to a wide range of prior distributions, including many that are rather simple and hence easier to work with.
 
-Lastly, we have presented numerical evidence that supports the proposed Bayesian methodology and its predictive performance with simulated and real data sets. Thanks to our \acs{RKHS} formulation, we can effectively leverage the capabilities of \acs{RJMCMC} samplers and integrate the unknown number of components into the Bayesian procedure, which to our knowledge is a novel application in \acs{FDA}. Moreover, a key finding in our empirical studies is that a relatively low number of components is sufficient to obtain good results. This practical side of our work showcases that the Bayesian prediction methods we constructed are competitive against several (not cherry-picked) frequentist techniques, especially those based on the usual \(L^2\)-models, while still remaining viable implementation-wise. Of course, our proposed model is not without limitations, and we are not suggesting that the \(L^2\) perspective should be abandoned, but merely offering a simple, theoretically-backed alternative that can perform better in many situations.
+Lastly, we have presented numerical evidence that supports the proposed Bayesian methodology and its predictive performance with simulated and real data sets. Thanks to our \acs{RKHS} formulation, we can effectively leverage the capabilities of \acs{RJMCMC} samplers and integrate the unknown number of components into the Bayesian procedure, which to our knowledge is a novel application in \acs{FDA}. Moreover, a key finding in our empirical studies is that a relatively low number of components is sufficient to obtain good results. This practical side of our work showcases that the Bayesian prediction methods we constructed are competitive against several (non-cherry-picked) frequentist techniques, especially those based on the usual \(L^2\)-models, while still remaining viable implementation-wise. Of course, our proposed model is not without limitations, and we are not suggesting that the \(L^2\) perspective should be abandoned, but merely offering a simple, theoretically-backed alternative that can perform better in many situations.
 
 \section{Proofs}\label{sec:proofs-bfr}
 
@@ -598,7 +598,7 @@ Here we present detailed proofs of the theoretical results in this chapter. Bear
 
 \subsection{Consistency via Doob's theorem}
 
-For this part, the general strategy will be to apply Doob's theorem (Theorem~\ref{th:doob}) to a subset of the parameter space \(\Theta\), where permutations are suitably taken into account and full identifiability holds, and then extend the conclusions to the whole parameter space. As we will see shortly, save for an eventual permutation, identifiability of the map \(\theta \mapsto \pp_\theta(X,Y)\) is obtained in the \acs{RKHS} case when the covariance function \(K\) of the underlying stochastic process is nondegenerate.
+For this part, the general strategy will be to apply Doob's theorem (Theorem~\ref{th:doob}) to a subset of the parameter space \(\Theta\), where permutations are suitably taken into account and full identifiability holds, and then extend the conclusions to the whole parameter space. As we will see shortly, save for an eventual permutation, identifiability of the map \(\theta \mapsto \pp_\theta(X,Y)\) is obtained in the \acs{RKHS} case when the covariance function of the underlying stochastic process is nondegenerate.
 
 \begin{proof}[Proof of Theorem~\ref{th:consistency-doob-linear}]\label{proof:consistency-doob-linear}
   
@@ -608,7 +608,9 @@ We break the proof into several steps.
 \[
   \theta \mapsto \int_{\mathcal X \times \mathcal Y} h(\theta, x, y)\, d\qq_X(x)\,d\mathfrak{m}(y) = \pp_\theta(X, Y)(A)
 \]
-is measurable. Another measurability concern is the existence of regular conditional distributions such as \(\theta|(X, Y)_{1:n}\). For this, one should see Theorem 10.2.1 and Theorem 10.2.2 in \citet{dudley2002real}, which guarantee that such conditional distributions are well-defined provided that the underlying spaces are sufficiently regular.
+is measurable. When \(\sigma^2=0\) we no longer have a normal density, but a similar argument works with the corresponding Dirac measure.
+
+Another measurability concern is the existence of regular conditional distributions such as \(\theta|(X, Y)_{1:n}\). For this, one should see Theorem 10.2.1 and Theorem 10.2.2 in \citet{dudley2002real}, which guarantee that such conditional distributions are well-defined provided that the underlying spaces are sufficiently regular.
 
 \paragraph{Reduced parameter space} Define the constrained space
 \[\tTheta_p = \{p\} \times [0,1]^p_{\text{ord}} \times \left(\R \setminus \{0\}\right)^p \times \R \times \R^+_0,
@@ -617,7 +619,7 @@ where
 \[
 [0,1]^p_{\text{ord}} =\left\{(t_1,\dots, t_p) \in [0,1]^p: t_1 < \cdots < t_p\right\}.
 \]
-Note that \(\tTheta_p\) is an open subset of \(\Theta_p\), and thus open in the full space \(\Theta\). Now consider the disjoint union \(\tTheta = \bigcup_{p\in \N}\tTheta_p\), and observe that \(\tTheta\) is a Polish space, by virtue of being open in the Polish space \(\Theta\) \citep[\S26]{bauer2001measure}, thus satisfying the requirement of Doob's theorem.
+Note that \(\tTheta_p\) is an open subset of \(\Theta_p\), and thus open in the full space \(\Theta\). Now consider the disjoint union \(\tTheta = \bigcup_{p\in \N}\tTheta_p\), and observe that \(\tTheta\) is a Polish space, by virtue of being open in the Polish space \(\Theta\) \citep[\S26]{bauer2001measure}, thus satisfying the first requirement of Doob's theorem.
 
 \paragraph{Transformation into ordered form} For \(\theta\in\Theta_p\), define the measurable mapping \(T(\theta)=\theta[\nu]\) if there is a permutation \(\nu\in \mathfrak{S}_p\) such that \(\theta[\nu]\in \tTheta_p\); otherwise set \(T(\theta)=\theta\). Note that we can only transform \(\theta\) to be in \(\tTheta_p\) if the times \(t_j\) are all distinct and the coefficients \(\beta_j\) are all nonzero. But since the prior distribution assigns probability one to both events by~\ref{cond:condition-ident}, we have \(\Pi(T(\theta)\in\tTheta)=1\). It will be useful later to observe that for any set \(B\subseteq \tTheta_p\), if we denote 
 \[
@@ -628,25 +630,34 @@ we have
   \bigcup_{\nu\in \mathfrak{S}_p} B[\nu] = T^{-1}(B).
 \end{equation}
 
-\paragraph{Collapsed model} Let \(\tilde{\Pi}_T\) denote the distribution of \(T(\theta)\) restricted to \(\tTheta\), and note that \(\pp_{T(\theta)}(X,Y)=\pp_\theta(X,Y)\). Then the following model holds on the reduced space \(\tTheta\):
+\paragraph{Collapsed model} Let \(\tilde{\Pi}\) denote the distribution of \(T(\theta)\) restricted to \(\tTheta\), and note that \(\pp_{T(\theta)}(X,Y)=\pp_\theta(X,Y)\). Then the following model holds on the reduced space \(\tTheta\):
 \begin{equation}\label{eq:model-linear-collapsed}
   \begin{split}
-     & T(\theta) \sim \tilde{\Pi}_T, \\
+     & T(\theta) \sim \tilde{\Pi}, \\
      & (X,Y)_{1:n}\mid T(\theta) \sim \pp_{T(\theta)}(X,Y) \quad \text{i.i.d.}
   \end{split}
 \end{equation}
+Observe that \(\tilde{\Pi}(B)=\Pi(T(\theta)\in B)\) for every measurable set \(B\subseteq \tTheta\). Moreover, the posterior under the original model also coincides with the posterior under the collapsed model, since \((T(\theta), (X,Y)_{1:n})\) has the same joint distribution in both models \citep[see][for details]{miller2023consistency}.
 
-\paragraph{Verifying conditions} We will now show that the conditions of Doob's theorem hold on \(\tTheta\). First, since \(\theta \mapsto \pp_\theta(X, Y)(A)\) is measurable on \(\Theta\), it is also measurable on \(\tTheta\) for all sets \(A\subseteq \mathcal X \times \mathcal Y\) measurable. For the identifiability part, suppose by contradiction that there are two parameters \(\theta_p,\bar\theta_{\bar p} \in \tTheta\) such that \(\theta\neq \bar\theta\) and \(\pp_{\theta}(X, Y) = \pp_{\bar\theta}(X, Y)\). Then necessarily the Gaussian distributions \(\pp_{\theta}(Y|X)\) and \(\pp_{\bar\theta}(Y|X)\) coincide, which in turn implies that the means and variances of these distributions are equal, i.e., \(\sigma^2=\bar\sigma^2\) and
+\paragraph{Verifying conditions} We will now show that the conditions of Doob's theorem hold on \(\tTheta\). First, since \(\theta \mapsto \pp_\theta(X, Y)(A)\) is measurable on \(\Theta\), it is also measurable on \(\tTheta\) for all sets \(A\subseteq \mathcal X \times \mathcal Y\) measurable. For the identifiability part, suppose by contradiction that there are two parameters \(\theta_p,\bar\theta_{\bar p} \in \tTheta\) such that \(\theta\neq \bar\theta\) and \(\pp_{\theta}(X, Y) = \pp_{\bar\theta}(X, Y)\). Then necessarily the Gaussian distributions \(\pp_{\theta}(Y|X)\) and \(\pp_{\bar\theta}(Y|X)\) coincide \(\qq_X\)-almost surely, which in turn implies that their variances agree and their means are equal almost surely, i.e., \(\sigma^2=\bar\sigma^2\) and
 \[
-  \alpha + \sum_{j=1}^{p} \beta_j X(t_j) = \bar\alpha + \sum_{j=1}^{\bar p} \bar\beta_j X(\bar t_j),
+  \alpha + \sum_{j=1}^{p} \beta_j X(t_j) = \bar\alpha + \sum_{j=1}^{\bar p} \bar\beta_j X(\bar t_j)\quad \qq_X-\text{a.s.}
 \]
-where \(t_j\neq t_k\) and \(\bar t_j\neq \bar t_k\) for \(j\neq k\). Reordering the terms and combining those where the impact points coincide, we have a linear combination of marginals of the process \(X\) that equals a constant. By taking variances, we can see that all the coefficients in this linear combination must vanish, since the covariance function of the process is strictly positive definite. But \(\beta_j\) and \(\bar\beta_j\) cannot be zero for any \(j\) (by definition of \(\tTheta\)), so it must be the case that \(p=\bar p\) and \(\bar\theta=\theta[\nu]\) for some \(\nu \in \mathfrak{S}_p\). However, \(t_1< \cdots < t_p\) and \(\bar t_1 < \cdots < \bar t_p\), so  \(\nu\) must be the identity permutation, that is, \(\bar\theta=\theta\), contradicting the initial assumption.
+Reordering the terms and combining those where the impact points coincide, we get a linear combination of marginals of the process that equals a constant:
+\[
+\sum_{k=1}^m \gamma_k X(s_k) = \alpha - \bar\alpha\quad \qq_X-\text{a.s.},
+\]
+where \(s_1,\dots,s_m\) are distinct times. By taking variances, we can see that all the coefficients in this linear combination must vanish (and hence \(\alpha=\bar\alpha\)), since the covariance function of the process is strictly positive definite. But \(\beta_j\) and \(\bar\beta_j\) cannot be zero for any \(j\) by definition of \(\tTheta\), so it must be the case that \(p=\bar p\) and \(\bar\theta=\theta[\nu]\) for some \(\nu \in \mathfrak{S}_p\). However, \(t_1< \cdots < t_p\) and \(\bar t_1 < \cdots < \bar t_p\), so  \(\nu\) must be the identity permutation, that is, \(\bar\theta=\theta\), contradicting the initial assumption.
 
 \paragraph{Applying Doob's theorem} Next we analyze the conclusions of Doob's theorem applied to the collapsed model~\eqref{eq:model-linear-collapsed}: there exists a subset \(\tTheta_* \subseteq \tTheta\) with \(\Pi(T(\theta)\in\tTheta_*)=1\) such that, if \(T(\theta_0)\in \tTheta_*\) and \((X,Y)_{1:\infty} \sim \pp_{T(\theta_0)}(X, Y)\) i.i.d., then for any neighborhood \(B\subseteq \tTheta\) of \(T(\theta_0)\) it holds that
 \begin{equation}\label{eq:consistency-collapsed}
-  \Pi_n(T(\theta) \in B \mid (X,Y)_{1:n}) \xrightarrow[]{n\to\infty} 1 \quad \pp_{T(\theta_0)}^\infty-\text{a.s.}
+  \Pi_n(T(\theta) \in B \mid (X,Y)_{1:n}) \xrightarrow[]{n\to\infty} 1 \quad \pp_{T(\theta_0)}^\infty(X, Y)-\text{a.s.}
 \end{equation}
-Now define \(\Theta_*\) to be the set of all parameters in \(\Theta\) that can be obtained by permuting a parameter in \(\tTheta_*\), i.e., \(\Theta_* = \bigcup_{p=1}^\infty \bigcup_{\nu\in \mathfrak{S}_p}(\tTheta_* \cap \tTheta_p)[\nu]\). Then, by~\eqref{eq:inverse-image-T} we have
+Now define \(\Theta_*\) to be the set of all parameters in \(\Theta\) that can be obtained by permuting a parameter in \(\tTheta_*\), i.e., 
+\[
+  \Theta_* := \bigcup_{p=1}^\infty \bigcup_{\nu\in \mathfrak{S}_p}(\tTheta_* \cap \tTheta_p)[\nu].
+\]
+Then, by~\eqref{eq:inverse-image-T} we have
 \[
   \Pi(\theta\in \Theta_*) = \Pi\left(T(\theta) \in \bigcup_{p=1}^\infty (\tTheta_*\cap \tTheta_p)\right) = \Pi(T(\theta)\in \tTheta_*) = 1.
 \]
@@ -655,7 +666,7 @@ Now define \(\Theta_*\) to be the set of all parameters in \(\Theta\) that can b
 \begin{equation}\label{eq:set-B}
   B = \left\{ \theta \in \tTheta: d_\Theta(T(\theta_0), \theta) < \epsilon \right\}.
 \end{equation}
-Observe that, since \(\epsilon < 1\), we have \(B\subseteq \tTheta_{p_0}\) by definition of \(d_\Theta\). Moreover, it holds that
+Observe that, since \(\epsilon < 1\), we have \(B\subseteq \tTheta_{p_0}\) by definition of \(d_\Theta\); see~\eqref{eq:metric-doob}. Moreover, by~\eqref{eq:neighborhood-doob-permutation} it holds that
 \[
   \bigcup_{\nu\in \mathfrak{S}_{0}}B[\nu]\subseteq B_{d_\Theta}^{\mathfrak{S}}(\theta_0, \epsilon).
 \]  
@@ -675,11 +686,11 @@ and this fact together with~\eqref{eq:consistency-intermediate} proves consisten
 
 \begin{proof}[Proof of Proposition~\ref{prop:consistency-lebesgue-linear}]\label{proof:consistency-lebesgue-linear}
   
-Define \(\Theta_*\) as in the proof of Theorem~\ref{th:consistency-doob-linear} above, and consider for \(p\in\N\) the measurable set \(B_p=\Theta_p \setminus \Theta_*\subset \Theta_p\). Since \(\Pi(\Theta \setminus \Theta_*)=0\), we necessarily have \(\Pi(B_p)=0\). Moreover, the permutation invariance \(B_p[\nu] = B_p\) holds for all \(\nu \in \mathfrak{S}_p\) by definition of \(\Theta_*\). Hence,
+Define \(\Theta_*\) as in the proof of Theorem~\ref{th:consistency-doob-linear} above, and consider for \(p\in\N\) the measurable set \(B_p=\Theta_p \setminus \Theta_*\subseteq \Theta_p\). Since \(\Pi(\Theta \setminus \Theta_*)=0\), we necessarily have \(\Pi(B_p)=0\). Moreover, by the permutation-invariance of \(\Theta_*\) it holds that \(B_p[\nu] = B_p\) for all \(\nu \in \mathfrak{S}_p\). Hence,
 \[
 \sum_{\nu\in \mathfrak{S}_p} \Pi(\theta[\nu] \in B_p) = p! \cdot \Pi(B_p) = 0.
 \]
-Then, by assumption, \(\mathfrak{m}_{2p+2}(B_p)=0\). But this is valid for all \(p\in\N\), so we can conclude that, as claimed, 
+Then, by assumption, \(\mathfrak{m}_{2p+2}(B_p)=0\). But this is valid for all \(p\in\N\), so we can conclude that 
 \[
 \mathfrak{m}_\infty(\Theta\setminus \Theta_*) = \sum_{p=1}^\infty \mathfrak{m}_{2p+2}(B_p)=0.
 \]
@@ -707,11 +718,11 @@ where \(M_A,M_B>0\) and \(0<\sigma^2_{\text{min}}<\sigma^2_{\text{max}}\). Somet
 Next, we present a collection of standard results on covering numbers that will be extensively used in the subsequent proofs.
 
 \begin{lemma}[see \citealp{vaart2023weak}]\label{lemma:covering-number}
-  Suppose \(d\) is a distance on the set of densities \(\mathcal F=\{f_\theta: \theta\in\Theta\}\).
+  Suppose \(d\) is a distance on the class of densities \(\mathcal F=\{f_\theta: \theta\in\Theta\}\).
   \begin{enumerate}[label=(\roman*)]
     \item If \(\epsilon\leq \tilde\epsilon\) then \(N(\tilde\epsilon, \mathcal F, d) \leq N(\epsilon, \mathcal F, d)\).
     \item If \(\tilde d\) is another distance on \(\mathcal F\) such that \(d\leq \tilde C \tilde d\) for some \(\tilde C > 0\), then \(N(\epsilon, \mathcal F, d) \leq N(\epsilon/\tilde C, \mathcal F, \tilde d)\) for all \(\epsilon > 0\).
-    \item If there is a constant \(\tilde C>0\) such that \(d(f_{\theta}, f_{\bar\theta})\leq \tilde C \|\theta - \bar\theta\|\) for all \(\theta, \bar\theta \in  \Theta\), then \(N(\epsilon, \mathcal F, d)\leq N(\epsilon/\tilde C, \Theta, \|\cdot\|)\) for all \(\epsilon > 0\). % Theorem 2.7.17 in van der Vaart and Wellner (1996)
+    \item If there is a constant \(\tilde C>0\) such that \(d(f_{\theta}, f_{\tilde\theta})\leq \tilde C \|\theta - \tilde\theta\|\) for all \(\theta, \tilde\theta \in  \Theta\), then \(N(\epsilon, \mathcal F, d)\leq N(\epsilon/\tilde C, \Theta, \|\cdot\|)\) for all \(\epsilon > 0\). % Theorem 2.7.17 in van der Vaart and Wellner (1996)
     \item If \(A\subset \R^D\) has finite diameter \(R_D\), then \(N(\epsilon, A, \|\cdot\|) \leq (3R_D/\epsilon)^D\) for all \(0<\epsilon<R_D\). % Proposition C.2 in Ghosal and van der Vaart (2017)
   \end{enumerate}
 \end{lemma}
@@ -729,38 +740,38 @@ which allows us to express the density of \(Y|X=x, \theta\) in our linear model 
 
 We need to verify the conditions of Theorem~\ref{th:consistency-hellinger}. As was previously announced, we will be using the sieve of parameters \(\Theta_n = \bigcup_{p=1}^{p_n} \Theta_p\), and the corresponding sieve of densities given by \(\mathcal F_n=\{f_\theta\in \mathcal F: \theta \in \Theta_n\}\). The idea is to select a suitable growth order for the upper limit \(p_n\) in the sieve so that all conditions hold.
 
-\paragraph{Bounding the metric entropy} First, we claim that there exists \(C^{(p)}>0\) so that \(d_H(f_\theta, f_{\bar\theta})\leq C^{(p)}\|\theta - \bar\theta\|\) for all \(\theta, \bar\theta\) in a fixed (finite-dimensional) \(\Theta_p\). Starting with the function \(\mu_\theta\) and a given trajectory \(x\) of \(X\), rewrite the absolute difference in means as
+\paragraph{Bounding the metric entropy} First, we claim that there exists \(C^{(p)}>0\) so that \(d_H(f_\theta, f_{\tilde\theta})\leq C^{(p)}\|\theta - \tilde\theta\|\) for all \(\theta, \tilde\theta\) in a fixed (finite-dimensional) \(\Theta_p\). Starting with the function \(\mu_\theta\) and a given trajectory \(x\) of \(X\), rewrite the absolute difference in means as
 \[
-  |\mu_\theta(x) - \mu_{\bar\theta}(x)| = \left| (\alpha - \bar\alpha) + \sum_{j=1}^p \left(\beta_j (x(t_j) - x(\bar t_{j}))+ (\beta_j - \bar\beta_{j})x(\bar t_{j})\right) \right|.
+  |\mu_\theta(x) - \mu_{\tilde\theta}(x)| = \left| (\alpha - \tilde\alpha) + \sum_{j=1}^p \left(\beta_j (x(t_j) - x(\tilde t_{j}))+ (\beta_j - \tilde\beta_{j})x(\tilde t_{j})\right) \right|.
 \]
-Now from the triangle inequality, the Cauchy--Schwarz inequality and the fact that \((a+b)^2 \leq 2(a^2 + b^2)\), the following holds \(\qq_X-\)a.s.:
+Now from the triangle inequality, the Cauchy--Schwarz inequality and the fact that \((a+b)^2 \leq 2(a^2 + b^2)\), we have
 \begin{align*}
-  \frac{1}{2}(\mu_\theta(x) - \mu_{\bar\theta}(x))^2 &\leq (\alpha - \bar\alpha)^2 + 2p\biggl(M_B^2\sum_{j=1}^p |x(t_j) - x(\bar t_j)|^2\\
-  &\quad + \sum_{j=1}^p x(\bar t_j)^2|\beta_j - \bar\beta_j|^2\biggr).
+  \frac{1}{2}(\mu_\theta(x) - \mu_{\tilde\theta}(x))^2 &\leq (\alpha - \tilde\alpha)^2 + 2p\biggl(M_B^2\sum_{j=1}^p |x(t_j) - x(\tilde t_j)|^2\\
+  &\quad + \sum_{j=1}^p x(\tilde t_j)^2|\beta_j - \tilde\beta_j|^2\biggr).
 \end{align*}
-Note that \(\|\theta-\bar\theta\|^2\) is always bigger than the sum of just some of the squared components of \(\theta - \bar\theta\). Using the Lipschitz property in~\ref{cond:condition-schwartz-X} and integrating on both sides with respect to \(\qq_X\), we get
+Note that \(\|\theta-\tilde\theta\|^2\) is always bigger than the sum of just some of the squared components of \(\theta - \tilde\theta\). Using the Lipschitz property in~\ref{cond:condition-schwartz-X} and integrating on both sides with respect to \(\qq_X\), we get
 \begin{align*}
-  \frac{1}{2}\E_{\qq_X}\left[(\mu_\theta - \mu_{\bar\theta})^2\right] &\leq \|\theta - \bar\theta\|^2 + 2p\biggl(M_B^2 \|\theta - \bar\theta\|^2 \E_{\qq_X}[L^2]\\ 
-  &\quad + \|\theta - \bar\theta\|^2 \sup_{t\in[0,1]} \E_{\qq_X}[x(t)^2] \biggr).
+  \frac{1}{2}\E_{\qq_X}\left[(\mu_\theta - \mu_{\tilde\theta})^2\right] &\leq \|\theta - \tilde\theta\|^2 + 2p\biggl(M_B^2 \|\theta - \tilde\theta\|^2 \E_{\qq_X}[L^2]\\ 
+  &\quad + \|\theta - \tilde\theta\|^2 \sup_{t\in[0,1]} \E_{\qq_X}[x(t)^2] \biggr).
 \end{align*}
 Recall that the covariance function \(K\) of \(X\) is assumed to be continuous, so the quantity \(\sup_{t\in[0,1]} \E_{\qq_X}[x(t)^2]=\sup_{t\in[0,1]}K(t,t)\) is finite, and so is the integral \(\E_{\qq_X}[L^2]\) owing to~\ref{cond:condition-schwartz-X}. Then, we can bring all constants together (which are positive and depend on \(M_B\), \(p\) and \(X\)) into \(C_1>0\) to write
 \begin{equation}\label{eq:th9-bound1}
-  \E_{\qq_X}\left[(\mu_\theta - \mu_{\bar\theta})^2\right] \leq C_1 \|\theta - \bar\theta\|^2.
+  \E_{\qq_X}\left[(\mu_\theta - \mu_{\tilde\theta})^2\right] \leq C_1 \|\theta - \tilde\theta\|^2.
 \end{equation}
-Now we compute \(d^2_H(f_\theta, f_{\bar\theta})\). First, define the auxiliary function
+Now we compute \(d^2_H(f_\theta, f_{\tilde\theta})\). First, define the auxiliary function
 \[
-  S(\sigma, \bar\sigma)= \sqrt{\frac{2\sigma \bar\sigma}{\sigma^2 + \bar\sigma^2}}.
+  S(\sigma, \tilde\sigma)= \sqrt{\frac{2\sigma \tilde\sigma}{\sigma^2 + \tilde\sigma^2}}.
 \]
 Using the inequality \(e^{-a}\geq 1-a\) for \(a\geq 0\) and the well-known expression for the Hellinger distance between two univariate normal distributions \citep[e.g.][p.~51]{pardo2018statistical}, we have
 \begin{equation}\label{eq:th9-bound2}
 \begin{split}
-  d^2_H(f_\theta, f_{\bar\theta}) & = 1 - \bigintssss \left(\bigintssss\sqrt{f_\theta(y|x) f_{\bar\theta}(y|x)}\, d\mathfrak{m}(y)\right) d\qq_X(x)\\
-  & = 1 - S(\sigma, \bar\sigma)\bigintsss \exp\left\{ -\frac{(\mu_\theta(x) - \mu_{\bar\theta}(x))^2}{4(\sigma^2 + \bar\sigma^2)} \right\} d\qq_X(x)                                         \\
-  & \leq 1 - S(\sigma, \bar\sigma) + S(\sigma, \bar\sigma) \bigintsss \frac{(\mu_\theta(x) - \mu_{\bar\theta}(x))^2}{4(\sigma^2+\bar\sigma^2)}\, d\qq_X(x) \\
-  & \leq C_2\|\theta - \bar\theta\|^2 + C_3 \E_{\qq_X}\left[(\mu_\theta - \mu_{\bar\theta})^2\right],
+  d^2_H(f_\theta, f_{\tilde\theta}) & = 1 - \bigintssss \left(\bigintssss\sqrt{f_\theta(y|x) f_{\tilde\theta}(y|x)}\, d\mathfrak{m}(y)\right) d\qq_X(x)\\
+  & = 1 - S(\sigma, \tilde\sigma)\bigintsss \exp\left\{ -\frac{(\mu_\theta(x) - \mu_{\tilde\theta}(x))^2}{4(\sigma^2 + \tilde\sigma^2)} \right\} d\qq_X(x)                                         \\
+  & \leq 1 - S(\sigma, \tilde\sigma) + S(\sigma, \tilde\sigma) \bigintsss \frac{(\mu_\theta(x) - \mu_{\tilde\theta}(x))^2}{4(\sigma^2+\tilde\sigma^2)}\, d\qq_X(x) \\
+  & \leq C_2\|\theta - \tilde\theta\|^2 + C_3 \E_{\qq_X}\left[(\mu_\theta - \mu_{\tilde\theta})^2\right],
 \end{split}
 \end{equation}
-where \(C_2\) and \(C_3\) are positive constants that depend on \(\sigma^2_{\text{min}}\) and \(\sigma^2_{\text{max}}\). Obtaining \(C_3\) is straightforward; to get \(C_2\), let \(u=\sigma^2\), \(v=\bar\sigma^2\) and \(S=\sqrt{\frac{2\sqrt{uv}}{u+v}}\), and note that
+where \(C_2\) and \(C_3\) are positive constants that depend on \(\sigma^2_{\text{min}}\) and \(\sigma^2_{\text{max}}\). Obtaining \(C_3\) is straightforward; to get \(C_2\), let \(u=\sigma^2\), \(v=\tilde\sigma^2\) and \(S=\sqrt{\frac{2\sqrt{uv}}{u+v}}\), and note that
 \[
   1-S = \frac{1-S^2}{1+S} \leq 1 - S^2.
 \]
@@ -770,10 +781,10 @@ Now, a bit of algebraic manipulation yields
 \end{equation}
 and after reverting the change of variables the denominator can be easily bounded in terms of \(\sigma^2_{\text{min}}\) and \(\sigma^2_{\text{max}}\). To conclude, combine~\eqref{eq:th9-bound2} with the previous bound~\eqref{eq:th9-bound1} to get the desired inequality
 \begin{equation}\label{eq:th9-bound3}
-  d^2_H(f_\theta, f_{\bar\theta}) \leq C^{(p)} \|\theta - \bar\theta\|^2,
+  d^2_H(f_\theta, f_{\tilde\theta}) \leq C^{(p)} \|\theta - \tilde\theta\|^2,
 \end{equation}
 where \(C^{(p)}>0\) increases linearly with \(p\).
-Next, consider the distance \(d_\Theta\) on \(\Theta\) defined in~\eqref{eq:metric-doob}. From~\eqref{eq:th9-bound3} one can readily verify that \(d_H(f_\theta, f_{\bar\theta}) \leq C(n) d_\Theta(\theta, \bar\theta)\) for \(\theta, \bar\theta \in \Theta_n\), where \(C(n)=O(p_n)\). Moreover, the relationship \(d_\Theta(\theta,\bar\theta)\leq \|\theta - \bar\theta\|\) always holds on \(\Theta_p\). Denote by \(R_p\) the diameter of \((\Theta_p, \|\cdot\|)\), and note that each \(\Theta_p\) is contained in a hypercube of dimension \(2p+2\) and length independent of \(p\), say \(\ell\). Then, \(R_p\leq \ell\sqrt{2p+2}\) for all \(p\). Putting it all together and invoking Lemma~\ref{lemma:covering-number}, for sufficiently small \(\epsilon>0\) we have
+Next, consider the distance \(d_\Theta\) on \(\Theta\) defined in~\eqref{eq:metric-doob}. From~\eqref{eq:th9-bound3} one can readily verify that \(d_H(f_\theta, f_{\tilde\theta}) \leq C(n) d_\Theta(\theta, \tilde\theta)\) for \(\theta, \tilde\theta \in \Theta_n\), where \(C(n)=O(p_n)\). Moreover, the relationship \(d_\Theta(\theta,\tilde\theta)\leq \|\theta - \tilde\theta\|\) always holds on \(\Theta_p\). Denote by \(R_p\) the diameter of \((\Theta_p, \|\cdot\|)\), and note that each \(\Theta_p\) is contained in a hypercube of dimension \(2p+2\) and length independent of \(p\), say \(\ell\). Then, \(R_p\leq \ell\sqrt{2p+2}\) for all \(p\). Putting it all together and invoking Lemma~\ref{lemma:covering-number}, for sufficiently small \(\epsilon>0\) we have
 \begin{align*}
   N(\epsilon, \mathcal F_n, d_H) & \leq N(\epsilon/C(n), \Theta_n, d_\Theta)                               \\
   & \leq \sum_{p=1}^{p_n} N(\epsilon/C(n), \Theta_p, \|\cdot\|)             \\
@@ -937,8 +948,8 @@ Following the same reasoning as we did multiple times before, we can see that \(
 Applying Lemma~\ref{lemma:th11-lemma-lebesgue} with \(r=\epsilon_n/\tilde C=Dn^{-\gamma}/\tilde C\) and taking logarithms in~\eqref{eq:th11-bound2}, we have, for large \(n\),
 \begin{align*}
   \log \Pi_{\mathcal F}(B_2(f_0, \epsilon_n)) &\geq \log c + (2p_0+2)\log\left(\frac{Dn^{-\gamma}}{\tilde C}\right) \\
-  &\geq \tilde c -2\gamma p_0\log n\\
-  &\geq -4\gamma p_0\log n,
+  &\geq \tilde c -\gamma(2p_0 + 2)\log n\\
+  &\geq -\gamma 4p_0\log n,
 \end{align*}
 where \(\tilde c > 0\) is an irrelevant constant in the asymptotic regime. To finish the proof we want to find a constant \(C>0\) such that 
 \[
@@ -946,7 +957,7 @@ where \(\tilde c > 0\) is an irrelevant constant in the asymptotic regime. To fi
 \]
 But, since \(\log n\) grows much slower than \(n^{1-2\gamma}\), the inequality 
 \[
-  -4\gamma p_0\log n \geq -CD^2n^{1-2\gamma}
+  -\gamma 4p_0\log n \geq -CD^2n^{1-2\gamma}
 \]
 holds for any choice of \(C>0\) and sufficiently large \(n\).
 \end{proof}
@@ -994,19 +1005,18 @@ To conclude, note that \(\sqrt{a^2+b^2}\geq (a+b)/\sqrt{2}\) for \(a,b\geq 0\), 
 \end{proof}
 
 \begin{proof}[Proof of Lemma~\ref{lemma:mean-square-lipschitz}]\label{proof:mean-square-lipschitz}
-We know that 
+Suppose the process \(X\) is not degenerate at zero. Since \(\E[X(t)]=0\), we have 
 \[
-  \E[(X(t) - X(s))^2] = K(t,t)-2K(t,s) + K(s,s),
+  \E[(X(t) - X(s))^2] = K(t,t)-2K(t,s) + K(s,s).
 \]
-and a Taylor expansion around the point \((s,s)\) shows that, since \(K\) is symmetric,
+Because \(K\) is twice-continuously differentiable, the fundamental theorem of calculus and the symmetry of \(K\) give the integral representation
 \[
-  K(t,t)-2K(t,s) + K(s,s) = \partial_{ts}K(s,s)(t-s)^2 + o((t-s)^2).
-  \]
-Since \(\partial_{ts}K\) is continuous on the compact set \([0,1]^2\), there exists a constant \(L>0\) such that
-\[
-  K(t,t)-2K(t,s) + K(s,s) \leq L(t-s)^2, \quad \text{for } t\to s.
+  K(t,t)-2K(t,s) + K(s,s) = \int_s^t \int_s^t \partial_{uv}K(u, v)\, du\, dv.
 \]
-Lastly, this bound extends to all \(t,s\in[0,1]\) by continuity of \(K\).
+Let \(L := \sup_{(u, v) \in [0,1]^2} |\partial_{uv}K(u, v)|<\infty\). Then,
+\[
+  \E[(X(t) - X(s))^2] = \int_s^t \int_s^t \partial_{uv}K(u, v)\, du\, dv \leq  L(t-s)^2.
+\]
 \end{proof}
 
 

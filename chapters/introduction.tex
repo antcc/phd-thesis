@@ -2,7 +2,7 @@
 \chapter{Introduction}\label{ch:introduction}
 %************************************************
 
-\section{Functional Data Analysis}
+\section{Functional data analysis}
 
 \acf{FDA} has emerged as one of the most active areas of statistical research over the past decades, driven by the increasing availability of data collected over time, space, or other continuous domains. In contrast to classical multivariate statistics, where each data point is a vector, the \acs{FDA} framework treats each observation as a curve, surface, or more general function, typically viewed as a realization of an underlying stochastic process. While in principle the functional data could simply be regarded as a discretized vector in a very high dimension, there are often many advantages in taking into account its functional nature, ranging from modeling the correlation among points that are close in the domain, to extracting information that may be hidden in the derivatives of the function in question (see Figure~\ref{fig:tecator}). As a consequence, numerous proposals have arisen on how to suitably deal with functional data, which essentially explores statistical techniques to process, model and make inference on data varying over a continuum. The monograph by \citet{ramsay2005functional} is generally regarded as a standard reference for the subject, while detailed up-to-date accounts of the theory and applications can be found for example in \citet{hsing2015theoretical}, \citet{horvath2012inference}, or \citet{wang2016functional}.
 
@@ -114,9 +114,9 @@ A fairly comprehensive analysis of this result is available in \citet{miller2018
 
 In a nonparametric setting where the object of interest is a probability density, there is a stronger consistency result by \citet{schwartz1965bayes} which omits the \(\Pi\)-almost sure qualification under some more restrictive conditions, though it requires a dominated model with a reference measure \(\rho\) and a density \(f_\theta\) to estimate. Consider a class of densities \(\mathcal F=\{f_\theta: \theta\in\Theta\}\), a prior distribution \(\Pi_{\mathcal F}\) on \(\mathcal F\), and suppose that there is a ``true'' density \(f_0\in\mathcal F\). We introduce below a few concepts that lie at the core of most extensions of Schwartz's consistency theorem. 
 
-Recall that the Kullback--Leibler divergence from \(f_\theta\) to \(f_{\bar\theta}\) is defined as 
+Let \(\theta, \tilde\theta \in \Theta\). Recall that the Kullback--Leibler divergence from \(f_\theta\) to \(f_{\tilde\theta}\) is defined as 
 \[
-  \dkl(f_\theta \,\|\, f_{\bar\theta}) = \int f_\theta \log (f_\theta/f_{\bar\theta})\, d\rho.
+  \dkl(f_\theta \,\|\, f_{\tilde\theta}) = \int f_\theta \log (f_\theta/f_{\tilde\theta})\, d\rho.
 \] 
 We say that \(f_0\) belongs to the \textit{Kullback--Leibler support of \(\Pi_{\mathcal F}\)}, and write it as \(f_0 \in \kl(\Pi_{\mathcal F})\), if \(\Pi_{\mathcal F}(f_\theta: \dkl(f_0 \,\|\, f_\theta) < \epsilon) > 0\) for all \(\epsilon > 0\). This can be interpreted as saying that the prior places sufficient mass ``near'' \(f_0\).
 
@@ -124,7 +124,7 @@ On the other hand, let \(N(\epsilon, \mathcal F, d)\) denote the \(\epsilon\)-co
 
 Finally, define the Hellinger distance \(d_H\) between two densities as
 \[
-  d^2_H(f_\theta, f_{\bar\theta}) = 1 - \bigintssss \sqrt{f_\theta f_{\bar\theta}}\, d\rho.
+  d^2_H(f_\theta, f_{\tilde\theta}) = 1 - \bigintssss \sqrt{f_\theta f_{\tilde\theta}}\, d\rho.
 \] 
 
 The following result gives consistency in the sense of Schwartz, by means of a sieve that controls the complexity of the model as the sample size \(n\) increases, measured in terms of the \textit{metric entropy} (the logarithm of the \(\epsilon\)-covering number) of the model.
