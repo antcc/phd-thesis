@@ -22,7 +22,7 @@ In addition, we develop an asymptotic theory for these Bayesian procedures, as a
 
 The numerical experiments were performed using the code developed in the repositories [rk-bfr-jump](https://github.com/antcc/rk-bfr-jump) and [rk-bt-jump](https://github.com/antcc/rk-bt-jump).
 
-## Publication and preprints
+## Publications and preprints
 
 Berrendero, J.R., Coín, A., and Cuevas, A. (2025). "A Bayesian approach to functional regression: theory and computation". In: *Bayesian Analysis* (Advance Publication) ([preprint](https://arxiv.org/abs/2312.14086)|[doi](https://doi.org/10.1214/25-BA1549)).
 
