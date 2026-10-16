@@ -68,7 +68,7 @@ Even though we cannot compute the posterior distribution in closed form, we can 
 \begin{proposition}
   Under the linear \acs{RKHS} model~\eqref{eq:rkhs-model-linear-2} and the prior distribution~\eqref{eq:prior-linear}, the log-posterior distribution up to an additive constant is given by
   \begin{align*}
-    \log\Pi_n(\theta\mid \mathcal D_n) \propto & -\frac{1}{2}\left(\frac{\|b_p\|^2}{\eta^2} - \frac{\|Y_{1:n} - \alpha 1_n + \mathcal X_{\tau_p} b_p\|^2}{\sigma^2} \right)\\
+    \log\Pi_n(\theta\mid \mathcal D_n) \propto & -\frac{1}{2}\left(\frac{\|b_p\|^2}{\eta^2} + \frac{\|Y_{1:n} - \alpha 1_n - \mathcal X_{\tau_p} b_p\|^2}{\sigma^2} \right)\\
     &- (n+2)\log \sigma - p\log \eta\\
     &- \frac{p}{2}\log(2\pi) + \log \Pi(p),
   \end{align*}
@@ -171,7 +171,7 @@ This section explores the theoretical foundations of our Bayesian models in the 
 
 Recall that in our functional linear model the data is an i.i.d.\ sample \((X_1, Y_1), \ldots, (X_n, Y_n)\) of a random vector \((X,Y)\), where \(X=X(t)\) is a second-order stochastic process taking values in \(\mathcal X=\mathcal C[0,1]\), and \(Y\) is a random variable taking values in \(\mathcal Y=\R\). The parameter space is the disjoint union \(\Theta=\bigcup_p \Theta_p\), defined in~\eqref{eq:theta-parameter-space-bfr}, so that each \(\theta\in\Theta\) belongs to exactly one of the \(\Theta_p\). As usual, we equip both \(\mathcal X \times \mathcal Y\) and \(\Theta\) with their respective Borel sigma-algebras, and observe that both are Polish spaces.
 
-Let \(\pp_{\theta}(X,Y)\) be the joint data distribution in terms of \(\theta\in\Theta\), and note that formally it factorizes as \(\pp_{\theta}(X,Y)=\qq_X \pp_\theta(Y|X)\). Here \(\qq_X\) is the distribution of the underlying process \(X\), and in our \acs{RKHS} setting, \(\pp_\theta(Y|X)\) is the normal distribution \(\mathcal N(\alpha + \sum_{j=1}^p \beta_j X(t_j),\, \sigma^2)\). Moreover, for convenience, define \((X,Y)_{1:\infty} := (X_1, Y_1), (X_2, Y_2), \dots\) and \((X,Y)_{1:n} := (X_1,Y_1), (X_2, Y_2), \dots, (X_n, Y_n)\). The full hierarchical model under consideration is
+Let \(\pp_{\theta}(X,Y)\) be the joint data distribution in terms of \(\theta\in\Theta\), and note that formally it factorizes as \(\pp_{\theta}(X,Y)\equiv\qq_X \pp_\theta(Y|X)\). Here \(\qq_X\) is the distribution of the process \(X\) on path space, and in our \acs{RKHS} setting, \(\pp_\theta(Y|X)\) is the normal distribution \(\mathcal N(\alpha + \sum_{j=1}^p \beta_j X(t_j),\, \sigma^2)\). Moreover, for convenience, define \((X,Y)_{1:\infty} := (X_1, Y_1), (X_2, Y_2), \dots\) and \((X,Y)_{1:n} := (X_1,Y_1), (X_2, Y_2), \dots, (X_n, Y_n)\). The full hierarchical model under consideration is
 \begin{equation}\label{eq:model-linear}
   \begin{split}
     \text{(no.\ of components)}\quad & p \sim \pi,                                                                                    \\
@@ -245,7 +245,7 @@ The condition is met, for example, if \(\Pi(p)>0\) and \((\tau, b, \alpha, \sigm
 
 \subsection{Consistency and contraction rates via Schwartz's theorem}
 
-The Doob-type results of the previous section, although interesting, are still assertions on consistency from the point of view of the prior distribution. We now seek additional results that offer more definitive statements and, more importantly, establish posterior contraction rates. To this end, we consider the conditional model \(Y|X=x, \theta \sim f_\theta(y|x)\), where \(\theta\in\Theta\) is a parameter vector and \(f_\theta(y|x)\) is the density of \(Y\) given \(X=x\) with respect to the Lebesgue measure \(\mathfrak{m}\) on \(\mathcal Y=\R\). Under our assumptions, \(f_\theta(y|x)\) is the density of the normal distribution given by~\eqref{eq:rkhs-model-linear-2}. We could work with this model and analyze the fixed design case with data that is not i.i.d.\ \citep[see][]{choi2008remarks}, but we choose to focus on the arguably more significant random design case.
+The Doob-type results of the previous section, although interesting, are still assertions on consistency from the point of view of the prior distribution. We now seek additional results that offer more definitive statements and, more importantly, establish posterior contraction rates. To this end, we consider the conditional model \(Y|X=x, \theta \sim f_\theta(y|x)\), where \(\theta\in\Theta\) is a parameter vector and \(f_\theta(y|x)\) is the density of \(Y\) given \(X=x\) with respect to the Lebesgue measure \(\mathfrak{m}\) on \(\mathcal Y=\R\). Under our assumptions, \(f_\theta(y|x)\) is the density of the normal distribution given by~\eqref{eq:rkhs-model-linear-2}, as long as \(\sigma^2>0\). We could work with this model and analyze the fixed design case with data that is not i.i.d.\ \citep[see][]{choi2008remarks}, but we choose to focus on the arguably more significant random design case.
 
 In general, in infinite-dimensional models there is no reference measure with respect to which to define a density, and to apply the consistency results derived from Schwartz's theorem we need a dominated model (see Section~\ref{sec:posterior-consistency-intro}). As it turns out, in our specific functional regression setting we can find such a density through the following observation. 
 
@@ -259,18 +259,18 @@ In this way, denoting \(f_\theta := f_\theta(y|x)\) and \(\mathcal F=\{f_\theta:
   (X, Y)_{1:n} \mid f_\theta &\stackrel{\text{i.i.d.}}{\sim} f_\theta,\\
   f_\theta &\sim \Pi_{\mathcal F},
 \end{align*}
-where \(\Pi_{\mathcal F}\) is a prior distribution on the parameter class \(\mathcal F\). In practice, we work with the prior distribution \(\Pi\) on \(\Theta\) specified in~\eqref{eq:model-linear}, and interpret \(\Pi_{\mathcal F}\) as the pushforward measure of \(\Pi\) by the measurable mapping \(\theta \mapsto f_\theta\). As always, we assume the existence of a ``true'' density \(f_0 :=f_{\theta_0}(y|x)\in \mathcal F\) that generates the observations.
+where \(\Pi_{\mathcal F}\) is a prior distribution on the parameter class \(\mathcal F\). In practice, we work with the prior distribution \(\Pi\) on \(\Theta\) specified in~\eqref{eq:model-linear}, and interpret \(\Pi_{\mathcal F}\) as the pushforward measure of \(\Pi\) by the measurable mapping \(\theta \mapsto f_\theta\). As always, we assume the existence of a ``true'' density function \(f_0 :=f_{\theta_0}(y|x)\in \mathcal F\) that generates the observations. Moreover, we denote \(\Theta_0=\Theta_{p_0}\).
 
 The idea now is to apply Theorem~\ref{th:consistency-hellinger} to obtain posterior consistency with respect to the Hellinger distance \(d_H\). Looking at the form of the parameter space \(\Theta\) in~\eqref{eq:theta-parameter-space-bfr}, a natural choice for the sieves is 
 \[
 \Theta_n = \bigcup_{p=1}^{p_n} \Theta_p\quad \text{and}\quad  \mathcal F_n=\{f_\theta\in\mathcal F: \theta \in \Theta_n\},
 \]
-where \(p_n=O(h(n))\) and \(h(n)\to \infty\) is a function to be determined later. Moreover, to keep the conditions as simple as possible, it is more convenient to work with compact parameter spaces \(\Theta_p\) and adapt the prior distributions in~\eqref{eq:model-linear} accordingly; we assume this is so for the remainder of the section. 
+for \(n\geq 1\), where \(p_n=O(h(n))\) and \(h(n)\to \infty\) is a function to be determined later. Moreover, to keep the conditions as simple as possible, it is more convenient to work with compact parameter spaces \(\Theta_p\) and adapt the prior distributions in~\eqref{eq:model-linear} accordingly; we assume this is so for the remainder of the section. 
 
 We are ready to state a new Hellinger consistency result for our model, which transforms the requirement that \(f_0\in \kl(\Pi_{\mathcal F})\) into a condition on the prior \(\Pi\) on \(\Theta_0\), and places an additional mild constraint on the tails of the marginal prior distribution of \(p\). These conditions guarantee that we can choose a suitable growth order for \(p_n\) in the sieve to apply Theorem~\ref{th:consistency-hellinger}. In order to satisfy all the conditions, we also need to impose some smoothness restrictions on the underlying process \(X\).
 
 \begin{assumption}\label{cond:condition-schwartz-X}
-  Suppose that each trajectory \(x\) of \(X\) is \(\qq_X\)-almost surely Lipschitz, with Lipschitz constant \(L(x)>0\), and assume that \(\E_{\qq_X}[L^2]<\infty\).
+  Suppose that \(X\) is \textit{mean-square Lipschitz continuous}, i.e., there exists \(L>0\) such that \(\E[(X(t) - X(s))^2] \leq L (t-s)^2\) for all \(t, s \in [0,1]\).
 \end{assumption}
 
 \begin{theorem}\label{th:consistency-schwartz-linear}
@@ -287,7 +287,7 @@ Following a similar proof strategy as in Theorem~\ref{th:consistency-schwartz-li
 
 \begin{theorem}\label{th:contraction-rate-schwartz-linear}
   \marginproof{proof:contraction-rate-schwartz-linear}
-Assume~\ref{cond:condition-schwartz-X} holds. Let \(0<\gamma<1/2\) and suppose that \(\Pi(p)=O(e^{-\delta p \log p})\) as \(p\to\infty\), for some \(\delta>16(3-4\gamma)/(1-2\gamma)\). If \(\Pi\) has a density on the continuous components of \(\Theta_0\) with respect to Lebesgue measure that is bounded away from zero in a neighborhood of \(\theta_0\), then the posterior distribution in the model \(\theta \sim \Pi\) and \((X,Y)_{1:n}|\theta \sim f_\theta\) i.i.d.\ contracts at a rate \(\epsilon_n= n^{-\gamma}\) relative to \(d_H\) at \(f_0\), i.e., for every \(M_n\to\infty\) it holds that
+Assume~\ref{cond:condition-schwartz-X} holds. Let \(0<\gamma<1/2\) and suppose that \(\Pi(p)=O(e^{-\delta p \log p})\) as \(p\to\infty\), for some \(\delta>32(1-\gamma)/(1-2\gamma)\). If \(\Pi\) has a density on the continuous components of \(\Theta_0\) with respect to Lebesgue measure that is bounded away from zero in a neighborhood of \(\theta_0\), then the posterior distribution in the model \(\theta \sim \Pi\) and \((X,Y)_{1:n}|\theta \sim f_\theta\) i.i.d.\ contracts at a rate \(\epsilon_n= n^{-\gamma}\) relative to \(d_H\) at \(f_0\), i.e., for every sequence \(M_n\to\infty\) it holds that
 \[
     \Pi_n(\theta: d_H(f_0, f_\theta) \geq M_n \epsilon_n \mid (X,Y)_{1:n}) \to 0 \quad \text{in } \pp_0^{(n)}(X,Y)\text{-probability}.
     \]
@@ -299,18 +299,22 @@ It is worth pointing out that a contraction rate relative to \(d_H\) is also a c
 
 \begin{corollary}\label{corollary:contraction-rate-schwartz-linear-2}
   \marginproof{proof:contraction-rate-schwartz-linear-2}
-  Under the same conditions as in Theorem~\ref{th:contraction-rate-schwartz-linear}, the posterior distribution contracts at a rate \(\epsilon_n=n^{-\gamma}\) \((0<\gamma<1/2)\) at \(f_0\), relative to the total variation distance \(d_1(f_0, f_\theta)=\int |f_0 - f_\theta|\, d\rho\) and the mean-variance discrepancy metric \(d_{2,\qq_X}(\theta_0, \theta) = \|[\mu_{\theta_0}]_M - [\mu_\theta]_M\|_{2,\qq_X} + |\sigma_0^2 - \sigma^2|\), for any \(M>0\), where \(\mu_\theta(x)= \alpha + \sum_{j=1}^p \beta_j x(t_j)\).
+  Under the same conditions as in Theorem~\ref{th:contraction-rate-schwartz-linear}, the posterior distribution contracts at a rate \(\epsilon_n=n^{-\gamma}\) \((0<\gamma<1/2)\) at \(f_0\), relative to the \(L^1\)-distance 
+  \[
+    d_1(f_0, f_\theta)=\int |f_0 - f_\theta|\, d\rho
+  \] 
+  and to the mean-variance discrepancy metric 
+  \[
+    d_{2,\qq_X}(\theta_0, \theta) = \|[\mu_{\theta_0}]_M - [\mu_\theta]_M\|_{2,\qq_X} + |\sigma_0^2 - \sigma^2|,
+  \]
+  for any \(M>0\), where \(\mu_\theta(x)= \alpha + \sum_{j=1}^p \beta_j x(t_j)\).
 \end{corollary}
 
-To conclude, observe that these results are valid for the functional \acs{RKHS} linear model. In the case of the logistic model, the reference measure would be \(\rho=\qq_X \times \#\), where \(\#\) is the counting measure on \(\{0,1\}\). We would work with the conditional density 
-\[
-  f_\theta(y|x)=H_\theta(x)^y (1-H_\theta(x))^{1-y},
-\] 
-where \(H_\theta(x)=\pp(Y=1|x,\theta)\) is the parameter of the Bernoulli distribution in the logistic model~\eqref{eq:rkhs-model-logistic-2}. We could then follow a similar strategy as in the linear case and obtain analogous results; see Section 6 in \citet{ghosal2006posterior} and the proof of Theorem~7.20 in \citet{ghosal2017fundamentals}.
+To conclude, observe that these results are valid for the functional \acs{RKHS} linear model. In the case of the functional logistic model, the reference measure would be \(\rho=\qq_X \times \#\), where \(\#\) is the counting measure on \(\{0,1\}\). We would then work with the conditional density \(f_\theta(y|x)=H_\theta(x)^y (1-H_\theta(x))^{1-y}\), where \(H_\theta(x)=\pp(Y=1|x,\theta)\) is the parameter of the Bernoulli distribution in the logistic model~\eqref{eq:rkhs-model-logistic-2}. At this point, we could follow a similar strategy as in the linear case and obtain analogous results; see Section 6 in \citet{ghosal2006posterior} and the proof of Theorem~7.20 in \citet{ghosal2017fundamentals}.
 
 \subsubsection*{On the smoothness requirements}
 
-Note that~\ref{cond:condition-schwartz-X} implies that the process \(X\) is \textit{mean-square Lipschitz continuous}, i.e., there exists \(L>0\) such that \(\E[(X(t) - X(s))^2] \leq L (t-s)^2\) for all \(t, s \in [0,1]\). Looking carefully at the proofs of the results above, we could substitute the almost sure Lipschitzness of the trajectories by this new condition and arrive at the same conclusions. Moreover, note that this guarantees, via Kolmogorov's continuity theorem, that the sample paths of \(X\) (after an eventual modification) are continuous functions. Apart from somewhat trivial examples, such as a deterministic process or a linear random process, we can show that processes with a sufficiently smooth covariance satisfy our requirements.
+Note that~\ref{cond:condition-schwartz-X} guarantees, via Kolmogorov's continuity theorem, that the sample paths of \(X\) (after an eventual modification) are continuous functions. Apart from somewhat trivial examples, such as a deterministic process or a linear random process, we can show that processes with a sufficiently smooth covariance satisfy our requirements.
 
 \begin{lemma}\label{lemma:mean-square-lipschitz}
   \marginproof{proof:mean-square-lipschitz}
@@ -338,7 +342,7 @@ The Python library used to perform the \acs{RJMCMC} approximation is \slsc{Eryn}
 
 For the simulations we consider 200 training samples and 100 testing samples, with functional regressors measured on an equispaced grid of 100 points on \([0, 1]\). Furthermore, we choose a set of functional regressors common to linear and logistic regression problems. They are four zero-mean \acf{GPs}, each with a different covariance function:
 \begin{itemize}
-  \item A Brownian motion (\slsc{BM}), with kernel \(K_1(t,s)=\min\{t,s\}\).
+  \item A Brownian motion (\slsc{BM}), with kernel \(K_1(t,s)=\min\{t,s\}\) (excluding the origin to ensure strict positive definiteness).
   \item A fractional Brownian motion (\slsc{fBM}), with Hurst parameter \(H=0.8\) and kernel \(K_2(t,s)=1/2(s^{2H} + t^{2H} - |t-s|^{2H})\).
   \item An Ornstein--Uhlenbeck process (\slsc{OU}), with kernel \(K_3(t,s)=e^{-|t-s|}\).
   \item A \acs{GP} with a squared exponential kernel (\slsc{SE}), also known as Gaussian kernel, given by \(K_4(t,s)=e^{-(t-s)^2/2\xi^2}\) with \(\xi=0.2\). 
@@ -440,19 +444,19 @@ The comparison results for non-Gaussian data can be seen in Figure~\ref{fig:reg_
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.65\textwidth]{reg_non_gp}
+  \includegraphics[width=.675\textwidth]{reg_non_gp}
   \caption[Functional linear regression experiments: synthetic data with non-Gaussian regressors]{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with \slsc{GBM} regressors. In the first column the response obeys a linear \(L^2\)-model, while in the second columns it follows a linear \acs{RKHS} model.}\label{fig:reg_non_gp}
 \end{figure}
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.8\textwidth]{reg_real}
+  \includegraphics[width=.825\textwidth]{reg_real}
   \caption[Functional linear regression experiments: real data]{Mean and standard error of \acs{RMSE} of predictors (lower is better) for 10 runs with real data sets, one on each column.}\label{fig:reg_real}
 \end{figure}
 
 \FloatBarrier{}
 
-Lastly, Figure~\ref{fig:reg_real} depicts the results for the real data sets, where we can see that the performance of our one-stage methods is about the same as that of the comparison methods. However, our variable selection methods are somewhat worse that the reference methods, although not by a wide margin. We have to bear in mind that real data is more complex and noisy than simulated data, and it is possible that after a suitable pre-preprocessing we would have obtained better results. Nonetheless, our goal was to perform a general comparison with a uniform methodology, without focusing too much on the specifics of any particular data set.
+Lastly, Figure~\ref{fig:reg_real} depicts the results for the real data sets, where we can see that the performance of our one-stage methods is about the same as that of the comparison methods. However, our variable selection methods are somewhat worse that the reference methods, although not by a wide margin. We have to bear in mind that real data are more complex and noisy than simulated data, and it is possible that after a suitable pre-preprocessing we would have obtained better results. Nonetheless, our goal was to perform a general comparison with a uniform methodology, without focusing too much on the specifics of any particular data set.
 
 On another note, we see that some of our Bayesian models have a higher standard deviation, partly because there is an intrinsic randomness in the sampling mechanism, which can be the cause of the occasional worse performance. In relation to this, we observe that the methods that use the trimmed mean as a summary statistic tend to have a worse score, as this statistic is more sensitive to outliers than the median or the mode, even with the \(10\%\) trimming.
 
@@ -482,14 +486,14 @@ Then, Figure~\ref{fig:clf_non_gp} shows that our classifiers perform better than
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.65\textwidth]{clf_non_gp}
+  \includegraphics[width=.675\textwidth]{clf_non_gp}
   \caption[Functional logistic regression experiments: synthetic data with non-Gaussian regressors]{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with a mix of regressors coming from two different Brownian motion processes, labeled according to their origin.}\label{fig:clf_non_gp}
 \end{figure}
 
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.8\textwidth]{clf_real}
+  \includegraphics[width=.85\textwidth]{clf_real}
   \caption[Functional logistic regression experiments: real data]{Mean and standard error of accuracy of classifiers (higher is better) for 10 runs with real data sets, one on each column.}\label{fig:clf_real}
 \end{figure}
 
@@ -520,14 +524,14 @@ Next we proceed with the visual checks. We can look at the flat posterior distri
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.925\textwidth]{reg_analysis_flat_posterior}
+  \includegraphics[width=.93\textwidth]{reg_analysis_flat_posterior}
   \caption[Functional regression validation: posterior distribution of all the samples]{Aggregated posterior distribution of all the samples \(\theta^{(r)}\) for all \(r\). Note that the true values of the parameters are essentially recovered.}\label{fig:flat-posterior-linear}
-  \vspace{10pt} % Separate this figure from the next figure
+  \vspace{13pt} % Separate this figure from the next figure
 \end{figure}
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.925\textwidth]{reg_analysis_triangular_posterior}
+  \includegraphics[width=.945\textwidth]{reg_analysis_triangular_posterior}
   \caption[Functional regression validation: triangular posterior distribution of impact points for each dimension]{Posterior distribution of all the \(\tau_p^{(r)}\) for each \(p\). In this run there were no samples with \(p=1\) or \(p=2\) after burn-in.}\label{fig:triangular-posterior-linear}
 \end{figure}
 
@@ -553,7 +557,7 @@ Next we proceed with the visual checks. We can look at the flat posterior distri
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.925\textwidth]{reg_analysis_trace_p}
+  \includegraphics[width=\textwidth]{reg_analysis_trace_p}
   \caption[Functional regression validation: posterior distribution and trace of number of components]{Posterior distribution (left) and trace (right) of \(p\). We see that the true number of components is recovered.}\label{fig:trace-p}
 \end{figure}
 
@@ -561,7 +565,7 @@ Lastly, we can perform a posterior predictive check (Figure~\ref{fig:pp-check}).
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.8\textwidth]{reg_analysis_pp_check}
+  \includegraphics[width=.775\textwidth]{reg_analysis_pp_check}
   \caption[Functional regression validation: posterior predictive distribution]{Posterior predictive distribution \(Y|X, \theta^{(r)}\) for each individual chain \(r\), along with the mean of all chains and the actual observed data \(Y\).}\label{fig:pp-check}
 \end{figure}
 
@@ -573,13 +577,13 @@ The execution time of the reference methods includes the duration of the cross-v
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.975\textwidth]{reg_execution_times}
+  \includegraphics[width=.985\textwidth]{reg_execution_times}
   \caption[Functional linear regression experiments: execution times]{Mean and standard error of execution times for all splits and all methods in the experiments with the functional linear model.}\label{fig:reg-execution-times}
 \end{figure}
 
 \begin{figure}[tbp]
   \myfloatalign
-  \includegraphics[width=.975\textwidth]{clf_execution_times}
+  \includegraphics[width=.985\textwidth]{clf_execution_times}
   \caption[Functional logistic regression experiments: execution times]{Mean and standard error of execution times for all splits and all methods in the experiments with the functional logistic model.}\label{fig:clf-execution-times}
 \end{figure}
 
@@ -698,7 +702,7 @@ Then, by assumption, \(\mathfrak{m}_{2p+2}(B_p)=0\). But this is valid for all \
 
 \subsection{Consistency and contraction rates via Schwartz's theorem}
 
-We begin by addressing the claim that \(f_\theta(y|x)\) is a joint density of \((X,Y)\) with respect to \(\rho=\qq_X\times \mathfrak{m}\).
+We begin by addressing the claim that \(f_\theta(y|x)\) is a joint density of \((X,Y)\) with respect to \(\rho=\qq_X\times \mathfrak{m}\), as long as \(\sigma^2>0\).
 
 \begin{proof}[Proof of Lemma~\ref{lemma:joint-density-rho}]\label{proof:joint-density-rho}
 First, consider a measurable rectangle \(A_X\times A_Y\) in the product (Borel) \(\sigma\)-algebra of \(\mathcal X\) and \(\mathcal Y\). Then, since both \(\mathcal X\) and \(\mathcal Y\) are Polish spaces, by the disintegration theorem \citep[e.g.][\S10.6]{bogachev2007measure} and Fubini/Tonelli, we have
@@ -727,7 +731,7 @@ Next, we present a collection of standard results on covering numbers that will 
   \end{enumerate}
 \end{lemma}
 
-Additionally, for a given parameter \(\theta\in\Theta\) we consider the mean function \(\mu_\theta:\mathcal C[0,1]\to \R\) given by 
+Additionally, for a given parameter \(\theta\in\Theta\) we consider the measurable mean function \(\mu_\theta:\mathcal C[0,1]\to \R\) given by 
 \[
   \mu_\theta(x)=\alpha + \sum_{j=1}^p \beta_j x(t_j),
 \] 
@@ -746,29 +750,33 @@ We need to verify the conditions of Theorem~\ref{th:consistency-hellinger}. As w
 \]
 Now from the triangle inequality, the Cauchy--Schwarz inequality and the fact that \((a+b)^2 \leq 2(a^2 + b^2)\), we have
 \begin{align*}
-  \frac{1}{2}(\mu_\theta(x) - \mu_{\tilde\theta}(x))^2 &\leq (\alpha - \tilde\alpha)^2 + 2p\biggl(M_B^2\sum_{j=1}^p |x(t_j) - x(\tilde t_j)|^2\\
-  &\quad + \sum_{j=1}^p x(\tilde t_j)^2|\beta_j - \tilde\beta_j|^2\biggr).
+  \frac{1}{2}(\mu_\theta(x) - \mu_{\tilde\theta}(x))^2 &\leq (\alpha - \tilde\alpha)^2 + 2p\biggl(M_B^2\sum_{j=1}^p (x(t_j) - x(\tilde t_j))^2\\
+  &\quad + \sum_{j=1}^p x(\tilde t_j)^2(\beta_j - \tilde\beta_j)^2\biggr).
 \end{align*}
-Note that \(\|\theta-\tilde\theta\|^2\) is always bigger than the sum of just some of the squared components of \(\theta - \tilde\theta\). Using the Lipschitz property in~\ref{cond:condition-schwartz-X} and integrating on both sides with respect to \(\qq_X\), we get
+Now integrate on both sides with respect to \(\qq_X\). By~\ref{cond:condition-schwartz-X}, we have
+\[
+\int_{\mathcal X} (x(t_j) - x(\tilde t_j))^2 d\qq_X(x) = \E[(X(t_j) - X(\tilde t_j))^2] \leq L(t_j - \tilde t_j)^2.
+\]
+Moreover, note that \(\|\theta-\tilde\theta\|^2\) is always bigger than the sum of just some of the squared components of \(\theta - \tilde\theta\). All in all, we get
 \begin{align*}
-  \frac{1}{2}\E_{\qq_X}\left[(\mu_\theta - \mu_{\tilde\theta})^2\right] &\leq \|\theta - \tilde\theta\|^2 + 2p\biggl(M_B^2 \|\theta - \tilde\theta\|^2 \E_{\qq_X}[L^2]\\ 
-  &\quad + \|\theta - \tilde\theta\|^2 \sup_{t\in[0,1]} \E_{\qq_X}[x(t)^2] \biggr).
+  \frac{1}{2}\E\left[(\mu_\theta(X) - \mu_{\tilde\theta}(X))^2\right] &\leq \|\theta - \tilde\theta\|^2 + 2p\biggl(M_B^2 L \|\theta - \tilde\theta\|^2\\ 
+  &\quad + \|\theta - \tilde\theta\|^2 \sup_{t\in[0,1]} \E[X(t)^2] \biggr).
 \end{align*}
-Recall that the covariance function \(K\) of \(X\) is assumed to be continuous, so the quantity \(\sup_{t\in[0,1]} \E_{\qq_X}[x(t)^2]=\sup_{t\in[0,1]}K(t,t)\) is finite, and so is the integral \(\E_{\qq_X}[L^2]\) owing to~\ref{cond:condition-schwartz-X}. Then, we can bring all constants together (which are positive and depend on \(M_B\), \(p\) and \(X\)) into \(C_1>0\) to write
+Recall that the covariance function \(K\) of \(X\) is assumed to be continuous, so \(\sup_{t\in[0,1]} \E[X(t)^2]=\sup_{t\in[0,1]}K(t,t)<\infty\). Then, we can bring all constants together (which are positive and depend on \(M_B\), \(p\) and \(X\)) into \(C_1>0\) to write
 \begin{equation}\label{eq:th9-bound1}
-  \E_{\qq_X}\left[(\mu_\theta - \mu_{\tilde\theta})^2\right] \leq C_1 \|\theta - \tilde\theta\|^2.
+  \E\left[(\mu_\theta(X) - \mu_{\tilde\theta}(X))^2\right] \leq C_1 \|\theta - \tilde\theta\|^2.
 \end{equation}
-Now we compute \(d^2_H(f_\theta, f_{\tilde\theta})\). First, define the auxiliary function
+Next, we compute \(d^2_H(f_\theta, f_{\tilde\theta})\). First, define the auxiliary function
 \[
   S(\sigma, \tilde\sigma)= \sqrt{\frac{2\sigma \tilde\sigma}{\sigma^2 + \tilde\sigma^2}}.
 \]
 Using the inequality \(e^{-a}\geq 1-a\) for \(a\geq 0\) and the well-known expression for the Hellinger distance between two univariate normal distributions \citep[e.g.][p.~51]{pardo2018statistical}, we have
 \begin{equation}\label{eq:th9-bound2}
 \begin{split}
-  d^2_H(f_\theta, f_{\tilde\theta}) & = 1 - \bigintssss \left(\bigintssss\sqrt{f_\theta(y|x) f_{\tilde\theta}(y|x)}\, d\mathfrak{m}(y)\right) d\qq_X(x)\\
-  & = 1 - S(\sigma, \tilde\sigma)\bigintsss \exp\left\{ -\frac{(\mu_\theta(x) - \mu_{\tilde\theta}(x))^2}{4(\sigma^2 + \tilde\sigma^2)} \right\} d\qq_X(x)                                         \\
-  & \leq 1 - S(\sigma, \tilde\sigma) + S(\sigma, \tilde\sigma) \bigintsss \frac{(\mu_\theta(x) - \mu_{\tilde\theta}(x))^2}{4(\sigma^2+\tilde\sigma^2)}\, d\qq_X(x) \\
-  & \leq C_2\|\theta - \tilde\theta\|^2 + C_3 \E_{\qq_X}\left[(\mu_\theta - \mu_{\tilde\theta})^2\right],
+  d^2_H(f_\theta, f_{\tilde\theta}) & = 1 - \bigintssss_{\mathcal X} \left(\bigintssss_{\mathcal Y}\sqrt{f_\theta(y|x) f_{\tilde\theta}(y|x)}\, d\mathfrak{m}(y)\right) d\qq_X(x)\\
+  & = 1 - S(\sigma, \tilde\sigma)\bigintsss_{\mathcal X} \exp\left\{ -\frac{(\mu_\theta(x) - \mu_{\tilde\theta}(x))^2}{4(\sigma^2 + \tilde\sigma^2)} \right\} d\qq_X(x)                                         \\
+  & \leq 1 - S(\sigma, \tilde\sigma) + S(\sigma, \tilde\sigma) \bigintsss_{\mathcal X} \frac{(\mu_\theta(x) - \mu_{\tilde\theta}(x))^2}{4(\sigma^2+\tilde\sigma^2)}\, d\qq_X(x) \\
+  & \leq C_2\|\theta - \tilde\theta\|^2 + C_3 \E\left[(\mu_\theta(X) - \mu_{\tilde\theta}(X))^2\right],
 \end{split}
 \end{equation}
 where \(C_2\) and \(C_3\) are positive constants that depend on \(\sigma^2_{\text{min}}\) and \(\sigma^2_{\text{max}}\). Obtaining \(C_3\) is straightforward; to get \(C_2\), let \(u=\sigma^2\), \(v=\tilde\sigma^2\) and \(S=\sqrt{\frac{2\sqrt{uv}}{u+v}}\), and note that
@@ -784,7 +792,7 @@ and after reverting the change of variables the denominator can be easily bounde
   d^2_H(f_\theta, f_{\tilde\theta}) \leq C^{(p)} \|\theta - \tilde\theta\|^2,
 \end{equation}
 where \(C^{(p)}>0\) increases linearly with \(p\).
-Next, consider the distance \(d_\Theta\) on \(\Theta\) defined in~\eqref{eq:metric-doob}. From~\eqref{eq:th9-bound3} one can readily verify that \(d_H(f_\theta, f_{\tilde\theta}) \leq C(n) d_\Theta(\theta, \tilde\theta)\) for \(\theta, \tilde\theta \in \Theta_n\), where \(C(n)=O(p_n)\). Moreover, the relationship \(d_\Theta(\theta,\tilde\theta)\leq \|\theta - \tilde\theta\|\) always holds on \(\Theta_p\). Denote by \(R_p\) the diameter of \((\Theta_p, \|\cdot\|)\), and note that each \(\Theta_p\) is contained in a hypercube of dimension \(2p+2\) and length independent of \(p\), say \(\ell\). Then, \(R_p\leq \ell\sqrt{2p+2}\) for all \(p\). Putting it all together and invoking Lemma~\ref{lemma:covering-number}, for sufficiently small \(\epsilon>0\) we have
+Next, consider the distance \(d_\Theta\) on \(\Theta\) defined in~\eqref{eq:metric-doob}. From~\eqref{eq:th9-bound3} one can readily verify that \(d_H(f_\theta, f_{\tilde\theta}) \leq C(n) d_\Theta(\theta, \tilde\theta)\) for \(\theta, \tilde\theta \in \Theta_n\), where \(C(n)=O(\sqrt{p_n})\). Moreover, the relationship \(d_\Theta(\theta,\tilde\theta)\leq \|\theta - \tilde\theta\|\) always holds on \(\Theta_p\). Denote by \(R_p\) the diameter of \((\Theta_p, \|\cdot\|)\), and note that each \(\Theta_p\) is contained in a hypercube of dimension \(2p+2\) and length independent of \(p\), say \(\ell\). Then, \(R_p\leq \ell\sqrt{2p+2}\) for all \(p\). Putting it all together and invoking Lemma~\ref{lemma:covering-number}, for sufficiently small \(\epsilon>0\) we have
 \begin{align*}
   N(\epsilon, \mathcal F_n, d_H) & \leq N(\epsilon/C(n), \Theta_n, d_\Theta)                               \\
   & \leq \sum_{p=1}^{p_n} N(\epsilon/C(n), \Theta_p, \|\cdot\|)             \\
@@ -794,7 +802,7 @@ Taking logarithms, we may write
 \begin{equation}\label{eq:th9-bound-covering}
   \log N(\epsilon, \mathcal F_n, d_H) \leq \log p_n + (2p_n+2) \log\left(\frac{3C(n) \ell\sqrt{2p_n+2}}{\epsilon}\right).
 \end{equation}
-Since \(C(n)=O(p_n)\), it suffices to choose \(p_n\) so that \(p_n\log p_n = o(n)\), or equivalently, \(p_n=o\left(n/\log n\right)\). In this way the right-hand side is eventually less than \(n\epsilon^2\), satisfying the first condition of Theorem~\ref{th:consistency-hellinger}.
+Since \(C(n)=O(\sqrt{p_n})\), it suffices to choose \(p_n\) so that \(p_n\log p_n = o(n)\), or equivalently, \(p_n=o\left(n/\log n\right)\). In this way the right-hand side is eventually less than \(n\epsilon^2\), satisfying the first condition of Theorem~\ref{th:consistency-hellinger}.
 
 \paragraph{Bounding the prior tail mass} We need to show that the tail mass of the prior decays at least exponentially with \(n\). An initial crude bound on this tail mass in the parameter space is
 \begin{align*}
@@ -833,12 +841,12 @@ As we said before, multiplicative constants do not significantly affect the boun
 \]
 Note that the lower bound \(p_n \gtrsim \frac{n}{(\log n)^k}\) does not contradict the upper bound \(p_n=o(n/\log n)\) needed for the metric entropy condition above. Hence, we can choose an appropriate growth rate for \(p_n\) in our sieve to make both conditions hold simultaneously.
 
-\paragraph{Verifying the KL support} First, we proceed by directly computing \(\dkl(f_0 \,\|\, f_\theta)\) for \(\theta\in\Theta_0\), which again has a familiar formula in the normal case \citep[e.g.][p.~47]{pardo2018statistical}, and bounding the result by a similar bound as before:
+\paragraph{Verifying the KL support} First, we proceed by directly computing \(\dkl(f_0 \,\|\, f_\theta)\) for \(\theta\in\Theta_0\), which again has a familiar formula in the normal case \citep[e.g.][p.~47]{pardo2018statistical}, and bounding the result by using~\eqref{eq:th9-bound1}:
 \begin{equation}\label{eq:th9-bound4}
   \begin{split}
-  \dkl(f_0 \,\|\, f_\theta) & =  \bigintssss \left(f_0(y|x)\log\left(\frac{f_0(y|x)}{f_\theta(y|x)}\right)  d\mathfrak{m}(y)\right)d\qq_X(x)\\
+  \dkl(f_0 \,\|\, f_\theta) & =  \bigintssss_{\mathcal X} \left( \bigintssss_{\mathcal Y}f_0(y|x)\log\left(\frac{f_0(y|x)}{f_\theta(y|x)}\right)  d\mathfrak{m}(y)\right)d\qq_X(x)\\
   & = \frac{1}{2}\left(\frac{\sigma_0^2}{\sigma^2} - 1 - \log \frac{\sigma_0^2}{\sigma^2} \right)\\
-  &\quad + \frac{1}{2\sigma^2}\bigintssss (\mu_0(x) - \mu_\theta(x))^2\, d\qq_X(x)\\
+  &\quad + \frac{1}{2\sigma^2}\bigintssss_{\mathcal X} (\mu_0(x) - \mu_\theta(x))^2\, d\qq_X(x)\\
   & \leq C_1\|\theta_0 - \theta\|^2 + C_2\|\theta_0-\theta\|^2 \\
   & = \tilde C\|\theta_0 - \theta\|^2,
   \end{split}
@@ -882,26 +890,20 @@ where \(\lfloor \cdot \rfloor\) is the floor function. As we will see, the condi
 \[
   \log N(\epsilon_n/2, \mathcal F_n, d_H)  \leq \log p_n + (2p_n+2)\log\left(\frac{6C(n) \ell\sqrt{2p_n+2}}{\epsilon_n}\right).
 \]
-Since \(\epsilon_n=Dn^{-\gamma}\), \(C(n)\lesssim  p_n\) eventually, and \(\sqrt{2p_n+2}\leq \sqrt{4p_n}\) for \(p_n\geq 1\), we can absorb all constants inside the second logarithm into \(c_1>0\). Indeed, for sufficiently large \(n\) we have
+Since \(\epsilon_n=Dn^{-\gamma}\) and \(C(n)\lesssim  \sqrt{p_n}\) eventually, we can absorb all constants inside the second logarithm into \(c_1>0\). Indeed, for sufficiently large \(n\) we have
 \begin{equation}\label{eq:th11-bound1}
-  \log N(\epsilon_n/2, \mathcal F_n, d_H)  \leq \log p_n + (2p_n+2)\log\left(c_1 p_n^{3/2}n^\gamma\right).
+  \log N(\epsilon_n/2, \mathcal F_n, d_H)  \leq \log p_n + (2p_n+2)\log\left(c_1 p_n n^\gamma\right).
 \end{equation}
 Observe that \(p_n\leq \frac{n^{1-2\gamma}}{\log n}\) by the upper limit imposed earlier, so substituting into~\eqref{eq:th11-bound1} yields
 \begin{align*}
   \log N(\epsilon_n/2, \mathcal F_n, d_H) & \leq \log \left(\frac{n^{1-2\gamma}}{\log n}\right)\\
-  &\quad + \frac{2n^{1-2\gamma}}{\log n}\left[\log c_1 + \log\left(\frac{n^{3/2-2\gamma}}{(\log n)^{3/2}}\right)\right] \\
-  & \quad + 2\left[\log c_1 + \log\left(\frac{n^{3/2-2\gamma}}{(\log n)^{3/2}}\right)\right].
+  &\quad + \left(\frac{2n^{1-2\gamma}}{\log n} + 2\right)\left[\log c_1 + \log\left(\frac{n^{1-\gamma}}{\log n}\right)\right].
 \end{align*}
-Simplifying the expression in the right-hand side, the dominant term for large \(n\) is
+Simplifying the expression in the right-hand side, the dominant term for large \(n\) is \(2(1-\gamma)n^{1-2\gamma}\), and the rest of the terms are of order strictly smaller. This means that there exists a constant \(c_2>0\) as small as we want such that every term apart from the dominant term is eventually smaller than \(c_2 n^{1-2\gamma}\). Thus, for sufficiently large \(n\) we can write
 \[
-  2\left(\frac{3}{2}-2\gamma\right)n^{1-2\gamma} = (3-4\gamma)n^{1-2\gamma},
+  \log N(\epsilon_n/2, \mathcal F_n, d_H)  \leq  (c_2 + 2-2\gamma)n^{1-2\gamma}.
 \]
-and the rest of the terms are of order strictly smaller. This means that there exists a constant \(c_2>0\) as small as we want such that every term apart from the dominant term is eventually smaller than \(c_2 n^{1-2\gamma}\). Thus, for sufficiently large \(n\) we can write
-\[
-  \log N(\epsilon_n/2, \mathcal F_n, d_H)  \leq  (c_2 + 3-4\gamma)n^{1-2\gamma}.
-\]
-Since \(n\epsilon_n^2 =D^2n^{1-2\gamma}\), the conclusion follows for \(D^2>3-4\gamma\).
-
+Since \(n\epsilon_n^2 =D^2n^{1-2\gamma}\), the conclusion follows for \(D^2>2-2\gamma\).
 
 \paragraph{Bounding the prior tail mass} Consider without loss of generality that \(\Pi(p)=c_1\exp\{-\delta p \log p\}\). Then, we have
 \begin{align*}
@@ -927,19 +929,19 @@ At this point we integrate \(c_1c_2\) into the exponential, similar to what we d
 \[
   (C+4)n\epsilon_n^2=(C+4)D^2n^{1-2\gamma},
 \]
-where \(C\) is the constant appearing in condition (ii) of Theorem~\ref{th:contraction-rate}, so it suffices to choose \(C\leq c_4/D^2 -4\) and we are done. Given the lower bound on \(D\) imposed earlier for the metric entropy part, it can be easily verified that this upper bound on \(C\) is positive as long as \(\xi\) is chosen small enough. Indeed, since \(C>0\), we have
+where \(C\) is the constant appearing in condition (ii) of Theorem~\ref{th:contraction-rate}, so it suffices to choose \(C\leq c_4/D^2 -4\) and we are done. It can be easily verified that this upper bound on \(C\) is positive as long as \(\xi\) is chosen small enough:
 \[
 \frac{c_4}{D^2} - 4 > 0 \iff 4D^2 < \frac{\delta(1-2\gamma)}{4} \iff D^2 < \frac{\delta(1-2\gamma)}{16}.
 \]
-On the other hand, the lower bound \(D^2>3-4\gamma\) gives
+On the other hand, the lower bound \(D^2>2-2\gamma\) imposed earlier gives
 \[
-\frac{\delta(1-2\gamma)}{16} > 3-4\gamma \iff \delta > \frac{16(3-4\gamma)}{1-2\gamma},
+\frac{\delta(1-2\gamma)}{16} > 2-2\gamma \iff \delta > \frac{32(1-\gamma)}{1-2\gamma},
 \]
 which is precisely our assumption on \(\delta\).
 
 \paragraph{Sufficient prior mass around the true density} Let \(\theta\in\Theta_0\). We know from~\eqref{eq:th9-bound4} in the proof of Theorem~\ref{th:consistency-schwartz-linear} that there exists a constant \(C_1>0\) such that \(\dkl(f_0 \,\|\, f_\theta)\leq C_1^2 \|\theta_0 - \theta\|^2\). On the other hand, direct calculation \citep[see e.g.][]{choi2007posterior} shows that, under Gaussianity,
 \[
-  V_2(f_0, f_\theta) = \frac{(\sigma_0^2 - \sigma^2)^2}{2\sigma^4} + \frac{\sigma_0^2}{\sigma^4}\int (\mu_0(x) - \mu_\theta(x))^2\, d\qq_X(x).
+  V_2(f_0, f_\theta) = \frac{(\sigma_0^2 - \sigma^2)^2}{2\sigma^4} + \frac{\sigma_0^2}{\sigma^4}\bigintsss_{\mathcal X} (\mu_0(x) - \mu_\theta(x))^2\, d\qq_X(x).
 \]
 Following the same reasoning as we did multiple times before, we can see that \(V_2(f_0, f_\theta)\) is bounded above by \(C_2^2\|\theta_0 - \theta\|^2\) with \(C_2>0\). Therefore, if \(\|\theta_0 - \theta\| < \epsilon_n/\tilde C\) where \(\tilde C = \max\{C_1, C_2\}\), it follows that \(\dkl(f_0 \,\|\, f_\theta)< \epsilon_n^2\) and \(V_2(f_0, f_\theta) < \epsilon_n^2\). Thus, if we denote by \(B(\theta_0, \epsilon)\) the open ball of radius \(\epsilon\) centered at \(\theta_0\) in \(\Theta_0\), we have just shown that \(\theta \in B(\theta_0,\epsilon_n/\tilde{C})\) implies \(f_\theta \in B_2(f_0, \epsilon_n)\), and hence
 \begin{equation}\label{eq:th11-bound2}
@@ -977,7 +979,7 @@ For the \(L^1\)-distance, by the Cauchy--Schwarz inequality we have
 \end{align*}
 In the last step we have used the alternative definition of the Hellinger distance, namely 
 \[
-  2d_H^2(f_0, f_\theta) = \int\left(\sqrt{f_0} - \sqrt{f_\theta}\right)^2 d\rho, 
+  d_H^2(f_0, f_\theta) = \frac{1}{2}\bigintssss\left(\sqrt{f_0} - \sqrt{f_\theta}\right)^2 d\rho, 
 \] 
 the basic inequality \((a + b)^2 \leq 2(a^2 + b^2)\), and the fact that both \(f_0\) and \(f_\theta\) integrate to unity over the whole space.
 
@@ -985,7 +987,7 @@ For the mean-variance discrepancy distance, recall the expression for the square
 \[
   g_{0,\theta}(x) = 1 - \sqrt{\frac{2\sigma_0\sigma}{\sigma_0^2 + \sigma^2}}\exp\left\{ -\frac{(\mu_0(x) - \mu_{\theta}(x))^2}{4(\sigma_0^2 + \sigma^2)} \right\}.
 \]
-Define \(\Delta_\mu = \mu_0-\mu_\theta\), \(\Delta_{\mu_M} = [\mu_0]_M - [\mu_\theta]_M\) and \(S=\sqrt{\frac{2\sigma_0\sigma}{\sigma_0^2+\sigma^2}}\). On the one hand, using the trivial bounds \(e^{-a}\leq 1\) and \(S\leq 1\), we have
+Define \(\Delta_\mu = \mu_0-\mu_\theta\), \(\Delta_{\mu_M} = [\mu_0]_M - [\mu_\theta]_M\) (\(M>0\)) and \(S=\sqrt{\frac{2\sigma_0\sigma}{\sigma_0^2+\sigma^2}}\). On the one hand, using the trivial bounds \(e^{-a}\leq 1\) and \(S\leq 1\), we have
 \[
   g_{0,\theta}(x) \geq 1 - S = \frac{1-S^2}{1+S} \geq \frac{1-S^2}{2} \geq C_1(\sigma_0^2 - \sigma^2)^2,
 \]
@@ -993,7 +995,7 @@ where the last inequality comes from the computations in~\eqref{eq:th9-computati
 \[
   g_{0,\theta}(x)  \geq  1 - \exp\left\{ -\frac{\Delta^2_{\mu_M}(x)}{4(\sigma_0^2+\sigma^2)} \right\} \geq C_2\Delta^2_{\mu_M}(x).
 \]
-Bringing together both pieces of information, we take \(\tilde C = \min\{C_1, C_2\}\) and write
+Bringing together both pieces of information, we can take a common constant \(\tilde C = \min\{C_1, C_2\}/2\) and write
 \[
   g_{0,\theta}(x) \geq \tilde C\left[\Delta^2_{\mu_M}(x) + (\sigma_0^2 - \sigma^2)^2\right].
 \]
@@ -1005,7 +1007,7 @@ To conclude, note that \(\sqrt{a^2+b^2}\geq (a+b)/\sqrt{2}\) for \(a,b\geq 0\), 
 \end{proof}
 
 \begin{proof}[Proof of Lemma~\ref{lemma:mean-square-lipschitz}]\label{proof:mean-square-lipschitz}
-Suppose the process \(X\) is not degenerate at zero. Since \(\E[X(t)]=0\), we have 
+Since \(\E[X(t)]=0\), we have 
 \[
   \E[(X(t) - X(s))^2] = K(t,t)-2K(t,s) + K(s,s).
 \]
@@ -1013,7 +1015,7 @@ Because \(K\) is twice-continuously differentiable, the fundamental theorem of c
 \[
   K(t,t)-2K(t,s) + K(s,s) = \int_s^t \int_s^t \partial_{uv}K(u, v)\, du\, dv.
 \]
-Let \(L := \sup_{(u, v) \in [0,1]^2} |\partial_{uv}K(u, v)|<\infty\). Then,
+Let \(L := 1 + \sup_{(u, v) \in [0,1]^2} |\partial_{uv}K(u, v)|<\infty\). Then,
 \[
   \E[(X(t) - X(s))^2] = \int_s^t \int_s^t \partial_{uv}K(u, v)\, du\, dv \leq  L(t-s)^2.
 \]

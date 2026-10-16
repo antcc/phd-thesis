@@ -8,7 +8,7 @@ Originally envisioned for inference in Bayesian mixtures, the \acs{RJMCMC} techn
 \[
   \alpha_\text{birth} = \min\left\{1,\, \frac{L(Y \mid X, \theta_{p+1})}{L(Y\mid X, \theta_p)}\frac{\Pi(\theta_{p+1})}{\Pi(\theta_p)}\frac{d_{p+1, p}}{b_{p, p+1}}\frac{r_{\text{delete}}(p)}{r_{\text{select}}(p)}\frac{1}{q(\theta_{+1})}\right\}.
 \]
-Here \(p\) is the current number of components, \(b_{p, p+1}\) is the probability of increasing the dimension from \(p\) to \(p+1\) (birth), \(d_{p+1, p}\) is the probability of the reverse move (death), \(r_{\text{delete}}(p)=1/(p+1)\) is the reverse probability of deleting an existing component at random, \(r_{\text{select}}(p)=1/(P_{\max} - p)\) is the probability of selecting a particular inactive component to become active, \(q(\theta_{+1})\) is the proposal distribution for the added source, \(\Pi\) is the prior probability and \(L\) represents the likelihood. In our case, we consider equal probability of births and deaths for simplicity. The acceptance probability of removing an existing component is computed similarly to maintain detailed balance, inverting the fractions in the expression above.
+Here \(p\) is the current number of components, \(b_{p, p+1}\) is the probability of increasing the dimension from \(p\) to \(p+1\) (birth), \(d_{p+1, p}\) is the probability of the reverse move (death), \(r_{\text{delete}}(p)=1/(p+1)\) is the reverse probability of deleting an existing component at random, \(r_{\text{select}}(p)=1/(P_{\max} - p)\) is the probability of selecting a particular inactive component to become active, \(q(\theta_{+1})\) is the proposal distribution for the added source, \(\Pi\) is the prior probability and \(L\) represents the likelihood. In our case, we consider equal probability of births and deaths for simplicity (except at the boundaries \(p=1\) and \(p=P_{\max}\)). The acceptance probability of removing an existing component is computed similarly to maintain detailed balance, inverting the fractions in the expression above.
 
 This is already a rather manageable expression that can be implemented efficiently, but we can introduce another simplification: the proposal distribution can be chosen to match the prior distribution, so that the corresponding terms cancel out. We adopt this formulation in the functional regression methods in Chapter~\ref{ch:functional-regression}. For the functional testing method in Chapter~\ref{ch:functional-testing} we use a uniform proposal distribution on \([0,1]\) for the new parameter \(t^*\), which is then inserted into the ordered vector \(\tau\).  Nonetheless, in real-world scenarios one could consider more sophisticated proposal distributions that might better explore the parameter space; see \citet{davies2023transport} for some interesting ideas.
 
@@ -25,29 +25,29 @@ for all \(A,b\) and \(\lambda\), and almost all \(\xi(t)\). This means that if w
 
 To maintain the affine invariance and the joint distribution of the ensemble, the walkers are advanced one by one following a Metropolis--Hastings acceptance scheme. The authors consider mainly two types of moves.
 
-\paragraph{Stretch move} For each walker \(1\leq l \leq L\) another walker \(\Lambda_j \in \Lambda_{-l}(t)\) is chosen at random, and the proposal is constructed as
+\paragraph{Stretch move} For each walker \(1\leq l \leq L\) another walker \(\Lambda_j \in \Lambda_{-l}(t)\) is chosen at random, and the proposal is independently constructed as
 \[
-  \Lambda_l(t) \to \Gamma = \Lambda_j + Z(\Lambda_l(t) - \Lambda_j),
+  \Lambda_l(t) \to \Gamma_s = \Lambda_j + Z_s(\Lambda_l(t) - \Lambda_j),
 \]
-where \(Z \stackrel{i.i.d.}{\sim} g(z)\) satisfying the symmetry condition \(g(z^{-1})=zg(z)\). In particular, the suggested density is
-\[
-  g_a(z) \propto \begin{cases}
+where \(Z_s\) is a random variable with density \(g(z)\) satisfying the symmetry condition \(g(z^{-1})=zg(z)\). In particular, the suggested density is
+\begin{equation}\label{eq:stretch-move-density}
+  g(z) \propto \begin{cases}
     \frac{1}{\sqrt{z}}, & \text{if } z \in [a^{-1}, a], \\
     0,                  & \text{otherwise.}
   \end{cases}, \quad a > 1.
-\]
+\end{equation}
 Supposing \(\R^D\) is the state space, the corresponding acceptance probability (chosen so that the detailed balance equations are satisfied) is
 \[
-  \alpha_{\text{stretch}} = \min\left\{1, \, Z^{D-1}\frac{\pi(\Gamma)}{\pi(\Lambda_l(t))}\right\}.
+  \alpha_{\text{stretch}} = \min\left\{1, \, Z_s^{D-1}\frac{\pi(\Gamma_s)}{\pi(\Lambda_l(t))}\right\}.
 \]
 
 \paragraph{Walk move} For each walker \(1\leq l \leq L\) a random subset \(S_l \subseteq \Lambda_{-l}(t)\) with \(|S_l| \geq 2\) is selected, and the proposed move is
 \[
-  \Lambda_l(t) \to \Gamma = \Lambda_l(t) + W,
+  \Lambda_l(t) \to \Gamma_w = \Lambda_l(t) + Z_w,
 \]
-where \(W\) is a normal distribution with mean zero and the same covariance as the sample covariance of all walkers in \(S_l\). The acceptance probability in this case is just the Metropolis ratio, i.e., 
+where \(Z_w\) is a normal variable with mean zero and the same covariance as the empirical covariance of all walkers in \(S_l\). The acceptance probability in this case is just the Metropolis ratio, i.e., 
 \[
-  \alpha_{\text{walk}} = \min\left\{1,\, \frac{\pi(\Gamma)}{\pi(\Lambda_l(t))}\right\}.
+  \alpha_{\text{walk}} = \min\left\{1,\, \frac{\pi(\Gamma_w)}{\pi(\Lambda_l(t))}\right\}.
 \]
 
 From a computational perspective, the Python library \slsc{emcee}  provides a parallel implementation of this algorithm \citep{foreman2013emcee}. The idea is to divide the ensemble \(\Lambda\) into two equally-sized subsets \(\Lambda^{(0)}\) and \(\Lambda^{(1)}\), and then proceed on each iteration in the following alternate fashion:
@@ -59,13 +59,19 @@ In this way the detailed balance equations are still satisfied, and each of the 
 
 \section{Reversible jump implementation}
 
-For the computational implementation of our Bayesian methods we chose the Python library \slsc{Eryn} \citep{karnesis2023eryn}. This package is a general-purpose suite of \acs{MCMC} methods which is reliable, easy to use and performs well in a wide class of problems. It is an enhancement of the \slsc{emcee} library that implements affine-invariant ensemble samplers with a \acs{RJMCMC} sampling scheme, along with a few key improvements. Every walker in the ensemble maintains a set of up to \(P_{\max}\) active components, each storing one coordinate \((\beta_j, t_j) \in \R^p\times \mathcal S\) in the functional regression case, or \(t_j\in\mathcal S\) in the functional testing case. 
+For the computational implementation of our Bayesian methods we chose the Python library \slsc{Eryn} \citep{karnesis2023eryn}. This package is a general-purpose suite of \acs{MCMC} methods which is reliable, easy to use and performs well in a wide class of problems. It is an enhancement of the \slsc{emcee} library that implements affine-invariant ensemble samplers with a \acs{RJMCMC} sampling scheme, along with a few key improvements. Every walker in the ensemble maintains a set of up to \(P_{\max}\) active components, each storing one coordinate \((\beta_j, s_j) \in \R\times \mathcal S\) in the functional regression case (along with the fixed-dimension variables \(\alpha\) and \(\sigma^2\)), or \(s_j\in\mathcal S\) in the functional testing case. 
 
 Moreover, this library implements \textit{parallel tempering}, which is a mechanism to increase the efficiency with which the sampler explores the parameter space \citep{hukushima1996exchange}. The basic idea is to consider a set of Markov chains in parallel, each one sampling from a transformed posterior distribution with temperature \(T\geq 1\) given by 
 \[
   \Pi_n^{(T)}(\theta_p\mid \text{data}) = \Pi(\theta_p)L(\text{data}\mid \theta_p)^{1/T}.
 \] 
 In this way, the posterior is smoothed out by reducing the contrast between areas of high and low likelihood. In practice, these chains periodically exchange information, with the swaps controlled by an acceptance probability that maintains detailed balance, and ultimately we are only interested on the cold chain (\(T=1\)). Figure~\ref{fig:tempered-posterior-p} shows the posterior distribution of the number of components \(p\) for each temperature in an example case.
+
+\begin{figure}[t]
+  \myfloatalign
+  \includegraphics[width=.99\textwidth]{reg_analysis_tempered_posterior_p}
+  \caption[Example of tempered posterior distribution]{Example of tempered posterior distribution of \(p\). We are only interested in the cold chain (\(T=1\)), but by allowing different temperatures we increase the exploration of the parameter space, periodically transferring some of this information to the cold chain.}\label{fig:tempered-posterior-p}
+\end{figure}
 
 The full sampling procedure can be summarized as follows.
 \begin{enumerate}
@@ -79,21 +85,15 @@ The full sampling procedure can be summarized as follows.
   \item \textbf{Collect} the posterior samples \(\{\theta^{(r)}\}_{r=1}^R\) from the cold chain (after burn-in).
 \end{enumerate}
 
-\begin{figure}[t]
-  \myfloatalign
-  \includegraphics[width=.99\textwidth]{reg_analysis_tempered_posterior_p}
-  \caption[Example of tempered posterior distribution]{Example of tempered posterior distribution of \(p\). We are only interested in the cold chain (\(T=1\)), but by allowing different temperatures we increase the exploration of the parameter space, periodically transferring some of this information to the cold chain.}\label{fig:tempered-posterior-p}
-\end{figure}
-
 \subsection{Moves}
 
  As with any \acs{MCMC} method, the Markov chains are advanced iteratively through a set of moves. To generate new samples, the \acs{RJMCMC} method considers \textit{within-model} moves (perturbing the current parameter values without changing the dimension) and \textit{between-model} moves (increasing or decreasing the dimension). The former are implemented through minor modifications of the standard Metropolis--Hastings algorithm \citep{brooks2011handbook}, while the latter are generated by the reversible jump scheme explained at the start of this chapter.
  
-Regarding the within-model moves, for the parameters that are common to all sub-models (i.e.\ \(\alpha\) and \(\sigma^2\) in the functional regression case), we use the stretch move described in Section~\ref{sec:affine-invariant-samplers}. For the parameters that change with the dimension (\(b\) and \(\tau\)), we use a variant known as the \textit{group stretch move}. This move was designed as an extension of the original stretch move to handle reversible jump setups. The main difference is that the random walker \(\Lambda_j\) used to advance the chain is selected from a stationary group that does not change for several iterations (see Section~3.1 in \citealp{karnesis2023eryn} for more information). In both moves, the key scaling parameter \(a\) starts with a value of 2, and is changed dynamically to guide the sampler towards an acceptance rate of about \(20\%-30\%\), which is within the range usually recommended in the literature \citep[e.g.][]{rosenthal2011optimal}.
+Regarding the within-model moves, for the parameters that are common to all sub-models (i.e.\ \(\alpha\) and \(\sigma^2\) in the functional regression case), we use the stretch move described in Section~\ref{sec:affine-invariant-samplers}. For the parameters that change with the dimension (\(b\) and \(\tau\)), we use a variant known as the \textit{group stretch move}. This move was designed as an extension of the original stretch move to handle reversible jump setups. The main difference is that the random walker \(\Lambda_j\) used to advance the chain is selected from a stationary group that does not change for several iterations (see Section~3.1 in \citealp{karnesis2023eryn} for more information). In both moves, the key scaling parameter in~\eqref{eq:stretch-move-density} starts with a value of \(a=2\), and is changed dynamically to guide the sampler towards an acceptance rate of about \(20\%-30\%\), which is the range usually recommended in the literature \citep[e.g.][]{rosenthal2011optimal}.
 
 \subsection{Initial values and hyperparameters}
 
-We need to specify the initial values for the parameters of all the chains in our sampler. In general, we set these values by sampling from the prior distribution of the corresponding parameters. However, in the functional linear regression case the prior on \((\alpha, \sigma^2)\) is improper, so we use ad-hoc weakly informative distributions for the initial values instead. For \(\alpha\) we consider a normal distribution with mean zero and standard deviation \(10|\bar{Y}_{\text{scaled}}|\), where \(Y_{\text{scaled}}\) is the version of the original data scaled to have standard deviation unity. For \(\sigma^2\) we use an inverse-gamma distribution with shape parameter \(\delta=2\) and scale parameter \(\xi=\hat\sigma^2_Y/\var(Y)\), where \(\hat \sigma^2_Y\) is a rough estimate of an acceptable error in the scale of \(Y\). This estimation is done is practice as two order of magnitudes less than \(|\bar{Y}|\).
+We need to specify the initial values for the parameters of all the chains in our sampler. In general, we set these values by sampling from the prior distribution of the corresponding parameters. However, in the functional linear regression case the prior on \((\alpha, \sigma^2)\) is improper, so we use ad-hoc weakly informative distributions for the initial values instead. For \(\alpha\) we consider a normal distribution with mean zero and standard deviation \(10|\bar{Y}_{\text{scaled}}|\), where \(Y_{\text{scaled}}\) is the version of the original response data scaled to have standard deviation unity. For \(\sigma^2\) we use an inverse-gamma distribution with shape parameter \(\delta=2\) and scale parameter \(\xi=\hat\sigma^2_Y/\var(Y)\), where \(\hat \sigma^2_Y\) is a rough estimate of an acceptable error in the scale of \(Y\). This estimation is done is practice as two order of magnitudes less than \(|\bar{Y}|\).
 
 One benefit of the reversible jump approach is that the algorithm only requires the specification of a few hyperparameters, irrespective of the underlying dimension. This contrasts to, say, the \(O(D^2)\) degrees of freedom corresponding to the covariance matrix of a \(D\)-dimensional jump distribution in Metropolis--Hastings. Some relevant hyperparameters include the burn-in period for the chains (the number of initial samples discarded), the number of actual steps, the number of chains, and the number of temperatures for parallel tempering. With sufficient computing power we could perform a grid search to find the best values for these hyperparameters, but we decided to use a fixed set of values due to execution time constraints.
 
