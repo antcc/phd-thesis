@@ -59,7 +59,7 @@ In this way the detailed balance equations are still satisfied, and each of the 
 
 \section{Reversible jump implementation}
 
-For the computational implementation of our Bayesian methods we chose the Python library \slsc{Eryn} \citep{karnesis2023eryn}. This package is a general-purpose suite of \acs{MCMC} methods which is reliable, easy to use and performs well in a wide class of problems. It is an enhancement of the \slsc{emcee} library that implements affine-invariant ensemble samplers with a \acs{RJMCMC} sampling scheme, along with a few key improvements. Every walker in the ensemble maintains a set of up to \(P_{\max}\) active components, each storing one coordinate \((\beta_j, s_j) \in \R\times \mathcal S\) in the functional regression case (along with the fixed-dimension variables \(\alpha\) and \(\sigma^2\)), or \(s_j\in\mathcal S\) in the functional testing case. 
+For the computational implementation of our Bayesian methods we chose the Python library \slsc{Eryn} \citep{karnesis2023eryn}. This package is a general-purpose suite of \acs{MCMC} methods which is reliable, easy to use and performs well in a wide class of problems. It is an enhancement of the \slsc{emcee} library that implements affine-invariant ensemble samplers with a \acs{RJMCMC} sampling scheme, along with a few key improvements. Every walker in the ensemble maintains a set of up to \(P_{\max}\) active components, each storing one coordinate \((\beta_j, s_j) \in \R\times \mathcal S\) in the functional regression case (along with the common fixed-dimension variables \(\alpha\) and \(\sigma^2\)), or just \(s_j\in\mathcal S\) in the functional testing case. 
 
 Moreover, this library implements \textit{parallel tempering}, which is a mechanism to increase the efficiency with which the sampler explores the parameter space \citep{hukushima1996exchange}. The basic idea is to consider a set of Markov chains in parallel, each one sampling from a transformed posterior distribution with temperature \(T\geq 1\) given by 
 \[
@@ -75,14 +75,14 @@ In this way, the posterior is smoothed out by reducing the contrast between area
 
 The full sampling procedure can be summarized as follows.
 \begin{enumerate}
-  \item \textbf{Initialize} \(W\) walkers with initial states \(\theta_{p_w}\) across \(T\) temperature levels. Ensure each walker has at least \(p_{\min}\) active components and at most \(P_{\max}\).
-  \item \textbf{For each iteration} \(r=1,\dots, R\):
+  \item \slsc{Initialize} each of the \(W\) walkers with initial states \(\theta_{p_w}\) across all temperature levels. Ensure each walker has at least \(p_{\min}\) active components and at most \(P_{\max}\).
+  \item \slsc{For each iteration} \(r=1,\dots, R\):
   \begin{enumerate}
     \item For each walker, propose new values for the existing parameters (without changing the dimension) and accept/reject.
     \item For each walker, propose a birth or death move and accept/reject.
     \item Propose temperature swaps between adjacent chains and accept/reject.
   \end{enumerate}
-  \item \textbf{Collect} the posterior samples \(\{\theta^{(r)}\}_{r=1}^R\) from the cold chain (after burn-in).
+  \item \slsc{Collect} the posterior samples \(\{\theta^{(r)}\}_{r=1}^R\) from the cold chain (after burn-in).
 \end{enumerate}
 
 \subsection{Moves}

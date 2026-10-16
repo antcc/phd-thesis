@@ -249,9 +249,10 @@ The Doob-type results of the previous section, although interesting, are still a
 
 In general, in infinite-dimensional models there is no reference measure with respect to which to define a density, and to apply the consistency results derived from Schwartz's theorem we need a dominated model (see Section~\ref{sec:posterior-consistency-intro}). As it turns out, in our specific functional regression setting we can find such a density through the following observation. 
 
-\begin{lemma}\label{lemma:joint-density-rho}
+\begin{lemma}
+  \phantomsection\label{lemma:joint-density-rho} % force correct anchor
   \marginproof{proof:joint-density-rho}
-  The function \((x,y)\mapsto f_\theta(y|x)\) is a joint probability density of \((X,Y)\) with respect to the product measure \(\rho=\qq_X\times \mathfrak{m}\), where \(\qq_X\) is the law of the process \(X\). 
+  The function \((x,y)\mapsto f_\theta(y|x)\) is a joint probability density of \((X,Y)\) with respect to the product measure \(\rho=\qq_X\times \mathfrak{m}\), where \(\qq_X\) is the law of the process \(X\).
 \end{lemma}
 
 In this way, denoting \(f_\theta := f_\theta(y|x)\) and \(\mathcal F=\{f_\theta: \theta \in \Theta\}\), we can express our full model (with respect to the measure \(\rho\)) as

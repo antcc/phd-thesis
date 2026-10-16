@@ -135,7 +135,7 @@ g^*_n = \operatorname*{argmax}_g\, \bff_{10}^{\text{FPCA}}(g) = \frac{Q_{n,p}}{p
 \]
 which is obtained by differentiating~\eqref{eq:log-bf10-fpca} with respect to \(g\) and setting the derivative to zero. Then, the estimated value for \(g\) is \(\hat g_n = \max\{\delta, g^*_n\}\), where \(\delta>0\) is a small constant to avoid degeneracy at the boundary \(\{g=0\}\) (in the experiments we used \(\delta=10^{-3}\)).
 
-Note that this \acs{FPCA}-based Bayesian method is simpler than the full \acs{RJMCMC} procedure described in Section~\ref{sec:rkhs-test}, and provides an exact Bayes factor without the need to approximate the posterior. However, it is not as flexible as the \acs{RKHS}-based approach, and it seems to perform a bit worse in practice.
+Note that this \acs{FPCA}-based Bayesian test is simpler than the full \acs{RJMCMC} procedure described in Section~\ref{sec:rkhs-test}, and provides an exact Bayes factor without the need to approximate the posterior. However, it is not as flexible as the \acs{RKHS}-based approach, and it seems to perform a bit worse in practice.
 
 %*****************************************
 %*****************************************
