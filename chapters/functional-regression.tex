@@ -39,7 +39,7 @@ In the case of functional linear regression, the simplified \acs{RKHS} model con
 \]
 where \(\beta(\cdot)=\sum_{j=1}^p\beta_j K(t_j, \cdot) \in \Hcal_0(K)\), \(\alpha\in\R\), and \(\epsilon \sim \mathcal N(0,\sigma^2)\) is an error term independent from \(X\). This model is essentially a finite-dimensional approximation from a functional perspective to the more general \acs{RKHS} model that assumes \(\beta \in \Hcal(K)\) \citep{berrendero2024functional}. Since the number of components \(p\) is unknown, a generic parameter will be denoted by \(\theta_p = (p, t_1,\dots, t_p, \beta_1,\dots, \beta_p, \alpha, \sigma^2) \equiv (p, \tau_p, b_p, \alpha, \sigma^2)\), though we will usually omit the subscript if the value of \(p\) is understood. The full parameter space is thus given by
 \begin{equation}\label{eq:theta-parameter-space-bfr}
-\Theta = \bigcup_{p\in\N}\Theta_p,\quad \text{where } \Theta_p = \{p\} \times [0, 1]^p \times \R^p  \times \R \times \R^+_0.
+\Theta = \bigcup_{p\in\N}\Theta_p,\quad \text{where } \Theta_p = \left\{p\right\} \times [0, 1]^p \times \R^p  \times \R \times \R^+_0.
 \end{equation}
 For \(\theta \in \Theta\), the reinterpreted model in terms of the available sample information assumes the form
 \begin{equation}\label{eq:rkhs-model-linear-2}
@@ -79,12 +79,12 @@ Even though we cannot compute the posterior distribution in closed form, we can 
 
 In the case of functional logistic regression, we regard the binary response variable \(Y\in\{0, 1\}\) as a Bernoulli random variable given the functional regressor \(X\). Then, following the approach suggested by \citet{berrendero2023functional}, a simplified logistic \acs{RKHS} model is given by the equation
 \begin{equation}\label{eq:rkhs-model-logistic}
-  \pp(Y=1 \mid X) = \frac{1}{1 + \exp\{-\alpha - \dotprod{X}{\beta}_K\}}, \quad \alpha \in \R, \ \beta \in \Hcal_{0}(K).
+  \pp(Y=1 \mid X) = \frac{1}{1 + \exp\left\{-\alpha - \dotprod{X}{\beta}_K\right\}}, \quad \alpha \in \R, \ \beta \in \Hcal_{0}(K).
 \end{equation}
 
 Indeed, note that this can be seen as a finite-dimensional approximation (with a functional interpretation) to the general \acs{RKHS} functional logistic model proposed by these authors, which can be obtained by replacing \(\Hcal_{0}(K)\) with \(\Hcal(K)\). After incorporating the sample information, we can rewrite~\eqref{eq:rkhs-model-logistic} in parametric form for \(\theta\in\Theta\) as
 \begin{equation}\label{eq:rkhs-model-logistic-2}
-  Y_i \mid X_i,\theta \ \stackrel{\text{ind.}}{\sim} \operatorname{Bernoulli}(\pp(Y_i=1 \mid X_i,\theta)), \quad i=1,\dots, n,
+  Y_i \mid X_i,\theta \ \stackrel{\text{ind.}}{\sim} \operatorname{Bernoulli}\left(\pp\left(Y_i=1 \mid X_i,\theta\right)\right), \quad i=1,\dots, n,
 \end{equation}
 where
 \[
@@ -132,7 +132,7 @@ Since we do not impose conjugate priors and the posterior distribution does not 
 
 From a higher level perspective, the \acs{RJMCMC} algorithm is an iterative procedure that produces a chain of \(R\) approximate samples 
 \[
-\theta^{(r)}=(p^{(r)}, \tau^{(r)}, b^{(r)}, \alpha^{(r)}, (\sigma^{2})^{(r)}), \quad r=1,\dots,R
+\theta^{(r)}=\left(p^{(r)}, \tau^{(r)}, b^{(r)}, \alpha^{(r)}, (\sigma^{2})^{(r)}\right), \quad r=1,\dots,R
 \] 
 of the posterior distribution \(\Pi_n(\theta| \mathcal D_n)\), each possibly of a different dimension (see Chapter~\ref{ch:rjmcmc} for a more detailed description). Given a previously unseen regressor \(X_{\text{test}}\), with each of these samples we can generate an individual approximate response following our \acs{RKHS} models, denoted by \(F(X_{\text{test}}, \theta^{(r)})\). In the linear case we sample from the distribution \(Y | X_{\text{test}}, \theta^{(r)}\) given in~\eqref{eq:rkhs-model-linear-2}, and in the logistic case we directly consider the probabilities \(\pp(Y=1|X_{\text{test}},\theta^{(r)})\) in~\eqref{eq:rkhs-model-logistic-2}. We propose to combine these predictions in four different ways.
 
@@ -148,7 +148,9 @@ In these methods we essentially make use of the so-called posterior predictive d
 
   \paragraph{Maximum a posteriori (MAP-PP)} We also consider a \acf{MAP} strategy, where only the most probable sub-model is used and the rest of the samples are discarded. In this case, denoting \(\hat p = \arg\max_p \hat\Pi_n(p|\mathcal D_n)\), predictions are computed as 
   \[
-  \hat Y = g(\{F(X_{\text{test}}, \theta^{(r)})\}_{r:p^{(r)}=\hat p}).\] Although this method may ignore many samples in the posterior approximation, this omission can help reduce noise and prevent outliers from affecting the final prediction.
+  \hat Y = g\left(\{F(X_{\text{test}}, \theta^{(r)})\}_{r:p^{(r)}=\hat p}\right).
+  \] 
+  Although this method may ignore many samples in the posterior approximation, this omission can help reduce noise and prevent outliers from affecting the final prediction.
 
 \subsection{Two-stage methods}
 
@@ -210,14 +212,14 @@ Both conditions are automatically satisfied if one chooses prior distributions w
   \marginproof{proof:consistency-doob-linear}
   Suppose that~\ref{cond:condition-ident} holds. Then, there exists \(\Theta_*\subseteq \Theta\) such that \(\Pi(\theta \in \Theta_*)=1\) and for all \(\theta_0\in\Theta_*\), if \((X,Y)_{1:\infty} \sim \pp_{\theta_0}(X,Y)\) i.i.d., then for any \(\epsilon > 0\)
   \[
-    \lim_{n\to\infty} \Pi_n(\theta \in B_{d_\Theta}^{\mathfrak{S}}(\theta_0, \epsilon) \mid (X,Y)_{1:n}) = 1 \quad \pp_{0}^\infty(X,Y)-\text{a.s.}
+    \lim_{n\to\infty} \Pi_n\left(\theta \in B_{d_\Theta}^{\mathfrak{S}}(\theta_0, \epsilon) \mathrel{\big\vert} (X,Y)_{1:n}\right) = 1 \quad \pp_{0}^\infty(X,Y)-\text{a.s.}
   \]
 \end{theorem}
 
 \begin{remark}
   In particular, by taking \(0<\epsilon<1\) we immediately obtain  
   \[
-    \lim_{n\to\infty} \Pi_n(p=p_0 \mid (X,Y)_{1:n}) = 1 \quad \pp_{0}^\infty(X,Y)-\text{a.s.}
+    \lim_{n\to\infty} \Pi_n\left(p=p_0 \mid (X,Y)_{1:n}\right) = 1 \quad \pp_{0}^\infty(X,Y)-\text{a.s.}
   \]
   This statement is of certain relevance in itself, because the estimation of the number of components in finite mixture models is a hard problem in general \citep[see][and references therein]{miller2018mixture, cai2021finite}.
 \end{remark}
@@ -264,7 +266,7 @@ where \(\Pi_{\mathcal F}\) is a prior distribution on the parameter class \(\mat
 
 The idea now is to apply Theorem~\ref{th:consistency-hellinger} to obtain posterior consistency with respect to the Hellinger distance \(d_H\). Looking at the form of the parameter space \(\Theta\) in~\eqref{eq:theta-parameter-space-bfr}, a natural choice for the sieves is 
 \[
-\Theta_n = \bigcup_{p=1}^{p_n} \Theta_p\quad \text{and}\quad  \mathcal F_n=\{f_\theta\in\mathcal F: \theta \in \Theta_n\},
+\Theta_n = \bigcup_{p=1}^{p_n} \Theta_p\quad \text{and}\quad  \mathcal F_n=\left\{f_\theta\in\mathcal F: \theta \in \Theta_n\right\},
 \]
 for \(n\geq 1\), where \(p_n=O(h(n))\) and \(h(n)\to \infty\) is a function to be determined later. Moreover, to keep the conditions as simple as possible, it is more convenient to work with compact parameter spaces \(\Theta_p\) and adapt the prior distributions in~\eqref{eq:model-linear} accordingly; we assume this is so for the remainder of the section. 
 
@@ -278,7 +280,7 @@ We are ready to state a new Hellinger consistency result for our model, which tr
   \marginproof{proof:consistency-schwartz-linear}
   Assume~\ref{cond:condition-schwartz-X} holds, and suppose that there exist \(\delta > 0\) and \(k>1\) such that \(\Pi(p)=O(e^{-\delta p (\log p)^k})\) as \(p\to\infty\). If \(\Pi\) assigns positive mass to every open neighborhood of \(\theta_0\) in \(\Theta_0\), then the posterior distribution in the model \(\theta \sim \Pi\) and \((X,Y)_{1:n}|\theta \sim f_\theta\) i.i.d.\ is consistent relative to \(d_H\) at \(f_0\), i.e., for every \(\epsilon>0\) it holds that
   \[
-    \lim_{n\to\infty} \Pi_n(\theta: d_H(f_0, f_\theta) < \epsilon \mid (X,Y)_{1:n})=1\quad \pp_0^\infty(X,Y)-\text{a.s.}
+    \lim_{n\to\infty} \Pi_n\left(\theta: d_H(f_0, f_\theta) < \epsilon \mid (X,Y)_{1:n}\right)=1\quad \pp_0^\infty(X,Y)-\text{a.s.}
   \]
 \end{theorem}
 
@@ -290,7 +292,7 @@ Following a similar proof strategy as in Theorem~\ref{th:consistency-schwartz-li
   \marginproof{proof:contraction-rate-schwartz-linear}
 Assume~\ref{cond:condition-schwartz-X} holds. Let \(0<\gamma<1/2\) and suppose that \(\Pi(p)=O(e^{-\delta p \log p})\) as \(p\to\infty\), for some \(\delta>32(1-\gamma)/(1-2\gamma)\). If \(\Pi\) has a density on the continuous components of \(\Theta_0\) with respect to Lebesgue measure that is bounded away from zero in a neighborhood of \(\theta_0\), then the posterior distribution in the model \(\theta \sim \Pi\) and \((X,Y)_{1:n}|\theta \sim f_\theta\) i.i.d.\ contracts at a rate \(\epsilon_n= n^{-\gamma}\) relative to \(d_H\) at \(f_0\), i.e., for every sequence \(M_n\to\infty\) it holds that
 \[
-    \Pi_n(\theta: d_H(f_0, f_\theta) \geq M_n \epsilon_n \mid (X,Y)_{1:n}) \to 0 \quad \text{in } \pp_0^{(n)}(X,Y)\text{-probability}.
+    \Pi_n\left(\theta: d_H(f_0, f_\theta) \geq M_n \epsilon_n \mid (X,Y)_{1:n}\right) \to 0 \quad \text{in } \pp_0^{(n)}(X,Y)\text{-probability}.
     \]
 \end{theorem}
 
@@ -328,7 +330,7 @@ Note that the above requirement is by no means a necessary one. For example, giv
 \]
 If \(K_W(t,s)=\E[W(t)W(s)]\) is uniformly bounded above by a constant \(L>0\) on \([0,1]\), we have
 \[
-  \E[(X(t) - X(s))^2] = \int_s^t \int_s^t \E[W(u)W(v)]\, du\,dv \leq L(t-s)^2.
+  \E\left[(X(t) - X(s))^2\right] = \int_s^t \int_s^t \E[W(u)W(v)]\, du\,dv \leq L(t-s)^2.
 \]
 For example, we might take \(W(t)\) to be a standard Brownian motion, an Ornstein--Uhlenbeck process or, in general, any second-order process with a continuous covariance function. In any case, by virtue of Lemma~\ref{lemma:mean-square-lipschitz} we can always pre-process the trajectories so that they are regular enough for the conditions to hold, considering for instance the convolution with a smooth kernel.
 
@@ -618,7 +620,7 @@ is measurable. When \(\sigma^2=0\) we no longer have a normal density, but a sim
 Another measurability concern is the existence of regular conditional distributions such as \(\theta|(X, Y)_{1:n}\). For this, one should see Theorem 10.2.1 and Theorem 10.2.2 in \citet{dudley2002real}, which guarantee that such conditional distributions are well-defined provided that the underlying spaces are sufficiently regular.
 
 \paragraph{Reduced parameter space} Define the constrained space
-\[\tTheta_p = \{p\} \times [0,1]^p_{\text{ord}} \times \left(\R \setminus \{0\}\right)^p \times \R \times \R^+_0,
+\[\tTheta_p = \left\{p\right\} \times [0,1]^p_{\text{ord}} \times \left(\R \setminus \{0\}\right)^p \times \R \times \R^+_0,
 \]
 where 
 \[
@@ -628,7 +630,7 @@ Note that \(\tTheta_p\) is an open subset of \(\Theta_p\), and thus open in the 
 
 \paragraph{Transformation into ordered form} For \(\theta\in\Theta_p\), define the measurable mapping \(T(\theta)=\theta[\nu]\) if there is a permutation \(\nu\in \mathfrak{S}_p\) such that \(\theta[\nu]\in \tTheta_p\); otherwise set \(T(\theta)=\theta\). Note that we can only transform \(\theta\) to be in \(\tTheta_p\) if the times \(t_j\) are all distinct and the coefficients \(\beta_j\) are all nonzero. But since the prior distribution assigns probability one to both events by~\ref{cond:condition-ident}, we have \(\Pi(T(\theta)\in\tTheta)=1\). It will be useful later to observe that for any set \(B\subseteq \tTheta_p\), if we denote 
 \[
-  B[\nu] = \{\theta[\nu]: \theta \in B\},
+  B[\nu] = \left\{\theta[\nu]: \theta \in B\right\},
 \]
 we have
 \begin{equation}\label{eq:inverse-image-T}
@@ -656,35 +658,35 @@ where \(s_1,\dots,s_m\) are distinct times. By taking variances, we can see that
 
 \paragraph{Applying Doob's theorem} Next we analyze the conclusions of Doob's theorem applied to the collapsed model~\eqref{eq:model-linear-collapsed}: there exists a subset \(\tTheta_* \subseteq \tTheta\) with \(\Pi(T(\theta)\in\tTheta_*)=1\) such that, if \(T(\theta_0)\in \tTheta_*\) and \((X,Y)_{1:\infty} \sim \pp_{T(\theta_0)}(X, Y)\) i.i.d., then for any neighborhood \(B\subseteq \tTheta\) of \(T(\theta_0)\) it holds that
 \begin{equation}\label{eq:consistency-collapsed}
-  \Pi_n(T(\theta) \in B \mid (X,Y)_{1:n}) \xrightarrow[]{n\to\infty} 1 \quad \pp_{T(\theta_0)}^\infty(X, Y)-\text{a.s.}
+  \Pi_n\left(T(\theta) \in B \mid (X,Y)_{1:n}\right) \xrightarrow[]{n\to\infty} 1 \quad \pp_{T(\theta_0)}^\infty(X, Y)-\text{a.s.}
 \end{equation}
 Now define \(\Theta_*\) to be the set of all parameters in \(\Theta\) that can be obtained by permuting a parameter in \(\tTheta_*\), i.e., 
 \[
-  \Theta_* := \bigcup_{p=1}^\infty \bigcup_{\nu\in \mathfrak{S}_p}(\tTheta_* \cap \tTheta_p)[\nu].
+  \Theta_* := \bigcup_{p=1}^\infty \bigcup_{\nu\in \mathfrak{S}_p}\left(\tTheta_* \cap \tTheta_p\right)[\nu].
 \]
 Then, by~\eqref{eq:inverse-image-T} we have
 \[
   \Pi(\theta\in \Theta_*) = \Pi\left(T(\theta) \in \bigcup_{p=1}^\infty (\tTheta_*\cap \tTheta_p)\right) = \Pi(T(\theta)\in \tTheta_*) = 1.
 \]
 
-\paragraph{Extending the result} Let \(\theta_0\in\Theta_*\) be the true parameter, so that \((X,Y)_{1:\infty}\sim \pp_{\theta_0}(X, Y)\) i.i.d. Fix \(\epsilon\in(0,1)\) and consider the set \(B\) of all ordered parameters that are within \(\epsilon\) of the ordered version of \(\theta_0\):
+\paragraph{Extending the result} Let \(\theta_0\in\Theta_*\) be the true parameter, so that \((X,Y)_{1:\infty}\sim \pp_{\theta_0}(X, Y)\) i.i.d. Fix \(\epsilon\in(0,1)\) and consider the set \(B_0^\epsilon\) of all ordered parameters that are within \(\epsilon\) of the ordered version of \(\theta_0\):
 \begin{equation}\label{eq:set-B}
-  B = \left\{ \theta \in \tTheta: d_\Theta(T(\theta_0), \theta) < \epsilon \right\}.
+  B_0^\epsilon = \left\{ \theta \in \tTheta: d_\Theta(T(\theta_0), \theta) < \epsilon \right\}.
 \end{equation}
-Observe that, since \(\epsilon < 1\), we have \(B\subseteq \tTheta_{p_0}\) by definition of \(d_\Theta\); see~\eqref{eq:metric-doob}. Moreover, by~\eqref{eq:neighborhood-doob-permutation} it holds that
+Observe that, since \(\epsilon < 1\), we have \(B_0^\epsilon\subseteq \tTheta_{p_0}\) by definition of \(d_\Theta\); see~\eqref{eq:metric-doob}. Moreover, by~\eqref{eq:neighborhood-doob-permutation} it holds that
 \[
-  \bigcup_{\nu\in \mathfrak{S}_{0}}B[\nu]\subseteq B_{d_\Theta}^{\mathfrak{S}}(\theta_0, \epsilon).
+  \bigcup_{\nu\in \mathfrak{S}_{0}}B_0^\epsilon[\nu]\subseteq B_{d_\Theta}^{\mathfrak{S}}(\theta_0, \epsilon).
 \]  
 Then, again by~\eqref{eq:inverse-image-T}, we can write
 \begin{equation}\label{eq:consistency-intermediate}
   \begin{split}
-    \Pi_n(\theta \in B_{d_\Theta}^{\mathfrak{S}}(\theta_0, \epsilon) \mid (X,Y)_{1:n}) & \geq \Pi_n(\theta \in \bigcup_{\nu\in \mathfrak{S}_{0}} B[\nu] \mid (X,Y)_{1:n}) \\
-    & = \Pi_n(T(\theta) \in B \mid (X,Y)_{1:n}).
+    \Pi_n\left(\theta \in B_{d_\Theta}^{\mathfrak{S}}(\theta_0, \epsilon) \mid (X,Y)_{1:n}\right) & \geq \Pi_n\left(\theta \in \bigcup_{\nu\in \mathfrak{S}_{0}} B_0^\epsilon[\nu] \mid (X,Y)_{1:n}\right) \\
+    & = \Pi_n\left(T(\theta) \in B_0^\epsilon \mid (X,Y)_{1:n}\right).
   \end{split}
 \end{equation}
-Now, \(T(\theta_0)\in{\tTheta_*}\) because \(\theta_0\in\Theta_*\), and in that case we know that the collapsed model is consistent at \(T(\theta_0)\). Note that we also have \((X,Y)_{1:\infty} \sim \pp_{T(\theta_0)}(X, Y)\) i.i.d.\ (since \(\pp_{\theta_0}=\pp_{T(\theta_0)}\)), and the set \(B\) in~\eqref{eq:set-B} is a neighborhood of \(T(\theta_0)\) in \(\tTheta\). Then, by~\eqref{eq:consistency-collapsed} we can conclude that 
+Now, \(T(\theta_0)\in{\tTheta_*}\) because \(\theta_0\in\Theta_*\), and in that case we know that the collapsed model is consistent at \(T(\theta_0)\). Note that we also have \((X,Y)_{1:\infty} \sim \pp_{T(\theta_0)}(X, Y)\) i.i.d.\ (since \(\pp_{\theta_0}=\pp_{T(\theta_0)}\)), and the set \(B_0^\epsilon\) in~\eqref{eq:set-B} is a neighborhood of \(T(\theta_0)\) in \(\tTheta\). Then, by~\eqref{eq:consistency-collapsed} we can conclude that 
 \[
-  \lim_{n\to\infty} \Pi_n(T(\theta) \in B \mid (X,Y)_{1:n}) = 1 \quad \pp_0^\infty (X,Y)-\text{a.s.},
+  \lim_{n\to\infty} \Pi_n\left(T(\theta) \in B_0^\epsilon \mid (X,Y)_{1:n}\right) = 1 \quad \pp_0^\infty (X,Y)-\text{a.s.},
 \]
 and this fact together with~\eqref{eq:consistency-intermediate} proves consistency for \(\theta_0\) in the original model~\eqref{eq:model-linear}.
 \end{proof}
@@ -716,7 +718,7 @@ Now extend the argument to a general measurable set \(A\subseteq \mathcal X \tim
 
 Recall that our full parameter space is the disjoint union \(\Theta=\bigcup_p\Theta_p\). As we said before, for convenience we take the finite-dimensional sets \(\Theta_p\) to be compact spaces. More specifically, we work with
 \[
-  \Theta_p = \{p\} \times [0,1]^p \times [-M_B, M_B]^p \times [-M_A, M_A] \times [\sigma^2_{\text{min}}, \sigma^2_{\text{max}}],
+  \Theta_p = \left\{p\right\} \times [0,1]^p \times [-M_B, M_B]^p \times [-M_A, M_A] \times [\sigma^2_{\text{min}}, \sigma^2_{\text{max}}],
 \]
 where \(M_A,M_B>0\) and \(0<\sigma^2_{\text{min}}<\sigma^2_{\text{max}}\). Sometimes we will consider only the continuous components of \(\Theta_p\) (discarding the discrete label), but we keep the same notation for simplicity.
 
@@ -756,12 +758,12 @@ Now from the triangle inequality, the Cauchy--Schwarz inequality and the fact th
 \end{align*}
 Now integrate on both sides with respect to \(\qq_X\). By~\ref{cond:condition-schwartz-X}, we have
 \[
-\int_{\mathcal X} (x(t_j) - x(\tilde t_j))^2 d\qq_X(x) = \E[(X(t_j) - X(\tilde t_j))^2] \leq L(t_j - \tilde t_j)^2.
+\int_{\mathcal X} (x(t_j) - x(\tilde t_j))^2 d\qq_X(x) = \E\left[(X(t_j) - X(\tilde t_j))^2\right] \leq L(t_j - \tilde t_j)^2.
 \]
 Moreover, note that \(\|\theta-\tilde\theta\|^2\) is always bigger than the sum of just some of the squared components of \(\theta - \tilde\theta\). All in all, we get
 \begin{align*}
   \frac{1}{2}\E\left[(\mu_\theta(X) - \mu_{\tilde\theta}(X))^2\right] &\leq \|\theta - \tilde\theta\|^2 + 2p\biggl(M_B^2 L \|\theta - \tilde\theta\|^2\\ 
-  &\quad + \|\theta - \tilde\theta\|^2 \sup_{t\in[0,1]} \E[X(t)^2] \biggr).
+  &\quad + \|\theta - \tilde\theta\|^2 \sup_{t\in[0,1]} \E\left[X(t)^2\right] \biggr).
 \end{align*}
 Recall that the covariance function \(K\) of \(X\) is assumed to be continuous, so \(\sup_{t\in[0,1]} \E[X(t)^2]=\sup_{t\in[0,1]}K(t,t)<\infty\). Then, we can bring all constants together (which are positive and depend on \(M_B\), \(p\) and \(X\)) into \(C_1>0\) to write
 \begin{equation}\label{eq:th9-bound1}
@@ -795,8 +797,8 @@ and after reverting the change of variables the denominator can be easily bounde
 where \(C^{(p)}>0\) increases linearly with \(p\).
 Next, consider the distance \(d_\Theta\) on \(\Theta\) defined in~\eqref{eq:metric-doob}. From~\eqref{eq:th9-bound3} one can readily verify that \(d_H(f_\theta, f_{\tilde\theta}) \leq C(n) d_\Theta(\theta, \tilde\theta)\) for \(\theta, \tilde\theta \in \Theta_n\), where \(C(n)=O(\sqrt{p_n})\). Moreover, the relationship \(d_\Theta(\theta,\tilde\theta)\leq \|\theta - \tilde\theta\|\) always holds on \(\Theta_p\). Denote by \(R_p\) the diameter of \((\Theta_p, \|\cdot\|)\), and note that each \(\Theta_p\) is contained in a hypercube of dimension \(2p+2\) and length independent of \(p\), say \(\ell\). Then, \(R_p\leq \ell\sqrt{2p+2}\) for all \(p\). Putting it all together and invoking Lemma~\ref{lemma:covering-number}, for sufficiently small \(\epsilon>0\) we have
 \begin{align*}
-  N(\epsilon, \mathcal F_n, d_H) & \leq N(\epsilon/C(n), \Theta_n, d_\Theta)                               \\
-  & \leq \sum_{p=1}^{p_n} N(\epsilon/C(n), \Theta_p, \|\cdot\|)             \\
+  N(\epsilon, \mathcal F_n, d_H) & \leq N\left(\epsilon/C(n), \Theta_n, d_\Theta\right)                               \\
+  & \leq \sum_{p=1}^{p_n} N\left(\epsilon/C(n), \Theta_p, \|\cdot\|\right)             \\
   & \leq p_n \left(\frac{3C(n)\ell\sqrt{2p_n+2}}{\epsilon}\right)^{2p_n+2}.
 \end{align*}
 Taking logarithms, we may write
@@ -813,14 +815,14 @@ Since \(C(n)=O(\sqrt{p_n})\), it suffices to choose \(p_n\) so that \(p_n\log p_
 \end{align*}
 Since \(\Pi(p)\lesssim \exp\{-\delta p(\log p)^k\}\) for sufficiently large \(p\) and multiplicative constants do not affect the bound, we can work without loss of generality with \(\Pi(p)=\exp\{-\delta p(\log p)^k\}\). Then, we have
 \begin{align*}
-  \Pi(\Theta \setminus \Theta_n) & \leq \sum_{p=p_n+1}^\infty \exp\{-\delta p(\log p)^k\}                                \\
-  & = \sum_{m=1}^\infty \exp\{-\delta (p_n+m)(\log (p_n+m))^k\}                           \\
-  & \leq \sum_{m=1}^\infty \exp\{-\delta p_n (\log p_n)^k\}\exp\{-\delta m (\log p_n)^k\} \\
-  & = \exp\{-\delta p_n (\log p_n)^k\} \sum_{m=1}^\infty r_n^m,
+  \Pi(\Theta \setminus \Theta_n) & \leq \sum_{p=p_n+1}^\infty \exp\left\{-\delta p(\log p)^k\right\}                                \\
+  & = \sum_{m=1}^\infty \exp\left\{-\delta (p_n+m)(\log (p_n+m))^k\right\}                           \\
+  & \leq \sum_{m=1}^\infty \exp\left\{-\delta p_n (\log p_n)^k\right\}\exp\left\{-\delta m (\log p_n)^k\right\} \\
+  & = \exp\left\{-\delta p_n (\log p_n)^k\right\} \sum_{m=1}^\infty r_n^m,
 \end{align*}
 where \(r_n=\exp\{-\delta (\log p_n)^k\}<1\). Summing the geometric series, we get
 \begin{equation}\label{eq:proof-infinite-prior-tail-bound}
-  \Pi(\Theta \setminus \Theta_n) \leq \exp\{-\delta p_n (\log p_n)^k\} \cdot \frac{\exp\{-\delta (\log p_n)^k\}}{1-\exp\{-\delta (\log p_n)^k\}}.
+  \Pi(\Theta \setminus \Theta_n) \leq \exp\left\{-\delta p_n (\log p_n)^k\right\} \frac{\exp\left\{-\delta (\log p_n)^k\right\}}{1-\exp\left\{-\delta (\log p_n)^k\right\}}.
 \end{equation}
 Now choose \(p_n \geq \frac{c_1n}{(\log n)^k}\) with \(c_1>0\), and observe that for sufficiently large \(n\) we have
 \[
@@ -828,11 +830,11 @@ Now choose \(p_n \geq \frac{c_1n}{(\log n)^k}\) with \(c_1>0\), and observe that
 \]
 Since \(p_n\to\infty\), the fraction in~\eqref{eq:proof-infinite-prior-tail-bound} goes to zero as \(n\) grows, and there exists a constant \(c_2>0\) such that, for large \(n\),
 \[
-  \frac{\exp\{-\delta (\log p_n)^k\}}{1-\exp\{-\delta (\log p_n)^k\}}\leq c_2.
+  \frac{\exp\left\{-\delta (\log p_n)^k\right\}}{1-\exp\left\{-\delta (\log p_n)^k\right\}}\leq c_2.
 \]
 Then, using the lower bounds on \(p_n\) and \(\log p_n\) it follows that eventually
 \begin{align*}
-  \Pi(\Theta \setminus \Theta_n) & \leq c_2 \exp\{-\delta p_n (\log p_n)^k\}                                                    \\
+  \Pi(\Theta \setminus \Theta_n) & \leq c_2 \exp\left\{-\delta p_n (\log p_n)^k\right\}                                                    \\
                                  & \leq c_2 \exp\left\{-\delta \frac{c_1 n}{(\log n)^k}\left(\frac{1}{2}\log n\right)^k\right\} \\
                                  & = c_2 \exp\left\{-\tilde{C}n\right\}.
 \end{align*}
@@ -857,9 +859,9 @@ where \(\mu_0(x) := \mu_{\theta_0}(x)\). To obtain \(C_1\), let \(I=[\sigma^2_{\
 \]
 It follows that \(g(u) \leq H (u-1)^2\) for \(u\in I\), which gives us the desired bound after undoing the change of variables. Then, from~\eqref{eq:th9-bound4} and the behavior of \(\Pi\) on \(\Theta_0\) we can conclude that \(f_0\in\kl(\Pi_{\mathcal F})\), since for every \(\epsilon>0\) we have
 \begin{align*}
-  \Pi_{\mathcal F}(f_\theta\in \mathcal F: \dkl(f_0 \,\|\, f_\theta) < \epsilon) & =\Pi(\theta \in \Theta: \dkl(f_0 \,\|\, f_\theta) < \epsilon)      \\
-  & \geq \Pi(\theta \in \Theta_0: \dkl(f_0 \,\|\, f_\theta) <\epsilon) \\
-  & \geq \Pi(\theta\in\Theta_0: \|\theta_0 - \theta\|^2 < \epsilon/\tilde C)\\
+  \Pi_{\mathcal F}\left(f_\theta\in \mathcal F: \dkl(f_0 \,\|\, f_\theta) < \epsilon\right) & =\Pi\left(\theta \in \Theta: \dkl(f_0 \,\|\, f_\theta) < \epsilon\right)      \\
+  & \geq \Pi\left(\theta \in \Theta_0: \dkl(f_0 \,\|\, f_\theta) <\epsilon\right) \\
+  & \geq \Pi\left(\theta\in\Theta_0: \|\theta_0 - \theta\|^2 < \epsilon/\tilde C\right)\\
   & > 0.
 \end{align*}
 \end{proof}
@@ -908,11 +910,11 @@ Since \(n\epsilon_n^2 =D^2n^{1-2\gamma}\), the conclusion follows for \(D^2>2-2\
 
 \paragraph{Bounding the prior tail mass} Consider without loss of generality that \(\Pi(p)=c_1\exp\{-\delta p \log p\}\). Then, we have
 \begin{align*}
-  \Pi(\Theta \setminus \Theta_n) & \leq \sum_{p>p_n} c_1\exp\{-\delta p \log p\}                                                        \\
-  & = c_1\sum_{m=1}^\infty \exp\{-\delta (p_n+m) \log(p_n+m)\}                                           \\
-  & \leq c_1\sum_{m=1}^\infty  \exp\{-\delta(p_n+m)\log p_n\}                                            \\
-  & \leq c_1\exp\{-\delta p_n \log p_n\} \sum_{m=1}^\infty \left(\exp\{-\delta \log p_n\}\right)^m       \\
-  & = c_1\exp\{-\delta p_n \log p_n\} \cdot \frac{\exp\{-\delta \log p_n\}}{1-\exp\{-\delta \log p_n\}}.
+  \Pi(\Theta \setminus \Theta_n) & \leq \sum_{p>p_n} c_1\exp\left\{-\delta p \log p\right\}                                                        \\
+  & = c_1\sum_{m=1}^\infty \exp\left\{-\delta (p_n+m) \log(p_n+m)\right\}                                           \\
+  & \leq c_1\sum_{m=1}^\infty  \exp\left\{-\delta(p_n+m)\log p_n\right\}                                            \\
+  & \leq c_1\exp\left\{-\delta p_n \log p_n\right\} \sum_{m=1}^\infty \left(\exp\left\{-\delta \log p_n\right\}\right)^m       \\
+  & = c_1\exp\left\{-\delta p_n \log p_n\right\} \frac{\exp\left\{-\delta \log p_n\right\}}{1-\exp\left\{-\delta \log p_n\right\}}.
 \end{align*}
 Now, since \(p_n\geq \frac{n^{1-2\gamma}}{2\log n}\), for large \(n\) we have
 \begin{align*}
@@ -920,7 +922,7 @@ Now, since \(p_n\geq \frac{n^{1-2\gamma}}{2\log n}\), for large \(n\) we have
 \end{align*}
 Since \(p_n\to\infty\), there exists a constant \(c_2>0\) such that
 \[
-  \frac{\exp\{-\delta \log p_n\}}{1-\exp\{-\delta \log p_n\}}\leq c_2\quad \text{for large } n.
+  \frac{\exp\left\{-\delta \log p_n\right\}}{1-\exp\left\{-\delta \log p_n\right\}}\leq c_2\quad \text{for large } n.
 \]
 Then, using the lower bounds on \(p_n\) and \(\log p_n\) it follows that
 \[
@@ -968,7 +970,7 @@ holds for any choice of \(C>0\) and sufficiently large \(n\).
 \begin{proof}[Proof of Corollary~\ref{corollary:contraction-rate-schwartz-linear-2}]\label{proof:contraction-rate-schwartz-linear-2}
 We simply use the fact that, if \(d\) is another distance on \(\mathcal F\) with \(d\leq \tilde C d_H\), then
 \[
-  \Pi_n(\theta: d(f_0, f_\theta)>\epsilon\mid \text{data}) \leq \Pi_n(\theta: d_H(f_0, f_\theta)>\epsilon/\tilde C\mid \text{data}).
+  \Pi_n\left(\theta: d(f_0, f_\theta)>\epsilon\mid \text{data}\right) \leq \Pi_n\left(\theta: d_H(f_0, f_\theta)>\epsilon/\tilde C\mid \text{data}\right).
 \]
 
 For the \(L^1\)-distance, by the Cauchy--Schwarz inequality we have
@@ -1010,7 +1012,7 @@ To conclude, note that \(\sqrt{a^2+b^2}\geq (a+b)/\sqrt{2}\) for \(a,b\geq 0\), 
 \begin{proof}[Proof of Lemma~\ref{lemma:mean-square-lipschitz}]\label{proof:mean-square-lipschitz}
 Since \(\E[X(t)]=0\), we have 
 \[
-  \E[(X(t) - X(s))^2] = K(t,t)-2K(t,s) + K(s,s).
+  \E\left[(X(t) - X(s))^2\right] = K(t,t)-2K(t,s) + K(s,s).
 \]
 Because \(K\) is twice-continuously differentiable, the fundamental theorem of calculus and the symmetry of \(K\) give the integral representation
 \[
@@ -1018,7 +1020,7 @@ Because \(K\) is twice-continuously differentiable, the fundamental theorem of c
 \]
 Let \(L := 1 + \sup_{(u, v) \in [0,1]^2} |\partial_{uv}K(u, v)|<\infty\). Then,
 \[
-  \E[(X(t) - X(s))^2] = \int_s^t \int_s^t \partial_{uv}K(u, v)\, du\, dv \leq  L(t-s)^2.
+  \E\left[(X(t) - X(s))^2\right] = \int_s^t \int_s^t \partial_{uv}K(u, v)\, du\, dv \leq  L(t-s)^2.
 \]
 \end{proof}
 

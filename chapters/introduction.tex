@@ -32,7 +32,7 @@ where \(\alpha\in \R\), \(\epsilon\) is a random error term independent from \(X
 
 A similar \(L^2\)-based functional logistic equation can be derived for the binary classification problem via the logistic function
 \begin{equation}\label{eq:l2-logistic-model}
-  \pp(Y=1 \mid X) = \frac{1}{1 + \exp\{-\alpha - \dotprod{X}{\beta}_2\}},
+  \pp(Y=1 \mid X) = \frac{1}{1 + \exp\left\{-\alpha - \dotprod{X}{\beta}_2\right\}},
 \end{equation}
 where \(\alpha \in \R\) and \(\beta \in L^2[0, 1]\). In the equivalent finite-dimensional problem, the natural way of estimating the slope parameter is via its \acf{MLE}. However, apart from the issues outlined above for the linear model, functional settings pose an additional challenge in the logistic case: under fairly general conditions, the \acs{MLE} does not exist with probability one \citep[see][]{berrendero2023functional}.
 
@@ -66,7 +66,7 @@ Now, a particularly useful approach in statistics is to regard \(\Hcal(K)\) as a
 \end{equation}
 and can be formally defined, in terms of its inverse, as 
 \[
-  \Psi^{-1}_X(U)(t) = \E[U X(t)]\quad \text{for } U \in \bar{\mathcal L}(X).
+  \Psi^{-1}_X(U)(t) = \E\left[U X(t)\right]\quad \text{for } U \in \bar{\mathcal L}(X).
 \]
 Despite the close connection between the process \(X\) and the space \(\Hcal(K)\), special care must be taken when dealing with concrete realizations, since in general the trajectories of \(X\) do not belong to the corresponding \acs{RKHS} with probability one \citep[][Corollary~7.1]{lukic2001stochastic}. As a consequence, the expression \(\dotprod{x}{f}_K\) is ill-defined and lacks meaning when \(f\in\Hcal(K)\) and \(x\) is a realization of \(X\). However, following Parzen's approach in his seminal work \citep[][Theorem~4E]{parzen1961approach}, we can leverage Loève's isometry and identify \(\dotprod{X}{f}_K\) with the random variable in \(\bar{\mathcal L}(X)\) associated with \(f\in \Hcal(K)\), so that \(\dotprod{x}{f}_K \) with \(x=X(\omega)\) is defined as the image \(\Psi_x(f) := \Psi_X(f)(\omega)\). This notation, viewed as a formal extension of the inner product, often proves to be useful and convenient. We adopt this interpretation hereafter.
 
@@ -85,7 +85,7 @@ Consider the general setting of an i.i.d.\ sample \(X_1,\dots, X_n\) from \(X\).
 
 \begin{definition} We say that the posterior distribution is (strongly) consistent at \(\theta_0\) if for every neighborhood \(B\) of \(\theta_0\) we have
   \[
-    \lim_{n\to\infty} \Pi_n(\theta \in B \mid X_1, \dots, X_n) = 1 \quad \pp_0^\infty-\text{a.s.}
+    \lim_{n\to\infty} \Pi_n\left(\theta \in B \mid X_1, \dots, X_n\right) = 1 \quad \pp_0^\infty-\text{a.s.}
   \]
 \end{definition}
 
@@ -106,11 +106,11 @@ It turns out that, under very general conditions, the posterior distribution is 
 \begin{theorem}[Doob's consistency theorem]\label{th:doob}
   Let the path space \(\mathcal X\) and the parameter space \(\Theta\) be Polish spaces, endowed with their respective Borel sigma-algebras. If \(\theta \mapsto \pp_\theta\) is one-to-one and \(\theta \mapsto \pp_\theta(A)\) is measurable for all measurable sets \(A\subseteq \mathcal X\), then the posterior distribution is consistent at \(\Pi\)-almost all values of \(\Theta\). That is, there exists \(\Theta_*\subseteq \Theta\) such that \(\Pi(\Theta_*)=1\) and for all \(\theta_0\in\Theta_*\), if \(X_1,X_2,\ldots \sim \pp_{\theta_0}\) i.i.d., then for any neighborhood \(B\) of \(\theta_0\) we have
   \[
-    \lim_{n\to\infty} \Pi_n(\theta \in B \mid X_1,\dots, X_n) = 1 \quad \pp_{0}^\infty-\text{a.s.}
+    \lim_{n\to\infty} \Pi_n\left(\theta \in B \mid X_1,\dots, X_n\right) = 1 \quad \pp_{0}^\infty-\text{a.s.}
   \]
   Moreover, for any \(g\in L^1(\Pi)\) we have
   \[
-  \lim_{n\to\infty} \E[g(\theta)\mid X_1,\dots, X_n] = g(\theta_0) \quad \pp_0^\infty-\text{a.s.}
+  \lim_{n\to\infty} \E\left[g(\theta)\mid X_1,\dots, X_n\right] = g(\theta_0) \quad \pp_0^\infty-\text{a.s.}
   \]
 \end{theorem}
 

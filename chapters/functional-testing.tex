@@ -121,7 +121,7 @@ both computed through Bayes' formula. For the slab part, we have
 \end{align*}
 Hence, we can conclude that
 \begin{equation}\label{eq:mean-b-slab}
-  b \mid p,\tau, X_{1:n}, \text{slab} \sim \mathcal N_p(\Lambda_\tau^{-1}S_n(\tau), \Lambda_\tau^{-1}).
+  b \mid p,\tau, X_{1:n}, \text{slab} \sim \mathcal N_p\left(\Lambda_\tau^{-1}S_n(\tau),\, \Lambda_\tau^{-1}\right).
 \end{equation} 
 Thus, after a full \acs{RJMCMC} run with \(R\) posterior samples \((p^{(r)}, \tau^{(r)})\), we can retrieve the corresponding posterior samples \(b^{(r)}\) through the following simple procedure:
 \begin{enumerate}
@@ -136,13 +136,13 @@ One of the main advantages of our Bayesian framework is that it naturally provid
 
 \paragraph{Posterior null probability} As we said before, the posterior probability of the null \(\Pi_n(b=0|X_{1:n})\) corresponds to \(\E[\mathds{1}\{b=0\}|X_{1:n}]\). We could naively compute the estimator \(R^{-1}\sum_{r} \mathds{1}\{b^{(r)}=0\}\) with our posterior samples, which by the ergodic properties of the \acs{RJMCMC} sampler would indeed converge almost surely to the target probability (under standard assumptions). However, this estimator introduces the Monte Carlo noise of actually sampling \(b^{(r)}\), which is not desirable. Instead, we can use the equivalence
 \begin{align*}
-  \E[\psi_n(p,\tau)\mid X_{1:n}] &= \sum_p \int_{\mathcal T_p} \psi_n(p,\tau) \Pi_n(p,\tau\mid X_{1:n})\, d\tau\\
+  \E\left[\psi_n(p,\tau)\mid X_{1:n}\right] &= \sum_p \int_{\mathcal T_p} \psi_n(p,\tau) \Pi_n(p,\tau\mid X_{1:n})\, d\tau\\
   &= \Pi_n(b=0\mid X_{1:n})
 \end{align*}
 to obtain a more efficient estimator of the posterior probability of \(H_0\). Indeed, by the law of total variance we have:
 \begin{align*}
-  \var(\psi_n(p,\tau)\mid X_{1:n}) &= \var(\E[\mathds{1}\{b=0\}\mid p, \tau, X_{1:n}]\mid X_{1:n})\\
-  &\leq \var(\mathds{1}\{b=0\}\mid X_{1:n}).
+  \var\left(\psi_n(p,\tau)\mid X_{1:n}\right) &= \var\left(\E\left[\mathds{1}\{b=0\}\mid p, \tau, X_{1:n}\right]\mid X_{1:n}\right)\\
+  &\leq \var\left(\mathds{1}\{b=0\}\mid X_{1:n}\right).
 \end{align*}
 Hence, conditioning on \((p,\tau)\) and averaging the posterior spike probabilities \(\psi_n(p^{(r)}, \tau^{(r)})\) instead of the raw indicators \(\mathds{1}\{b^{(r)}=0\}\) yields the improved estimator
 \[
@@ -190,12 +190,12 @@ This ``practical null'' probability is sometimes used to evaluate \(H_0\) when a
 
 An additional benefit of the Bayesian framework is that it facilitates posterior inference on the mean function as a by-product of the testing procedure. For example, we can estimate the posterior mean function \(\mu^{\text{PM}}(\cdot)=\E[\mu(\cdot)|X]\) using the conditional expectation strategy again, which is typically much less noisy than averaging posterior draws \(\mu^{(r)}\) directly. Indeed, for a fixed \(s\in[0,1]\) the law of total expectation gives 
 \[
-  \E[\mu(s)\mid X] = \E[\E[\mu(s)\mid p, \tau, X]\mid X],
+  \E\left[\mu(s)\mid X\right] = \E\left[\E\left[\mu(s)\mid p, \tau, X\right]\mid X\right],
 \]
 and the same variance reduction argument as before applies. In the i.i.d.\ case, from the computations in Section~\ref{sec:posterior-approximation}, the inner posterior expectation admits the closed-form expression 
 \begin{align*}
-\E[\mu(s)\mid p, \tau, X_{1:n}] &= \sum_{j=1}^p \E[\beta_j\mid p, \tau, X_{1:n}]K(t_j, s) \\
-&=(1-\psi_n(p,\tau))K(\tau, s)'\E[b\mid p, \tau, X_{1:n}, \text{slab}]\\
+\E\left[\mu(s)\mid p, \tau, X_{1:n}\right] &= \sum_{j=1}^p \E\left[\beta_j\mid p, \tau, X_{1:n}\right]K(t_j, s) \\
+&=(1-\psi_n(p,\tau))K(\tau, s)'\E\left[b\mid p, \tau, X_{1:n}, \text{slab}\right]\\
 &= (1-\psi_n(p, \tau))K(\tau, s)'\Lambda_\tau^{-1}S_n(\tau),
 \end{align*}
 where \(K(\tau, s)\) denotes the \(p\times 1\) vector with entries \(K(t_j, s)\). Consequently, a Monte Carlo estimator \(\hat\mu_n^{\text{PM}}(\cdot) = \hat{\E}[\mu(\cdot)|X_{1:n}]\) of the posterior mean function is given by
@@ -206,7 +206,7 @@ which is then evaluated on the grid \(\mathcal S\). Note that this can be seen a
 
 Along with the posterior expectation of \(\mu\), it is common to report credible bands around it to quantify the uncertainty in the posterior estimation. In particular, for any \(\alpha\in(0,1)\) we compute simultaneous \(1-\alpha\) credible bands, that is, bands that contain the entire function \(\mu\) with posterior probability at least \(1-\alpha\). The usual approach for constructing such bands is the maximum deviation method described by \citet{crainiceanu2007spatially}. The main idea is to standardize the deviations from the posterior mean by the pointwise posterior standard deviation 
 \[
-  \sigma(s)=\sqrt{\var(\mu(s)\mid X_{1:n})},
+  \sigma(s)=\sqrt{\var\left(\mu(s)\mid X_{1:n}\right)},
 \]
 to obtain bands that adapt to the local uncertainty. In particular, we aim to find a single critical value \(q_{1-\alpha}\) satisfying
 \[
@@ -214,7 +214,7 @@ to obtain bands that adapt to the local uncertainty. In particular, we aim to fi
 \]
 and then form symmetrical bands \(\{\mu^{\text{PM}}(s) \pm q_{1-\alpha}\sigma(s): s\in [0,1]\}\). In practice, this procedure is carried out on the discretized grid. First, compute the pointwise posterior standard deviation at each grid point \(s\in\mathcal S\) as 
 \[
-\hat\sigma(s)=\sqrt{\var(\{\mu^{(r)}(s)\}_{r=1}^R)}.
+\hat\sigma(s)=\sqrt{\var\left(\left\{\mu^{(r)}(s)\right\}_{r=1}^R\right)}.
 \]
 Then, for each draw compute the standardized supremum deviation
 \[
@@ -323,7 +323,7 @@ To study posterior contraction rates, we impose additional assumptions on the pr
 
 Note that~\ref{ass:compact-support-tau} is verified, for example, by enforcing a uniform minimum separation on the time points in \(\tau\) (which already happens in practice on the finite grid \(\mathcal S\)). Indeed, for a fixed \(\delta>0\) one can consider the compact set
 \[
-\mathcal C_p(\delta) = \{\tau\in [0,1]^p: t_1 \geq \delta,\ t_p \leq 1 - \delta,\ t_{j+1} - t_j \geq \delta\ \text{for}\ j=1,\dots,p-1\}.
+\mathcal C_p(\delta) = \Big\{\tau\in [0,1]^p: t_1 \geq \delta,\ t_p \leq 1 - \delta,\ t_{j+1} - t_j \geq \delta,\ \text{for}\ 1\leq j \leq p-1\Big\}.
 \]
 On the other hand,~\ref{ass:prior-p-finite} is effectively a truncation on the model dimension, but it is not as restrictive as it may seem. Firstly, it is a standard assumption in the literature, and secondly, our model is designed for simplicity and parsimony, so we in fact encourage fewer components. In any event, the unknown value of \(p\) can still vary over a set as large as needed (e.g.\ we can take \(P_{\max}=|\mathcal S|\)). With these assumptions in mind, we can show that under \(H_0\) the posterior probability of the alternative hypothesis decays polynomially in the sample size. Let \(p_{\min}=\min\{p\in \N: \Pi(p)>0\}\).
 
@@ -401,7 +401,7 @@ We extend the results of Section~\ref{sec:consistency-known} to the case in whic
 
 It can be shown that both the empirical covariance estimator \(\hat C_n\) and the \acs{OAS} estimator described in Section~\ref{sec:covariance-estimation} satisfy the stronger condition of almost sure uniform convergence. Consider for each \(\tau\in\mathcal T_p\) the time-indexed matrices
 \[
-\hat{C}_{n,\tau} = [\hat C_n(t_j, t_k)]_{j,k=1}^p \quad \text{and}\quad \hat{K}_{n,\tau}^{\text{OAS}} = (1-\hat\rho_{n,\tau})\hat C_{n,\tau} + \hat\rho_{n,\tau}\frac{\tr(\hat C_{n,\tau})}{p}I_p,
+\hat{C}_{n,\tau} = \left[\hat C_n(t_j, t_k)\right]_{j,k=1}^p \quad \text{and}\quad \hat{K}_{n,\tau}^{\text{OAS}} = (1-\hat\rho_{n,\tau})\hat C_{n,\tau} + \hat\rho_{n,\tau}\frac{\tr(\hat C_{n,\tau})}{p}I_p,
 \]
 where \(\hat\rho_{n,\tau}\in[0,1]\) is the \acs{OAS} shrinkage coefficient computed via the analogue of~\eqref{eq:rho-oas} with \(\hat{\mathbf C}_n\) replaced by \(\hat{C}_{n,\tau}\) and \(G\) replaced by \(p\).
 
@@ -477,7 +477,7 @@ where \(K\) is the corresponding covariance kernel in each case; and a fixed per
 
 We implement a reduced model with \(P_{\max}=5\) components, a uniform prior distribution \(p\sim\mathcal U\{1,2,3,4,5\}\), and a uniform prior for the time instants as well (restricted to the grid points in \(\mathcal S\)). Moreover, we assume for simplicity that the null and alternative hypotheses are a priori equally likely, so that \(\pi_0=1-\pi_0=1/2\). When choosing the crucial hyperparameter \(\eta\) one has to be wary of Lindley's paradox \citep{lindley1957statistical}. We propose to compute it from the discretized data through the formula
 \[
-\hat \eta_n=\eta_0 \sqrt{\frac{\tr(\hat{\mathbf K}_n^{\text{OAS}})}{G}}, \quad \eta_0>0,
+\hat \eta_n=\eta_0 \sqrt{\frac{\tr\left(\hat{\mathbf K}_n^{\text{OAS}}\right)}{G}}, \quad \eta_0>0,
 \]
 which measures the marginal standard deviation of the process, multiplied by a constant scale term. In this way we allow the prior on \(b\) to adapt to the scale of the data; we fix a value of \(\eta_0=1/4\) to allow detection of small signals (preliminary experiments suggest that bigger signals are easily recognized regardless of the value of \(\eta_0\)). Since \(\hat\eta_n\) converges in probability to a finite positive constant, this data-dependent choice should not affect the asymptotic properties of the test. Indeed, since \(\tr(\hat{\mathbf K}_n^{\text{OAS}})=\tr({\hat{\mathbf C}_n})\) and \(\tr(\hat{\mathbf C}_n) \to \tr({\mathbf K})\) by Proposition~\ref{prop:sample-cov-matrix-convergence}, we have \(\hat \eta_n \to \eta_\infty > 0\). We can refine the proofs in Section~\ref{sec:proofs-bft} by restricting the arguments to the high-probability event \(\{\eta_\infty/2 \leq \hat\eta_n \leq 2\eta_\infty\}\), on which \(\hat\eta_n\) is bounded away from zero and infinity. Since all quantities appearing in the proofs that depend on \(\eta\) do so in a continuous manner, the constants involved in the corresponding bounds can be chosen uniformly over the compact interval \([\eta_\infty/2, 2\eta_\infty]\), and the consistency arguments should carry over without further modification. In any case, we can always use an independent validation set \(\tilde{X}_{1:\tilde{n}}\) to compute \(\hat{\eta_{\tilde n}}\), which removes any theoretical complication.
 
@@ -626,17 +626,17 @@ We start with a proof of consistency under \(H_0\), even though the result is al
 
 In this case we do not need continuous trajectories, so we can work with \(\mathcal X = L^2[0,1]\). Since the parameter \(\theta\) is not identifiable, we will push the model forward (via the mapping \(\theta \mapsto \mu_\theta\)) and consider the parameter \(\mu\in\Hcal(K)\) and the induced prior \(\Pi^\mu\). Note that the new parameter space \(\Hcal(K)\) is separable because \(K\) is continuous \citep[Corollary~4]{berlinet2004reproducing}, and hence \(\Hcal(K)\) is a Polish space. Moreover, since the data are Gaussian, the mapping \(\mu\mapsto \pp_\mu\) is one-to-one. Now consider a measurable set \(A\subseteq\mathcal X\), and observe that \(\pp_\mu\) is the distribution of \(W + \mu\) with \(W\sim \pp_0\). Furthermore, the embedding \(\Hcal(K) \hookrightarrow L^2[0,1]\) is continuous (again by continuity of \(K\)), so \((x,\mu) \mapsto \mathds{1}_A(x+\mu)\) is jointly measurable. Hence, by Fubini/Tonelli, the function
 \[
-\mu \mapsto \pp_\mu(A) = \pp_0(W+\mu \in A) = \int_{\mathcal X} \mathds{1}_A(x+\mu) d\pp_0(x)
+\mu \mapsto \pp_\mu(A) = \pp_0\left(W+\mu \in A\right) = \int_{\mathcal X} \mathds{1}_A(x+\mu) d\pp_0(x)
 \]
 is measurable.
 
 We can thus apply the second part of Doob's theorem with the function \(g(\mu)=\mathds{1}\{\mu\equiv 0\}\), obtaining a set \(\Hcal_*(K)\subseteq \Hcal(K)\) such that \(\Pi^\mu(\Hcal_*(K))=1\) and for all \(\tilde{\mu}\in \Hcal_*(K)\), if \(X_1,X_2,\ldots \sim \pp_{\tilde{\mu}}\) i.i.d., we have
 \begin{equation}\label{eq:doob-consistency-theorem-h0}
-  \Pi_n^\mu(\mu\equiv 0\mid X_{1:n}) \to \mathds{1}\{\tilde{\mu}\equiv 0\}\quad \pp_{\tilde{\mu}}^\infty-\text{a.s.}
+  \Pi_n^\mu\left(\mu\equiv 0\mid X_{1:n}\right) \to \mathds{1}\left\{\tilde{\mu}\equiv 0\right\}\quad \pp_{\tilde{\mu}}^\infty-\text{a.s.}
 \end{equation}
 Observe that \(0\in \Hcal_*(K)\), since \(\Pi^\mu(\mu\equiv 0)=\pi_0>0\). Then, by~\eqref{eq:doob-consistency-theorem-h0} applied with \(\tilde{\mu}\equiv 0\) we conclude that, if \(X_1, X_2,\ldots \sim \pp_0\) i.i.d., then
 \[
-  \Pi_n(H_0\mid X_{1:n}) = \Pi_n^\mu(\mu\equiv 0\mid X_{1:n}) \to 1\quad \pp_0^\infty-\text{a.s.}
+  \Pi_n(H_0\mid X_{1:n}) = \Pi_n^\mu\left(\mu\equiv 0\mid X_{1:n}\right) \to 1\quad \pp_0^\infty-\text{a.s.}
 \]
 \end{proof}
 
@@ -689,7 +689,7 @@ I_{n,p}(\mathcal C_p)\leq \sup_{\tau\in\mathcal C_p} \mslab(X_{1:n}\mid p,\tau) 
 \]
 where \(D>0\) is a constant independent of \(n\). Hence, for sufficiently large \(n\) we have
 \[
-\pp_0(I_{n,p}(\mathcal C_p) > Dn^{-p/2}) \leq \pp_0(E_{M}^c ) < \epsilon,
+\pp_0\left(I_{n,p}(\mathcal C_p) > Dn^{-p/2}\right) \leq \pp_0\left(E_{M}^c \right) < \epsilon,
 \]
 so \(I_{n,p}(\mathcal C_p)=O_{\pp_0}(n^{-p/2})\). Write \(I_{n,p}(\mathcal C_p)=n^{-p/2}Y_{n,p}\), where by definition \(Y_{n,p}=O_{\pp_0}(1)\). Then, because the dominant term in the finite sum \(m_1(X_{1:n})\) is the first term, we have
 \[
@@ -735,28 +735,28 @@ f(\tau, b) \geq \frac{1}{2}\|\mu_*\|^2_K - 2\epsilon^2 =: c_\epsilon > 0,
 \]
 where positivity holds by choosing \(\epsilon\) small enough. On the other hand, note that by the Cauchy--Schwarz inequality
 \[
-\sqrt{n} Z_\tau'b \geq \sqrt{n}\cdot \inf_{b\in U_2} Z_\tau'b \geq -\sqrt{n}\cdot \sup_{b\in U_2} \|b\|\cdot \sup_{\tau \in U_1}\|Z_\tau\|.
+\sqrt{n} Z_\tau'b \geq \sqrt{n} \inf_{b\in U_2} Z_\tau'b \geq -\sqrt{n} \sup_{b\in U_2} \|b\| \sup_{\tau \in U_1}\|Z_\tau\|.
 \]
 
 All in all, we see from~\eqref{eq:log-likelihood-H1} that for all \((\tau, b)\in U\) we obtain a uniform lower bound for the log-likelihood, given by
 \[
-\log L(X_{1:n}\mid p_\epsilon, \tau, b) = nf(\tau, b) +  \sqrt{n}Z_\tau'b \geq nc_\epsilon - \sqrt{n}B\cdot \sup_{\tau\in U_1}\|Z_\tau\|,
+\log L(X_{1:n}\mid p_\epsilon, \tau, b) = nf(\tau, b) +  \sqrt{n}Z_\tau'b \geq nc_\epsilon - \sqrt{n}B \sup_{\tau\in U_1}\|Z_\tau\|,
 \]
 where \(B=\sup_{b\in U_2} \|b\|\) satisfies \(0 < B < \infty\), since \(U_2\) is a compact set with \(0\notin U_2\). Hence, by~\eqref{eq:posterior-slab-m1} and~\eqref{eq:m-slab}, we have
 \begin{equation}\label{eq:lower-bound-m1}
   \begin{split}
   m_1(X_{1:n}) &\geq \Pi(p_\epsilon) \bigintssss_{U_1\times U_2}\Pi_{\tau,b}^{\text{slab}}(\tau, b\mid p_\epsilon) \exp\left\{nf(\tau, b) +  \sqrt{n}Z_\tau'b\right\}db\, d\tau \\
-  &\geq D \exp\left\{nc_\epsilon - \sqrt{n}B\cdot \sup_{\tau\in U_1}\|Z_\tau\|\right\},
+  &\geq D \exp\left\{nc_\epsilon - \sqrt{n}B \sup_{\tau\in U_1}\|Z_\tau\|\right\},
   \end{split}
 \end{equation}
-where \(D=\Pi(p_\epsilon)\Pi_{\tau, b}^{\text{slab}}(U_1 \times U_2|p_{\epsilon})>0\) by assumption. Next, note that \(\sup_{\tau\in U_1}\|Z_\tau\|\) is \(O_{\pp_{\mu_*}}(1)\) (by the same argument as in the proof of Theorem~\ref{th:consistency-rates-h0}), so for all \(\delta>0\) there exists a finite \(M>0\) such that \(\pp_{\mu_*}(B\cdot \sup_{\tau\in U_1} \|Z_\tau\| \geq M) < \delta\). Thus, by~\eqref{eq:lower-bound-m1} we get
+where \(D=\Pi(p_\epsilon)\Pi_{\tau, b}^{\text{slab}}(U_1 \times U_2|p_{\epsilon})>0\) by assumption. Next, note that \(\sup_{\tau\in U_1}\|Z_\tau\|\) is \(O_{\pp_{\mu_*}}(1)\) (by the same argument as in the proof of Theorem~\ref{th:consistency-rates-h0}), so for all \(\delta>0\) there exists a finite \(M>0\) such that \(\pp_{\mu_*}(B \sup_{\tau\in U_1} \|Z_\tau\| \geq M) < \delta\). Thus, by~\eqref{eq:lower-bound-m1} we get
 \[
-\pp_{\mu_*}(m_1(X_{1:n}) \leq D \exp\{nc_\epsilon - \sqrt{n}M\}) \leq  \pp_{\mu_*}\left(B\cdot \sup_{\tau\in U_1} \|Z_\tau\| \geq M\right) < \delta.
+\pp_{\mu_*}\left(m_1(X_{1:n}) \leq D \exp\left\{nc_\epsilon - \sqrt{n}M\right\}\right) \leq  \pp_{\mu_*}\left(B \sup_{\tau\in U_1} \|Z_\tau\| \geq M\right) < \delta.
 \]
 Since \(nc_\epsilon/(1+\epsilon)\) grows slower than \(nc_\epsilon - \sqrt{n}M\) as \(n\to\infty\), for sufficiently large \(n\) we get the probability bound
 \begin{align*}
 &\pp_{\mu_*}\left(m_1(X_{1:n}) \leq D \exp\left\{\frac{nc_\epsilon}{1+\epsilon}\right\}\right)\\
- &\quad \leq \pp_{\mu_*}\left(m_1(X_{1:n})\leq D \exp\{nc_\epsilon - \sqrt{n}M\}\right) < \delta.
+ &\quad \leq \pp_{\mu_*}\left(m_1(X_{1:n})\leq D \exp\left\{nc_\epsilon - \sqrt{n}M\right\}\right) < \delta.
 \end{align*}
 To conclude, observe that by~\eqref{eq:posterior-slab}
 \[
@@ -891,7 +891,7 @@ Let \(\epsilon>0\) and define the event \(E_{M}\) for a large enough \(M\) as in
 \]
 where \(\hat D=\eta^{-p}(\lambda_p/2)^{-p/2}\exp\{M/\lambda_p\}>0\) is a finite constant independent of \(n\). Then, for sufficiently large \(n\),
 \[
-\pp_0(\hat I_{n,p}(\mathcal C_p)>\hat D\, n^{-p/2}) \leq \pp_0(F_n^c)+\pp_0(E_{M}^c) < \epsilon,
+\pp_0\left(\hat I_{n,p}(\mathcal C_p) > \hat D\, n^{-p/2}\right) \leq \pp_0\left(F_n^c\right)+\pp_0\left(E_{M}^c\right) < \epsilon,
 \]
 showing \(\hat I_{n,p}(\mathcal C_p)=O_{\pp_0}(n^{-p/2})\). Then, we conclude exactly as in the proof of Theorem~\ref{th:consistency-rates-h0}.
 \end{proof}
@@ -930,32 +930,32 @@ On \(G_n\), restricting the domain of integration and using~\eqref{eq:plugin-f-l
 \begin{equation}\label{eq:lower-bound-m1-plugin}
   \begin{split}
   \hat m_1(X_{1:n}) &\geq \Pi(p_\epsilon)\bigintssss_{U_1 \times U_2}\Pi_{\tau, b}^{\text{slab}}(\tau, b \mid p_\epsilon)\exp\left\{n\hat f_n(\tau,b)+\sqrt{n} Z_\tau'b\right\} db\,d\tau \\
-  &\geq D\exp\left\{nd_\epsilon - \sqrt{n}\,B\cdot\sup_{\tau\in U_1}\|Z_\tau\|\right\},
+  &\geq D\exp\left\{nd_\epsilon - \sqrt{n}\,B\sup_{\tau\in U_1}\|Z_\tau\|\right\},
   \end{split}
 \end{equation}
 where \(D=\Pi(p_\epsilon)\Pi_{\tau, b}^{\text{slab}}(U_1 \times U_2|p_{\epsilon})>0\) by assumption. Now, since \(Z_\tau \sim \mathcal N_{p_\epsilon}(0, K_\tau)\) under \(H_1\), we already saw in the proof of Theorem~\ref{th:consistency-rates-h1} that for any \(\delta>0\) there exists \(M>0\) such that the event
 \[
-H_M = \left\{B\cdot \sup_{\tau\in U_1}\|Z_\tau\| \leq M\right\}
+H_M = \left\{B \sup_{\tau\in U_1}\|Z_\tau\| \leq M\right\}
 \]
 satisfies \(\pp_{\mu_*}(H_M^c)<\delta/2\). Then, by~\eqref{eq:lower-bound-m1-plugin} we have the inequality 
 \[
-  \hat m_1(X_{1:n}) \geq D\exp\{nd_\epsilon - \sqrt{n}M\}\quad \text{on }G_n\cap H_M.
+  \hat m_1(X_{1:n}) \geq D\exp\left\{nd_\epsilon - \sqrt{n}M\right \}\quad \text{on }G_n\cap H_M.
 \]
 Since \(nd_\epsilon/(1+\epsilon)\) grows slower than \(nd_\epsilon - \sqrt{n}M\) as \(n\to\infty\), for sufficiently large \(n\) we obtain 
 \[
-  \hat m_1(X_{1:n}) \geq D\exp\{n d_\epsilon/(1+\epsilon)\}\quad \text{on } G_n\cap H_M.
+  \hat m_1(X_{1:n}) \geq D\exp\left\{n d_\epsilon/(1+\epsilon)\right\}\quad \text{on } G_n\cap H_M.
 \]
-Therefore,
+Therefore, on \(G_n\cap H_M\) we have
 \[
-  \hat\Pi_n(H_0\mid X_{1:n}) \leq \frac{\pi_0}{(1-\pi_0)\hat m_1(X_{1:n})}\leq \tilde{D}\exp\left\{\frac{-nd_\epsilon}{1+\epsilon}\right\},\quad \text{on } G_n\cap H_M,
+  \hat\Pi_n(H_0\mid X_{1:n}) \leq \frac{\pi_0}{(1-\pi_0)\hat m_1(X_{1:n})}\leq \tilde{D}\exp\left\{-nd_\epsilon/(1+\epsilon)\right\},
 \]
 where \(\tilde{D}=\pi_0/((1-\pi_0)D)\). Note that 
 \[
-  \pp_{\mu_*}(G_n^c\cup H_M^c)\leq \pp_{\mu_*}(G_n^c)+\pp_{\mu_*}(H_M^c),
+  \pp_{\mu_*}\left(G_n^c\cup H_M^c\right)\leq \pp_{\mu_*}\left(G_n^c\right)+\pp_{\mu_*}\left(H_M^c\right),
 \]
 and observe that the first term vanishes as \(n\to\infty\), while the second is at most \(\delta/2\). Then, for sufficiently large \(n\) we have proved that
 \[
-\pp_{\mu_*}\left(\hat\Pi_n(H_0\mid X_{1:n})>\tilde{D}\exp\{-nd_\epsilon/(1+\epsilon)\}\right)<\delta,
+\pp_{\mu_*}\left(\hat\Pi_n(H_0\mid X_{1:n})>\tilde{D}\exp\left\{-nd_\epsilon/(1+\epsilon)\right\}\right)<\delta,
 \]
 so \(\hat\Pi_n(H_0|X_{1:n})=O_{\pp_{\mu_*}}(e^{-nd_\epsilon/(1+\epsilon)})\) and, as before, 
 \[
@@ -973,19 +973,19 @@ We conclude with a proof of the information-theoretic optimality of the contract
 
 \begin{lemma}\label{lem:expectation-identity} For every \(n\geq 1\), we have 
   \[
-    \E_{\pp_0}[m_1(X_{1:n})] = 1.
+    \E_{\pp_0}\left[m_1(X_{1:n})\right] = 1.
   \]
 \end{lemma}
 
 \begin{proof}
   Let \((p, \tau)\in \N \times \mathcal T_p\). From Fubini/Tonelli, the definition of \(\mslab\) in~\eqref{eq:m-slab}, and the properties of Radon--Nikodym derivatives, it follows directly that
   \begin{align*}
-    \E_{\pp_0}[\mslab(X_{1:n}\mid p,\tau)] &= \bigintsss_{\R^p} \E_{\pp_0}\biggl[\frac{d\pp_{\mu_\theta}}{d\pp_0}(X_{1:n})\biggr]\Pi^{\text{slab}}(b)\, db\\
+    \E_{\pp_0}\left[\mslab(X_{1:n}\mid p,\tau)\right] &= \bigintsss_{\R^p} \E_{\pp_0}\biggl[\frac{d\pp_{\mu_\theta}}{d\pp_0}(X_{1:n})\biggr]\Pi^{\text{slab}}(b)\, db\\
     &= \bigintsss_{\R^p} \Pi^{\text{slab}}(b)\, db = 1.
   \end{align*}
   Consequently, by~\eqref{eq:posterior-slab-m1} and Fubini/Tonelli, we have
   \[
-    \E_{\pp_0}[m_1(X_{1:n})] = \sum_{p\geq 1} \Pi(p) \bigintsss_{\mathcal T_p} \E_{\pp_0}[\mslab(X_{1:n}\mid p,\tau)]\Pi(\tau|p)\, d\tau = 1.
+    \E_{\pp_0}\left[m_1(X_{1:n})\right] = \sum_{p\geq 1} \Pi(p) \bigintsss_{\mathcal T_p} \E_{\pp_0}\left[\mslab(X_{1:n}\mid p,\tau)\right]\Pi(\tau|p)\, d\tau = 1.
   \]
 \end{proof}
 
@@ -1012,7 +1012,7 @@ We conclude with a proof of the information-theoretic optimality of the contract
   \end{equation}
   where \(C>0\) is a constant. Now we construct a frequentist test \(\phi_n\) for the reverse hypotheses \(\tilde{H}_0: \mu\equiv \mu_*\) against \(\tilde{H}_1: \mu\equiv 0\), given by \(\phi_n(X_{1:n}) = \mathds{1}\{X_{1:n} \in R_n^c\}\). In this case, according to~\eqref{eq:rn-derivative} the Kullback--Leibler divergence from \(\pp_{\mu_*}\) to \(\pp_0\) is
   \[
-  \dkl(\pp_{\mu_*} \,\|\, \pp_0) = \E_{\pp_{\mu_*}}[\dotprod{X}{\mu_*}_K] - \frac{1}{2}\|\mu_*\|^2_K = \frac{1}{2}\|\mu_*\|_K^2,
+  \dkl(\pp_{\mu_*} \,\|\, \pp_0) = \E_{\pp_{\mu_*}}\left[\dotprod{X}{\mu_*}_K\right] - \frac{1}{2}\|\mu_*\|^2_K = \frac{1}{2}\|\mu_*\|_K^2,
   \]
   where we used the equivalence \(\E_{\pp_{\mu_*}}[\dotprod{X}{\mu_*}_K]=\dotprod{\mu_*}{\mu_*}_K=\|\mu_*\|_K^2\) that stems from Loève's isometry \citep[p.~974]{parzen1961approach}. Now, since \(\pp_{\mu_*}(\phi_n = 1)=\pp_{\mu_*}(R_n^c) < \epsilon\), the type I error probability is bounded for sufficiently large \(n\). On the other hand, by~\eqref{eq:type-ii-error-bound} the type II error probability for large \(n\) is \(\pp_0(\phi_n=0)=\pp_0(R_n)\leq C e^{-n\zeta}\), which decays exponentially with exponential constant greater than \(\dkl(\pp_{\mu_*} \,\|\, \pp_0)\), contradicting Chernoff--Stein.
 \end{proof}
