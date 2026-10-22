@@ -2,90 +2,111 @@
 % Titlepage
 %*******************************************************
 
-%% OPTION 1: CENTERED TITLEPAGE
+%%OPTION 1: LEFT-ALIGNED LOGO DOCTORAL SCHOOL
 % \begin{titlepage}
+%     \AddToShipoutPicture*{\BackgroundPic}
 %     \makeatletter
 %     \if@twoside
 %         % --- Two-Sided Mode ---
-%         \begin{addmargin}[0cm]{-2.385cm}
+%         \begin{addmargin}[2.49cm]{0cm}
 %     \else
 %         % --- One-Sided Mode ---
-
-%         \begin{addmargin}[0cm]{0.51cm}
+%         \begin{addmargin}[1.04cm]{0cm}
 %     \fi
 %     \makeatother
 
+%     \begin{flushleft}
+%     \large
+%     % Suppress indentation for the entire title page container
+%     %\setlength{\parindent}{0pt}
 
-%     \begin{center}
-%         \large
+%     % Vertical line to check alignment
+%     % {\hspace{0.1em}
+%     % \vtop to 0pt{%
+%     %         \hspace*{-0.5pt}% Micro-adjust to align perfectly flush with the outer tip of the hrule
+%     %         \color{uam}% Keep the color matching
+%     %         \vrule width 0.5pt height 0pt depth 0.95\textheight% Pulls the line down across the layout height
+%     %         \vss
+%     %     }%
+%     % }
+    
+%     % Top anchoring space
+%     \vspace*{2.7\baselineskip}
 
-%         %\hfill\vfill
-%         \vspace*{1.5\baselineskip}
+%     % \begingroup
+%     %     \vspace{-0.4\baselineskip}
+%     %     \ifdefined\colorcover\color{uam}\fi
+%     %     \hspace*{0cm}\vbox{\hrule width 5.85cm height 0.5pt}\\
+        
+%     %     \vspace{.3\baselineskip}
+%     %     \ifdefined\colorcover\color{uam-ciencias}\else\color{dark-gray}\fi
+%     %     \cambriafont
+%     %     \myFaculty \\
+%     %     \myDepartment \\
+%     % \endgroup
 
-%         % --- Subdued Document Type ---
-%         %{\small \textit{A thesis submitted for the degree of}} \\ \smallskip
-%         \spacedlowsmallcaps{Doctoral Thesis} \\ 
+%     \vspace{6\baselineskip}
+
+%     %% Vertical line as a decoration
+%     % \vtop to 0pt{%
+%     %         \hspace*{-0.5pt}% Micro-adjust to align perfectly flush with the outer tip of the hrule
+%     %         \color{uam}% Keep the color matching
+%     %         \vrule width 0.5pt height 0pt depth 0.95\textheight% Pulls the line down across the layout height
+%     %         \vss
+%     %     }%
+
+
+%     % --- The Title Block ---
+%     \begingroup
+%         % \spacedlowsmallcaps
+%         {\Large\spacedlowsmallcaps{\hspace{-0.05em}Doctoral Thesis}}\\
 %         \vspace{3\baselineskip}
+%         % \spacedallcaps
+%         \parbox[b]{0.5\pagewidth}{\raggedright\huge{\hspace{0.02em}\myTitle}}\\ \vspace{1.3\baselineskip}
+        
+%         % Check if a subtitle exists before creating structural gaps
+%         \ifdefvoid{\mySubtitle}{}{%
+%             %\vspace{1.5\baselineskip}
+%             %spacedlowsmallcaps
+%             {\Large{\mySubtitle}} \\
+%         }
+%     \endgroup
 
-%         % --- The Title ---
-%         \begingroup
-%             %\rule{0.5\paperwidth}{0.5pt}\\ 
-%             %\vspace{0.8\baselineskip}
-%             %\color{CTtitle}
-%             \parbox{0.5\paperwidth}{\centering\huge\spacedallcaps{\myTitle}}\\ 
-%             %\vspace{0.8\baselineskip}
-%             %\rule{0.5\paperwidth}{0.5pt}\\ 
-%             \ifdefvoid{\mySubtitle}{}{%
-%                 \vspace{1.75\baselineskip}
-%                 {\Large\spacedlowsmallcaps{\mySubtitle}}\\
-%             }
-%         \endgroup
+%     \vspace{4.5\baselineskip}
 
-%         \vspace{3.5\baselineskip}
+%     % --- The Author ---
+%     \begingroup
+%         {\fontsize{18pt}{22pt}\selectfont\spacedlowsmallcaps{\myName}}
+%     \endgroup
 
-%         % --- The Author ---
-%         \begingroup
-%             {\LARGE\spacedlowsmallcaps{\myName}}
-%         \endgroup
+%     \vfill\vfill
 
-%         \vfill
+%     {\normalsize A dissertation submitted in partial fulfillment\\
+%     of the requirements for the degree of\\
+%     Doctor of Philosophy in Mathematics}
 
-%         % --- The Supervisors ---
-%         {\small\textit{Under the supervision of}} \\ \vspace{0.6\baselineskip}
-%         \spacedlowsmallcaps{\myProf} \\ \vspace{0.2\baselineskip}
-%         \spacedlowsmallcaps{\myOtherProf}
+%     % Push supervisors down proportionally
+%     \vfill
 
-%         \vfill\vfill
+%     % --- The Supervisors ---
+%     {\normalsize\textit{Under the supervision of}} \\ \vspace{0.2\baselineskip}
+%     % \spacedlowsmallcaps
+%     {\large{\myProf}}\\
+%     {\large{\myOtherProf}}
 
-%         \includegraphics[width=0.25\textwidth]{figures/uam}
-%         \nopagebreak[4]
-%         \vspace{1.5\baselineskip}
+%     \vspace{3\baselineskip}
 
+%     % --- Date ---
+%     {\hspace{0.05em}\large{Madrid, \myTime}}
 
-%         % --- The Institution Block ---
-%         \begingroup
-%             \small
-%             \myDepartment \\
-%             \myFaculty \\
-%             \myUni \\ \vspace{1.5\baselineskip}
-%             {\normalsize\myTime}
-%         \endgroup
+%     \vspace*{1\baselineskip}
+%     \end{flushleft}
 
-%         \vspace*{1\baselineskip}
-
-%     \end{center}
-
-%     % Close the correct conditional environment
-%     \makeatletter
-%     \if@twoside
-%         \end{addmargin}
-%     \else
-%         \end{addmargin}
-%     \fi
-%     \makeatother
+%     \end{addmargin}
 % \end{titlepage}
 
-%% OPTION 2: LEFT-ALIGNED TITLEPAGE
+
+%% OPTION 2: LEFT-ALIGNED LOGO UAM
 \begin{titlepage}
     \AddToShipoutPicture*{\BackgroundPic}
     \makeatletter
@@ -113,8 +134,8 @@
     %     }%
     % }
     
-    % 1. Top anchoring space
-    \vspace*{2.7\baselineskip}
+    % Top anchoring space
+    \vspace*{4.4\baselineskip}
 
     \begingroup
         \vspace{-0.4\baselineskip}
@@ -159,11 +180,16 @@
 
     % --- The Author ---
     \begingroup
-        {\LARGE\spacedlowsmallcaps{\myName}}
+        {\fontsize{18pt}{22pt}\selectfont\spacedlowsmallcaps{\myName}}
     \endgroup
 
-    % 2. Push supervisors down proportionally
-    \vfill\vfill
+    %\vfill\vfill
+    % {\normalsize A dissertation submitted in partial fulfillment\\
+    % of the requirements for the degree of\\
+    % Doctor of Philosophy in Mathematics}
+
+    % Push supervisors down proportionally
+    \vfill
 
     % --- The Supervisors ---
     {\normalsize\textit{Under the supervision of}} \\ \vspace{0.2\baselineskip}
@@ -174,7 +200,7 @@
     \vspace{3\baselineskip}
 
     % --- Date ---
-    {\hspace{0.05em}\large{Madrid, \myTime}}
+    {\hspace{0.05em}\large{\myTime}}
 
     \vspace*{1\baselineskip}
     \end{flushleft}

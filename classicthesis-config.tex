@@ -247,17 +247,22 @@
 
 % --- Conditional Filename Logic ---
 \ifdefined\colorcover
-  \newcommand{\coverfilename}{uam-full}
+  \newcommand{\coverfilename}{logo_uam}
 \else
-  \newcommand{\coverfilename}{uam-full-bw}
+  \newcommand{\coverfilename}{logo_uam_bw}
 \fi
+%OLD: \put(0, 325)
 \newcommand\BackgroundPic{%
-	\put(0,325){%
+	\put(0,300){%
 		\parbox[b][\paperheight]{0.675\paperwidth}{%
 			\vfill
 			\centering
+      %\setlength{\fboxsep}{0pt}
+      %\setlength{\fboxrule}{0.5pt}
 			\includegraphics[width=0.45\paperwidth,height=\paperheight,%
 			keepaspectratio]{\coverfilename}%
+      %\includegraphics[width=0.251\paperwidth, height=\paperheight,%
+      %keepaspectratio]{logo_escuela_doctorado}%
 			\vfill
     }
   }
