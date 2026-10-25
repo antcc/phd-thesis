@@ -16,7 +16,7 @@ The first naive idea is to construct a pointwise \(t\)-test over all points on t
 z_n(s) = \frac{\Delta_n(s)}{\sqrt{\hat C_n(s,s)}} \sim t_{n-1},\quad s\in[0,1].
 \]
 
-We use the Bonferroni correction on the \(p\)-values~\citep{shaffer1995multiple} to produce a global test that accounts for the multiple comparisons problem and controls the probability of the so-called family-wise error rate, at the expense of decreased power. In particular, we reject \(H_0\) whenever the \(p\)-value of at least one of the local tests is less than \(\alpha/G\). While there are more sophisticated approaches to correct \(p\)-values \citep[e.g.][]{cox2008pointwise}, we keep the simple Bonferroni method as a baseline.
+We use the Bonferroni correction on the \(p\)-values~\citep{shaffer1995multiple} to produce a global test that accounts for the multiple comparisons problem and controls the probability of the so-called \textit{family-wise error rate}, at the expense of decreased power. In particular, we reject \(H_0\) whenever the \(p\)-value of at least one of the local tests is less than \(\alpha/G\). While there are more sophisticated approaches to correct \(p\)-values \citep[e.g.][]{cox2008pointwise}, we keep the simple Bonferroni method as a baseline.
 
 \subsubsection*{\(L^2\)-norm based tests}
 
@@ -35,7 +35,7 @@ T_n \approx n\sum_{g=1}^G \bar{X}_n^2(s_g), \qquad \hat \gamma \approx \frac{\tr
 Note that the constant discretization step \(1/G\) that would appear from approximating the integrals cancels out in the computations, so it can be omitted for simplicity.
 
 \begin{remark}
-  If we use the improved estimator \(\hat{\mathbf K}_n^{\text{OAS}}\) to approximate \(\hat \gamma\) and \(\hat d\), the argument goes through unaffected: by Proposition~\ref{prop:sample-cov-matrix-convergence} we have \(\|\hat{\mathbf K}^{\text{OAS}}_n - \mathbf{K}\| \to 0\) a.s., and hence the traces converge almost surely to the true value.
+  If we use the improved estimator \(\hatbfKnOAS\) to approximate \(\hat \gamma\) and \(\hat d\), the argument goes through unaffected: by Proposition~\ref{prop:sample-cov-matrix-convergence} we have \(\|\hatbfKnOAS - \mathbf{K}\| \to 0\) a.s., and hence the traces converge almost surely to the true value.
 \end{remark}
 
 We can also consider a projection-based version of the \(L^2\) test using \acs{FPCA}, which was explored for example by \citet{horvath2012inference} in a similar testing problem. Let \(\lambda_1\geq \lambda_2\geq \cdots \geq \lambda_p>0\) be the \(p\) leading eigenvalues of the true covariance operator, with \(\phi_1,\dots,\phi_p\) the corresponding eigenfunctions (up to a sign flip). Then, we can define a test statistic analogous to~\eqref{eq:test-statistic-l2} but with the mean function projected on the space spanned by \(\phi_1,\dots,\phi_p\). Write the \acs{FPCA} scores of the sample mean as
@@ -50,7 +50,7 @@ where normalization by the eigenvalues is introduced to simplify the expression 
 \[
 \hat \lambda_j \approx \hat l_j,\quad \hat\phi_j \approx \hat{\mathbf v}_j=(\hat v_{j1},\dots, \hat v_{jG})', \quad \hat T_{n,p} \approx n\sum_{j=1}^p \frac{\left(\sum_{g=1}^G \bar{X}_n(s_g)\hat v_{jg}\right)^2}{\hat l_j}, 
 \]
-where \(\{\hat l_j, \hat{\mathbf v}_j\}\) are the eigenvalues and (normalized) eigenvectors of the \(G\times G\) empirical covariance matrix \(\hat{\mathbf C}_n\). We could also use the regularized version \(\hat{\mathbf K}_n^{\text{OAS}}\) to compute the eigendecomposition, and even though we did not explore the theoretical guarantees in this case, it is likely that the eigenvalues and eigenvectors of the \acs{OAS} estimator constitute sufficiently good approximations for our purposes.
+where \(\{\hat l_j, \hat{\mathbf v}_j\}\) are the eigenvalues and (normalized) eigenvectors of the \(G\times G\) empirical covariance matrix \(\hat{\mathbf C}_n\). We could also use the regularized version \(\hatbfKnOAS\) to compute the eigendecomposition, and even though we did not explore the theoretical guarantees in this case, it is likely that the eigenvalues and eigenvectors of the \acs{OAS} estimator constitute sufficiently good approximations for our purposes.
 
 The only missing aspect is the question of how many components to retain. We follow the simple approach proposed by \citet{ramsay2005functional}, who suggest selecting \(p\) so that the resulting functional principal components cumulatively explain a fixed large percentage of the variance (e.g.\ 90\%).
 
@@ -64,7 +64,7 @@ whose null distribution is shown to be an \(F\)-type mixture. It can again be ap
 \[
 F_n \sim F_{\hat d, (n-1)\hat d}\  \ \text{approximately}.
 \]
-The approximate \(p\)-value for the test is then \(\pp(F_{\hat d, (n-1)\hat d} \geq F_n)\). This method works for the \acs{OAS} estimator as well, since \(\tr(\hat{\mathbf K}_n^{\text{OAS}})=\tr(\hat{\mathbf K}_n)\).
+The approximate \(p\)-value for the test is then \(\pp(F_{\hat d, (n-1)\hat d} \geq F_n)\). This method works for the \acs{OAS} estimator as well, since \(\tr(\hatbfKnOAS)=\tr(\hat{\mathbf C}_n)\).
 
 \subsubsection*{Bootstrap procedures}
 
@@ -97,7 +97,7 @@ where \(g>0\) is a scalar hyperparameter. This prior, introduced by \citet{zelln
 \end{equation}
 where \(Q_n = \bar{\mathbf X}_n' \mathbf K^{-1}\bar{\mathbf X}_n\), \(\bar{\mathbf X}_n = \frac{1}{n}\sum_{i=1}^n \mathbf X_i\) is the discretized sample mean, and we have supposed for simplicity that \(\pi_0=1-\pi_0=1/2\).
 
-In practice, we compute the Bayes factor using the plug-in estimators \(\hat{\mathbf C}_n\) or \(\hat {\mathbf K}_n^{\text{OAS}}\) of the covariance matrix. However, applying~\eqref{eq:log-bf10} directly on the full \(G\)-dimensional discretized data presents two noticeable difficulties:
+In practice, we compute the Bayes factor using the plug-in estimators \(\hat{\mathbf C}_n\) or \(\hatbfKnOAS\) of the covariance matrix. However, applying~\eqref{eq:log-bf10} directly on the full \(G\)-dimensional discretized data presents two noticeable difficulties:
 \begin{enumerate}
   \item When \(n<G\) (the typical \acs{FDA} setting), the empirical covariance matrix \(\hat{\mathbf C}_n\) is rank-deficient, so \(\hat{\mathbf C}_n^{-1}\) and the corresponding plug-in quadratic form \(\hat Q_n\) do not exist. Even with regularization (e.g.\ by \acs{OAS} or adding a small noise to the diagonal), the resulting \(\hat Q_n\) can be numerically unstable and a poor estimate.
   \item The Bayes factor contains a penalty term that grows linearly with \(G\). This penalty can become large and drown out the signal in \(Q_n\), driving \(\bff_{10}\) towards \(H_0\) regardless of the data. This phenomenon is known as Lindley's paradox \citep{lindley1957statistical}.

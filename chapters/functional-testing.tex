@@ -22,24 +22,24 @@ Using Bayes factors to quantify the evidence against the null hypothesis in a co
 
 Most functional tests in the literature employ some form of dimension reduction via projections or basis expansions as a first step. We take a slightly different approach and directly assume, as we did in Chapter~\ref{ch:functional-regression}, that the mean function is a member of \acs{RKHS} associated with the covariance function of the underlying process, so that it can be approximated through a finite linear combination of kernel sections. For simplicity, in this chapter we restrict ourselves to Gaussian data.
 
-Let \(X_{1:n}=(X_1,\dots, X_n)\) be an i.i.d.\ sample of a Gaussian process \(X\sim \gp(\mu, K)\) with mean \(\mu\) and strictly positive definite covariance function \(K\), which is assumed to be known for the time being. We will mainly work with functional observations, but whenever discretization is needed, we will suppose that the process is observed on an arbitrarily dense grid \(\mathcal S=\{s_1,\dots, s_G\}\subset [0,1]\) of size \(G\). Moreover, discretized quantities on the grid will be denoted by \textbf{boldface} letters. Without loss of generality we set \(\mu_0\equiv 0\) and consider the hypotheses
+Let \(X_{1:n}=(X_1,\dots, X_n)\) be an i.i.d.\ sample of a Gaussian process \(X\sim \gp(\mu, K)\) with mean \(\mu\) and strictly positive definite covariance function \(K\), which is assumed to be known for the time being. We will mainly work with functional observations, but whenever discretization is needed, we will suppose that the process is observed on an arbitrarily dense grid \(\mathcal S=\{s_1,\dots, s_G\}\subset [0,1]\) of size \(G\). Moreover, discretized functional quantities on the grid will be denoted by \textbf{boldface} letters. Without loss of generality we set \(\mu_0\equiv 0\) and consider the hypotheses
 \[
 H_0: \mu(t)=0 \text{ for all } t \in [0,1] \quad \text{vs.} \quad H_1: \mu(t)\neq 0 \text{ for some } t \in [0,1].
 \]
 
-Our key modeling assumption is that \(\mu\in\Hcal(K)\). As we already established, not only is this space naturally linked to the process \(X\), but in general it contains smoother functions than, say, \(L^2[0,1]\). More importantly, it provides a direct finite-dimensional representation of the mean function if we further suppose that \(\mu\in\Hcal_0(K)\), which is dense in \(\Hcal(K)\) by construction. Indeed, we propose a parametric model (with a functional interpretation) based on the approximation
+Our key modeling assumption is that \(\mu\in\Hcal(K)\). As we already established, not only is this space naturally linked to the process \(X\), but in general it contains smoother functions than, say, \(L^2[0,1]\). More importantly, it provides a direct finite-dimensional representation of the mean function if we further suppose that \(\mu\) belongs to the dense subspace \(\Hcal_0(K)\). Indeed, we propose a parametric model (with a functional interpretation) based on the approximation
 \begin{equation}\label{eq:mu-h0}
-\mu_{\theta_p}(\cdot) = \sum_{j=1}^p \beta_j K(t_j, \cdot),
+\mu_{\theta_p}(\cdot) = \sum_{j=1}^p \beta_j K(t_j, \cdot) \in \Hcal_0(K),
 \end{equation}
 where \(\theta_p=(p, \tau_p, b_p) \equiv (p, t_1,\dots, t_p, \beta_1,\dots,\beta_p)\) is a generic parameter. As always, we will omit the subscript \(p\) when it is understood from context, and assume that the grid of observation \(\mathcal S\) is fine enough to contain all the relevant time instants.
 
-Note that when \(K\) is strictly positive definite, the null hypothesis \(\mu_\theta\equiv 0\) corresponds to \(b=0\) as long as the time instants are distinct. Thus, the parameter spaces for the null and alternative hypotheses in our Bayesian test are
+Note that when \(K\) is strictly positive definite, the null hypothesis \(\mu_\theta\equiv 0\) corresponds to \(b=0_p\) as long as the time instants are distinct. Thus, the parameter spaces for the null and alternative hypotheses in our Bayesian test are
 \[
 \Theta_0=\bigcup_{p\in\N}\left\{(p, \tau, 0_p): \tau \in \mathcal T_p\right\}
 \]
 and
 \[
-  \Theta_1=\bigcup_{p\in\N}\left\{(p, \tau, b): \tau \in \mathcal T_p,\, b \in \R^p\setminus \{0\}\right\},
+  \Theta_1=\bigcup_{p\in\N}\left\{(p, \tau, b): \tau \in \mathcal T_p,\, b \in \R^p\setminus \{0_p\}\right\},
 \]
 respectively, where \(\mathcal T_p = \{(t_1,\dots,t_p)\in [0,1]^p: t_1 < \cdots < t_p\}\) is the ordered unit simplex. Although not strictly needed, we impose an ordering constraint to avoid identifiability issues and reduce the parameter space by a factor of \(p!\) on each dimension.
 
@@ -79,7 +79,7 @@ where \(\delta_0\) is a Dirac measure at \(0\in \R^p\) (the ``spike''), \(\eta^2
 \[
   b\mid Z=1, p \sim \delta_0\quad \text{and}\quad b\mid Z=0, p \sim \mathcal N_p(0, \eta^2 I_p).
 \]
-The choice of a normal distribution for the ``slab'' prior of \(b\) is not arbitrary; it will be used as a conjugacy device to simplify the posterior distribution later on. Note that this construction induces the priors \(\Pi(H_0)=\pi_0\) and \(\Pi(H_1)=1-\pi_0\), since the null hypothesis is reinterpreted as \(H_0: b=0\).
+The choice of a normal distribution for the ``slab'' part of the prior on \(b\) is not arbitrary; it will be used as a conjugacy device to simplify the posterior distribution later on. Note that this construction induces the priors \(\Pi(H_0)=\pi_0\) and \(\Pi(H_1)=1-\pi_0\), since the null hypothesis is reinterpreted as \(H_0: b=0\).
 
 \subsection{Posterior approximation}\label{sec:posterior-approximation}
 
@@ -93,7 +93,7 @@ up to a multiplicative constant, which can be approximated through computational
   &\quad + (1-\pi_0)\int \Pi^{\text{slab}}(b)L(X_{1:n}\mid p, \tau, b)\, db\\
   &= \pi_0 m_{\text{spike}}(X_{1:n}\mid p, \tau) + (1-\pi_0)\mslab(X_{1:n}\mid p, \tau).
 \end{align*}
-According to~\eqref{eq:likelihood} we immediately get \(m_{\text{spike}}(X_{1:n}|p,\tau)=e^0=1\), since \(\Pi^{\text{spike}}(b)\) is a point mass at \(b=0\). In the slab part we get an exact integral, applying the formula for the moment generating function (at \(t=1\)) of a quadratic form in Gaussian variables \citep[Corollary 3.2a.1]{mathai1992quadratic}:
+According to~\eqref{eq:likelihood} we immediately get \(m_{\text{spike}}(X_{1:n}|p,\tau)=e^0=1\), since \(\Pi^{\text{spike}}\) is a point mass at \(b=0\). In the slab part we get an exact integral, applying the formula for the moment generating function (at \(t=1\)) of a quadratic form in Gaussian variables \citep[Corollary 3.2a.1]{mathai1992quadratic}:
 \begin{equation}\label{eq:m-slab}
   \begin{split}
   \mslab(X_{1:n}\mid p, \tau) &= \int \mathcal N_p(b\mid 0, \eta^2 I_p)L(X_{1:n}\mid p, \tau, b)\, db \\
@@ -156,7 +156,7 @@ Note that this strategy is similar to the Rao--Blackwellization process to reduc
 \]
 and represents the evidence in favor of \(H_1\) over \(H_0\) as supported by the data. For example, if \(\pi_0=1-\pi_0=1/2\), then \(\Pi_n(H_0|X_{1:n})=1/2\) corresponds to \(\bff_{10}(X_{1:n}) = 1\). Note that in our model \(L(X_{1:n}|H_0)\) is actually equal to one by construction, since we take \(\pp_0\) as the reference measure. In practice, we report an estimated Bayes factor 
 \[
-\hat{{\bff}}_{10} = \frac{1 - \hat \pi_{\text{null}}}{\hat \pi_{\text{null}}}\cdot \frac{\pi_0}{1-\pi_0},
+\widehat{\bff}_{10} = \frac{1 - \hat \pi_{\text{null}}}{\hat \pi_{\text{null}}}\cdot \frac{\pi_0}{1-\pi_0},
 \]
 and use Jeffreys' scale (see Table~\ref{tab:jeffreys-scale}) to weigh the evidence against \(H_0\). Observe that the Bayes factor (a likelihood ratio) is actually independent of the prior belief \(\pi_0\), so it acts as a somewhat more objective measure to compare evidence against \(H_0\) across different models.
 
@@ -239,9 +239,9 @@ From a computational perspective we only need to consider its discretized counte
   \hat{\mathbf C}_n=\left[\hat{C}_n(s_g, s_h)\right]_{g,h=1}^G,
 \]
 which approximates the discretized covariance \(\mathbf K=[K(s_g, s_h)]_{g,h=1}^G\). However, in functional settings the sample size is typically small relative to the number of grid points, so the empirical covariance can be highly rank-deficient. A common regularization technique consists on shrinking towards a well-conditioned target to lift the near-zero eigenvalues, improving the quality and stability of the estimator. The \acf{OAS} estimator \citep{chen2010shrinkage} is a popular choice for this purpose; its closed-form expression on the grid is
-\[
-\hat{\mathbf K}_n^{\text{OAS}} = (1-\hat\rho_n)\hat{\mathbf C}_n + \hat\rho_n \frac{\tr(\hat{\mathbf C}_n)}{G}I_G,
-\]
+\begin{equation}\label{eq:oas-estimator}
+\hatbfKnOAS = (1-\hat\rho_n)\hat{\mathbf C}_n + \hat\rho_n \frac{\tr(\hat{\mathbf C}_n)}{G}I_G,
+\end{equation}
 where
 \begin{equation}\label{eq:rho-oas}
 \hat\rho_n = \min\left\{1,\, \frac{(1-2/G)\tr(\hat{\mathbf C}_n^2) + \tr^2(\hat{\mathbf C}_n)}{(n+1-2/G)\left[\tr(\hat{\mathbf C}_n^2) - \tr^2(\hat{\mathbf C}_n)/G \right]}\right\}.
@@ -290,9 +290,9 @@ The second option, while not ideal, can still be interpreted in a pseudo-Bayesia
 
 \section{Asymptotic theory}\label{sec:consistency-bft}
 
-To assess the frequentist behavior of the proposed Bayesian test, we study the posterior consistency and posterior contraction rates of the Bayes factor, which depend only on the large-sample behavior of the posterior probability of \(H_0\) (or equivalently, of \(H_1\)). In this case, a posterior contraction rate quantifies how fast the posterior mass concentrates around the true hypothesis as \(n\) grows; we will use the concept of stochastic boundedness (see Definition~\ref{def:stochastic-boundedness}) to evaluate contraction rates. 
+To assess the frequentist behavior of the proposed Bayesian test, we study the posterior consistency and posterior contraction rates of the Bayes factor, which depend only on the large-sample behavior of the posterior probability of \(H_0\) (or equivalently, of \(H_1\)). In this case, a posterior contraction rate quantifies how fast the posterior mass concentrates around the true hypothesis as the sample size grows; we will use the concept of stochastic boundedness (see Definition~\ref{def:stochastic-boundedness}) to evaluate contraction rates. 
 
-As an abuse of notation, we still write \(\pp_0\) and \(\pp_\mu\) for the product measures \(\pp_0^{(n)}\) and \(\pp_{\mu}^{(n)}\) of \((X_1,X_2,\dots, X_n)\), respectively. Moreover, we let \(\pp_0^\infty\) denote the distribution of \((X_1,X_2,\dots)\) under \(H_0\). The proofs of the theoretical results are deferred to Section~\ref{sec:proofs-bft}.
+As an abuse of notation, we still write \(\pp_0\) and \(\pp_\mu\) for the product measures \(\pp_0^{(n)}\) and \(\pp_{\mu}^{(n)}\) of \((X_1,X_2,\dots, X_n)\) under \(\gp(0, K)\) and \(\gp(\mu, K)\), respectively. Plus, we let \(\pp_0^\infty\) denote the distribution of \((X_1,X_2,\dots)\) under \(H_0\). The proofs of the theoretical results are deferred to Section~\ref{sec:proofs-bft}.
 
 We already established that the sample paths of the process \(X\) are supposed to be continuous, but we state this fact as an explicit assumption to emphasize its importance in the theoretical guarantees.
 
@@ -302,7 +302,7 @@ We already established that the sample paths of the process \(X\) are supposed t
 
 \subsection{Consistency and contraction rates for known covariance}\label{sec:consistency-known}
 
-We first focus on the case where \(H_0\) is true, that is, \(X_1,\dots,X_n \sim \gp(0, K)\) i.i.d.\ with distribution \(\pp_0\). As is often the case in Bayesian tests with a point-null hypothesis, posterior consistency holds if \(\Pi(H_0)>0\), through a direct application of Doob's theorem (see \citealp{dass2004note} or Theorem 10.24 in \citealp{ghosal2017fundamentals}). Nevertheless, we provide an explicit proof for completeness.
+We first focus on the case where \(H_0\) is true, that is, \(X_1,\dots,X_n \sim \gp(0, K)\) i.i.d.\ with distribution \(\pp_0\). As is typical of Bayesian tests with a point-null hypothesis, posterior consistency holds automatically if \(\Pi(H_0)>0\), through a direct application of Doob's theorem (see \citealp{dass2004note} or Theorem 10.24 in \citealp{ghosal2017fundamentals}). Nevertheless, we provide an explicit proof for completeness.
 
 \begin{theorem}\label{th:consistency-h0}
   \marginproof{proof:consistency-h0}
@@ -321,7 +321,7 @@ To study posterior contraction rates, we impose additional assumptions on the pr
   The prior \(\Pi(p)\) has finite support, i.e., \(\Pi(p) = 0\) for all \(p > P_{\max}\).
 \end{assumption}
 
-Note that~\ref{ass:compact-support-tau} is verified, for example, by enforcing a uniform minimum separation on the time points in \(\tau\) (which already happens in practice on the finite grid \(\mathcal S\)). Indeed, for a fixed \(\delta>0\) one can consider the compact set
+Note that~\ref{ass:compact-support-tau} is satisfied, for example, by enforcing a uniform minimum separation on the time points in \(\tau\) (which already happens in practice on the finite grid \(\mathcal S\)). Specifically, for a fixed \(\delta>0\) one can consider the compact set
 \[
 \mathcal C_p(\delta) = \Big\{\tau\in [0,1]^p: t_1 \geq \delta,\ t_p \leq 1 - \delta,\ t_{j+1} - t_j \geq \delta,\ \text{for}\ 1\leq j \leq p-1\Big\}.
 \]
@@ -339,7 +339,7 @@ On the other hand,~\ref{ass:prior-p-finite} is effectively a truncation on the m
   If \(p_{\min}=1\) we recover the standard parametric rate \(n^{-1/2}\). Even though the asymptotic rate \(O_{\pp_0}(n^{-p_{\min}/2})\) would suggest that it is better to ignore low values of \(p\) in the prior to improve consistency speed, finite-sample performance can be hurt by considering many components, since they introduce increasingly high collinearity. Moreover, removing low-dimensional alternatives makes the test more conservative and reduces interpretability.
 \end{remark}
 
-We now turn to the case where \(H_1\) is true. Suppose that the model is well-specified and denote the true mean function by \(\mu_*\in \Hcal(K) \setminus \{0\}\), so that \(X_1,\dots,X_n \sim \gp(\mu_*, K)\) i.i.d.\ with distribution \(\pp_{\mu_*}\) (note that \(\mu_*\in\Hcal(K)\setminus \Hcal_0(K)\) is allowed). In this situation we need to make sure that the prior places positive mass on the true mean, so the support cannot be restricted.
+We now turn to the case where \(H_1\) is true. Suppose that the model is well-specified and denote the true mean function by \(\mu_*\in \Hcal(K) \setminus \{0\}\), so that \(X_1,\dots,X_n \sim \gp(\mu_*, K)\) i.i.d.\ with distribution \(\pp_{\mu_*}\) (observe that \(\mu_*\in\Hcal(K)\setminus \Hcal_0(K)\) is allowed). In this situation we need to make sure that the prior places positive mass on the true mean, so the support cannot be restricted.
 
 \begin{assumption}\label{ass:positive-prior-mass}
   The prior distribution \(\Pi\) charges open sets, i.e., \(\Pi(p)>0\) for all \(p\in\N\) and \(\Pi_{\tau,b}^{\text{slab}}(U|p)>0\) for all open sets \(U \subseteq \mathcal T_p\times \R^p\), where \(\Pi_{\tau,b}^{\text{slab}}(\cdot|p)\) is the slab part of the joint prior measure on \((\tau, b)\).
@@ -403,14 +403,14 @@ It can be shown that both the empirical covariance estimator \(\hat C_n\) and th
 \[
 \hat{C}_{n,\tau} = \left[\hat C_n(t_j, t_k)\right]_{j,k=1}^p \quad \text{and}\quad \hat{K}_{n,\tau}^{\text{OAS}} = (1-\hat\rho_{n,\tau})\hat C_{n,\tau} + \hat\rho_{n,\tau}\frac{\tr(\hat C_{n,\tau})}{p}I_p,
 \]
-where \(\hat\rho_{n,\tau}\in[0,1]\) is the \acs{OAS} shrinkage coefficient computed via the analogue of~\eqref{eq:rho-oas} with \(\hat{\mathbf C}_n\) replaced by \(\hat{C}_{n,\tau}\) and \(G\) replaced by \(p\).
+where \(\hat\rho_{n,\tau}\in[0,1]\) is the \acs{OAS} shrinkage coefficient computed via the analog of~\eqref{eq:rho-oas} with \(\hat{\mathbf C}_n\) replaced by \(\hat{C}_{n,\tau}\) and \(G\) replaced by \(p\).
 
 \begin{proposition}\label{prop:sample-cov-matrix-convergence}
   \marginproof{proof:sample-cov-matrix-convergence}
   For any matrix norm \(\|\cdot\|\) and any compact set \(\mathcal C_p\subset \mathcal T_p\), we have:
   \begin{enumerate}[label=(\roman*)]
     \item \(\|\hat {\mathbf C}_n - \mathbf K\| \to 0\) a.s.\ and \(\sup_{\tau\in \mathcal C_p} \|\hat C_{n,\tau} - K_\tau\| \to 0\) a.s.
-    \item \(\|\hat{\mathbf K}^{\emph{OAS}}_n - \mathbf K\| \to 0\) a.s.\ and \(\sup_{\tau\in \mathcal C_p} \|\hat K^{\emph{OAS}}_{n,\tau} - K_\tau\| \to 0\) a.s.
+    \item \(\|\hatbfKnOASemph - \mathbf K\| \to 0\) a.s.\ and \(\sup_{\tau\in \mathcal C_p} \|\hat K^{\emph{OAS}}_{n,\tau} - K_\tau\| \to 0\) a.s.
   \end{enumerate}
 \end{proposition}
 
@@ -458,7 +458,7 @@ A natural follow-up question is whether the exponential rate under \(H_1\) can b
 
 \section{Experimental results}\label{sec:experiments-bft}
 
-We illustrate the finite-sample performance of the proposed Bayesian test through a series of experiments with simulated and real data.\footnote{The Python code is available at \url{https://github.com/antcc/rk-bt-jump}.} In both situations the covariance function is assumed unknown and estimated using the plug-in \acs{OAS} estimator. The \acs{RJMCMC} sampling procedure is again implemented in Python with the help of the \slsc{Eryn} library \citep{karnesis2023eryn}. We deployed 64 walkers and ran each one for 2500 steps, discarding the first 1500 samples as burn-in (though convergence was typically achieved in fewer steps). Additional hyperparameters for the sampler were selected based on recommendations from the authors and a small set of trial runs (see Chapter~\ref{ch:rjmcmc} for details).
+We illustrate the finite-sample performance of the proposed Bayesian test through a series of experiments with simulated and real data.\footnote{The Python code is available at \url{https://github.com/antcc/rk-bt-jump}.} In both situations the covariance function is assumed unknown and estimated using the plug-in \acs{OAS} estimator in~\eqref{eq:oas-estimator}. The \acs{RJMCMC} sampling procedure is again implemented in Python with the help of the \slsc{Eryn} library \citep{karnesis2023eryn}. We deployed 64 walkers and ran each one for 2500 steps, discarding the first 1500 samples as burn-in (though convergence was typically achieved in fewer steps). Additional hyperparameters for the sampler were selected based on recommendations from the authors and a small set of trial runs (see Chapter~\ref{ch:rjmcmc} for details).
 
 \subsection{Simulation study} The simulated data comes from three different \acs{GPs}:
 \begin{enumerate}
@@ -477,21 +477,21 @@ where \(K\) is the corresponding covariance kernel in each case; and a fixed per
 
 We implement a reduced model with \(P_{\max}=5\) components, a uniform prior distribution \(p\sim\mathcal U\{1,2,3,4,5\}\), and a uniform prior for the time instants as well (restricted to the grid points in \(\mathcal S\)). Moreover, we assume for simplicity that the null and alternative hypotheses are a priori equally likely, so that \(\pi_0=1-\pi_0=1/2\). When choosing the crucial hyperparameter \(\eta\) one has to be wary of Lindley's paradox \citep{lindley1957statistical}. We propose to compute it from the discretized data through the formula
 \[
-\hat \eta_n=\eta_0 \sqrt{\frac{\tr\left(\hat{\mathbf K}_n^{\text{OAS}}\right)}{G}}, \quad \eta_0>0,
+\hat \eta_n=\eta_0 \sqrt{\frac{\tr\big(\hatbfKnOAS\big)}{G}}, \quad \eta_0>0,
 \]
-which measures the marginal standard deviation of the process, multiplied by a constant scale term. In this way we allow the prior on \(b\) to adapt to the scale of the data; we fix a value of \(\eta_0=1/4\) to allow detection of small signals (preliminary experiments suggest that bigger signals are easily recognized regardless of the value of \(\eta_0\)). Since \(\hat\eta_n\) converges in probability to a finite positive constant, this data-dependent choice should not affect the asymptotic properties of the test. Indeed, since \(\tr(\hat{\mathbf K}_n^{\text{OAS}})=\tr({\hat{\mathbf C}_n})\) and \(\tr(\hat{\mathbf C}_n) \to \tr({\mathbf K})\) by Proposition~\ref{prop:sample-cov-matrix-convergence}, we have \(\hat \eta_n \to \eta_\infty > 0\). We can refine the proofs in Section~\ref{sec:proofs-bft} by restricting the arguments to the high-probability event \(\{\eta_\infty/2 \leq \hat\eta_n \leq 2\eta_\infty\}\), on which \(\hat\eta_n\) is bounded away from zero and infinity. Since all quantities appearing in the proofs that depend on \(\eta\) do so in a continuous manner, the constants involved in the corresponding bounds can be chosen uniformly over the compact interval \([\eta_\infty/2, 2\eta_\infty]\), and the consistency arguments should carry over without further modification. In any case, we can always use an independent validation set \(\tilde{X}_{1:\tilde{n}}\) to compute \(\hat{\eta_{\tilde n}}\), which removes any theoretical complication.
+which measures the marginal standard deviation of the process, multiplied by a constant scale term. In this way we allow the prior on \(b\) to adapt to the scale of the data; we fix a value of \(\eta_0=1/4\) to allow detection of small signals (preliminary experiments suggest that bigger signals are easily recognized regardless of the value of \(\eta_0\)). Since \(\hat\eta_n\) converges in probability to a finite positive constant, this data-dependent choice should not affect the asymptotic properties of the test. Indeed, since \(\tr(\hatbfKnOAS)=\tr({\hat{\mathbf C}_n})\) and \(\tr(\hat{\mathbf C}_n) \to \tr({\mathbf K})\) by Proposition~\ref{prop:sample-cov-matrix-convergence}, we have \(\hat \eta_n \to \eta_\infty > 0\). We can refine the proofs in Section~\ref{sec:proofs-bft} by restricting the arguments to the high-probability event \(\{\eta_\infty/2 \leq \hat\eta_n \leq 2\eta_\infty\}\), on which \(\hat\eta_n\) is bounded away from zero and infinity. Since all quantities appearing in the proofs that depend on \(\eta\) do so in a continuous manner, the constants involved in the corresponding bounds can be chosen uniformly over the compact interval \([\eta_\infty/2, 2\eta_\infty]\), and the consistency arguments should carry over without further modification. In any case, we can always use an independent validation set \(\tilde{X}_{1:\tilde{n}}\) to compute \(\hat{\eta_{\tilde n}}\), which removes any theoretical complication.
 
 Then, we compare our method (which we call \slsc{RKBT}) to other one-sample testing procedures in the literature:
 \begin{itemize}
   \item Pointwise \(t\)-test over all grid points with Bonferroni correction for multiple comparisons (\slsc{Bon-t}). This is used only as a baseline.
   \item Global test based on the squared \(L^2\)-norm \(\|\Delta_n\|_2^2 = n\int_0^1 \bar{X}_n^2(t)\, dt\), whose null distribution is a \(\chi^2\)-type mixture (\slsc{L2}).
   \item A version of the \(L^2\) test with projections through \acs{FPCA} (\slsc{L2-FPCA}).
-  \item Global test based on the regularized statistic \(F_n=\|\Delta_n\|_2^2/\tr(\hat{K}_n)\), which follows an \(F\)-type mixture distribution under \(H_0\) (\slsc{F}).
+  \item Global test based on the regularized statistic \(F_n=\|\Delta_n\|_2^2/\tr(\hat{C}_n)\), which follows an \(F\)-type mixture distribution under \(H_0\) (\slsc{F}).
   \item Standard Bayesian spike-and-slab test with dimension reduction via \acs{FPCA} and a conjugate \(g\)-prior under \(H_1\) (\slsc{Bayes-FPCA}).
 \end{itemize}
 The frequentist competitors are primarily those outlined by \citet{zhang2013analysis}, whereas the Bayesian competitor arguably represents a novel---albeit simple---approach. A detailed breakdown of the comparison methods is provided in Appendix~\ref{app:comparison-test}.
 
-Performance is measured through several frequentist metrics, repeating the whole procedure 100 times with different random seeds. We compare the rejection rate under \(H_0\) (type I error) and under \(H_1\) (power), as well as the \acf{AUC} metric \citep{krzanowski2009roc}, which is a number in \([0,1]\) that evaluates the overall performance across all possible decision thresholds. The frequentist methods are calibrated to the nominal size of \(\alpha=0.05\), and the Bayesian methods are thresholded through the estimated Bayes factor to produce a binary accept/reject decision. Specifically, we use the standard rejection region provided by Jeffreys' scale (see Table~\ref{tab:jeffreys-scale}), which is given by \(\{\hat{{\bff}}_{10}>3\}\) and corresponds to \(\{\hat\pi_{\text{null}}<1/4\}\) with our assumptions. 
+Performance is measured through several frequentist metrics, repeating the whole procedure 100 times with different random seeds. We compare the rejection rate under \(H_0\) (type I error) and under \(H_1\) (power), as well as the \acf{AUC} metric \citep{krzanowski2009roc}, which is a number in \([0,1]\) that evaluates the overall performance across all possible decision thresholds. The frequentist methods are calibrated to the nominal size of \(\alpha=0.05\), and the Bayesian methods are thresholded through the estimated Bayes factor to produce a binary accept/reject decision. Specifically, we use the standard rejection region provided by Jeffreys' scale (see Table~\ref{tab:jeffreys-scale}), which is given by \(\{\widehat{\bff}_{10}>3\}\) and corresponds to \(\{\hat\pi_{\text{null}}<1/4\}\) with our assumptions. 
 
 The results of the simulation study are presented in Table~\ref{tab:metrics-rkhs} and Table~\ref{tab:metrics-p}. We can see that our \slsc{RKBT} method has great control of the type I error, while also achieving decent power and \acs{AUC} in most cases, despite having only a relatively low number of components to work with. Moreover, the comparison methods that obtain a higher power generally do so at the expense of a greater type I error, which may be undesirable. Note that we could increase the power of our test by lowering the rejection threshold, which is fairly conservative, to a point where we still maintain an acceptable type I error (e.g.\ below 5\%). 
 
@@ -554,7 +554,7 @@ The results of the simulation study are presented in Table~\ref{tab:metrics-rkhs
 
 The metrics in the simulation study are frequentist in nature, but the strength of our Bayesian test lies in the interpretability and the ability to quantify uncertainty. To analyze this aspect, we present a brief exploratory study with real climate data. We consider the average monthly temperature recorded by 24 weather stations in Australia from 1990 to 2019, grouping the curves into three decades: the 1990s (1990--1999), the 2000s (2000--2009), and the 2010s (2010--2019).\footnote{The data is available through the \slsc{Meteostat} Python library~\citep{lamprecht2026meteostat}.} For each station and each decade, we compute a 12-point temperature curve by averaging temperatures within each month across all years in that decade. We then form pairwise differences between the decade-specific curves and apply our test to assess the null hypothesis of no difference in the mean temperature. We use the same prior distributions as in the simulations, but we allow \(P_{\max}=12\) and set \(\pi_0=1/3\), to convey the widespread belief that the temperature is actually changing globally.
 
-The Bayesian metrics obtained are summarized in Table~\ref{tab:metrics-climate}. Using the same rejection region as in the simulation study, namely \(\{\hat{{\bff}}_{10}>3\}\), our test decisively rejects \(H_0\) for the second and third period comparisons. This is consistent with the general observation that the climate is getting warmer in recent times. We can also see, for example, that the model gives very low posterior probability to differences of less than \(0.1^\circ\mathrm{C}\) from the 2010s to the 1990s, signalling that the discrepancy is bigger in that case. Note that around five components (months) seem to be sufficient to model the temperature differences, supporting our parsimony assumptions.
+The Bayesian metrics obtained are summarized in Table~\ref{tab:metrics-climate}. Using the same rejection region as in the simulation study, namely \(\{\widehat{{\bff}}_{10}>3\}\), our test decisively rejects \(H_0\) for the second and third period comparisons. This is consistent with the general observation that the climate is getting warmer in recent times. We can also see, for example, that the model gives very low posterior probability to differences of less than \(0.1^\circ\mathrm{C}\) from the 2010s to the 1990s, signalling that the discrepancy is bigger in that case. Note that around five components (months) seem to be sufficient to model the temperature differences, supporting our parsimony assumptions.
 
 \begin{table}[t]
   \myfloatalign
@@ -562,17 +562,17 @@ The Bayesian metrics obtained are summarized in Table~\ref{tab:metrics-climate}.
   \caption[Functional testing experiments: real data]{Estimated posterior metrics given by our \slsc{RKBT} test for the three pairwise-difference temperature data sets.}\label{tab:metrics-climate}
   \begin{tabular}{@{}lrrrr@{}}
   \toprule
-  \slsc{Period comparison} & \multicolumn{1}{c}{\(\hat\pi_{\text{null}}\)} & \multicolumn{1}{c}{\(\hat{{\bff}}_{10}\)} & \multicolumn{1}{c}{\(\hat{\E}[p|X_{1:n}]\)} & \multicolumn{1}{c@{}}{\(\hat{\pi}_{\text{ROPE}}(\epsilon=0.1^\circ\mathrm{C})\)} \\
+  \slsc{Period comparison} & \multicolumn{1}{c}{\(\hat\pi_{\text{null}}\)} & \multicolumn{1}{c}{\(\widehat{{\bff}}_{10}\)} & \multicolumn{1}{c}{\(\hat{\E}[p|X_{1:n}]\)} & \multicolumn{1}{c@{}}{\(\hat{\pi}_{\text{ROPE}}(\epsilon=0.1^\circ\mathrm{C})\)} \\
   \midrule
-  \(2000\)s--\(1990\)s & \(0.3302\) & \(1.0142\) & \(4.6807\) & \(0.4210\) \\
-  \(2010\)s--\(2000\)s & \(0.0635\) & \(7.3709\) & \(5.2309\) & \(0.2120\) \\
-  \(2010\)s--\(1990\)s & \(0.0784\) & \(5.8815\) & \(4.8832\) & \(0.0980\) \\
+  \(2000\)s-\(1990\)s & \(0.3302\) & \(1.0142\) & \(4.6807\) & \(0.4210\) \\
+  \(2010\)s-\(2000\)s & \(0.0635\) & \(7.3709\) & \(5.2309\) & \(0.2120\) \\
+  \(2010\)s-\(1990\)s & \(0.0784\) & \(5.8815\) & \(4.8832\) & \(0.0980\) \\
   \bottomrule
   \end{tabular}
   \vspace{13pt}  % Separate this table from the next figure
 \end{table}
 
-Lastly, Figure~\ref{fig:climate_posterior} provides a useful functional interpretation of the posterior evidence reported in Table~\ref{tab:metrics-climate}, illustrating the posterior mean function \(\hat\mu_n^{\text{PM}}\) and the 95\% simultaneous bands described in Section~\ref{sec:posterior-summaries}. The estimated mean difference is relatively small and close to zero for the 2000s--1990s comparison, whereas the comparisons involving the 2010s display a markedly positive posterior mean over much of the year, with the largest discrepancy occurring between the 2010s and 1990s. Observe that the variability in the credible bands is generally more pronounced in the warmer months (September--March in the Southern Hemisphere), indicating that the uncertainty is higher precisely where the temperature differences are largest.
+Lastly, Figure~\ref{fig:climate_posterior} provides a useful functional interpretation of the posterior evidence reported in Table~\ref{tab:metrics-climate}, illustrating the posterior mean function \(\hat\mu_n^{\text{PM}}\) and the 95\% simultaneous bands described in Section~\ref{sec:posterior-summaries}. The estimated mean difference is relatively small and close to zero for the 2000s-1990s comparison, whereas the comparisons involving the 2010s display a markedly positive posterior mean over much of the year, with the largest discrepancy occurring between the 2010s and 1990s. Observe that the variability in the credible bands is generally more pronounced in the warmer months (September--March in the Southern Hemisphere), indicating that the uncertainty is higher precisely where the temperature differences are largest.
 
 \begin{figure}[tbp]
   \myfloatalign
@@ -733,7 +733,9 @@ Then, by~\eqref{eq:approximation-property-mu} and the continuity of the map \((\
 \[
 f(\tau, b) \geq \frac{1}{2}\|\mu_*\|^2_K - 2\epsilon^2 =: c_\epsilon > 0,
 \]
-where positivity holds by choosing \(\epsilon\) small enough. On the other hand, note that by the Cauchy--Schwarz inequality
+where positivity holds by choosing \(\epsilon\) small enough. 
+
+On the other hand, note that by the Cauchy--Schwarz inequality
 \[
 \sqrt{n} Z_\tau'b \geq \sqrt{n} \inf_{b\in U_2} Z_\tau'b \geq -\sqrt{n} \sup_{b\in U_2} \|b\| \sup_{\tau \in U_1}\|Z_\tau\|.
 \]
@@ -749,7 +751,7 @@ where \(B=\sup_{b\in U_2} \|b\|\) satisfies \(0 < B < \infty\), since \(U_2\) is
   &\geq D \exp\left\{nc_\epsilon - \sqrt{n}B \sup_{\tau\in U_1}\|Z_\tau\|\right\},
   \end{split}
 \end{equation}
-where \(D=\Pi(p_\epsilon)\Pi_{\tau, b}^{\text{slab}}(U_1 \times U_2|p_{\epsilon})>0\) by assumption. Next, note that \(\sup_{\tau\in U_1}\|Z_\tau\|\) is \(O_{\pp_{\mu_*}}(1)\) (by the same argument as in the proof of Theorem~\ref{th:consistency-rates-h0}), so for all \(\delta>0\) there exists a finite \(M>0\) such that \(\pp_{\mu_*}(B \sup_{\tau\in U_1} \|Z_\tau\| \geq M) < \delta\). Thus, by~\eqref{eq:lower-bound-m1} we get
+where \(D=\Pi(p_\epsilon)\Pi_{\tau, b}^{\text{slab}}(U_1 \times U_2|p_{\epsilon})>0\) by assumption. Next, note that \(\sup_{\tau\in U_1}\|Z_\tau\|=O_{\pp_{\mu_*}}(1)\) (by the same argument as in the proof of Theorem~\ref{th:consistency-rates-h0}), so for all \(\delta>0\) there exists a finite \(M>0\) such that \(\pp_{\mu_*}(B \sup_{\tau\in U_1} \|Z_\tau\| \geq M) < \delta\). Thus, by~\eqref{eq:lower-bound-m1} we get
 \[
 \pp_{\mu_*}\left(m_1(X_{1:n}) \leq D \exp\left\{nc_\epsilon - \sqrt{n}M\right\}\right) \leq  \pp_{\mu_*}\left(B \sup_{\tau\in U_1} \|Z_\tau\| \geq M\right) < \delta.
 \]
@@ -820,9 +822,9 @@ This follows directly from Mourier's law of large numbers in Banach spaces \cite
   \begin{itemize}
   \item If, say, \(\mathbf K =\sigma^2 I_G\) with \(\sigma^2>0\), then the behavior of \(\hat \rho_n\) as \(n\to\infty\) is not easily determined (though it can be analyzed by a central limit theorem argument). Luckily this is irrelevant, since now both the empirical covariance and target covariance matrices converge a.s.\ to the same limit, namely \(\mathbf K\). Then,
   \[
-  \|\hat{\mathbf K}_n^{\text{OAS}} - \mathbf K\| \leq (1-\hat\rho_n) \|\hat{\mathbf C}_n - \mathbf K\| + \hat\rho_n \left\|\frac{\tr(\hat{\mathbf C}_n)}{G}I_G - \mathbf K\right\| \stackrel{\text{a.s.}}{\longrightarrow} 0.
+  \|\hatbfKnOAS - \mathbf K\| \leq (1-\hat\rho_n) \|\hat{\mathbf C}_n - \mathbf K\| + \hat\rho_n \left\|\frac{\tr(\hat{\mathbf C}_n)}{G}I_G - \mathbf K\right\| \stackrel{\text{a.s.}}{\longrightarrow} 0.
   \]
-  \item If \(\mathbf K\) is not spherical, then \(\|\tr(\hat{\mathbf C}_n)I_G/G - \mathbf K\|\) converges to a finite constant almost surely. On the other hand, the denominator in~\eqref{eq:rho-oas} diverges almost surely as \(n\to\infty\), so \(\hat\rho_n\stackrel{\text{a.s.}}{\to} 0\). Then, using the same upper bound as in the previous case, we also get \(\|\hat{\mathbf K}_n^{\text{OAS}} - \mathbf K\|\to 0\) a.s.
+  \item If \(\mathbf K\) is not spherical, then \(\|\tr(\hat{\mathbf C}_n)I_G/G - \mathbf K\|\) converges to a finite constant almost surely. On the other hand, the denominator in~\eqref{eq:rho-oas} diverges almost surely as \(n\to\infty\), so \(\hat\rho_n\stackrel{\text{a.s.}}{\to} 0\). Then, using the same upper bound as in the previous case, we also get \(\|\hatbfKnOAS - \mathbf K\|\to 0\) a.s.
   \end{itemize}
 
   We now prove the second assertion in (ii) in detail. The case \(p=1\) is trivial, so we assume \(p>1\). By the triangle inequality and particularizing to the Frobenius norm \(\|\cdot\|_F\), we have
@@ -854,7 +856,7 @@ This follows directly from Mourier's law of large numbers in Banach spaces \cite
   \]
 \end{proof}
 
-We now prove the plug-in consistency results for our test. Define the plug-in marginal likelihood
+We now focus on the plug-in consistency results for our test. Define the plug-in marginal likelihood
 \[
 \hat \mslab(X_{1:n}\mid p,\tau) = \eta^{-p}|\hat\Lambda_{n,\tau}|^{-1/2}\exp\left\{\frac{1}{2}S_n(\tau)'\hat\Lambda_{n,\tau}^{-1}S_n(\tau)\right\},
 \]
@@ -893,11 +895,11 @@ where \(\hat D=\eta^{-p}(\lambda_p/2)^{-p/2}\exp\{M/\lambda_p\}>0\) is a finite 
 \[
 \pp_0\left(\hat I_{n,p}(\mathcal C_p) > \hat D\, n^{-p/2}\right) \leq \pp_0\left(F_n^c\right)+\pp_0\left(E_{M}^c\right) < \epsilon,
 \]
-showing \(\hat I_{n,p}(\mathcal C_p)=O_{\pp_0}(n^{-p/2})\). Then, we conclude exactly as in the proof of Theorem~\ref{th:consistency-rates-h0}.
+yielding \(\hat I_{n,p}(\mathcal C_p)=O_{\pp_0}(n^{-p/2})\). Then, we conclude exactly as in the proof of Theorem~\ref{th:consistency-rates-h0}.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{th:consistency-rates-h1-plugin-1}]\label{proof:consistency-rates-h1-plugin-1}
-We follow the proof strategy of Theorem~\ref{th:consistency-rates-h1}. Recover the approximating point \((p_\epsilon,\tau_\epsilon,b_\epsilon)\), the compact neighborhood \(U=U_1\times U_2\) of \((\tau_\epsilon, b_\epsilon)\) with positive prior probability, and the function \(f(\tau, b)=\mu_*(\tau)'b - \frac{1}{2}b'K_\tau b\), which satisfies \(f(\tau, b)\geq \frac{1}{2}\|\mu_*\|_K^2 - 2\epsilon^2 >0\) for all \((\tau,b)\in U\) and sufficiently small \(\epsilon>0\). Define the plug-in analogue
+We follow the proof strategy of Theorem~\ref{th:consistency-rates-h1}. Recover the approximating point \((p_\epsilon,\tau_\epsilon,b_\epsilon)\), the compact neighborhood \(U=U_1\times U_2\) of \((\tau_\epsilon, b_\epsilon)\) with positive prior probability, and the function \(f(\tau, b)=\mu_*(\tau)'b - \frac{1}{2}b'K_\tau b\), which satisfies \(f(\tau, b)\geq \frac{1}{2}\|\mu_*\|_K^2 - 2\epsilon^2 >0\) for all \((\tau,b)\in U\) and sufficiently small \(\epsilon>0\). Define the plug-in analog
 \[
 \hat f_n(\tau,b) = \mu_*(\tau)'b - \frac{1}{2}b'\hat K_{n,\tau} b,\quad \text{for all } (\tau,b)\in U,
 \]
